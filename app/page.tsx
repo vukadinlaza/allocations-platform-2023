@@ -4,7 +4,7 @@ import Chart from './chart';
 import { supabase } from '../lib/supabase';
 import { useCallback, useEffect, useState } from 'react';
 
-
+//
 const website = [
   { name: '/home', value: 1230 },
   { name: '/contact', value: 751 },
@@ -52,24 +52,24 @@ const dataFormatter = (number: number) =>
 const categories: {
   title: string;
   metric: string;
-  metricPrev: string;
 }[] = [
   {
-    title: 'Sales',
-    metric: '$ 12,699',
-    metricPrev: '$ 9,456'
+    title: 'Total Raised',
+    metric: '$ 14.8m',
   },
   {
-    title: 'Profit',
-    metric: '$ 40,598',
-    metricPrev: '$ 45,564'
+    title: 'Estimated Multipled',
+    metric: '2.7x',
   },
   {
-    title: 'Customers',
-    metric: '1,072',
-    metricPrev: '856'
+    title: 'Total Private Funds',
+    metric: '69',
+  },
+  {  title: 'Total Investors',
+    metric: '1257',
   }
 ];
+
 
 export default function PlaygroundPage() {
 
@@ -84,19 +84,20 @@ export default function PlaygroundPage() {
   useEffect(() => {
     void getOrganizationCount();
   }, []);
+  
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         <Card>
           <Flex alignItems="start">
-            <Text>Organizations</Text>
+            <Text>Total AUM</Text>
           </Flex>
           <Flex
             className="space-x-3 truncate"
             justifyContent="start"
             alignItems="baseline"
           >
-            <Metric>{organizationCount}</Metric>
+            <Metric>$40.4m</Metric>
           </Flex>
         </Card>
         {categories.map((item) => (
@@ -110,12 +111,12 @@ export default function PlaygroundPage() {
               alignItems="baseline"
             >
               <Metric>{item.metric}</Metric>
-              <Text className="truncate">from {item.metricPrev}</Text>
+              <Text className="truncate"> {item.metricPrev}</Text>
             </Flex>
           </Card>
         ))}
       </Grid>
-      <Grid className="mt-8 gap-6" numColsSm={2} numColsLg={3}>
+      {/* <Grid className="mt-8 gap-6" numColsSm={2} numColsLg={3}>
         {data.map((item) => (
           <Card key={item.category}>
             <Title>{item.category}</Title>
@@ -138,7 +139,7 @@ export default function PlaygroundPage() {
             />
           </Card>
         ))}
-      </Grid>
+      </Grid> */}
       <Chart />
     </main>
   );
