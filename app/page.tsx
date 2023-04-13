@@ -1,5 +1,9 @@
+"use client";
 import { Card, Metric, Text, Flex, Grid, Title, BarList } from '@tremor/react';
 import Chart from './chart';
+import { supabase } from '../lib/supabase';
+import { useCallback, useEffect, useState } from 'react';
+
 
 const website = [
   { name: '/home', value: 1230 },
@@ -68,9 +72,33 @@ const categories: {
 ];
 
 export default function PlaygroundPage() {
+
+  const [organizationCount, setOrganizationCount] = useState(0);
+  const getOrganizationCount = async ()=>{
+    const { data } = await supabase.from('Organizations').select("*");
+    if(data){
+      setOrganizationCount(data.length);
+    }
+  }
+
+  useEffect(() => {
+    void getOrganizationCount();
+  }, []);
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
+        <Card>
+          <Flex alignItems="start">
+            <Text>Organizations</Text>
+          </Flex>
+          <Flex
+            className="space-x-3 truncate"
+            justifyContent="start"
+            alignItems="baseline"
+          >
+            <Metric>{organizationCount}</Metric>
+          </Flex>
+        </Card>
         {categories.map((item) => (
           <Card key={item.title}>
             <Flex alignItems="start">
