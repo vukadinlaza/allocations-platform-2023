@@ -111,7 +111,6 @@ export default function PlaygroundPage() {
               alignItems="baseline"
             >
               <Metric>{item.metric}</Metric>
-              <Text className="truncate"> {item.metricPrev}</Text>
             </Flex>
           </Card>
         ))}
