@@ -58,7 +58,7 @@ const categories: {
     metric: '$ 14.8m',
   },
   {
-    title: 'Estimated Multipled',
+    title: 'Estimated Multiple',
     metric: '2.7x',
   },
   {
