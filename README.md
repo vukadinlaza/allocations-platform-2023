@@ -20,5 +20,9 @@ This template uses the new `app` directory in Next.js 13 (beta). This includes s
 
 Run `yarn` to install dependencies.
 
+Copy the `.env.example` file to `.env.local` and add the missing values
+
+> TODO: Make this use AWS Secrets Manager 
+
 Run `yarn dev` to start the development server.
 
