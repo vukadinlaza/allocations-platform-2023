@@ -1,7 +1,7 @@
 import { Card, Title, Text } from '@tremor/react';
 import Search from '../search';
 import UsersTable from '../table';
-import CustomTable from '../../components/taxes';
+import CustomTable from '../../components/migrations';
 
 export const dynamic = 'force-dynamic';
 
