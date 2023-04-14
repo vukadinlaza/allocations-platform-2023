@@ -9,8 +9,14 @@ import Image from 'next/image';
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
+  { name: 'SPVs', href: '/spvs' },
+  { name: 'Funds', href: '/funds' },
   { name: 'Taxes', href: '/taxes' },
   { name: 'Migrations', href: '/migrations' },
+  // { name: 'Marketplace Beta', href: '/marketplace' },
+  // { name: 'Inbox Beta', href: '/inbox' },
+  // { name: 'Fund-GPT Beta', href: '/fund-gpt' },
+  
 ];
 
 function classNames(...classes: string[]) {

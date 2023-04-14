@@ -4,7 +4,8 @@ import Chart from './chart';
 import { supabase } from '../lib/supabase';
 import { useCallback, useEffect, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import CustomTable from '../components/fm_dashboard';
+import CustomTable from '../components/banner';
+ 
 
 const dataFormatter = (number: number) =>
   Intl.NumberFormat('us').format(number).toString();
@@ -33,6 +34,8 @@ const categories: {
 
 export default function PlaygroundPage() {
 
+
+
   const [organizationCount, setOrganizationCount] = useState(0);
   const getOrganizationCount = async ()=>{
     const { data } = await supabase.from('Organizations').select("*");
@@ -46,7 +49,11 @@ export default function PlaygroundPage() {
   }, []);
   
   return (
+    
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
+      <Card className="mt-6">
+        <CustomTable />
+      </Card>
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         <Card>
           <Flex alignItems="start">
@@ -75,7 +82,9 @@ export default function PlaygroundPage() {
           </Card>
         ))}
       </Grid>
-      <CustomTable />
+      <Card className="mt-6">
+     </Card>
+      
     </main>
   );
 }
