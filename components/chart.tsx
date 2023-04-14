@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, AreaChart, Title, Text } from '@tremor/react';
+import { AreaChart, Card, Text, Title } from '@tremor/react';
 
 const data = [
   {
@@ -25,14 +25,14 @@ const valueFormatter = (number: number) =>
 
 export default function Chart() {
   return (
-    <Card className="mt-8">
+    <Card className='mt-8'>
       <Title>Performance</Title>
       <Text>Comparison between Sales and Profit</Text>
       <AreaChart
-        className="mt-4 h-80"
+        className='mt-4 h-80'
         data={data}
         categories={['Sales', 'Profit']}
-        index="Month"
+        index='Month'
         colors={['indigo', 'fuchsia']}
         valueFormatter={valueFormatter}
       />

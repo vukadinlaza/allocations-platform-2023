@@ -1,11 +1,6 @@
-"use client";
-import { Card, Metric, Text, Flex, Grid, Title, BarList } from '@tremor/react';
-import Chart from './chart';
-import { supabase } from '../lib/supabase';
-import { useCallback, useEffect, useState } from 'react';
-import { Analytics } from '@vercel/analytics/react';
-import CustomTable from '../components/banner';
- 
+'use client';
+import { Card, Divider, Flex, Grid, Metric, Text } from '@tremor/react';
+import OrganizationsDataCard from '../modules/dataCards/Organizations';
 
 const dataFormatter = (number: number) =>
   Intl.NumberFormat('us').format(number).toString();
@@ -15,46 +10,28 @@ const categories: {
   metric: string;
 }[] = [
   {
-    title: 'Total Raised',
-    metric: '$ 14.8m',
+    stage: 'Total Raised',
+    metric: '$ 14.8m'
   },
   {
-    title: 'Estimated Multiple',
-    metric: '2.7x',
+    stage: 'Estimated Multiple',
+    metric: '2.7x'
   },
   {
-    title: 'Total Private Funds',
-    metric: '69',
+    stage: 'Total Private Funds',
+    metric: '69'
   },
-  {  title: 'Total Investors',
-    metric: '1257',
+  {
+    stage: 'Total Investors',
+    metric: '1257'
   }
 ];
 
-
-export default function PlaygroundPage() {
-
-
-
-  const [organizationCount, setOrganizationCount] = useState(0);
-  const getOrganizationCount = async ()=>{
-    const { data } = await supabase.from('Organizations').select("*");
-    if(data){
-      setOrganizationCount(data.length);
-    }
-  }
-
-  useEffect(() => {
-    void getOrganizationCount();
-  }, []);
-  
+export default function IndexPage() {
   return (
-    
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Card className="mt-6">
-        <CustomTable />
-      </Card>
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
+        <OrganizationsDataCard />
         <Card>
           <Flex alignItems="start">
             <Text>Total AUM</Text>
@@ -68,9 +45,9 @@ export default function PlaygroundPage() {
           </Flex>
         </Card>
         {categories.map((item) => (
-          <Card key={item.title}>
+          <Card key={item.stage}>
             <Flex alignItems="start">
-              <Text>{item.title}</Text>
+              <Text>{item.stage}</Text>
             </Flex>
             <Flex
               className="space-x-3 truncate"
@@ -82,9 +59,6 @@ export default function PlaygroundPage() {
           </Card>
         ))}
       </Grid>
-      <Card className="mt-6">
-     </Card>
-      
     </main>
   );
 }

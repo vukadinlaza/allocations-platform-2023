@@ -6,17 +6,17 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
   { name: 'Taxes', href: '/taxes' },
-  { name: 'Migrations', href: '/migrations' },
+  { name: 'Migrations', href: '/migrations' }
   // { name: 'Marketplace Beta', href: '/marketplace' },
   // { name: 'Inbox Beta', href: '/inbox' },
   // { name: 'Fund-GPT Beta', href: '/fund-gpt' },
-  
 ];
 
 function classNames(...classes: string[]) {
@@ -34,11 +34,20 @@ export default function Navbar({ user }: { user: any }) {
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image alt="logo" src={"https://allocations-public.s3.us-east-2.amazonaws.com/allocations-logo.svg"} width={192} height={64} />
+                  <Link href="/">
+                    <Image
+                      alt="logo"
+                      src={
+                        'https://allocations-public.s3.us-east-2.amazonaws.com/allocations-logo.svg'
+                      }
+                      width={192}
+                      height={64}
+                    />
+                  </Link>
                 </div>
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className={classNames(
@@ -50,7 +59,7 @@ export default function Navbar({ user }: { user: any }) {
                       aria-current={pathname === item.href ? 'page' : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

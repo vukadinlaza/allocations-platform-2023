@@ -1,7 +1,8 @@
+'use client';
 import Navbar from './navbar';
-import { getServerSession } from 'next-auth/next';
+import { getSession } from 'next-auth/react';
 
 export default async function Nav() {
-  const session = await getServerSession();
+  const session = await getSession();
   return <Navbar user={session?.user} />;
 }

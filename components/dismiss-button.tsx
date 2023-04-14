@@ -8,7 +8,7 @@ export default function DismissButton() {
 
   return (
     <button
-      className="contents underline text-blue-600"
+      className='contents underline text-blue-600'
       onClick={() => {
         Cookies.set('template-banner-hidden', 'true');
         router.refresh();
