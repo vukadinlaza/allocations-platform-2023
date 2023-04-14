@@ -63,8 +63,8 @@ export default function FundsTable() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {people.map((person) => (
-                  <tr key={person.email}>
+                {rows.map((row, index) => (
+                  <tr key={`row-${index}`}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                       {person.name}
                     </td>
