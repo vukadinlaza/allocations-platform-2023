@@ -1,5 +1,5 @@
 const people = [
-    { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+    { name: 'Allocations - Atomizer 49 SPV', title: 'Extension Filed', email: '0978SN', role: 'Manage' },
     // More people...
   ]
   
@@ -10,7 +10,7 @@ const people = [
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">Taxes</h1>
             <p className="mt-2 text-sm text-gray-700">
-              A list of all the users in your account including their name, title, email and role.
+              A list of tax returns
             </p>
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -29,16 +29,16 @@ const people = [
                 <thead>
                   <tr>
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                      Name
+                      Deal Name
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Title
+                      Extension Status
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Email
+                      GoSystems Return ID
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Role
+                      Manage
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                       <span className="sr-only">Edit</span>
