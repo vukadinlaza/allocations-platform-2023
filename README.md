@@ -65,6 +65,9 @@ If you need to fetch, transform, or pass data to a component, it should be in a 
 
 #### Lib
 Libraries is located in the `lib` directory. These are the helper functions for the application, and datasources for re-use across different modules.
+`supabase.ts` is the datasource for the Supabase database.
+You can install the supabase cli locally and run `supabase gen types typescript --project-id [ProjectID] > lib/database.types.ts` to generate the types for the database.
+
 
 ### Pages & Routing
 The application uses the Next.js "app" routing system.
