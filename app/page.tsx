@@ -1,10 +1,8 @@
 'use client';
-import { Card, Divider, Flex, Grid, Metric, Text } from '@tremor/react';
+import { Card, Flex, Grid, Metric, Text } from '@tremor/react';
 import OrganizationsDataCard from '../modules/dataCards/Organizations';
 import Banner from '@/components/banner';
 
-const dataFormatter = (number: number) =>
-  Intl.NumberFormat('us').format(number).toString();
 
 const categories: {
   title: string;
