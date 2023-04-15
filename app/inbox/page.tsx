@@ -11,6 +11,7 @@ export default async function IndexPage({}: {}) {
       <Text></Text>
       <Search />
       <Card className="mt-6">
+        <img src="https://i.ibb.co/VQtPptw/Screenshot-2023-04-15-at-11-46-31-AM.png" alt="" />
       </Card>
     </main>
   );
