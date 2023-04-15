@@ -1,6 +1,7 @@
 'use client';
 import { Card, Divider, Flex, Grid, Metric, Text } from '@tremor/react';
 import OrganizationsDataCard from '../modules/dataCards/Organizations';
+import Banner from '@/components/banner';
 
 const dataFormatter = (number: number) =>
   Intl.NumberFormat('us').format(number).toString();
@@ -30,6 +31,7 @@ const categories: {
 export default function IndexPage() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
+      <Banner />
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         <OrganizationsDataCard />
         <Card>

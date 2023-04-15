@@ -3,6 +3,12 @@ import { Divider } from '@tremor/react';
 import Search from '@/components/search';
 import { FC, ReactNode } from 'react';
 
+
+// Taylor can you explain this page to me? I don't understand what's going on here. :) 
+// I'm not sure what the RowData, RowRenderer, RowConfig, and Row types are doing.
+// I'm also not sure what the TableProps type is doing.
+// I'm also not sure what the Table component is doing.
+
 type RowData = string | object | boolean | number;
 type RowRenderer = (row: any, index: number) => ReactNode;
 type RowConfig = {

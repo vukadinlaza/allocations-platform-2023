@@ -13,7 +13,8 @@ const navigation = [
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
   { name: 'Taxes', href: '/taxes' },
-  { name: 'Migrations', href: '/migrations' }
+  { name: 'Migrations', href: '/migrations' },
+  { name: 'Investors', href: '/investors' },
   // { name: 'Marketplace Beta', href: '/marketplace' },
   // { name: 'Inbox Beta', href: '/inbox' },
   // { name: 'Fund-GPT Beta', href: '/fund-gpt' },
