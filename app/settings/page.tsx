@@ -12,7 +12,6 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 
-
 const secondaryNavigation = [
   { name: 'General', href: '#', icon: UserCircleIcon, current: true },
   { name: 'Security', href: '#', icon: FingerPrintIcon, current: false },

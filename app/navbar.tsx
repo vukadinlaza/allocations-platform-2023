@@ -17,9 +17,9 @@ const navigation = [
   { name: 'Investors', href: '/investors' },
   { name: 'New Deal', href: '/new-deal' },
   { name: 'Settings', href: '/settings' },
-  // { name: 'Marketplace Beta', href: '/marketplace' },
-  // { name: 'Inbox Beta', href: '/inbox' },
-  // { name: 'Fund-GPT Beta', href: '/fund-gpt' },
+  { name: 'Marketplace Beta', href: '/marketplace' },
+  { name: 'Inbox Beta', href: '/inbox' },
+  { name: 'Fund-GPT Beta', href: '/fund-gpt' },
 ];
 
 function classNames(...classes: string[]) {
