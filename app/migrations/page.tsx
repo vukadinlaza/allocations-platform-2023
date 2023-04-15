@@ -1,6 +1,7 @@
 import { Card, Text, Title } from '@tremor/react';
 import Search from '../../components/search';
 import Table from '@/components/tables/Table';
+import MigrationForm from '@/components/forms/migration-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,6 +62,9 @@ export default async function IndexPage({}: {}) {
             }
           ]}
         />
+      </Card>
+      <Card className='mt-6'>
+        <MigrationForm />
       </Card>
     </main>
   );

@@ -29,7 +29,7 @@ const categories: {
 export default function IndexPage() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
-      <Banner />
+      <Banner className='mt-6'/>
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         <OrganizationsDataCard />
         <Card>

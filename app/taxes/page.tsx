@@ -1,7 +1,7 @@
 import { Card, Text, Title } from '@tremor/react';
 import Search from '../../components/search';
 import Table from '@/components/tables/Table';
-import Description from '@/components/description-list';
+import TaxForm from '@/components/forms/tax-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,9 +52,7 @@ export default async function IndexPage({}: {}) {
         />
       </Card>
       <Card className="mt-6">
-       <Description />
-      </Card>
-      <Card>
+       <TaxForm />
       </Card>
     </main>
 
