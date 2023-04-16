@@ -33,7 +33,7 @@ export default function Chart() {
         data={data}
         categories={['Investment', 'Valuation']}
         index="Month"
-        colors={['indigo', 'fuchsia']}
+        colors={['emerald', 'emerald']}
         valueFormatter={valueFormatter}
       />
     </Card>
