@@ -1,19 +1,19 @@
 const stats = [
   
-  // Total Assets: calculated as the sum of all the Fund / Investors assets on the platform
+  // Total Assets: calculated as the sum of all the Fund / Investors assets on the platform - kadvani
   { name: 'Total Assets', value: '$6,440,000', change: '+4.75%', changeType: 'positive' },
   
-  // Total Invested: Calculated as the total dollar amount invested into assets
+  // Total Invested: Calculated as the total dollar amount invested into assets - kadvani
   { name: 'Total Invested', value: '$1,750,000', change: '+54.02%', changeType: 'negative' },
 
-  // Estimated Multiple: The estimated valuation increase of the assets on the platform (submitted by the fund manager)
+  // Estimated Multiple: The estimated valuation increase of the assets on the platform (submitted by the fund manager) - kadvani
   { name: 'Estimated Multiple', value: '3.68x', change: '-1.39%', changeType: 'positive' },
 
-  // Total Investors (Fund Manager only): The total investors associated with the fund manager 
+  // Total Investors (Fund Manager only): The total investors associated with the fund manager - kadvani
   { name: 'Total Investors', value: '1,097', change: '+10.18%', changeType: 'negative' },
 
-  // Todo: Replace Total Investors with Total Investments for Investor user type
-  // Total Investments (Investor only): The total investments associated with the investor
+  // Todo: Replace Total Investors with Total Investments for Investor user type - kadvani
+  // Total Investments (Investor only): The total investments associated with the investor - kadvani
 ]
 
 function classNames(...classes: string[]) {

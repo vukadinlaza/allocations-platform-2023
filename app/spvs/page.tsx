@@ -5,9 +5,9 @@ import SPVForm from './spv-build-form';
 import SPVForm2 from './spv-build-form2';
 import SPVManage from './spv-manage';
 
-// SPV Dashboard (All users): This is where users can create and manage SPVs on the platform 
-// Todo: Please make create SPV on click of the Create new button
-// Todo: Please open a new page for the SPV Manage page on click of Manage SPV
+// SPV Dashboard (All users): This is where users can create and manage SPVs on the platform  - kadvani
+// Todo: Please make Create SPV modal on click of the Create new button - kadvani
+// Todo: Please open a new page for the SPV Manage page on click of Manage SPV - kadvani
 
 
 export default async function SpvsPage(): Promise<JSX.Element> {
