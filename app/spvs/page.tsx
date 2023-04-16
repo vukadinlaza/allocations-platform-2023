@@ -1,6 +1,8 @@
 'use client';
 import { Card, Title } from '@tremor/react';
 import Table from '@/components/tables/Table';
+import SPVForm from './spv-form';
+import SPVForm2 from './spv-form2'
 
 export default async function SpvsPage() {
   return (
@@ -49,6 +51,16 @@ export default async function SpvsPage() {
             }
           ]}
         />
+      </Card>
+      <Card className="mt-6">
+         <Title>Create new SPV</Title>
+       {/* <img src="https://i.ibb.co/rmSZjqn/Screenshot-2023-04-15-at-6-54-23-PM.png" alt="" /> */}
+      </Card>
+      <Card className="mt-6" >
+        <SPVForm2 />
+      </Card>
+      <Card className="mt-6" >
+        <SPVForm />
       </Card>
     </main>
   );

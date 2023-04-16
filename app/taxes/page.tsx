@@ -1,7 +1,8 @@
 import { Card, Text, Title } from '@tremor/react';
 import Search from '../../components/search';
 import Table from '@/components/tables/Table';
-import TaxForm from '@/components/forms/tax-form';
+import TaxForm from './tax-form';
+import Button from '@/components/base/Button';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,9 +23,11 @@ export default async function IndexPage({}: {}) {
               actions: {
                 data: {},
                 render: (row) => (
-                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                    Manage<span className="sr-only">{row.name}</span>
-                  </a>
+                  <div className="mt-4 sm:ml-16 sm:mt-0 flex-none">
+                    <Button>Manage</Button>
+
+                  {/* <Button onClick={()=>setOpenModal(prevState => !prevState)}/>Manage {openModal && <TaxManageModal />} */}
+                </div>
                 )
               }
             }

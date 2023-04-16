@@ -1,7 +1,8 @@
 import { Card, Text, Title } from '@tremor/react';
-import Search from '../../components/search';
+import Search from '@/components/search';
 import Table from '@/components/tables/Table';
-import MigrationForm from '@/components/forms/migration-form';
+import MigrationForm from './migration-form';
+import Button from '@/components/base/Button';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,19 +24,9 @@ export default async function IndexPage({}: {}) {
                 data: {},
                 render: (row) => (
                   <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                    Upload investments<span className="sr-only">{row.name}</span>
+                     <Button>Manage</Button>
                   </a>                  
-                ),
-                render: (row) => (
-                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                    Review investments<span className="sr-only">{row.name}</span>
-                  </a>                  
-                ),     
-                render: (row) => (
-                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                    Edit migration<span className="sr-only">{row.name}</span>
-                  </a>                  
-                )                                   
+                )                                          
               }
             }
           ]}
@@ -66,6 +57,7 @@ export default async function IndexPage({}: {}) {
       <Card className='mt-6'>
         <MigrationForm />
       </Card>
+
     </main>
   );
 }
