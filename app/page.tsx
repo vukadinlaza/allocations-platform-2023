@@ -3,6 +3,7 @@ import { Card, Flex, Grid, Metric, Text } from '@tremor/react';
 import OrganizationsDataCard from '../modules/dataCards/Organizations';
 import Banner from '@/components/banner';
 import Metrics from './page-metrics'
+import Chart from './chart';
 
 
 export default function IndexPage() {
@@ -11,6 +12,9 @@ export default function IndexPage() {
       <Banner />
       <Card className='mt-6'>
         <Metrics />  
+      </Card>
+      <Card className='mt-6'>
+         <Chart /> 
       </Card>
       
     </main>
