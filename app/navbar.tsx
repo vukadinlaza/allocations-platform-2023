@@ -15,6 +15,7 @@ const navigation = [
   { name: 'Taxes', href: '/taxes' },
   { name: 'Migrations', href: '/migrations' },
   { name: 'Investors', href: '/investors' },
+  { name: 'Investment Entity', href: '/investment-entity' },
   { name: 'Settings', href: '/settings' },
   { name: 'Deal Page', href: '/deals' },
   { name: 'Marketplace Beta', href: '/marketplace' },
