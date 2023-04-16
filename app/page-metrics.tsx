@@ -12,8 +12,9 @@ const stats = [
   // Total Investors (Fund Manager only): The total investors associated with the fund manager - kadvani
   { name: 'Total Investors', value: '1,097', change: '+10.18%', changeType: 'negative' },
 
-  // Todo: Replace Total Investors with Total Investments for Investor user type - kadvani
   // Total Investments (Investor only): The total investments associated with the investor - kadvani
+      // Todo: Replace Total Investors with Total Investments for Investor user type - kadvani
+
 ]
 
 function classNames(...classes: string[]) {
