@@ -1,10 +1,11 @@
 'use client';
 import { Card, Title } from '@tremor/react';
 import Table from '@/components/tables/Table';
-import SPVForm from './spv-form';
-import SPVForm2 from './spv-form2'
+import SPVForm from './spv-build-form';
+import SPVForm2 from './spv-build-form2';
+import SPVManage from './spv-manage';
 
-export default async function SpvsPage() {
+export default async function SpvsPage(): Promise<JSX.Element> {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>SPVs</Title>
@@ -61,6 +62,9 @@ export default async function SpvsPage() {
       </Card>
       <Card className="mt-6" >
         <SPVForm />
+      </Card>
+      <Card className="mt-6" >
+        <SPVManage />
       </Card>
     </main>
   );
