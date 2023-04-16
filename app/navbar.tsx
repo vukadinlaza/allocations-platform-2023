@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
+  { name: 'Investments', href: '/investments' },
   { name: 'Taxes', href: '/taxes' },
   { name: 'Migrations', href: '/migrations' },
   { name: 'Investors', href: '/investors' },
