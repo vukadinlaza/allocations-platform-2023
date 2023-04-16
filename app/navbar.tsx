@@ -43,7 +43,7 @@ export default function Navbar({ user }: { user: any }) {
                     <Image
                       alt="logo"
                       src={
-                        'https://allocations-public.s3.us-east-2.amazonaws.com/allocations-logo.svg'
+                        'https://i.ibb.co/fXsZYF3/Allocations-Inverted-Color-2400x1800.png'
                       }
                       width={192}
                       height={64}
