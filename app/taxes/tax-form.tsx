@@ -1,6 +1,8 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 import { Table } from '@tremor/react'
 
+// Todo: Open this page on click of the Manage button
+
 export default function Example() {
   return (
     <>
@@ -112,6 +114,7 @@ export default function Example() {
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             <button type="button" className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">Create new </button>              
               <span className="flex-grow">
+                {/* Todo: Please make this a real table  */}
                 <img src="https://i.ibb.co/vdLxnc3/Screenshot-2023-04-15-at-4-22-09-PM.png" alt="" />
               </span>
               <span className="ml-4 flex-shrink-0">

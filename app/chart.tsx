@@ -2,6 +2,9 @@
 
 import { Card, AreaChart, Title, Text } from '@tremor/react';
 
+// Metrics: The total value of all assets associated with user on the platform over time
+// Note: Please switch this to only one line (Total assets) and remove the other two lines 
+
 const data = [
   {
     Month: 'Jan 21',
@@ -26,8 +29,8 @@ const valueFormatter = (number: number) =>
 export default function Chart() {
   return (
     <Card className="mt-8">
-      <Title>Portfolio Value</Title>
-      <Text>Growth in portfolio over time</Text>
+      <Title>Total assets</Title>
+      <Text>Growth in assets over time</Text>
       <AreaChart
         className="mt-4 h-80"
         data={data}

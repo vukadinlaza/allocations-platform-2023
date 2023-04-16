@@ -4,6 +4,8 @@ import Table from '@/components/tables/Table';
 import MigrationForm from './migration-form';
 import Button from '@/components/base/Button';
 
+// Migration Dashboard (Fund Managers): Create new migrations from other fund administration platforms to Allocations. Currently there are 200 that have paid to move over to Allocations
+
 export const dynamic = 'force-dynamic';
 
 export default async function IndexPage({}: {}) {

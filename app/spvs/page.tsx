@@ -5,6 +5,11 @@ import SPVForm from './spv-build-form';
 import SPVForm2 from './spv-build-form2';
 import SPVManage from './spv-manage';
 
+// SPV Dashboard (All users): This is where users can create and manage SPVs on the platform 
+// Todo: Please make create SPV on click of the Create new button
+// Todo: Please open a new page for the SPV Manage page on click of Manage SPV
+
+
 export default async function SpvsPage(): Promise<JSX.Element> {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
