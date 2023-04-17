@@ -27,8 +27,8 @@ const users = [
   },
   {
     id: '4',
-    nameFrom: 'Herbert Hoover',
-    nameTo: '',
+    nameFrom: 'Herbert',
+    nameTo: 'Hoover',
     message: 'Hi guys!',
     date: 'Apr 6'
   },
@@ -58,35 +58,35 @@ export default async function IndexPage({}: {}) {
 
             <div>
               <h6>Selected Deals (1)</h6>
-              {/* <Button size="sm" onClick={() => console.log('f')}>Reset</Button> */}
+              <button>Reset</button>
             </div>
 
             <div>
               <img src='#' alt='avatar'/>
               <Text>78-Acre Commercial & Residential Land...</Text>
-              {/* <Button size="sm">x</Button> */}
+              <button>x</button>
             </div>
 
             <div className='border-1 rounded-lg'>
               <div>
                 <h6>Filters</h6>
-                {/* <Button size="sm">Reset</Button> */}
+                <button>Reset</button>
               </div>
               <div>
                 <div>
                   <div>icon-arrow</div>
                   <Text>Slightly interested</Text>
-                  {/* <Button size="sm">x</Button> */}
+                  <button>x</button>
                 </div>
                 <div>
                   <div>icon-arrow</div>
                   <Text>Moderately interested</Text>
-                  {/* <Button size="sm">x</Button> */}
+                  <button>x</button>
                 </div>
                 <div>
                   <div>icon-arrow</div>
                   <Text>Slightly interested</Text>
-                  {/* <Button size="sm">x</Button> */}
+                  <button>x</button>
                 </div>
               </div>
             </div>
