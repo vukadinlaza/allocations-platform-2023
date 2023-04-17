@@ -1,7 +1,9 @@
+'use client';
 import { Card, Title } from '@tremor/react';
 import Search from '../../components/search';
 import CustomTable from '../../components/taxes';
 import Table from '@/components/tables/Table';
+import FundManage from './fund-manage';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +26,7 @@ export default async function IndexPage({}: {}) {
                 render: (row) => (
                   <a href="#" className="text-indigo-600 hover:text-indigo-900">
                     Edit<span className="sr-only">{row.name}</span>
+                    {/* Todo - change edit button to a button called "Manage". On click, open fund-manage page - kadvani */}
                   </a>
                 )
               }
@@ -52,6 +55,9 @@ export default async function IndexPage({}: {}) {
             }
           ]}
         />
+      </Card>
+      <Card className="mt-6">
+        <FundManage/>
       </Card>
     </main>
   );

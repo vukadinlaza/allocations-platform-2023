@@ -1,8 +1,15 @@
+'use client';
 import { Card, Title } from '@tremor/react';
 import Search from '@/components/search';
 import CustomTable from '@/components/taxes';
 import Table from '@/components/tables/Table';
 import { CalendarDaysIcon, CreditCardIcon, UserCircleIcon } from '@heroicons/react/20/solid'
+import SPVDealPage from '@/app/spvs/spv-manage-deal-page';
+import { Client } from '@planetscale/database';
+
+// Deal Page: This is the deal page that the investors see when they are investing in a deal - kadvani
+    // Todo: Build this out to look like the examples below
+    // Note: This is the investor view of SPVDealPage (no admin rights)
 
 
 export const dynamic = 'force-dynamic';
@@ -11,7 +18,11 @@ export default async function IndexPage({}: {}) {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl"> 
       <Title>Invest </Title>
+      <Card className="mt-6">
+        <SPVDealPage />
+      </Card>
       <Card className='mt-6'>
+        {/* Examples */}
         <img src="https://i.ibb.co/j521bJt/Screenshot-2023-04-15-at-6-00-13-PM.png" alt="" />
         <img src="https://i.ibb.co/Jv9xSXb/Screenshot-2023-04-15-at-6-00-21-PM.png" alt="" />
         <img src="https://i.ibb.co/59gNhJ5/Screenshot-2023-04-15-at-6-00-26-PM.png" alt="" />

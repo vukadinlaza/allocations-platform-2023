@@ -4,6 +4,8 @@ import CustomTable from '../../components/taxes';
 import Table from '@/components/tables/Table';
 import { CheckIcon } from '@heroicons/react/20/solid'
 
+// New Account: This is the process for a new user to setup an account that enables them to create SPVs and Funds
+    // Todo: Setup the workflow
 
 export const dynamic = 'force-dynamic';
 
@@ -94,6 +96,7 @@ export default async function IndexPage({}: {}) {
     </nav>
       </Card>
       <Card className="mt-6">
+        {/* Strip Examples! - kadvani */}
         <img src="https://i.ibb.co/KKQCGsv/Screenshot-2023-04-16-at-12-25-06-PM.png" alt="" />
         <img src="https://i.ibb.co/CKyjnwT/Screenshot-2023-04-16-at-12-25-18-PM.png" alt="" />
     </Card>
