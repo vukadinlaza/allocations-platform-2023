@@ -20,7 +20,7 @@ export default async function RootLayout({
       <body className="h-full">
         <Session>
           <>
-            <Suspense fallback="...">
+            <Suspense>
               {/* @ts-expect-error Server Component */}
               <Nav />
             </Suspense>
