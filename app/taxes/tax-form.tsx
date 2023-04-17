@@ -114,8 +114,21 @@ export default function Example() {
             <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             <button type="button" className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">Create new </button>              
               <span className="flex-grow">
-                {/* Todo: Please make this a real table  */}
+                {/* Todo: Please make this a real table - Investments  - kadvani*/}
                 <img src="https://i.ibb.co/vdLxnc3/Screenshot-2023-04-15-at-4-22-09-PM.png" alt="" />
+
+                {/* Select passport - kadvani */}
+                <img src="https://i.ibb.co/vmYHGTF/Screenshot-2023-04-17-at-12-29-46-PM.png" alt="" />
+
+                {/* Select entity type (this is similar to new investment entity tab) - kadvani */}
+                <img src="https://i.ibb.co/jDWpz3Q/Screenshot-2023-04-17-at-12-29-30-PM.png" alt="" />
+
+                {/* Select accreditation type - kadvani */}
+                <img src="https://i.ibb.co/NTzcY1M/Screenshot-2023-04-17-at-12-29-36-PM.png" alt="" />
+
+                {/* Create tax form. Possibly generate W8/W9? - kadvani */}
+                <img src="https://i.ibb.co/5YXzdjL/Screenshot-2023-04-17-at-12-30-24-PM.png" alt="" />
+
               </span>
               <span className="ml-4 flex-shrink-0">
                 <button type="button" className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500">
