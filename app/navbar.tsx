@@ -10,11 +10,11 @@ import Link from 'next/link';
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
+  { name: 'Migrations', href: '/migrations' },
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
   { name: 'Investments', href: '/investments' },
   { name: 'Taxes', href: '/taxes' },
-  { name: 'Migrations', href: '/migrations' },
   { name: 'New Entity', href: '/investment-entity' },
   { name: 'New Account', href: '/new-account' },
   { name: 'Sign up', href: '/register' },
