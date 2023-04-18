@@ -63,7 +63,7 @@ export default async function IndexPage({}: {}) {
         />
       </Card>
       <Card className="mt-6">
-        {openModal && <TaxForm/>}
+        <TaxForm/>
       </Card>
     </main>
 
