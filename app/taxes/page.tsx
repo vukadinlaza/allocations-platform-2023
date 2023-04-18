@@ -5,13 +5,17 @@ import Search from '../../components/search';
 import Table from '@/components/tables/Table';
 import TaxForm from './tax-form';
 import Button from '@/components/base/Button';
-import { useState } from 'react';
 import ModalWrapper from '@/components/modals/modal-wrapper';
+import { useState } from 'react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function IndexPage({}: {}) {
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  function handleOpenModal() {
+    setOpenModal(!openModal)
+  }
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -30,7 +34,7 @@ export default async function IndexPage({}: {}) {
                 data: {},
                 render: (row) => (
                   <div className="mt-4 sm:ml-16 sm:mt-0 flex-none">
-                    <Button onClick={() => setOpenModal(!openModal)}>Manage</Button>
+                    <Button onClick={handleOpenModal}>Manage</Button>
                   </div>
                 )
               }
@@ -57,13 +61,9 @@ export default async function IndexPage({}: {}) {
             }
           ]}
         />
-        {/* <TaxManageModal /> */}
       </Card>
       <Card className="mt-6">
-        <ModalWrapper open={openModal}>
-          <TaxForm />
-        </ModalWrapper>
-       {/* {openModal && <TaxForm />} */}
+        {openModal && <TaxForm/>}
       </Card>
     </main>
 
