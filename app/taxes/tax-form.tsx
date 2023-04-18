@@ -3,7 +3,7 @@ import { Table } from '@tremor/react'
 
 // Todo: Open this page on click of the Manage button
 
-export default function TaxManageModal() {
+export default function TaxForm() {
   return (
     <>
       <div className="px-4 sm:px-0">

@@ -6,12 +6,12 @@ import Table from '@/components/tables/Table';
 import TaxForm from './tax-form';
 import Button from '@/components/base/Button';
 import { useState } from 'react';
-import TaxManageModal from './tax-form';
+import ModalWrapper from '@/components/modals/modal-wrapper';
 
 export const dynamic = 'force-dynamic';
 
 export default async function IndexPage({}: {}) {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(true);
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -60,7 +60,10 @@ export default async function IndexPage({}: {}) {
         {/* <TaxManageModal /> */}
       </Card>
       <Card className="mt-6">
-       {openModal && <TaxManageModal />}
+        <ModalWrapper open={openModal}>
+          <TaxForm />
+        </ModalWrapper>
+       {/* {openModal && <TaxForm />} */}
       </Card>
     </main>
 
