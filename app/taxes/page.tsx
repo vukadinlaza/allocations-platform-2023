@@ -1,12 +1,18 @@
+'use client'
+
 import { Card, Text, Title } from '@tremor/react';
 import Search from '../../components/search';
 import Table from '@/components/tables/Table';
 import TaxForm from './tax-form';
 import Button from '@/components/base/Button';
+import { useState } from 'react';
+import ModalWrapper from '@/components/modals/modal-wrapper';
 
 export const dynamic = 'force-dynamic';
 
 export default async function IndexPage({}: {}) {
+  const [openModal, setOpenModal] = useState<boolean>(true);
+
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>Taxes</Title>
@@ -24,10 +30,8 @@ export default async function IndexPage({}: {}) {
                 data: {},
                 render: (row) => (
                   <div className="mt-4 sm:ml-16 sm:mt-0 flex-none">
-                    <Button>Manage</Button>
-
-                  {/* <Button onClick={()=>setOpenModal(prevState => !prevState)}/>Manage {openModal && <TaxManageModal />} */}
-                </div>
+                    <Button onClick={() => setOpenModal(!openModal)}>Manage</Button>
+                  </div>
                 )
               }
             }
@@ -53,9 +57,13 @@ export default async function IndexPage({}: {}) {
             }
           ]}
         />
+        {/* <TaxManageModal /> */}
       </Card>
       <Card className="mt-6">
-       <TaxForm />
+        <ModalWrapper open={openModal}>
+          <TaxForm />
+        </ModalWrapper>
+       {/* {openModal && <TaxForm />} */}
       </Card>
     </main>
 
