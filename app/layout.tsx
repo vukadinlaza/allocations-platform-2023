@@ -4,9 +4,10 @@ import Nav from './nav';
 import AnalyticsWrapper from './analytics';
 import { Suspense } from 'react';
 import Session from '../modules/auth/Session';
+import { Metadata } from 'next';
 
-export const metadata = {
-  stage: 'Allocations Platform',
+export const metadata: Metadata = {
+  title: 'Allocations Platform',
   description: 'The best Deal Management Platform for Private Investments'
 };
 
@@ -21,7 +22,6 @@ export default async function RootLayout({
         <Session>
           <>
             <Suspense>
-              {/* @ts-expect-error Server Component */}
               <Nav />
             </Suspense>
             {children}

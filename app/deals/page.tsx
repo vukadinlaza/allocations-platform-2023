@@ -1,11 +1,7 @@
 'use client';
-import { Button, Card, Flex, List, ListItem, Text, TextInput, Title } from '@tremor/react';
-import Search from '@/components/search';
-import CustomTable from '@/components/taxes';
-import Table from '@/components/tables/Table';
+import { Card, Flex, Title } from '@tremor/react';
 import { CalendarDaysIcon, CreditCardIcon, UserCircleIcon } from '@heroicons/react/20/solid'
 import SPVDealPage from '@/app/spvs/spv-manage-deal-page';
-import { Client } from '@planetscale/database';
 import CardInvestInfo from './card-invest-info';
 import CardConfidential from './card-confidential';
 import CardAsideInfo from './card-aside-info';
@@ -19,7 +15,6 @@ import CardInvestDeal from './card-invest-deal';
 
 
 export const dynamic = 'force-dynamic';
-
 
 export default async function IndexPage({}: {}) {
   return (
@@ -54,10 +49,12 @@ export default async function IndexPage({}: {}) {
           <CardInvestDeal/>
           <CardAsideDeal/>
         </Flex>
-
-        {/* <img src="https://i.ibb.co/QnTxsmL/Screenshot-2023-04-15-at-5-56-53-PM.png" alt="" />
-        <img src="https://i.ibb.co/fSCPsj1/Screenshot-2023-04-15-at-5-59-07-PM.png" alt="" /> */}
       </Card>
+
+      {/* <Card className="mt-6"> */}
+        {/* <img src="https://i.ibb.co/QnTxsmL/Screenshot-2023-04-15-at-5-56-53-PM.png" alt="" /> */}
+        {/* <img src="https://i.ibb.co/fSCPsj1/Screenshot-2023-04-15-at-5-59-07-PM.png" alt="" /> */}
+      {/* </Card> */}
 
       <Card className="mt-6" style={{ float: 'right' }}>
       <div className="lg:col-start-3 lg:row-end-1">

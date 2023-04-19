@@ -1,5 +1,7 @@
 import { Text, Title } from "@tremor/react";
 import { EyeIcon } from '@heroicons/react/24/outline';
+import { Disclosure } from "@headlessui/react";
+import { useState } from "react";
 
 const coInvestors = [
     {
@@ -23,42 +25,54 @@ const coInvestors = [
   ]
 
 export default function CardInvestInfo() {
+    const [hiddenText, setHiddenText] = useState(true);
+
+    function handleHiddenText() {
+        setHiddenText(!hiddenText);
+    }
+
     return (
         <div className='flex flex-col self-start w-3/4 mr-20'>
             <header className='flex mb-5'>
-            <img src='#' alt='logo' className='w-16 h-16 border'/>
-            <div className='ml-8'>
-                <Title>Granata Bio</Title>
-                <Text>Invited by Mana Ventures</Text>
-            </div>
+                <img src='#' alt='logo' className='w-16 h-16 border'/>
+                <div className='ml-8'>
+                    <Title>Granata Bio</Title>
+                    <Text>Invited by Mana Ventures</Text>
+                </div>
             </header>
             
             <div>
-            <Title className='my-5'>Deck</Title>
-            <button className='w-full rounded-md bg-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-900 hover:bg-gray-400'>Open Deck in New Deck</button>
-            <div className='w-full h-96 border my-5 flex justify-center items-center'>
-                <p>Loading...</p>
-            </div>
+                <Title className='my-5'>Deck</Title>
+                <button className='w-full h-9 rounded-md bg-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-900 hover:bg-gray-400'>Open Deck in New Deck</button>
+                <div className='w-full h-96 border my-5 flex justify-center items-center'>
+                    <p>Loading...</p>
+                </div>
             </div>
 
             <span className='w-full my-16 border-b b-gray-200' />
 
             <div>
-            <Title>Memo</Title>
-            <img src='#' alt='image' className='mt-5 w-full h-24 border' />
-            <Text className='mb-5 font-semibold'>Backet by <a>Google ventures</a>, <a>Granata Bio</a> is a biopharma company developing therapeutics for fertility patients.</Text>
-            <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis laudantium perspiciatis itaque cumque reprehenderit voluptate provident vel sunt inventore veritatis. Minus neque, ullam excepturi placeat veniam obcaecati esse necessitatibus praesentium! Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis eius voluptas, eveniet magni id eaque iusto! Aliquam, aliquid totam nulla officiis consequuntur saepe quod odit autem maxime animi ratione? Harum. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi assumenda est eaque placeat autem, laborum aspernatur corrupti, obcaecati vel voluptatibus sequi qui ipsam deleniti amet sint nesciunt? Vero, impedit nihil?</Text>
-
-            <div className="relative" aria-hidden="true">
-                <div className="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]" />
-            </div>
-            <button className='inline-flex justify-center items-center w-full border-0 rounded-md bg-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-900 hover:bg-gray-400'>
-                <EyeIcon className="-ml-0.5 h-3 w-4 mr-1" aria-hidden="true"/>
-                View the entire memo
-            </button>
-            {/* <details>
+                <Title>Memo</Title>
+                <img src='#' alt='image' className='mt-5 w-full h-24 border' />
+                <Text className='mb-5 font-semibold'>Backet by <a>Google ventures</a>, <a>Granata Bio</a> is a biopharma company developing therapeutics for fertility patients.</Text>
                 <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis laudantium perspiciatis itaque cumque reprehenderit voluptate provident vel sunt inventore veritatis. Minus neque, ullam excepturi placeat veniam obcaecati esse necessitatibus praesentium! Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis eius voluptas, eveniet magni id eaque iusto! Aliquam, aliquid totam nulla officiis consequuntur saepe quod odit autem maxime animi ratione? Harum. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi assumenda est eaque placeat autem, laborum aspernatur corrupti, obcaecati vel voluptatibus sequi qui ipsam deleniti amet sint nesciunt? Vero, impedit nihil?</Text>
-            </details> */}
+
+                {hiddenText && <div className="relative" aria-hidden="true">
+                    <div className="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]" />
+                </div>}
+
+                <Disclosure>
+                    <Disclosure.Panel>
+                        <br/>
+                        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus sunt delectus repellendus, sint inventore magni. Eligendi ducimus neque cumque velit repellat vitae sit. Nemo, suscipit asperiores! Recusandae numquam laboriosam harum!</Text>
+                        <br/>
+                        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto deserunt, quis qui dolor repellendus harum quasi omnis fugiat quo placeat quae totam repudiandae sequi corrupti reprehenderit alias voluptatum voluptatibus eum.</Text>
+                    </Disclosure.Panel>
+                    <Disclosure.Button onClick={handleHiddenText} className="inline-flex justify-center items-center w-full h-9 border-0 rounded-md bg-gray-200 px-2.5 py-1.5 text-xs font-semibold text-gray-900 hover:bg-gray-400">
+                        <EyeIcon className="-ml-0.5 h-3 w-4 mr-1" aria-hidden="true"/>
+                        View the entire memo
+                    </Disclosure.Button>
+                </Disclosure>
             </div>
 
             <span className='w-full my-16 border-b b-gray-200' />

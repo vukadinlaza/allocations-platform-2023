@@ -59,13 +59,13 @@ export default function CardAsideInfo() {
             <input
                 type="text"
                 placeholder='2,500.0'
-                className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 pl-16 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
             />
           </div>
           <div className='mt-2 flex'>
             <button
               type="button"
-              className="w-3/6 rounded-md bg-gray-900 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-gray-400 mr-2"
+              className="w-3/6 rounded-md bg-gray-950 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-gray-600 mr-2"
             >
               Invest
             </button>

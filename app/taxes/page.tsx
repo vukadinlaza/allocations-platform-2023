@@ -10,10 +10,10 @@ import { useState } from 'react';
 
 export const dynamic = 'force-dynamic';
 
-export default async function IndexPage({}: {}) {
+export default function IndexPage({}: {}) {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  function handleOpenModal() {
+  function handleOpenModal() {    
     setOpenModal(!openModal)
   }
 
@@ -62,9 +62,9 @@ export default async function IndexPage({}: {}) {
           ]}
         />
       </Card>
-      <Card className="mt-6">
+      {openModal && <Card className="mt-6">
         <TaxForm/>
-      </Card>
+      </Card>}
     </main>
 
   );
