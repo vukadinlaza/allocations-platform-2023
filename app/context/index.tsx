@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   return (
     <AuthContext.Provider value={value}>
       <Header />
-      <div className="container my-6`ù">
+      <div className="container my-6">
         <Collapse in={betaAlert}>
           <Alert
             className="mb-6 text-center"
