@@ -1,6 +1,11 @@
 'use client';
-
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import Header from '@/components/Header';
 
 const AuthContext = createContext({});
@@ -28,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const value = useMemo(() => {
     return {
-      // user,
+      user: user || null
       // signOut: () => supabase.auth.signOut()
     };
   }, [user]);
@@ -41,6 +46,9 @@ export const AuthContextProvider = ({ children }) => {
   );
 };
 
+export const useAuthContext = () => {
+  return {};
+};
 // export const useAuthContext = () => {
 //   const { user, signOut } = useContext(AuthContext);
 //   return { user, signOut };

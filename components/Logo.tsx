@@ -12,7 +12,7 @@ export default function Logo() {
       alt="Allocations.com"
       width={138}
       height={48}
-      className="pointer"
+      className="cursor-pointer"
       onClick={() => router.push('/')}
     />
   );
