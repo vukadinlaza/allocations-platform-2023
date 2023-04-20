@@ -10,7 +10,7 @@ import Header from '@/components/Header';
 
 const AuthContext = createContext({});
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
 
   // const onAuthStateChange = async () => {
@@ -46,9 +46,6 @@ export const AuthContextProvider = ({ children }) => {
   );
 };
 
-export const useAuthContext = () => {
-  return {};
-};
 // export const useAuthContext = () => {
 //   const { user, signOut } = useContext(AuthContext);
 //   return { user, signOut };
