@@ -1,5 +1,5 @@
 'use client';
 
 export default function Migrations() {
-  return <div>Migrations</div>;
+  return <div>migrations</div>;
 }

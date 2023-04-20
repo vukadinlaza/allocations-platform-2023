@@ -9,6 +9,7 @@ import React, {
 import Header from '@/components/Header';
 import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import supabase from '@/lib/supabase';
 
 const AuthContext = createContext({});
 
@@ -16,28 +17,29 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
   const [betaAlert, hasBetaAlert] = useState(true);
 
-  // const onAuthStateChange = async () => {
-  //   try {
-  //     const {
-  //       data: { user }
-  //     } = await supabase.auth.getUser();
-  //     if (user) {
-  //       setUser(user);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //   }
-  // };
+  const onAuthStateChange = async () => {
+    try {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
 
-  // useEffect(() => {
-  //   onAuthStateChange();
-  // }, []);
+      if (session && session.user) {
+        setUser(session.user);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    onAuthStateChange();
+  }, []);
 
   const value = useMemo(() => {
     return {
-      user: user || null
-      // signOut: () => supabase.auth.signOut()
+      user: user || null,
+      signOut: () => supabase.auth.signOut()
     };
   }, [user]);
 
@@ -76,7 +78,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   );
 };
 
-// export const useAuthContext = () => {
-//   const { user, signOut } = useContext(AuthContext);
-//   return { user, signOut };
-// };
+export const useAuthContext = () => {
+  const { user, signOut } = useContext(AuthContext);
+  return { user, signOut };
+};

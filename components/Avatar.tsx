@@ -5,8 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '../app/context';
 
 export default function AvatarComponent() {
-  // const { user } = useAuthContext();
-  let user;
+  const { user } = useAuthContext();
   const router = useRouter();
   const getFirstLetter = () => {
     if (!user) return 'A';
