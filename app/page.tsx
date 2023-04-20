@@ -1,21 +1,5 @@
 'use client';
-import { Card, Flex, Grid, Metric, Text } from '@tremor/react';
-import OrganizationsDataCard from '../modules/dataCards/Organizations';
-import Banner from '@/components/banner';
-import Metrics from './page-metrics'
-import Chart from './chart';
 
-
-export default function IndexPage() {
-  return (
-    <main className="p-4 mx-auto md:p-10 max-w-7xl">
-      <Banner />
-      <Card className='mt-6'>
-        <Metrics />  
-      </Card>
-      <Card className='mt-6'>
-         <Chart /> 
-      </Card>
-    </main>
-  );
+export default function Home() {
+  return <div>hello there</div>;
 }

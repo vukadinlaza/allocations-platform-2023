@@ -37,10 +37,10 @@ export default function Navbar({ user }: { user: any }) {
     <Disclosure as="nav" className="bg-white shadow-sm">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 justify-between">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16">
               <div className="flex">
-                <div className="flex flex-shrink-0 items-center">
+                <div className="flex items-center flex-shrink-0">
                   <Link href="/">
                     <Image
                       alt="logo"
@@ -73,10 +73,10 @@ export default function Navbar({ user }: { user: any }) {
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+                    <Menu.Button className="flex text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
                       <Image
-                        className="h-8 w-8 rounded-full"
+                        className="w-8 h-8 rounded-full"
                         src={user?.image || 'https://avatar.vercel.sh/leerob'}
                         height={32}
                         width={32}
@@ -93,7 +93,7 @@ export default function Navbar({ user }: { user: any }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {user ? (
                         <Menu.Item>
                           {({ active }) => (
@@ -127,13 +127,13 @@ export default function Navbar({ user }: { user: any }) {
                   </Transition>
                 </Menu>
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+              <div className="flex items-center -mr-2 sm:hidden">
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block w-6 h-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block w-6 h-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
@@ -141,7 +141,7 @@ export default function Navbar({ user }: { user: any }) {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 pt-2 pb-3">
+            <div className="pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
@@ -159,13 +159,13 @@ export default function Navbar({ user }: { user: any }) {
                 </Disclosure.Button>
               ))}
             </div>
-            <div className="border-t border-gray-200 pt-4 pb-3">
+            <div className="pt-4 pb-3 border-t border-gray-200">
               {user ? (
                 <>
                   <div className="flex items-center px-4">
                     <div className="flex-shrink-0">
                       <Image
-                        className="h-8 w-8 rounded-full"
+                        className="w-8 h-8 rounded-full"
                         src={user.image}
                         height={32}
                         width={32}
