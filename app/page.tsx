@@ -1,5 +1,7 @@
 'use client';
 
+import { Alert } from '@mui/material';
+
 export default function Home() {
-  return <div className="container">hello</div>;
+  return <div>hello</div>;
 }

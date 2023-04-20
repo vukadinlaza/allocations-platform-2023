@@ -10,11 +10,11 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@mui/lab": "^5.0.0-alpha.126",
     "@headlessui/react": "^1.7.12",
-    "@heroicons/react": "^2.0.16",
     "@material-ui/core": "^4.12.4",
     "@material-ui/styles": "^4.11.5",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.126",
     "@mui/material": "^5.12.1",
     "@next-auth/supabase-adapter": "^0.2.1",
     "@planetscale/database": "^1.5.0",

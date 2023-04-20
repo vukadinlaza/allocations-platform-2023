@@ -19,7 +19,7 @@ export default function AvatarComponent() {
       sx={{
         width: 40,
         height: 40,
-        backgroundColor: '#43946b',
+        backgroundColor: '#3db278',
         textTransform: 'capitalize'
       }}
     >

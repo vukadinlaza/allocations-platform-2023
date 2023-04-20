@@ -7,11 +7,14 @@ import React, {
   useState
 } from 'react';
 import Header from '@/components/Header';
+import { Alert, Collapse, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
+  const [betaAlert, hasBetaAlert] = useState(true);
 
   // const onAuthStateChange = async () => {
   //   try {
@@ -41,7 +44,34 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   return (
     <AuthContext.Provider value={value}>
       <Header />
-      {children}
+      <div className="container">
+        <Collapse in={betaAlert}>
+          <Alert
+            className="my-4 text-center"
+            icon={false}
+            variant="filled"
+            color="primary"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  hasBetaAlert(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" className="text-white" />
+              </IconButton>
+            }
+          >
+            <span className="font-bold text-white">Allocations.com bêta</span>
+            <span className="font-medium text-white">
+              — Welcome to our new software !
+            </span>
+          </Alert>
+        </Collapse>
+        {children}
+      </div>
     </AuthContext.Provider>
   );
 };
