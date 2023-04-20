@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { navigation } from '@/app/config';
 import Logo from './Logo';
 import AvatarComponent from './Avatar';
-import { Grid } from '@mui/material';
 import LoadingUserItem from './Loading/UserItem';
 
 export default function Header({ loading }, { loading: boolean }) {
@@ -16,14 +15,17 @@ export default function Header({ loading }, { loading: boolean }) {
         <div>
           <Logo />
         </div>
-        <div className="flex items-center w-full grow">
+        <div className="flex items-center justify-end w-full grow">
           {loading && (
-            <div className="flex items-center justify-end w-full grow">
+            <div
+              className="flex items-center justify-end grow"
+              style={{ maxWidth: '300px' }}
+            >
               <LoadingUserItem />
             </div>
           )}
           {!loading && (
-            <div>
+            <div className="flex items-center justify-end ml-4 grow">
               <ul className="Header--menu grow">
                 {navigation.map((item) => (
                   <Link

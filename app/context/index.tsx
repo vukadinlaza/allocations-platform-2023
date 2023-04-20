@@ -7,7 +7,7 @@ import React, {
   useState
 } from 'react';
 import Header from '@/components/Header';
-import { Alert, Collapse, IconButton, dividerClasses } from '@mui/material';
+import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import supabase from '@/lib/supabase';
 import Login from '@/components/Login';
@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     } catch (error) {
       console.log(error);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -49,9 +49,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      <Header loading={loading} />
+      {user && <Header loading={loading} />}
       <div className="container px-2 my-6">
-        {!user && <Login />}
+        {!user && !loading && <Login />}
         {user && (
           <div>
             <Collapse in={betaAlert}>

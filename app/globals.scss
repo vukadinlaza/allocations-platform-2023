@@ -5,13 +5,29 @@
 $primary: #3db278;
 
 @layer base {
+  button {
+    &.primary {
+      background-color: $primary !important;
+      color: white;
+
+      &.MuiLoadingButton-loading {
+        background-color: lightgray !important;
+      }
+    }
+  }
+  // tw
   .container {
     @apply mx-auto;
     max-width: 1200px !important;
   }
 
+  .min-w-12 {
+    min-width: 3rem;
+  }
+
+  //custom
   .Loading {
-    @apply bg-gray-200 mb-4 rounded-lg;
+    @apply bg-gray-200 rounded-lg;
     animation: toggleOpacity 1s infinite;
 
     &-line {
