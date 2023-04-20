@@ -15,15 +15,13 @@ export default function Header() {
         </div>
         <ul className="Header--menu grow">
           {navigation.map((item) => (
-            <li className="Header--menu--item">
-              <Link
-                key={item.name}
-                href={item.href}
-                aria-current={pathname === item.href ? 'page' : undefined}
-              >
-                {item.name}
-              </Link>
-            </li>
+            <Link
+              key={item.name}
+              href={item.href}
+              aria-current={pathname === item.href ? 'page' : undefined}
+            >
+              <li className="Header--menu--item">{item.name}</li>
+            </Link>
           ))}
         </ul>
         <AvatarComponent />

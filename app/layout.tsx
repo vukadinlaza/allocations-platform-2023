@@ -1,11 +1,10 @@
-import './globals.scss';
-import * as React from 'react';
-import { AuthContextProvider } from './context';
+'use client';
 
-export const metadata = {
-  title: 'Allocations Platform',
-  description: 'The best Deal Management Platform for Private Investments'
-};
+import './globals.scss';
+import React from 'react';
+import { AuthContextProvider } from './context';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { lightTheme } from './theme/theme';
 
 export default async function RootLayout({
   children
@@ -14,9 +13,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50">
-        <AuthContextProvider>{children}</AuthContextProvider>
-      </body>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <body className="min-h-screen bg-gray-50">
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
