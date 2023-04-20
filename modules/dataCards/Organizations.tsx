@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSupabase } from '@/lib/supabase';
-import DataCard from '@/components/DataCard';
+import DataCard from '@/components/_old/DataCard';
 
 const OrganizationsDataCard = ()=>{
   const [organizationCount, setOrganizationCount] = useState(0);

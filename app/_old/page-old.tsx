@@ -1,7 +1,7 @@
 'use client';
 import { Card, Flex, Grid, Metric, Text } from '@tremor/react';
-import OrganizationsDataCard from '../modules/dataCards/Organizations';
-import Banner from '@/components/banner';
+import OrganizationsDataCard from '../../modules/dataCards/Organizations';
+import Banner from '@/components/_old/banner';
 
 
 const categories: {
@@ -28,7 +28,7 @@ const categories: {
 
 export default function IndexPage() {
   return (
-    <main className="p-4 md:p-10 mx-auto max-w-7xl">
+    <main className="p-4 mx-auto md:p-10 max-w-7xl">
       <Banner className='mt-6'/>
       <Grid className="gap-6" numColsSm={2} numColsLg={3}>
         <OrganizationsDataCard />

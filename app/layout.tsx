@@ -1,12 +1,7 @@
-import './globals.css';
+import './globals.scss';
+import * as React from 'react';
 
-import Nav from './nav';
-import AnalyticsWrapper from './analytics';
-import { Suspense } from 'react';
-import Session from '../modules/auth/Session';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Allocations Platform',
   description: 'The best Deal Management Platform for Private Investments'
 };
@@ -17,18 +12,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full bg-gray-50">
-      <body className="h-full">
-        <Session>
-          <>
-            <Suspense>
-              <Nav />
-            </Suspense>
-            {children}
-            <AnalyticsWrapper />
-          </>
-        </Session>
-      </body>
+    <html lang="en">
+      <body className="min-h-screen bg-gray-50">{children}</body>
     </html>
   );
 }

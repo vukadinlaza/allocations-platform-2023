@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 import { Card, Text, Title } from '@tremor/react';
 import Search from '../../components/search';
 import Table from '@/components/tables/Table';
 import TaxForm from './tax-form';
-import Button from '@/components/base/Button';
+import Button from '@/components/_old/base/Button';
 import ModalWrapper from '@/components/modals/modal-wrapper';
 import { useState } from 'react';
 
@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic';
 export default function IndexPage({}: {}) {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  function handleOpenModal() {    
-    setOpenModal(!openModal)
+  function handleOpenModal() {
+    setOpenModal(!openModal);
   }
 
   return (
@@ -40,7 +40,6 @@ export default function IndexPage({}: {}) {
               }
             }
           ]}
-          
           columns={[
             {
               name: 'name',
@@ -62,10 +61,11 @@ export default function IndexPage({}: {}) {
           ]}
         />
       </Card>
-      {openModal && <Card className="mt-6">
-        <TaxForm/>
-      </Card>}
+      {openModal && (
+        <Card className="mt-6">
+          <TaxForm />
+        </Card>
+      )}
     </main>
-
   );
 }
