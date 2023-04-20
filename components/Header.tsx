@@ -20,7 +20,13 @@ export default function Header() {
               href={item.href}
               aria-current={pathname === item.href ? 'page' : undefined}
             >
-              <li className="Header--menu--item">{item.name}</li>
+              <li
+                className={`Header--menu--item ${
+                  pathname === item.href ? 'active' : 'inactive'
+                }`}
+              >
+                {item.name}
+              </li>
             </Link>
           ))}
         </ul>
