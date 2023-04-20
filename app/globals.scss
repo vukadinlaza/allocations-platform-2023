@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .container {
+    @apply mx-auto;
+    max-width: 1200px !important;
+  }
+
+  .Header {
+    @apply bg-white border-b shadow-sm;
+
+    // &-menu {
+
+    //   a {
+    //     @apply my-6 border-b border-transparent;
+
+    //     &:hover {
+    //       @apply border-gray-600 cursor-pointer;
+    //     }
+    //   }
+    // }
+  }
+}
