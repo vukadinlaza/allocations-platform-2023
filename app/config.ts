@@ -1,3 +1,7 @@
+export const dictionary = {
+  created_at: 'Created at'
+};
+
 export const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'SPVs', href: '/spvs' },

@@ -13,26 +13,29 @@ import supabase from '@/lib/supabase';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
 import Image from 'next/image';
+import Autocomplete from '@/components/Autocomplete';
+import DataTable from '@/components/DataTable';
 
-export default function Migrations() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [organizations, setOrganizations] = useState([]);
-  const [dealsLoading, setDealsLoading] = useState<boolean>(true);
+export default function Dashboard() {
   const [deals, setDeals] = useState([]);
+  const [dealsLoading, setDealsLoading] = useState<boolean>(false);
+  const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
 
   const fetchOrganizations = async () => {
     try {
       setLoading(true);
-      let { data: orgs } = await supabase
+      let { data: _organizations } = await supabase
         .from('Organizations')
         .select('*')
         .order('name');
 
-      if (orgs && orgs.length > 0) {
-        const sorted = orgs;
-        setOrganizations(orgs);
-        setSelected(orgs[0].name);
+      if (_organizations && _organizations.length > 0) {
+        setOrganizations(_organizations);
+        setSelected(_organizations[0].name);
       }
     } catch (err) {
       console.log(err);
@@ -47,17 +50,11 @@ export default function Migrations() {
       let { data: _deals } = await supabase
         .from('deals_legal_entities')
         .select('*')
-        .eq('name', selected);
-
-      console.log(selected);
-
-      console.log(_deals);
+        .eq('name', selected)
+        .limit(limit);
 
       if (_deals && _deals.length > 0) {
-        console.log(_deals);
-        // const sorted = orgs;
-        // setOrganizations(orgs);
-        // setSelected(orgs[0].name);
+        setDeals(_deals);
       }
     } catch (err) {
       console.log(err);
@@ -78,6 +75,13 @@ export default function Migrations() {
     fetchDeals();
   }, [selected]);
 
+  // useEffect(() => {
+  //   const _search = setTimeout(() => {
+  //     fetchOrganizations();
+  //   }, 1000);
+  //   return () => clearTimeout(_search);
+  // }, [search]);
+
   return (
     <Grid container>
       {loading && (
@@ -89,6 +93,11 @@ export default function Migrations() {
       {!loading && (
         <Grid item xs={12}>
           <Grid item xs={4} className="mb-4">
+            {/* <Autocomplete
+              selected={selected}
+              setSearch={setSearch}
+              results={organizations}
+            /> */}
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
                 Select an organization...
@@ -124,7 +133,7 @@ export default function Migrations() {
                 <p>No deals recorded for {selected}.</p>
               </Card>
             )}
-            {!dealsLoading && deals.length > 1 && <p>hello</p>}
+            {!dealsLoading && deals.length > 1 && <DataTable data={deals} />}
           </Grid>
         </Grid>
       )}
