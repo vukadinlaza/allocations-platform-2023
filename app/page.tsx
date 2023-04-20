@@ -51,12 +51,13 @@ export default function Migrations() {
       {loading && <List />}
       {!loading && (
         <Grid item xs={12}>
-          <Grid item xs={4}>
+          <Grid item xs={4} className="mb-4">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
                 Select an organization...
               </InputLabel>
               <Select
+                className="mb-2"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={selected}

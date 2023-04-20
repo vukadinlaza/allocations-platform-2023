@@ -20,7 +20,7 @@ $primary: #3db278;
   }
 
   .Header {
-    @apply bg-white border-b shadow-sm;
+    @apply bg-white border-b shadow-sm px-2;
 
     &--menu {
       @apply flex items-center;

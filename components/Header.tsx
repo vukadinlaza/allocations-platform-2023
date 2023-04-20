@@ -4,33 +4,47 @@ import { usePathname } from 'next/navigation';
 import { navigation } from '@/app/config';
 import Logo from './Logo';
 import AvatarComponent from './Avatar';
+import { Grid } from '@mui/material';
+import LoadingUserItem from './Loading/UserItem';
 
-export default function Header() {
+export default function Header({ loading }, { loading: boolean }) {
   const pathname = usePathname();
+  console.log(loading);
   return (
     <div className="Header">
-      <div className="container flex items-center justify-start w-full">
-        <div className="mr-6">
+      <div className="container flex items-center justify-center w-full">
+        <div>
           <Logo />
         </div>
-        <ul className="Header--menu grow">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              aria-current={pathname === item.href ? 'page' : undefined}
-            >
-              <li
-                className={`Header--menu--item ${
-                  pathname === item.href ? 'active' : 'inactive'
-                }`}
-              >
-                {item.name}
-              </li>
-            </Link>
-          ))}
-        </ul>
-        <AvatarComponent />
+        <div className="flex items-center w-full grow">
+          {loading && (
+            <div className="flex items-center justify-end w-full grow">
+              <LoadingUserItem />
+            </div>
+          )}
+          {!loading && (
+            <div>
+              <ul className="Header--menu grow">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    aria-current={pathname === item.href ? 'page' : undefined}
+                  >
+                    <li
+                      className={`Header--menu--item ${
+                        pathname === item.href ? 'active' : 'inactive'
+                      }`}
+                    >
+                      {item.name}
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+              <AvatarComponent />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
