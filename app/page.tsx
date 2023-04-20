@@ -10,13 +10,16 @@ import {
   Select
 } from '@mui/material';
 import supabase from '@/lib/supabase';
-import List from '@/components/Loading/List';
+import LoadingButtons from '@/components/Loading/Buttons';
+import LoadingList from '@/components/Loading/List';
+import Image from 'next/image';
 
 export default function Migrations() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [dealsLoading, setDealsLoading] = useState<boolean>(true);
+  const [deals, setDeals] = useState([]);
+  const [selected, setSelected] = useState<string | null>(null);
 
   const fetchOrganizations = async () => {
     try {
@@ -38,6 +41,31 @@ export default function Migrations() {
     }
   };
 
+  const fetchDeals = async () => {
+    try {
+      setDealsLoading(true);
+      let { data: _deals } = await supabase
+        .from('deals_legal_entities')
+        .select('*')
+        .eq('name', selected);
+
+      console.log(selected);
+
+      console.log(_deals);
+
+      if (_deals && _deals.length > 0) {
+        console.log(_deals);
+        // const sorted = orgs;
+        // setOrganizations(orgs);
+        // setSelected(orgs[0].name);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setDealsLoading(false);
+    }
+  };
+
   const handleChange = (e) => {
     setSelected(e.target.value);
   };
@@ -46,9 +74,18 @@ export default function Migrations() {
     fetchOrganizations();
   }, []);
 
+  useEffect(() => {
+    fetchDeals();
+  }, [selected]);
+
   return (
     <Grid container>
-      {loading && <List />}
+      {loading && (
+        <div className="w-full">
+          <LoadingButtons />
+          <LoadingList />
+        </div>
+      )}
       {!loading && (
         <Grid item xs={12}>
           <Grid item xs={4} className="mb-4">
@@ -72,9 +109,22 @@ export default function Migrations() {
             </FormControl>
           </Grid>
           <Grid item xs={12} className="my-4">
-            <Card className="p-6" variant="outlined">
-              There are no deals.
-            </Card>
+            {dealsLoading && <LoadingList />}
+            {!dealsLoading && deals.length === 0 && (
+              <Card
+                className="flex flex-col items-center justify-center p-8 my-4"
+                variant="outlined"
+              >
+                <Image
+                  src="/empty_target.svg"
+                  className="mb-4"
+                  width={75}
+                  height={75}
+                />
+                <p>No deals recorded for {selected}.</p>
+              </Card>
+            )}
+            {!dealsLoading && deals.length > 1 && <p>hello</p>}
           </Grid>
         </Grid>
       )}

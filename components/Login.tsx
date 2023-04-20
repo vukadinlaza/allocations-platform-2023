@@ -58,7 +58,7 @@ export default function Login() {
       <div className="mb-4">
         <Logo />
       </div>
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4">
         Welcome to Allocations.com.
         <br />
         Please enter your e-mail to login.

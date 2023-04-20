@@ -15,6 +15,11 @@ $primary: #3db278;
       }
     }
   }
+
+  p {
+    @apply text-gray-600;
+  }
+
   // tw
   .container {
     @apply mx-auto;

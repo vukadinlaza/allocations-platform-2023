@@ -8,7 +8,6 @@ import LoadingUserItem from './Loading/UserItem';
 
 export default function Header({ loading }, { loading: boolean }) {
   const pathname = usePathname();
-  console.log(loading);
   return (
     <div className="Header">
       <div className="container flex items-center justify-center w-full">
