@@ -8,6 +8,15 @@
     max-width: 1200px !important;
   }
 
+  .Loading {
+    @apply bg-gray-200 mb-4 rounded-lg;
+    animation: toggleOpacity 1s infinite;
+
+    &-line {
+      @apply h-8 rounded-lg;
+    }
+  }
+
   .Header {
     @apply bg-white border-b shadow-sm;
 
@@ -21,5 +30,19 @@
         }
       }
     }
+  }
+}
+
+@keyframes toggleOpacity {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
   }
 }
