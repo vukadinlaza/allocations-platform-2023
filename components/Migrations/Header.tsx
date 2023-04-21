@@ -11,6 +11,7 @@ import Image from 'next/image';
 export default function MigrationsHeader() {
   const [search, setSearch] = useState<string>('');
   const [results, setResults] = useState<Array<any>>([]);
+  const [migrationData, setMigrationData] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMigrations = async () => {
@@ -19,9 +20,9 @@ export default function MigrationsHeader() {
 
       let { data: migrations } = await supabase.from('migrations').select('*');
 
-      console.log(migrations);
       if (migrations && migrations.length > 0) {
         setResults(migrations);
+        setMigrationData(migrations);
       }
     } catch (error) {
       console.log(error);
@@ -32,25 +33,18 @@ export default function MigrationsHeader() {
 
   useEffect(() => {
     fetchMigrations();
-    // if (search && search.length > 0) {
-    //   const _search = setTimeout(() => {
-    //     setResults([]);
-    //     fetchMigrations();
-    //   }, 1000);
-    //   return () => clearTimeout(_search);
-    // }
-    // setResults([]);
   }, []);
 
   useEffect(() => {
+    setResults(migrationData);
     if (search && search.length > 0) {
-      const _search = setTimeout(() => {
-        setResults([]);
-        fetchMigrations();
-      }, 1000);
-      return () => clearTimeout(_search);
+      const res = results.filter((x) => {
+        if (x.name) {
+          return x.name.includes(search);
+        }
+      });
+      setResults(res);
     }
-    setResults([]);
   }, [search]);
 
   return (
@@ -65,7 +59,8 @@ export default function MigrationsHeader() {
         </Button>
       </header>
       <div className="w-full">
-        {/* <TextField
+        <TextField
+          style={{ maxWidth: '400px' }}
           size="small"
           className="w-full"
           placeholder="Search for a migration..."
@@ -77,7 +72,7 @@ export default function MigrationsHeader() {
               </InputAdornment>
             )
           }}
-        /> */}
+        />
         <div className="mt-8 results">
           {loading && <List />}
           {!loading && results.length > 0 && <MigrationsList data={results} />}
