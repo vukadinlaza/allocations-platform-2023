@@ -4,7 +4,7 @@ export const dictionary = {
 
 export const navigation = [
   { name: 'Dashboard', href: '/' },
-  { name: 'SPVs', href: '/spvs' },
   { name: 'Migrations', href: '/migrations' },
+  { name: 'SPVs', href: '/spvs' },
   { name: 'Taxes', href: '/taxes' }
 ];

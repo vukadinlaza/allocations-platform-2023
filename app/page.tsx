@@ -120,10 +120,7 @@ export default function Dashboard() {
           <Grid item xs={12} className="my-4">
             {dealsLoading && <LoadingList />}
             {!dealsLoading && deals.length === 0 && (
-              <Card
-                className="flex flex-col items-center justify-center p-8 my-4"
-                variant="outlined"
-              >
+              <Card className="card" variant="outlined">
                 <Image
                   src="/empty_target.svg"
                   className="mb-4"

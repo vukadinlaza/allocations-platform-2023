@@ -18,7 +18,6 @@ export default function Autocomplete({ selected, setSearch, results }) {
           )
         }}
       />
-      {}
     </div>
   );
 }
