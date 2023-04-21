@@ -54,9 +54,7 @@ export default function MigrationsHeader() {
           <h1>Migrations</h1>
           <p>Manage your migrations.</p>
         </div>
-        <Button variant="contained" disableElevation>
-          Create new
-        </Button>
+        <Button disableElevation>Create new</Button>
       </header>
       <div className="w-full">
         <TextField

@@ -13,7 +13,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ThemeProvider theme={lightTheme}>
-        <CssBaseline />
         <body className="min-h-screen bg-gray-50">
           <AuthContextProvider>{children}</AuthContextProvider>
         </body>

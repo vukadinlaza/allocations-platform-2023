@@ -4,102 +4,78 @@
 
 $primary: #3db278;
 
-button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
-  color: white !important;
-}
-
-//   &.primary {
-//     @apply bg-primary px-4;
-//     color: white;
-
-//     &:hover {
-//       @apply bg-primaryLight;
-//     }
-
-//     &.MuiLoadingButton-loading {
-//       background-color: lightgray !important;
-//     }
-//   }
-
-a {
-  @apply no-underline;
-  color: inherit;
-
-  :hover {
-    @apply no-underline;
+@layer base {
+  h1 {
+    @apply text-xl font-medium mt-0 mb-1;
   }
-}
 
-h1 {
-  @apply text-xl font-medium mt-0 mb-1;
-}
-
-h2 {
-  @apply text-base font-medium mb-1;
-}
-
-p {
-  @apply text-gray-600 m-0;
-}
-
-ul {
-  @apply list-none my-0;
-}
-
-// tw
-.card {
-  @apply flex flex-col items-center justify-center p-8 mb-4;
-}
-
-.container {
-  @apply mx-auto;
-  max-width: 1200px !important;
-}
-
-.min-w-12 {
-  min-width: 3rem;
-}
-
-//custom
-.Loading {
-  @apply bg-gray-200 rounded-lg;
-  animation: toggleOpacity 1s infinite;
-
-  &-line {
-    @apply h-8 rounded-lg;
+  h2 {
+    @apply text-base font-medium mb-1;
   }
-}
 
-.Header {
-  @apply bg-white shadow-sm px-2;
+  p {
+    @apply text-gray-600 m-0;
+  }
 
-  &--menu {
-    @apply flex items-center;
+  ul {
+    @apply list-none my-0;
+  }
 
-    &--item {
-      @apply py-6 px-4 border-b-2 border-transparent;
+  // tw
+  .card {
+    @apply flex flex-col items-center justify-center p-8 mb-4;
+  }
 
-      &:hover {
-        @apply border-gray-500 transition cursor-pointer;
-      }
+  .container {
+    @apply mx-auto;
+    max-width: 1200px !important;
+  }
 
-      &.active {
-        @apply font-medium text-black border-b-2 border-primary;
+  .min-w-12 {
+    min-width: 3rem;
+  }
+
+  //custom
+  .Loading {
+    @apply bg-gray-200 rounded-lg;
+    animation: toggleOpacity 1s infinite;
+
+    &-line {
+      @apply h-8 rounded-lg;
+    }
+  }
+
+  .Header {
+    @apply bg-white shadow-sm px-2;
+
+    &--menu {
+      @apply flex items-center;
+
+      &--item {
+        @apply py-6 px-4 border-b-2 border-transparent;
+
+        &:hover {
+          @apply border-gray-500 transition cursor-pointer;
+        }
+
+        &.active {
+          @apply font-medium text-black border-b-2 border-primary;
+        }
       }
     }
   }
-}
 
-@keyframes toggleOpacity {
-  0% {
-    opacity: 0.5;
-  }
+  @keyframes toggleOpacity {
+    0% {
+      opacity: 0.5;
+    }
 
-  50% {
-    opacity: 1;
-  }
+    50% {
+      opacity: 1;
+    }
 
-  100% {
-    opacity: 0.5;
+    100% {
+      opacity: 0.5;
+    }
   }
 }

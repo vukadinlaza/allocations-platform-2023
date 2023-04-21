@@ -60,7 +60,7 @@ export default function TaxesHeader() {
           <h1>Taxes</h1>
           <p>Manage your tax returns.</p>
         </div>
-        <Button variant="contained" disableElevation>
+        <Button disableElevation>
           Create new
         </Button>
       </header>
@@ -84,6 +84,7 @@ export default function TaxesHeader() {
           {!loading && !results.length && (
             <Card className="card" variant="outlined">
               <Image
+                alt="Allocations.com"
                 src="/empty_target.svg"
                 className="mb-4"
                 width={75}
