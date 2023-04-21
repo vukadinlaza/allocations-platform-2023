@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -25,23 +27,19 @@ export default function Header({ loading }, { loading: boolean }) {
           )}
           {!loading && (
             <div className="flex items-center justify-end ml-4 grow">
-              <ul className="Header--menu grow">
+              <div className="Header--menu grow">
                 {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    aria-current={pathname === item.href ? 'page' : undefined}
-                  >
-                    <li
+                  <Link href={item.href}>
+                    <div
                       className={`Header--menu--item ${
                         pathname === item.href ? 'active' : 'inactive'
                       }`}
                     >
                       {item.name}
-                    </li>
+                    </div>
                   </Link>
                 ))}
-              </ul>
+              </div>
               <AvatarComponent />
             </div>
           )}

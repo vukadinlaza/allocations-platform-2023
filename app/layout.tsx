@@ -13,14 +13,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline />
-          <body className="min-h-screen bg-gray-50">
-            <AuthContextProvider>{children}</AuthContextProvider>
-          </body>
-        </ThemeProvider>
-      </StyledEngineProvider>
+      {/* <StyledEngineProvider injectFirst> */}
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <body className="min-h-screen bg-gray-50">
+          <AuthContextProvider>{children}</AuthContextProvider>
+        </body>
+      </ThemeProvider>
+      {/* </StyledEngineProvider> */}
     </html>
   );
 }
