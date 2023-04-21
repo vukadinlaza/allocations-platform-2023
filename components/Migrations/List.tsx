@@ -10,6 +10,7 @@ import {
   TableRow
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 
 export default function MigrationsList({ data }: { data: [any] }) {
   const headers = [
@@ -63,6 +64,13 @@ export default function MigrationsList({ data }: { data: [any] }) {
                   return (
                     <TableCell align="left">
                       <Chip label={item[x.key]} color="warning" />
+                    </TableCell>
+                  );
+                } else if (x.key === 'started_at') {
+                  return (
+                    <TableCell align="left">
+                      
+                      {dayjs(item[x.key]).format('MM/DD/YYYY')}
                     </TableCell>
                   );
                 }
