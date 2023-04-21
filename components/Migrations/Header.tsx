@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import List from '../Loading/List';
 import supabase from '@/lib/supabase';
 import MigrationsList from './List';
+import Image from 'next/image';
 
 export default function MigrationsHeader() {
   const [search, setSearch] = useState<string>('');
@@ -17,7 +18,7 @@ export default function MigrationsHeader() {
       setLoading(true);
 
       let { data: migrations } = await supabase
-        .from('deals_legal_entities')
+        .from('deals_legal_entities') // migrations and we catch deals_legal_entities
         .select('*')
         .textSearch('name', search);
 
@@ -34,10 +35,12 @@ export default function MigrationsHeader() {
   useEffect(() => {
     if (search && search.length > 0) {
       const _search = setTimeout(() => {
+        setResults([]);
         fetchMigrations();
       }, 1000);
       return () => clearTimeout(_search);
     }
+    setResults([]);
   }, [search]);
 
   return (
@@ -47,7 +50,7 @@ export default function MigrationsHeader() {
           <h1>Migrations</h1>
           <p>Manage your migrations.</p>
         </div>
-        <Button variant="contained" className="primary" disableElevation>
+        <Button variant="text" className="primary" disableElevation>
           Create new
         </Button>
       </header>
@@ -68,6 +71,17 @@ export default function MigrationsHeader() {
         <div className="mt-8 results">
           {loading && <List />}
           {!loading && results.length > 0 && <MigrationsList data={results} />}
+          {!loading && !results.length && (
+            <Card className="card" variant="outlined">
+              <Image
+                src="/empty_target.svg"
+                className="mb-4"
+                width={75}
+                height={75}
+              />
+              <p>No migrations deals found.</p>
+            </Card>
+          )}
         </div>
       </div>
     </Card>

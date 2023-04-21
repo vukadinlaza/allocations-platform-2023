@@ -60,7 +60,7 @@ export default function MigrationsList({ data }: { data: [any] }) {
                 if (x.key === 'button') {
                   return (
                     <TableCell align="right">
-                      <Button color="primary">Manage</Button>
+                      <Button>Manage</Button>
                     </TableCell>
                   );
                 } else if (x.key === 'phase') {

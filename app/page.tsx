@@ -29,7 +29,7 @@ export default function Dashboard() {
     try {
       setLoading(true);
       let { data: _organizations } = await supabase
-        .from('Organizations')
+        .from('organizations')
         .select('*')
         .order('name');
 
@@ -127,7 +127,7 @@ export default function Dashboard() {
                   width={75}
                   height={75}
                 />
-                <p>No deals recorded for {selected}.</p>
+                <p>No deals founded.</p>
               </Card>
             )}
             {!dealsLoading && deals.length > 1 && <DataTable data={deals} />}
