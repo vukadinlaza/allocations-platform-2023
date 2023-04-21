@@ -10,8 +10,8 @@ export default function Logo() {
     <Image
       src="/logo.png"
       alt="Allocations.com"
-      width={138}
-      height={48}
+      width={128}
+      height={19}
       className="cursor-pointer"
       onClick={() => router.push('/')}
     />

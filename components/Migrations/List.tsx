@@ -11,10 +11,6 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
-const MigrationsPhaseTag = (value: string) => {
-  return <Chip label="Processing" color="warning" />;
-};
-
 export default function MigrationsList({ data }: { data: [any] }) {
   const headers = [
     {
@@ -22,12 +18,12 @@ export default function MigrationsList({ data }: { data: [any] }) {
       key: 'name'
     },
     {
-      label: 'Phase',
-      key: 'phase'
+      label: 'Status',
+      key: 'status'
     },
     {
-      label: 'First close date',
-      key: 'created_at'
+      label: 'Started at',
+      key: 'started_at'
     },
     {
       label: 'EIN',
@@ -60,13 +56,13 @@ export default function MigrationsList({ data }: { data: [any] }) {
                 if (x.key === 'button') {
                   return (
                     <TableCell align="right">
-                      <Button>Manage</Button>
+                      <Button variant="text">Manage</Button>
                     </TableCell>
                   );
-                } else if (x.key === 'phase') {
+                } else if (x.key === 'status') {
                   return (
                     <TableCell align="left">
-                      {MigrationsPhaseTag(item[x.key])}
+                      <Chip label={item[x.key]} color="warning" />
                     </TableCell>
                   );
                 }

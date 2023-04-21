@@ -17,11 +17,9 @@ export default function MigrationsHeader() {
     try {
       setLoading(true);
 
-      let { data: migrations } = await supabase
-        .from('deals_legal_entities') // migrations and we catch deals_legal_entities
-        .select('*')
-        .textSearch('name', search);
+      let { data: migrations } = await supabase.from('migrations').select('*');
 
+      console.log(migrations);
       if (migrations && migrations.length > 0) {
         setResults(migrations);
       }
@@ -31,6 +29,18 @@ export default function MigrationsHeader() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchMigrations();
+    // if (search && search.length > 0) {
+    //   const _search = setTimeout(() => {
+    //     setResults([]);
+    //     fetchMigrations();
+    //   }, 1000);
+    //   return () => clearTimeout(_search);
+    // }
+    // setResults([]);
+  }, []);
 
   useEffect(() => {
     if (search && search.length > 0) {
@@ -50,12 +60,12 @@ export default function MigrationsHeader() {
           <h1>Migrations</h1>
           <p>Manage your migrations.</p>
         </div>
-        <Button variant="text" className="primary" disableElevation>
+        <Button variant="contained" disableElevation>
           Create new
         </Button>
       </header>
       <div className="w-full">
-        <TextField
+        {/* <TextField
           size="small"
           className="w-full"
           placeholder="Search for a migration..."
@@ -67,7 +77,7 @@ export default function MigrationsHeader() {
               </InputAdornment>
             )
           }}
-        />
+        /> */}
         <div className="mt-8 results">
           {loading && <List />}
           {!loading && results.length > 0 && <MigrationsList data={results} />}

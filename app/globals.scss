@@ -4,24 +4,32 @@
 
 $primary: #3db278;
 
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained {
+  color: white !important;
+}
+
 @layer base {
-  button {
-    &.primary {
-      @apply bg-primary px-4;
-      color: white;
+  //   &.primary {
+  //     @apply bg-primary px-4;
+  //     color: white;
 
-      &:hover {
-        @apply bg-primaryLight;
-      }
+  //     &:hover {
+  //       @apply bg-primaryLight;
+  //     }
 
-      &.MuiLoadingButton-loading {
-        background-color: lightgray !important;
-      }
+  //     &.MuiLoadingButton-loading {
+  //       background-color: lightgray !important;
+  //     }
+  //   }
+
+  a {
+    :hover {
+      @apply no-underline;
     }
   }
 
   h1 {
-    @apply text-xl font-medium mb-2;
+    @apply text-xl font-medium mt-0 mb-1;
   }
 
   h2 {
@@ -29,12 +37,16 @@ $primary: #3db278;
   }
 
   p {
-    @apply text-gray-600;
+    @apply text-gray-600 m-0;
+  }
+
+  ul {
+    @apply list-none;
   }
 
   // tw
   .card {
-    @apply flex flex-col items-center justify-center p-8 my-4;
+    @apply flex flex-col items-center justify-center p-8 mb-4;
   }
 
   .container {
@@ -62,7 +74,7 @@ $primary: #3db278;
     &--menu {
       @apply flex items-center;
       &--item {
-        @apply py-6 px-4 border-b-2 border-transparent;
+        @apply py-6 px-4 border-b-2 border-transparent no-underline;
 
         &.active {
           @apply border-primary;

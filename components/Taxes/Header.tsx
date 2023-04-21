@@ -51,9 +51,9 @@ export default function TaxesHeader() {
       <header className="flex items-start justify-between w-full mb-8">
         <div>
           <h1>Taxes</h1>
-          <p>Manage your taxes.</p>
+          <p>Manage your tax returns.</p>
         </div>
-        <Button variant="text" className="primary" disableElevation>
+        <Button variant="contained" disableElevation>
           Create new
         </Button>
       </header>

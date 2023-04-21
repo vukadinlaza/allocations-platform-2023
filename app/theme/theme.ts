@@ -6,8 +6,7 @@ export const lightTheme = createTheme({
     button: {
       textTransform: 'none',
       letterSpacing: '0.5',
-      fontWeight: 700,
-      backgroundColor: '#3db278'
+      fontWeight: 700
     }
   },
   palette: {
