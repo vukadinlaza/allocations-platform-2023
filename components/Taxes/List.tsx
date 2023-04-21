@@ -11,10 +11,6 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
-const TaxesPhaseTag = (value: string) => {
-  return <Chip label="Processing" color="warning" />;
-};
-
 export default function TaxesList({ data }: { data: [any] }) {
   const headers = [
     {

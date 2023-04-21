@@ -11,6 +11,7 @@ import Image from 'next/image';
 export default function TaxesHeader() {
   const [search, setSearch] = useState<string>('');
   const [results, setResults] = useState<Array<any>>([]);
+  const [taxesData, setTaxesData] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchTaxes = async () => {
@@ -20,13 +21,14 @@ export default function TaxesHeader() {
       let { data: taxes } = await supabase
         .from('tax_1065s')
         .select('*')
-        .textSearch('deal_name', search);
+        .limit(10);
 
       console.log(taxes);
 
       if (taxes && taxes.length > 0) {
         console.log(taxes);
         setResults(taxes);
+        setTaxesData(taxes);
       }
     } catch (error) {
       console.log(error);
@@ -36,14 +38,19 @@ export default function TaxesHeader() {
   };
 
   useEffect(() => {
+    fetchTaxes();
+  }, []);
+
+  useEffect(() => {
+    setResults(taxesData);
     if (search && search.length > 0) {
-      const _search = setTimeout(() => {
-        setResults([]);
-        fetchTaxes();
-      }, 1000);
-      return () => clearTimeout(_search);
+      const res = results.filter((x) => {
+        if (x.deal_name) {
+          return x.deal_name.includes(search);
+        }
+      });
+      setResults(res);
     }
-    setResults([]);
   }, [search]);
 
   return (
