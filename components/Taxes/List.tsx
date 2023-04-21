@@ -18,20 +18,16 @@ const TaxesPhaseTag = (value: string) => {
 export default function TaxesList({ data }: { data: [any] }) {
   const headers = [
     {
-      label: 'Deal display name',
-      key: 'name'
+      label: 'Deal name',
+      key: 'deal_name'
     },
     {
-      label: 'Phase',
-      key: 'phase'
-    },
-    {
-      label: 'First close date',
-      key: 'created_at'
+      label: 'GoSystems Return ID',
+      key: 'metadata.gosystem_return_id'
     },
     {
       label: 'EIN',
-      key: 'ein'
+      key: 'entity.ein'
     },
     {
       label: '',
@@ -61,12 +57,6 @@ export default function TaxesList({ data }: { data: [any] }) {
                   return (
                     <TableCell align="right">
                       <Button>Manage</Button>
-                    </TableCell>
-                  );
-                } else if (x.key === 'phase') {
-                  return (
-                    <TableCell align="left">
-                      {MigrationsPhaseTag(item[x.key])}
                     </TableCell>
                   );
                 }
