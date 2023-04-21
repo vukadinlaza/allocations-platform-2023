@@ -5,23 +5,24 @@ import { Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import List from '../Loading/List';
 import supabase from '@/lib/supabase';
+import MigrationsList from './List';
 
 export default function MigrationsHeader() {
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>('');
   const [results, setResults] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchMigrations = async () => {
     try {
       setLoading(true);
 
       let { data: migrations } = await supabase
-        .from('Migrations Uploads')
+        .from('deals_legal_entities')
         .select('*')
-        .eq('name', search);
+        .textSearch('name', search);
 
       if (migrations && migrations.length > 0) {
-        console.log(results);
+        setResults(migrations);
       }
     } catch (error) {
       console.log(error);
@@ -64,7 +65,10 @@ export default function MigrationsHeader() {
             )
           }}
         />
-        <div className="mt-8 results">{loading && <List />}</div>
+        <div className="mt-8 results">
+          {loading && <List />}
+          {!loading && results.length > 0 && <MigrationsList data={results} />}
+        </div>
       </div>
     </Card>
   );
