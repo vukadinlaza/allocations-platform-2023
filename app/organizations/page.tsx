@@ -25,7 +25,7 @@ export default function Organizations() {
         .order('name');
 
       if (_organizations && _organizations.length > 0) {
-        // setOrganizations(_organizations);
+        setOrganizations(_organizations);
       }
     } catch (err) {
       console.log(err);
@@ -46,7 +46,7 @@ export default function Organizations() {
             <h1>Organizations</h1>
             <p>Manage your organizations.</p>
           </div>
-          <button className="btn primary">Create a new organization</button>
+          <button className="btn primary">Create a new</button>
         </header>
         <Grid container>
           {loading && (

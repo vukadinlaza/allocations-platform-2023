@@ -32,8 +32,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         )
         .single();
 
-      console.log(data);
-
       return data;
     } catch (error) {
       console.log(error);
@@ -51,14 +49,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         const user_infos = await fetchUser(session.user.email);
+        console.log(user_infos);
         setUser({
           ...session.user,
           infos: user_infos,
           organizations: user_infos.users_organizations
         });
-        console.log(user)
       }
-      console.log(user);
     } catch (error) {
       console.log(error);
     } finally {

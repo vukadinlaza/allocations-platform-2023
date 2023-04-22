@@ -9,7 +9,7 @@ import None from '@/components/None';
 
 export default function Entities() {
   const [organizations, setOrganizations] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // const { user } = useAuthContext();
 
@@ -44,9 +44,9 @@ export default function Entities() {
         <header className="flex items-start justify-between w-full mb-8">
           <div>
             <h1>Entities</h1>
-            <p>Manage your Entities.</p>
+            <p>Manage your entities.</p>
           </div>
-          <button className="btn primary">Create a new entity</button>
+          <button className="btn primary">Create a new</button>
         </header>
         <Grid container>
           {loading && (
