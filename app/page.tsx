@@ -15,6 +15,7 @@ import LoadingList from '@/components/Loading/List';
 import Image from 'next/image';
 import Autocomplete from '@/components/Autocomplete';
 import DataTable from '@/components/DataTable';
+import None from '@/components/None';
 
 export default function Dashboard() {
   const [deals, setDeals] = useState([]);
@@ -122,15 +123,7 @@ export default function Dashboard() {
           <Grid item xs={12} className="my-4">
             {dealsLoading && <LoadingList />}
             {!dealsLoading && deals.length === 0 && (
-              <Card className="card" variant="outlined">
-                <Image
-                  src="/empty_target.svg"
-                  className="mb-4"
-                  width={75}
-                  height={75}
-                />
-                <p>No deals founded.</p>
-              </Card>
+              <None text="No deals found. Create one?" />
             )}
             {!dealsLoading && deals.length > 1 && <DataTable data={deals} />}
           </Grid>

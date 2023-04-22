@@ -51,7 +51,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         const user_infos = await fetchUser(session.user.email);
-        setUser({ ...session.user, user_infos });
+        setUser({
+          ...session.user,
+          infos: user_infos,
+          organizations: user_infos.users_organizations
+        });
+        console.log(user)
       }
       console.log(user);
     } catch (error) {
