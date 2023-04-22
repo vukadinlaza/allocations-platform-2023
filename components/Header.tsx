@@ -32,7 +32,9 @@ export default function Header({ loading }, { loading: boolean }) {
                   <Link href={item.href}>
                     <div
                       className={`Header--menu--item ${
-                        pathname === item.href ? 'active' : 'inactive'
+                        pathname?.includes(item.name.toLowerCase())
+                          ? 'active'
+                          : 'inactive'
                       }`}
                     >
                       {item.name}
