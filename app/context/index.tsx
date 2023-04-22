@@ -22,7 +22,17 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const fetchUser = async (email: string) => {
     if (!email) return;
     try {
-      const { data } = await supabase.from('users').select('*').single();
+      const { data } = await supabase
+        .from('users')
+        .select(
+          `*,
+          users_organizations (
+            *
+          )`
+        )
+        .single();
+
+      console.log(data);
 
       return data;
     } catch (error) {
