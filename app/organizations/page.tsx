@@ -6,6 +6,7 @@ import { Card, Grid } from '@mui/material';
 import LoadingList from '@/components/Loading/List';
 import { useAuthContext } from '@/app/context';
 import None from '@/components/None';
+import List from '@/components/Organizations/List';
 
 export default function Organizations() {
   const [organizations, setOrganizations] = useState<Array<any>>([]);
@@ -57,6 +58,11 @@ export default function Organizations() {
           {!loading && !organizations.length && (
             <Grid item xs={12} className="w-full">
               <None text="No organization yet. Create one?" />
+            </Grid>
+          )}
+          {!loading && organizations.length > 0 && (
+            <Grid item xs={12} className="w-full">
+              <List data={organizations} />
             </Grid>
           )}
         </Grid>
