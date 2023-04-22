@@ -84,11 +84,14 @@ $primary: #3db278;
   }
 
   .upload {
-    @apply cursor-pointer w-full h-32 border border-dashed border-primary rounded-lg hover:bg-primary/5 transition flex items-center justify-center;
+    @apply cursor-pointer w-full border border-dashed border-primary rounded-lg transition flex flex-col items-center justify-center;
 
-    &:hover {
-      img {
-        @apply opacity-100 scale-105 transition;
+    &--zone {
+      @apply hover:bg-primary/5 h-32 w-full flex flex-col items-center justify-center;
+      &:hover {
+        img {
+          @apply opacity-100 scale-105 transition;
+        }
       }
     }
 
