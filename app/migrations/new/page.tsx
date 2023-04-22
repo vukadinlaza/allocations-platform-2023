@@ -35,23 +35,20 @@ export default function NewMigration() {
   const model: ModelItem[] = [
     {
       key: 'name',
-      label: 'Name'
-    },
-    {
-      key: 'legal_entity_id',
-      label: 'Legal Entity ID'
-    },
-    {
-      key: 'organization_id',
-      label: 'Organization ID'
-    },
-    {
-      key: 'ein',
-      label: 'EIN'
+      label: 'Select an organization'
     },
     {
       key: 'organization_name',
-      label: 'Organization Name'
+      label: 'Enter the legal entity name'
+    },
+    {
+      key: 'ein',
+      label: 'Enter the manager name'
+    },
+    {
+      key: 'ein',
+      label: 'Enter the legal entity EIN',
+      placeholder: 'XX-XXXXXXX'
     }
   ];
 

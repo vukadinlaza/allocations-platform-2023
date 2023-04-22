@@ -19,6 +19,26 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
 
+  const fetchUser = async (email: string) => {
+    if (!email) return;
+    console.log(email);
+    try {
+      const {
+        data: { userData }
+      } = await supabase.from('users').select('*');
+
+      console.log(userData);
+
+      if (userData) {
+        console.log(userData);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const onAuthStateChange = async () => {
     try {
       setLoading(true);
@@ -27,7 +47,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
+        console.log(session.user);
         setUser(session.user);
+        await fetchUser(session.user.email);
       }
     } catch (error) {
       console.log(error);
