@@ -5,12 +5,13 @@ import { Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import List from '@/components/Loading/List';
 import supabase from '@/lib/supabase';
-import MigrationsList from '@/components/Migrations/List';
+import EntitiesList from '@/components/Entities/List';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import None from '@/components/None';
 
-export default function Migrations() {
+export default function Entities() {
+  // TODO: change from MIGRATION to ENTITIES
   const [search, setSearch] = useState<string>('');
   const [results, setResults] = useState<Array<any>>([]);
   const [migrationData, setMigrationData] = useState<Array<any>>([]);
@@ -82,9 +83,9 @@ export default function Migrations() {
         />
         <div className="mt-8 results">
           {loading && <List />}
-          {!loading && results.length > 0 && <MigrationsList data={results} />}
+          {!loading && results.length > 0 && <EntitiesList data={results} />}
           {!loading && !results.length && (
-            <None text="No migrations deals found. Create one?" />
+            <None text="No entities found. Create one?" />
           )}
         </div>
       </div>

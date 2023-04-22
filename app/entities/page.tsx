@@ -6,10 +6,10 @@ import { Card, Grid } from '@mui/material';
 import LoadingList from '@/components/Loading/List';
 import { useAuthContext } from '@/app/context';
 import None from '@/components/None';
-import Migrations from '@/components/Migrations/Index';
+import Entities from '@/components/Entities/Index';
 
 export default function Entities() {
-  const [organizations, setOrganizations] = useState<Array<any>>([]);
+  const [entitiesData, setEntitiesData] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   // const { user } = useAuthContext();
@@ -58,16 +58,16 @@ export default function Entities() {
               <LoadingList />
             </Grid>
           )}
-          {!loading && !organizations.length && (
+          {!loading && !entitiesData.length && (
             <Grid item xs={12} className="w-full">
               <None text="No entities yet. Create one?" />
             </Grid>
           )}
-        </Grid>
-        <Grid container>
-          <Grid item xs={12}>
-            <Migrations />
-          </Grid>
+          {!loading && entitiesData.length > 0 && (
+            <Grid item xs={12}>
+              <Entities />
+            </Grid>
+          )}
         </Grid>
       </Card>
     </main>

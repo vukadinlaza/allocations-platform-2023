@@ -5,7 +5,7 @@ import { Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import List from '@/components/Loading/List';
 import supabase from '@/lib/supabase';
-import MigrationsList from '@/components/Migrations/List';
+import MigrationsList from '@/components/Entities/List';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import None from '@/components/None';
