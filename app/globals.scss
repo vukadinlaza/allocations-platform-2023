@@ -49,6 +49,10 @@ $primary: #3db278;
     max-width: 1200px !important;
   }
 
+  .chip {
+    @apply rounded-full px-3 py-2 inline;
+  }
+
   .min-w-12 {
     min-width: 3rem;
   }

@@ -17,13 +17,19 @@ export default function Organizations() {
   const fetchOrganizations = async () => {
     if (!user && !user.organizations) return;
     const orgsIdArray = user.organizations.map((x) => x.organization_id);
+    console.log(orgsIdArray);
     try {
       setLoading(true);
       let { data: _organizations } = await supabase
         .from('organizations')
-        .select('*')
-        .in('id', orgsIdArray)
-        .order('name');
+        .select(
+          `*, 
+          organizations_roles (
+            *
+          )
+        `
+        )
+        .in('id', orgsIdArray);
 
       if (_organizations && _organizations.length > 0) {
         setOrganizations(_organizations);

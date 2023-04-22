@@ -12,7 +12,6 @@ import {
   TableRow
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import dayjs from 'dayjs';
 
 export default function OrganizationList({ data }: { data: [any] }) {
   const headers = [
@@ -25,8 +24,8 @@ export default function OrganizationList({ data }: { data: [any] }) {
       key: 'status'
     },
     {
-      label: 'Migration',
-      key: 'migration'
+      label: 'Total entities',
+      key: 'total_entities'
     },
     {
       key: 'button'
@@ -60,16 +59,34 @@ export default function OrganizationList({ data }: { data: [any] }) {
                         <Button variant="text">Manage</Button>
                       </TableCell>
                     );
-                  } else if (x.key === 'status' || x.key === 'approved') {
+                  } else if (x.key === 'status') {
                     return (
                       <TableCell align="left">
-                        <Chip label={item[x.key]} color="warning" />
+                        <div
+                          className={`chip text-white ${
+                            item[x.key] === 'Approved'
+                              ? 'bg-primary'
+                              : 'bg-amber-500'
+                          } `}
+                        >
+                          {item[x.key]}
+                        </div>
                       </TableCell>
                     );
                   } else if (x.key === 'migration') {
+                    return <TableCell align="left">{item[x.key]}</TableCell>;
+                  } else if (x.key === 'type') {
                     return (
                       <TableCell align="left">
-                        {item[x.key]}
+                        Fund Manager — Guillaume
+                        {/* TO DO  */}
+                      </TableCell>
+                    );
+                  } else if (x.key === 'total_entities') {
+                    return (
+                      <TableCell align="left">
+                        12
+                        {/* TO DO  */}
                       </TableCell>
                     );
                   }
