@@ -7,12 +7,15 @@ import List from '../Loading/List';
 import supabase from '@/lib/supabase';
 import MigrationsList from './List';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function MigrationsHeader() {
   const [search, setSearch] = useState<string>('');
   const [results, setResults] = useState<Array<any>>([]);
   const [migrationData, setMigrationData] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const fetchMigrations = async () => {
     try {
@@ -54,7 +57,9 @@ export default function MigrationsHeader() {
           <h1>Migrations</h1>
           <p>Manage your migrations.</p>
         </div>
-        <Button disableElevation>Create new</Button>
+        <Button disableElevation onClick={() => router.push('/migrations/new')}>
+          Create new
+        </Button>
       </header>
       <div className="w-full">
         <TextField

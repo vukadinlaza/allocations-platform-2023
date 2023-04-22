@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import {
   Button,
@@ -10,8 +12,10 @@ import {
   TableRow
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { useRouter } from 'next/navigation';
 
 export default function TaxesList({ data }: { data: [any] }) {
+  const router = useRouter();
   const headers = [
     {
       label: 'Deal name',
@@ -52,7 +56,9 @@ export default function TaxesList({ data }: { data: [any] }) {
                 if (x.key === 'button') {
                   return (
                     <TableCell align="right">
-                      <Button>Manage</Button>
+                      <Button onClick={() => router.push(`/taxes/${item._id}`)}>
+                        Manage
+                      </Button>
                     </TableCell>
                   );
                 }

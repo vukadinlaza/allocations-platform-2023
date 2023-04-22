@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import {
   Button,
@@ -69,7 +71,6 @@ export default function MigrationsList({ data }: { data: [any] }) {
                 } else if (x.key === 'started_at') {
                   return (
                     <TableCell align="left">
-                      
                       {dayjs(item[x.key]).format('MM/DD/YYYY')}
                     </TableCell>
                   );
