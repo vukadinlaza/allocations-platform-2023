@@ -7,7 +7,6 @@ export const navigation = [
   { name: 'Organizations', href: '/organizations' },
   { name: 'Entities', href: '/entities' },
   { name: 'Deals', href: '/deals' },
-  { name: 'Migrations', href: '/migrations' },
   { name: 'Taxes', href: '/taxes' },
   { name: 'SPVs', href: '/spvs' }
 ];

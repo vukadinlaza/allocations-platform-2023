@@ -31,10 +31,6 @@ export default function MigrationsList({ data }: { data: [any] }) {
     {
       label: 'EIN',
       key: 'ein'
-    },
-    {
-      label: '',
-      key: 'button'
     }
   ];
   return (

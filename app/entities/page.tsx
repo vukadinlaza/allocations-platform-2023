@@ -6,6 +6,7 @@ import { Card, Grid } from '@mui/material';
 import LoadingList from '@/components/Loading/List';
 import { useAuthContext } from '@/app/context';
 import None from '@/components/None';
+import Migrations from '@/components/Migrations/Index';
 
 export default function Entities() {
   const [organizations, setOrganizations] = useState<Array<any>>([]);
@@ -46,7 +47,10 @@ export default function Entities() {
             <h1>Entities</h1>
             <p>Manage your entities.</p>
           </div>
-          <button className="btn primary">Create a new</button>
+          <div className="flex items-center">
+            <button className="btn info">Migrate</button>
+            <button className="btn primary">Create new</button>
+          </div>
         </header>
         <Grid container>
           {loading && (
@@ -59,6 +63,11 @@ export default function Entities() {
               <None text="No entities yet. Create one?" />
             </Grid>
           )}
+        </Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <Migrations />
+          </Grid>
         </Grid>
       </Card>
     </main>
