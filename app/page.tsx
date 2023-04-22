@@ -72,7 +72,9 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    fetchDeals();
+    if (selected) {
+      // fetchDeals();
+    }
   }, [selected]);
 
   // useEffect(() => {

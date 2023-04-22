@@ -21,17 +21,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const fetchUser = async (email: string) => {
     if (!email) return;
-    console.log(email);
     try {
-      const {
-        data: { userData }
-      } = await supabase.from('users').select('*');
+      const { data } = await supabase.from('users').select('*').single();
 
-      console.log(userData);
-
-      if (userData) {
-        console.log(userData);
-      }
+      return data;
     } catch (error) {
       console.log(error);
     } finally {
@@ -47,9 +40,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        console.log(session.user);
-        setUser(session.user);
-        await fetchUser(session.user.email);
+        const user_infos = await fetchUser(session.user.email);
+        setUser({ ...session.user, user_infos });
       }
     } catch (error) {
       console.log(error);
