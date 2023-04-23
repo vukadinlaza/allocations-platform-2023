@@ -100,10 +100,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                 }
               >
                 <span className="font-bold text-white">
-                  Allocations.com bêta
+                  Allocations.com Beta Release v2
                 </span>
                 <span className="font-medium text-white">
-                  — Welcome to our new software !
+                - Welcome to our beta platform, where you can experience the latest features and help us shape the future of our product! 
                 </span>
               </Alert>
             </Collapse>

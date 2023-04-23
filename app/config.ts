@@ -8,5 +8,4 @@ export const navigation = [
   { name: 'Entities', href: '/entities' },
   { name: 'Deals', href: '/deals' },
   { name: 'Taxes', href: '/taxes' },
-  { name: 'SPVs', href: '/spvs' }
 ];
