@@ -11,8 +11,8 @@ import { Alert, AlertTitle, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import supabase from '@/lib/supabase';
 import Login from '@/components/Login';
-import FiberNewIcon from '@mui/icons-material/FiberNew';
 import Chip from '@mui/material/Chip';
+import { SpaceDashboardOutlined } from '@mui/icons-material';
 
 const AuthContext = createContext({});
 
@@ -86,32 +86,27 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             <Collapse in={betaAlert}>
               <Alert
                 className="mb-6 "
-                icon={
-                  <Chip
-                    color="success"
-                    label="Beta 2.0"
-                    size="small"
-                    variant="outlined"
-                  />
-                }
+                icon={<SpaceDashboardOutlined className=" text-primary" />}
                 severity="success"
                 action={
                   <IconButton
                     aria-label="close"
-                    color="inherit"
+                    color="primary"
                     size="small"
                     onClick={() => {
                       hasBetaAlert(false);
                     }}
                   >
-                    <CloseIcon fontSize="inherit" className="text-white" />
+                    <CloseIcon fontSize="inherit" className="text-primary" />
                   </IconButton>
                 }
               >
-                Welcome to our beta fund administration platform, where you can
-                experience the latest features and help us shape the future of
-                our product! This beta was built in less than 7 days with the
-                help of AI!
+                <h2 className="mt-0">Welcome to Allocation v2.0 !</h2>
+                <span>
+                  Welcome to our beta fund administration platform, where you
+                  can experience the latest features and help us shape the
+                  future of our new product.
+                </span>
               </Alert>
             </Collapse>
             {children}
