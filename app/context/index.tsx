@@ -7,10 +7,11 @@ import React, {
   useState
 } from 'react';
 import Header from '@/components/Header';
-import { Alert, Collapse, IconButton } from '@mui/material';
+import { Alert, AlertTitle, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import supabase from '@/lib/supabase';
 import Login from '@/components/Login';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 
 const AuthContext = createContext({});
 
@@ -82,10 +83,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           <div>
             <Collapse in={betaAlert}>
               <Alert
-                className="mb-6 text-center"
-                icon={false}
+                className="mb-6 "
+                icon={<FiberNewIcon />}
                 variant="filled"
-                color="primary"
+                severity="info"
                 action={
                   <IconButton
                     aria-label="close"
@@ -95,16 +96,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                       hasBetaAlert(false);
                     }}
                   >
+                    
                     <CloseIcon fontSize="inherit" className="text-white" />
                   </IconButton>
                 }
               >
-                <span className="font-bold text-white">
-                  Allocations.com Beta Release v2
-                </span>
-                <span className="font-medium text-white">
-                - Welcome to our beta platform, where you can experience the latest features and help us shape the future of our product! 
-                </span>
+                <AlertTitle>Allocations Beta</AlertTitle>
+                    Welcome to our beta fund administration platform, where you can experience the latest features and help us shape the future of our product! 
               </Alert>
             </Collapse>
             {children}
