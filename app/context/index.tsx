@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import supabase from '@/lib/supabase';
 import Login from '@/components/Login';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
+import Chip from '@mui/material/Chip';
 
 const AuthContext = createContext({});
 
@@ -85,8 +86,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
               <Alert
                 className="mb-6 "
                 icon={<FiberNewIcon />}
-                variant="filled"
-                severity="info"
+                variant="outlined"
+                severity="success"
                 action={
                   <IconButton
                     aria-label="close"
@@ -101,7 +102,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                   </IconButton>
                 }
               >
-                <AlertTitle>Allocations Beta</AlertTitle>
+                <AlertTitle><Chip color="success" label="Beta 2.0"  size="small" variant="outlined"/></AlertTitle>
                     Welcome to our beta fund administration platform, where you can experience the latest features and help us shape the future of our product! 
               </Alert>
             </Collapse>
