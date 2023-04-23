@@ -49,6 +49,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         data: { session }
       } = await supabase.auth.getSession();
 
+      console.log(session.user)
+
       if (session && session.user) {
         const user_infos = await fetchUser(session.user.email);
         setUser({
@@ -70,8 +72,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const value = useMemo(() => {
     return {
-      user: user || null,
-      signOut: () => supabase.auth.signOut()
+      user: user || null
     };
   }, [user]);
 
@@ -97,13 +98,22 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                       hasBetaAlert(false);
                     }}
                   >
-                    
                     <CloseIcon fontSize="inherit" className="text-white" />
                   </IconButton>
                 }
               >
-                <AlertTitle><Chip color="success" label="Beta 2.0"  size="small" variant="outlined"/></AlertTitle>
-                    Welcome to our beta fund administration platform, where you can experience the latest features and help us shape the future of our product! This beta was built in less than 7 days with the help of AI!
+                <AlertTitle>
+                  <Chip
+                    color="success"
+                    label="Beta 2.0"
+                    size="small"
+                    variant="outlined"
+                  />
+                </AlertTitle>
+                Welcome to our beta fund administration platform, where you can
+                experience the latest features and help us shape the future of
+                our product! This beta was built in less than 7 days with the
+                help of AI!
               </Alert>
             </Collapse>
             {children}
@@ -115,6 +125,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, signOut } = useContext(AuthContext);
-  return { user, signOut };
+  const { user } = useContext(AuthContext);
+  return { user };
 };

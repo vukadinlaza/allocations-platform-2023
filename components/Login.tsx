@@ -32,6 +32,7 @@ export default function Login() {
     }
     try {
       setLoading(true);
+
       let { data } = await supabase.auth.signInWithOtp({
         email
       });
@@ -44,6 +45,7 @@ export default function Login() {
         });
       }
     } catch (err) {
+      console.log(err);
       setStatus({
         type: 'error',
         message: 'An error occurred, please try again later.'
