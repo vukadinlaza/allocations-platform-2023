@@ -53,7 +53,7 @@ export default function Organizations() {
             <h1>Organizations</h1>
             <p>Manage your organizations.</p>
           </div>
-          <button className="btn primary">Create a new</button>
+          <button className="btn primary">Create new</button>
         </header>
         <Grid container>
           {loading && (
