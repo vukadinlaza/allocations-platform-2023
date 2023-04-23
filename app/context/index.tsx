@@ -101,7 +101,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                   </IconButton>
                 }
               >
-                <h2 className="mt-0">Welcome to Allocation v2.0 !</h2>
+                <h2 className="mt-0">Welcome to Allocations v2.0 !</h2>
                 <span>
                   Welcome to our beta fund administration platform, where you
                   can experience the latest features and help us shape the
