@@ -16,7 +16,7 @@ import Paper from '@mui/material/Paper';
 export default function OrganizationList({ data }: { data: [any] }) {
   const headers = [
     {
-      label: 'Legal name',
+      label: 'Name',
       key: 'legal_name'
     },
     {
@@ -24,7 +24,7 @@ export default function OrganizationList({ data }: { data: [any] }) {
       key: 'status'
     },
     {
-      label: 'Total entities',
+      label: 'Total Entities',
       key: 'total_entities'
     },
     {

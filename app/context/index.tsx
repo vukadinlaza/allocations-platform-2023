@@ -103,7 +103,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                 }
               >
                 <AlertTitle><Chip color="success" label="Beta 2.0"  size="small" variant="outlined"/></AlertTitle>
-                    Welcome to our beta fund administration platform, where you can experience the latest features and help us shape the future of our product! 
+                    Welcome to our beta fund administration platform, where you can experience the latest features and help us shape the future of our product! This beta was built in less than 7 days with the help of AI!
               </Alert>
             </Collapse>
             {children}
