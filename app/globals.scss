@@ -87,6 +87,11 @@ $primary: #3db278;
     }
   }
 
+  circle {
+    fill: #eee !important;
+    stroke-linecap: round;
+  }
+
   .upload {
     @apply cursor-pointer w-full border border-dashed border-primary rounded-lg transition flex flex-col items-center justify-center;
 

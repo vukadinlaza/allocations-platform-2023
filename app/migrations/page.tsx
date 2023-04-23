@@ -53,7 +53,7 @@ export default function Migrations() {
 
   return (
     <Card className="card" variant="outlined">
-      <header className="flex items-start justify-between w-full mb-8">
+      <header>
         <div>
           <h1>Migrations</h1>
           <p>Manage your migrations.</p>
