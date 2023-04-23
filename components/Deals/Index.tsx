@@ -86,7 +86,7 @@ export default function Entities() {
           {loading && <List />}
           {!loading && results.length > 0 && <EntitiesList data={results} />}
           {!loading && !results.length && (
-            <None text="No entities found. Create one?" />
+            <None text="No deals found. Create one?" />
           )}
         </div>
       </div>

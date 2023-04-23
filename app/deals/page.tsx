@@ -8,6 +8,7 @@ import { useAuthContext } from '@/app/context';
 import None from '@/components/None';
 import Entities from '@/components/Entities/Index';
 
+// Todo - update everything for Deals
 
 export default function Deals() {
   const [entitiesData, setEntitiesData] = useState<Array<any>>([]);
@@ -33,7 +34,7 @@ export default function Deals() {
           )}
           {!loading && !entitiesData.length && (
             <Grid item xs={12} className="w-full">
-              <None text="No entities yet. Create one?" />
+              <None text="No deals yet. Create one?" />
             </Grid>
           )}
           {!loading && entitiesData.length > 0 && (
