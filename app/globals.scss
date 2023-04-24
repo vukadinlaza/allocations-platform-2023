@@ -75,6 +75,14 @@ $primary: #3db278;
   .Header {
     @apply bg-white shadow-sm px-2;
 
+    select {
+      @apply outline-none cursor-pointer;
+    }
+
+    .select {
+      @apply border rounded-full px-3 py-2 text-xs;
+    }
+
     &--menu {
       @apply flex items-center;
 

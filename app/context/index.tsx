@@ -17,11 +17,14 @@ import { SpaceDashboardOutlined } from '@mui/icons-material';
 const AuthContext = createContext({});
 
 const mergeOrganizations = (orgs: any) => {
+  if (!orgs) return [];
   return orgs.map((org: any) => {
-    return {
+    let _org = {
       ...org,
       ...org.organizations
     };
+    delete _org.organizations;
+    return _org;
   });
 };
 
@@ -70,7 +73,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           organizations: mergeOrganizations(user_infos.users_organizations)
         };
         setUser(build_user);
-        console.log(build_user);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +87,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const value = useMemo(() => {
     return {
-      user: user || null
+      user: user || null,
+      currentOrganization: null
     };
   }, [user]);
 
@@ -131,6 +134,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user } = useContext(AuthContext);
-  return { user };
+  const { user, currentOrganization } = useContext(AuthContext);
+  return { user, currentOrganization };
 };
