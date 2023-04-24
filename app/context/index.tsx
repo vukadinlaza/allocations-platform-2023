@@ -16,6 +16,15 @@ import { SpaceDashboardOutlined } from '@mui/icons-material';
 
 const AuthContext = createContext({});
 
+const mergeOrganizations = (orgs: any) => {
+  return orgs.map((org: any) => {
+    return {
+      ...org,
+      ...org.organizations
+    };
+  });
+};
+
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +38,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .select(
           `*,
           users_organizations (
-            *
+            *,
+            organizations (
+              *
+            )
           )`
         )
         .single();
@@ -49,15 +61,16 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         data: { session }
       } = await supabase.auth.getSession();
 
-      console.log(session.user);
-
       if (session && session.user) {
         const user_infos = await fetchUser(session.user.email);
-        setUser({
+        // retrieve the current user & merge users_organizations * organizations
+        const build_user = {
           ...session.user,
           infos: user_infos,
-          organizations: user_infos.users_organizations
-        });
+          organizations: mergeOrganizations(user_infos.users_organizations)
+        };
+        setUser(build_user);
+        console.log(build_user);
       }
     } catch (error) {
       console.log(error);

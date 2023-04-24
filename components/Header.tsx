@@ -42,7 +42,9 @@ export default function Header({ loading }, { loading: boolean }) {
                   </Link>
                 ))}
               </div>
-              <AvatarComponent />
+              <div>
+                <AvatarComponent />
+              </div>
             </div>
           )}
         </div>
