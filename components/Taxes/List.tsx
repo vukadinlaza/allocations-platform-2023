@@ -40,7 +40,7 @@ export default function TaxesList({ data }: { data: [any] }) {
         <TableHead>
           <TableRow>
             {headers.map((x, i) => (
-              <TableCell align="left" key={i}>
+              <TableCell key={`header-${i}`} align="left">
                 {x.label}
               </TableCell>
             ))}
@@ -55,7 +55,7 @@ export default function TaxesList({ data }: { data: [any] }) {
               {headers.map((x, i) => {
                 if (x.key === 'button') {
                   return (
-                    <TableCell align="right">
+                    <TableCell key={`cell-${i}`} align="right">
                       <Button onClick={() => router.push(`/taxes/${item._id}`)}>
                         Manage
                       </Button>

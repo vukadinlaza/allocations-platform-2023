@@ -113,8 +113,8 @@ export default function Dashboard() {
                 onChange={handleChange}
               >
                 {organizations.length > 0 &&
-                  organizations.map((o) => (
-                    <MenuItem value={o.name}>{o.name}</MenuItem>
+                  organizations.map((o, index) => (
+                    <MenuItem key={`menu-${index}`} value={o.name}>{o.name}</MenuItem>
                   ))}
               </Select>
             </FormControl>

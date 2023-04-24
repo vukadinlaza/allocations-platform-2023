@@ -34,6 +34,7 @@ export default function Upload() {
         <div className="flex items-center">
           <Image
             src="/attach.svg"
+            alt={"Add File"}
             className="cursor-pointer text-primary"
             width={24}
             height={24}
@@ -43,6 +44,7 @@ export default function Upload() {
         </div>
         <div className="transition opacity-75 hover:opacity-100">
           <Image
+            alt={"Remove"}
             onClick={() => handleRemoveFile(index)}
             src="/bin.svg"
             className="cursor-pointer"

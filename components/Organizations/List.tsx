@@ -55,13 +55,13 @@ export default function OrganizationList({ data }: { data: [any] }) {
                 {headers.map((x, i) => {
                   if (x.key === 'button') {
                     return (
-                      <TableCell align="right">
+                      <TableCell key={`cell-${i}`} align="right">
                         <Button variant="text">Manage</Button>
                       </TableCell>
                     );
                   } else if (x.key === 'status') {
                     return (
-                      <TableCell align="left">
+                      <TableCell key={`cell-${i}`} align="left">
                         <div
                           className={`chip text-white ${
                             item[x.key] === 'Approved'
@@ -74,17 +74,17 @@ export default function OrganizationList({ data }: { data: [any] }) {
                       </TableCell>
                     );
                   } else if (x.key === 'migration') {
-                    return <TableCell align="left">{item[x.key]}</TableCell>;
+                    return <TableCell key={`cell-${i}`} align="left">{item[x.key]}</TableCell>;
                   } else if (x.key === 'type') {
                     return (
-                      <TableCell align="left">
+                      <TableCell key={`cell-${i}`} align="left">
                         Fund Manager — Guillaume
                         {/* TO DO  */}
                       </TableCell>
                     );
                   } else if (x.key === 'total_entities') {
                     return (
-                      <TableCell align="left">
+                      <TableCell key={`cell-${i}`} align="left">
                         12
                         {/* TO DO  */}
                       </TableCell>

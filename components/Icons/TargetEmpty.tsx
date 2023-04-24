@@ -1,5 +1,5 @@
-export function GameIconsArcheryTarget(props) {
+export function GameIconsArcheryTarget() {
   return (
-    
+    <></>
   );
 }

@@ -30,7 +30,7 @@ export default function Header({ loading }, { loading: boolean }) {
             <div className="flex items-center justify-end ml-4 grow">
               <div className="Header--menu grow">
                 {navigation.map((item) => (
-                  <Link href={item.href}>
+                  <Link href={item.href} key={item.href}>
                     <div
                       className={`Header--menu--item ${
                         pathname?.includes(item.name.toLowerCase())

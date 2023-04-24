@@ -56,25 +56,25 @@ export default function MigrationsList({ data }: { data: [any] }) {
               {headers.map((x, i) => {
                 if (x.key === 'button') {
                   return (
-                    <TableCell align="right">
+                    <TableCell key={`cell-${i}`} align="right">
                       <Button variant="text">Manage</Button>
                     </TableCell>
                   );
                 } else if (x.key === 'status') {
                   return (
-                    <TableCell align="left">
+                    <TableCell key={`cell-${i}`} align="left">
                       <Chip label={item[x.key]} color="warning" />
                     </TableCell>
                   );
                 } else if (x.key === 'started_at') {
                   return (
-                    <TableCell align="left">
+                    <TableCell key={`cell-${i}`} align="left">
                       {dayjs(item[x.key]).format('MM/DD/YYYY')}
                     </TableCell>
                   );
                 }
                 return (
-                  <TableCell align="left" key={i}>
+                  <TableCell key={`cell-${i}`} align="left">
                     {item[x.key]}
                   </TableCell>
                 );
