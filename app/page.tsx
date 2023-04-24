@@ -12,13 +12,9 @@ import {
 import supabase from '@/lib/supabase';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
-import Image from 'next/image';
-import Autocomplete from '@/components/Autocomplete';
 import DataTable from '@/components/DataTable';
 import None from '@/components/None';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+import Login from '@/components/Login';
 
 export default function Dashboard() {
   const [deals, setDeals] = useState([]);
@@ -123,19 +119,6 @@ export default function Dashboard() {
               </Select>
             </FormControl>
           </Grid>
-          {/* Todo: Metrics cards */}
-          {/* <Grid item xs={12} className="my-4">
-            <Card className="card" variant="outlined">
-             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                 Total Entities
-              </Typography>
-             <Typography variant="body2" color="text.secondary">
-            100
-              </Typography>
-            </CardContent>
-            </Card>
-          </Grid> */}
           <Grid item xs={12} className="my-4">
             {dealsLoading && <LoadingList />}
             {!dealsLoading && deals.length === 0 && (

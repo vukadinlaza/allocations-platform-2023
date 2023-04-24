@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Alert, Button, TextField } from '@mui/material';
+import { Alert, Button, CircularProgress, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import Logo from './Logo';
@@ -61,7 +61,7 @@ export default function Login() {
         <Logo />
       </div>
       <p className="mb-4">
-        Welcome to Allocations.com.
+        Welcome to Allocations v2.0.
         <br />
         Please enter your e-mail to login.
       </p>
@@ -75,19 +75,17 @@ export default function Login() {
         />
       </div>
       {status && (
-        <Alert severity={status.type} className="mb-4">
+        <Alert severity={status.type} className="mb-2">
           {status.message}
         </Alert>
       )}
-      <LoadingButton
+      <button
         onClick={login}
-        loading={loading}
-        variant="contained"
-        className="primary"
-        disableElevation
+        className={`mt-4 btn primary ${loading ? 'loading' : ''}`}
       >
-        Sign in
-      </LoadingButton>
+        {loading && <CircularProgress color="inherit" size={12} />}
+        {!loading && 'Sign in'}
+      </button>
     </div>
   );
 }
