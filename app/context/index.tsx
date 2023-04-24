@@ -88,7 +88,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const value = useMemo(() => {
     return {
       user: user || null,
-      currentOrganization: null
+      setCurrentOrganization: null
     };
   }, [user]);
 
@@ -134,6 +134,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, currentOrganization } = useContext(AuthContext);
-  return { user, currentOrganization };
+  const { user, setCurrentOrganization } = useContext(AuthContext);
+  return { user, setCurrentOrganization };
 };

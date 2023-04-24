@@ -11,7 +11,7 @@ import { useAuthContext } from '@/app/context';
 
 export default function Header({ loading }, { loading: boolean }) {
   const pathname = usePathname();
-  const { user, currentOrganization } = useAuthContext();
+  const { user } = useAuthContext();
   console.log(user);
   return (
     <div className="Header">
@@ -47,7 +47,6 @@ export default function Header({ loading }, { loading: boolean }) {
               </div>
               {user && (
                 <div className="flex items-center justify-between w-48">
-                  <p>{currentOrganization}</p>
                   <div className="select">
                     <select>
                       {user.organizations &&
