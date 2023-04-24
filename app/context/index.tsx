@@ -1,20 +1,25 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
 import Header from '@/components/Header';
-import { Alert, AlertTitle, Collapse, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import supabase from '@/lib/supabase';
 import Login from '@/components/Login';
-import Chip from '@mui/material/Chip';
+import supabase from '@/lib/supabase';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Alert, Collapse, IconButton } from '@mui/material';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext({});
+
+const mergeOrganizations = (orgs: any) => {
+  if (!orgs) return [];
+  return orgs.map((org: any) => {
+    let _org = {
+      ...org,
+      ...org.organizations
+    };
+    delete _org.organizations;
+    return _org;
+  });
+};
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
@@ -28,10 +33,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .from('users')
         .select(
           `*,
-          users_organizations (
-            *
-          )`
+        users_organizations (
+          *
+        )`
         )
+        .eq('email', email)
         .single();
 
       return data;
@@ -49,15 +55,16 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         data: { session }
       } = await supabase.auth.getSession();
 
-      console.log(session.user);
-
       if (session && session.user) {
         const user_infos = await fetchUser(session.user.email);
-        setUser({
+        // current user + merge users_organizations * organizations
+        const build_user = {
           ...session.user,
           infos: user_infos,
-          organizations: user_infos.users_organizations
-        });
+          organizations: mergeOrganizations(user_infos.users_organizations)
+        };
+        console.log(build_user);
+        setUser(build_user);
       }
     } catch (error) {
       console.log(error);
@@ -72,17 +79,22 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const value = useMemo(() => {
     return {
-      user: user || null
+      user: user || null,
+      setCurrentOrganization: null
     };
   }, [user]);
 
   return (
     <AuthContext.Provider value={value}>
       {user && <Header loading={loading} />}
-      <div className="container px-2 my-6">
-        {!user && !loading && <Login />}
+      <div>
+        {!user && !loading && (
+          <div className="my-12">
+            <Login />
+          </div>
+        )}
         {user && (
-          <div>
+          <div className="container px-2 my-6">
             <Collapse in={betaAlert}>
               <Alert
                 className="mb-6 "
@@ -118,6 +130,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user } = useContext(AuthContext);
-  return { user };
+  const { user, setCurrentOrganization } = useContext(AuthContext);
+  return { user, setCurrentOrganization };
 };

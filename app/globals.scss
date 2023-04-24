@@ -23,10 +23,15 @@ $primary: #3db278;
 
   button {
     &.btn {
+      min-width: 75px;
       @apply font-medium cursor-pointer rounded-lg px-4 py-2 mr-2;
 
       &.primary {
         @apply bg-primary hover:bg-primaryLight text-white;
+      }
+
+      &.loading {
+        @apply bg-gray-100 hover:bg-gray-100 text-gray-500 pointer-events-none;
       }
 
       &.info {
@@ -70,6 +75,14 @@ $primary: #3db278;
   .Header {
     @apply bg-white shadow-sm px-2;
 
+    select {
+      @apply outline-none cursor-pointer;
+    }
+
+    .select {
+      @apply border rounded-full px-3 py-2 text-xs;
+    }
+
     &--menu {
       @apply flex items-center;
 
@@ -87,9 +100,11 @@ $primary: #3db278;
     }
   }
 
-  circle {
-    fill: #eee !important;
-    stroke-linecap: round;
+  .features {
+    circle {
+      fill: #eee !important;
+      stroke-linecap: round;
+    }
   }
 
   .upload {

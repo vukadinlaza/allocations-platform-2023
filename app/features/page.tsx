@@ -70,7 +70,7 @@ export default function Features() {
     }
   ];
   return (
-    <Card className="card" variant="outlined">
+    <Card className="features card" variant="outlined">
       <header className="pb-12">
         <div>
           <h1>Features coming</h1>

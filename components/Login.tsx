@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Alert, Button, TextField } from '@mui/material';
+import { Alert, Button, CircularProgress, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/navigation';
 import Logo from './Logo';
@@ -56,38 +56,39 @@ export default function Login() {
   };
 
   return (
-    <div className="p-8 mx-auto bg-white border rounded-lg w-96">
+    <div
+      className="p-8 mx-auto bg-white border rounded-lg"
+      style={{ width: '400px' }}
+    >
       <div className="mb-4">
         <Logo />
       </div>
       <p className="mb-4">
-        Welcome to Allocations.com.
+        Welcome to Allocations v2.0.
         <br />
         Please enter your e-mail to login.
       </p>
-      <div>
-        <TextField
-          id="outlined-basic"
-          label="mail@address.com"
-          variant="outlined"
-          className="w-full mb-4"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      {status && (
-        <Alert severity={status.type} className="mb-4">
-          {status.message}
-        </Alert>
+      {!status && (
+        <div>
+          <TextField
+            id="outlined-basic"
+            label="mail@address.com"
+            variant="outlined"
+            className="w-full mb-4"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
       )}
-      <LoadingButton
-        onClick={login}
-        loading={loading}
-        variant="contained"
-        className="primary"
-        disableElevation
-      >
-        Sign in
-      </LoadingButton>
+      {status && <Alert severity={status.type}>{status.message}</Alert>}
+      {!status && (
+        <button
+          onClick={login}
+          className={`mt-4 btn primary ${loading ? 'loading' : ''}`}
+        >
+          {loading && <CircularProgress color="inherit" size={12} />}
+          {!loading && 'Sign in'}
+        </button>
+      )}
     </div>
   );
 }
