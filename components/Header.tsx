@@ -2,6 +2,7 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
+import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,7 +10,11 @@ import AvatarComponent from './Avatar';
 import LoadingUserItem from './Loading/UserItem';
 import Logo from './Logo';
 
-export default function Header({ loading }, { loading: boolean }) {
+interface HeaderProps {
+  loading: boolean;
+}
+
+export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
   return (
@@ -66,7 +71,7 @@ export default function Header({ loading }, { loading: boolean }) {
                         <option selected>No organization</option>
                       )}
                       {user.organizations &&
-                        user.organizations.map((organization) => (
+                        user.organizations.map((organization: Organization) => (
                           <option
                             className="text-xs"
                             key={organization.id}

@@ -65,10 +65,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         //   email: 'michelle@allocations.co'
         // });
         let merged = [];
-        if (user_infos.users_organizations.length > 0) {
+        if (user_infos && user_infos.users_organizations.length > 0) {
           merged = mergeOrganizations(user_infos.users_organizations);
         }
-        const build_user = {
+        const build_user: any = {
           ...session.user,
           infos: user_infos || [],
           organizations: merged,
@@ -142,6 +142,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, setCurrentOrganization } = useContext(AuthContext);
+  const { user, setCurrentOrganization }: any = useContext(AuthContext);
   return { user, setCurrentOrganization };
 };
