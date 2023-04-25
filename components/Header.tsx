@@ -11,7 +11,7 @@ import Logo from './Logo';
 
 export default function Header({ loading }, { loading: boolean }) {
   const pathname = usePathname();
-  const { user } = useAuthContext();
+  const { user, setCurrentOrganization } = useAuthContext();
   return (
     <div className="Header">
       <div className="container flex items-center justify-center w-full">
@@ -51,7 +51,7 @@ export default function Header({ loading }, { loading: boolean }) {
                       {user.infos.is_super_admin && (
                         <Chip
                           size="small"
-                          color="primary"
+                          color="info"
                           className="font-bold text-white"
                           label="Admin"
                         ></Chip>
@@ -59,8 +59,10 @@ export default function Header({ loading }, { loading: boolean }) {
                     </div>
                   )}
                   <div className="mr-2 select">
-                    <select>
-                      {user.organizations && !user.organizations.length > 0 && (
+                    <select
+                      onChange={(e) => setCurrentOrganization(e.target.value)}
+                    >
+                      {user.organizations && user.organizations.length < 1 && (
                         <option selected>No organization</option>
                       )}
                       {user.organizations &&

@@ -26,7 +26,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
 
-  const fetchUser = async (email: string) => {
+  const fetchUser = async (user: any) => {
+    const { email } = user;
     if (!email) return;
     try {
       const { data } = await supabase
@@ -59,13 +60,20 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         // current user + merge users_organizations * organizations
-        const user_infos = await fetchUser(session.user.email);
+        // const user_infos = await fetchUser(session.user);
+        const user_infos = await fetchUser({
+          email: 'michelle@allocations.co'
+        });
+        let merged = [];
+        if (user_infos.users_organizations.length > 0) {
+          merged = mergeOrganizations(user_infos.users_organizations);
+        }
         const build_user = {
           ...session.user,
-          infos: user_infos,
-          organizations: mergeOrganizations(user_infos.users_organizations)
+          infos: user_infos || [],
+          organizations: merged,
+          currentOrganization: merged[0]?.id || null
         };
-        console.log(build_user);
         setUser(build_user);
       }
     } catch (error) {
@@ -80,9 +88,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, []);
 
   const value = useMemo(() => {
+    console.log(user);
     return {
       user: user || null,
-      setCurrentOrganization: null
+      setCurrentOrganization: (orgId: string) =>
+        setUser((prev: any) => ({ ...prev, currentOrganization: orgId }))
     };
   }, [user]);
 
