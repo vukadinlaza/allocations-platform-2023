@@ -2,6 +2,7 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
+import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AvatarComponent from './Avatar';
@@ -45,8 +46,21 @@ export default function Header({ loading }, { loading: boolean }) {
               </div>
               {user && (
                 <div className="flex items-center justify-between">
+                  <div className="mx-2">
+                    {user.infos.is_super_admin && (
+                      <Chip
+                        size="small"
+                        color="primary"
+                        className="font-bold text-white"
+                        label="Admin"
+                      ></Chip>
+                    )}
+                  </div>
                   <div className="mr-2 select">
                     <select>
+                      {user.organizations && !user.organizations.length > 0 && (
+                        <option selected>No organization</option>
+                      )}
                       {user.organizations &&
                         user.organizations.map((organization) => (
                           <option

@@ -29,7 +29,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const fetchUser = async (email: string) => {
     if (!email) return;
     try {
-      console.log(email);
       const { data } = await supabase
         .from('users')
         .select(
