@@ -5,5 +5,7 @@ export const dictionary = {
 export const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Organizations', href: '/organizations' },
-  { name: 'Entities', href: '/entities' }
+  { name: 'Entities', href: '/entities' },
+  { name: 'SPVs', href: '/spvs' },
+  { name: 'Funds', href: '/funds' }
 ];

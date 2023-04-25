@@ -25,11 +25,17 @@ export default function Organizations() {
       // TODO: organizations related to user.organizations here please
       let { data: _organizations } = await supabase
         .from('organizations')
-        .select(`*`)
+        .select(
+          `*,
+        entities (
+          *
+        )`
+        )
         .order('created_at', { ascending: false })
         .limit(limit);
 
       if (_organizations && _organizations.length > 0) {
+        console.log(_organizations);
         setOrganizations(_organizations);
       }
     } catch (err) {
