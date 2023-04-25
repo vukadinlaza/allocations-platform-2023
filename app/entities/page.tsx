@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import supabase from '@/lib/supabase';
-import { Card, Grid } from '@mui/material';
-import LoadingList from '@/components/Loading/List';
-import { useAuthContext } from '@/app/context';
-import None from '@/components/None';
 import Entities from '@/components/Entities/Index';
+import LoadingList from '@/components/Loading/List';
+import None from '@/components/None';
+import { Card, Grid } from '@mui/material';
+import { useState } from 'react';
 
 export default function Entities() {
   const [entitiesData, setEntitiesData] = useState<Array<any>>([]);
@@ -48,8 +46,12 @@ export default function Entities() {
             <p>Manage your entities.</p>
           </div>
           <div className="flex items-center">
-            <button className="btn info">Migrate</button>
-            <button className="btn primary">Create new</button>
+            <button className="btn info" disabled>
+              Migrate
+            </button>
+            <button className="btn primary" disabled>
+              Create new
+            </button>
           </div>
         </header>
         <Grid container>

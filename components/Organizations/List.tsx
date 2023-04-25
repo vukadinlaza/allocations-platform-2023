@@ -1,9 +1,8 @@
 'use client';
 
-import * as React from 'react';
+import { Organization } from '@/types';
 import {
   Button,
-  Chip,
   Table,
   TableBody,
   TableCell,
@@ -13,15 +12,19 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
-export default function OrganizationList({ data }: { data: [any] }) {
+export default function OrganizationList({ data }: { data: [Organization] }) {
   const headers = [
     {
       label: 'Name',
-      key: 'legal_name'
+      key: 'name'
     },
     {
       label: 'Status',
       key: 'status'
+    },
+    {
+      label: 'Creation date',
+      key: 'created_at'
     },
     {
       label: 'Total Entities',
@@ -74,7 +77,11 @@ export default function OrganizationList({ data }: { data: [any] }) {
                       </TableCell>
                     );
                   } else if (x.key === 'migration') {
-                    return <TableCell key={`cell-${i}`} align="left">{item[x.key]}</TableCell>;
+                    return (
+                      <TableCell key={`cell-${i}`} align="left">
+                        {item[x.key]}
+                      </TableCell>
+                    );
                   } else if (x.key === 'type') {
                     return (
                       <TableCell key={`cell-${i}`} align="left">
@@ -85,8 +92,7 @@ export default function OrganizationList({ data }: { data: [any] }) {
                   } else if (x.key === 'total_entities') {
                     return (
                       <TableCell key={`cell-${i}`} align="left">
-                        12
-                        {/* TO DO  */}
+                        {Math.floor(Math.random() * 13)}
                       </TableCell>
                     );
                   }

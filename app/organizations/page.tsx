@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import supabase from '@/lib/supabase';
-import { Card, Grid } from '@mui/material';
-import LoadingList from '@/components/Loading/List';
 import { useAuthContext } from '@/app/context';
+import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import List from '@/components/Organizations/List';
+import supabase from '@/lib/supabase';
+import { Alert, Card, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 export default function Organizations() {
   const [organizations, setOrganizations] = useState<Array<any>>([]);
@@ -17,19 +17,12 @@ export default function Organizations() {
   const fetchOrganizations = async () => {
     if (!user && !user.organizations) return;
     const orgsIdArray = user.organizations.map((x) => x.organization_id);
-    console.log(orgsIdArray);
     try {
       setLoading(true);
       let { data: _organizations } = await supabase
         .from('organizations')
-        .select(
-          `*, 
-          organizations_roles (
-            *
-          )
-        `
-        )
-        .in('id', orgsIdArray);
+        .select(`*`)
+        .limit(10);
 
       if (_organizations && _organizations.length > 0) {
         setOrganizations(_organizations);
@@ -48,13 +41,22 @@ export default function Organizations() {
   return (
     <main>
       <Card className="card" variant="outlined">
-        <header className="flex items-start justify-between w-full mb-8">
+        <header>
           <div>
             <h1>Organizations</h1>
             <p>Manage your organizations.</p>
           </div>
-          <button className="btn primary">Create new</button>
+          <button disabled className="btn primary">
+            Create new
+          </button>
         </header>
+        {user.infos && user.infos.is_super_admin && (
+          <Grid container xs={12}>
+            <Alert className="mb-6 " severity="success">
+              As an admin, you can see every organization.
+            </Alert>
+          </Grid>
+        )}
         <Grid container>
           {loading && (
             <Grid item xs={12} className="w-full">

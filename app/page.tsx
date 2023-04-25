@@ -1,75 +1,66 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import {
-  Card,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select
-} from '@mui/material';
-import supabase from '@/lib/supabase';
+import DataTable from '@/components/DataTable';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
-import DataTable from '@/components/DataTable';
 import None from '@/components/None';
-import Login from '@/components/Login';
+import { Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const [deals, setDeals] = useState([]);
   const [dealsLoading, setDealsLoading] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(10);
   const [search, setSearch] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
 
-  const fetchOrganizations = async () => {
-    try {
-      setLoading(true);
-      let { data: _organizations } = await supabase
-        .from('organizations')
-        .select('*')
-        .order('name');
+  // const fetchOrganizations = async () => {
+  //   try {
+  //     setLoading(true);
+  //     let { data: _organizations } = await supabase
+  //       .from('organizations')
+  //       .select('*')
+  //       .order('name');
 
-      if (_organizations && _organizations.length > 0) {
-        setOrganizations(_organizations);
-        setSelected(_organizations[0].name);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (_organizations && _organizations.length > 0) {
+  //       setOrganizations(_organizations);
+  //       setSelected(_organizations[0].name);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const fetchDeals = async () => {
-    try {
-      setDealsLoading(true);
-      let { data: _deals } = await supabase
-        .from('deals_legal_entities')
-        .select('*')
-        .eq('name', selected)
-        .limit(limit);
+  // const fetchDeals = async () => {
+  //   try {
+  //     setDealsLoading(true);
+  //     let { data: _deals } = await supabase
+  //       .from('deals_legal_entities')
+  //       .select('*')
+  //       .eq('name', selected)
+  //       .limit(limit);
 
-      if (_deals && _deals.length > 0) {
-        setDeals(_deals);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setDealsLoading(false);
-    }
-  };
+  //     if (_deals && _deals.length > 0) {
+  //       setDeals(_deals);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setDealsLoading(false);
+  //   }
+  // };
 
-  const handleChange = (e) => {
-    setSelected(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setSelected(e.target.value);
+  // };
 
-  useEffect(() => {
-    fetchOrganizations();
-  }, []);
+  // useEffect(() => {
+  //   fetchOrganizations();
+  // }, []);
 
   useEffect(() => {
     if (selected) {
@@ -100,7 +91,7 @@ export default function Dashboard() {
               setSearch={setSearch}
               results={organizations}
             /> */}
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
                 Select an organization...
               </InputLabel>
@@ -114,10 +105,12 @@ export default function Dashboard() {
               >
                 {organizations.length > 0 &&
                   organizations.map((o, index) => (
-                    <MenuItem key={`menu-${index}`} value={o.name}>{o.name}</MenuItem>
+                    <MenuItem key={`menu-${index}`} value={o.name}>
+                      {o.name}
+                    </MenuItem>
                   ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </Grid>
           <Grid item xs={12} className="my-4">
             {dealsLoading && <LoadingList />}

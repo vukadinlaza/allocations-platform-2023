@@ -21,6 +21,12 @@ $primary: #3db278;
     @apply list-none my-0;
   }
 
+  .disabled {
+    &:disabled {
+      @apply bg-gray-100 hover:bg-gray-100 text-gray-500 opacity-50 pointer-events-none;
+    }
+  }
+
   button {
     &.btn {
       min-width: 75px;
@@ -28,6 +34,10 @@ $primary: #3db278;
 
       &.primary {
         @apply bg-primary hover:bg-primaryLight text-white;
+
+        &:disabled {
+          @apply disabled;
+        }
       }
 
       &.loading {
@@ -36,13 +46,17 @@ $primary: #3db278;
 
       &.info {
         @apply bg-gray-100 hover:bg-gray-50 text-gray-500;
+
+        &:disabled {
+          @apply disabled;
+        }
       }
     }
   }
 
   // tw
   .card {
-    @apply flex flex-col items-center justify-center p-8 mb-4;
+    @apply flex flex-col items-center justify-center p-8 mb-6;
 
     header {
       @apply flex items-start justify-between w-full mb-4;
