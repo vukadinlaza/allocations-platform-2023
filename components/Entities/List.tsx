@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import {
   Button,
   Chip,
@@ -21,12 +20,12 @@ export default function MigrationsList({ data }: { data: [any] }) {
       key: 'name'
     },
     {
-      label: 'Status',
-      key: 'status'
+      label: 'Tax status',
+      key: 'tax_status'
     },
     {
-      label: 'Started at',
-      key: 'started_at'
+      label: 'Created at',
+      key: 'created_at'
     },
     {
       label: 'EIN',
@@ -58,16 +57,25 @@ export default function MigrationsList({ data }: { data: [any] }) {
                       <Button variant="text">Manage</Button>
                     </TableCell>
                   );
-                } else if (x.key === 'status') {
+                } else if (x.key === 'tax_status') {
                   return (
                     <TableCell key={`cell-${i}`} align="left">
-                      <Chip label={item[x.key]} color="warning" />
+                      <Chip
+                        label={item[x.key] || 'No status'}
+                        color="warning"
+                      />
                     </TableCell>
                   );
-                } else if (x.key === 'started_at') {
+                } else if (x.key === 'created_at') {
                   return (
                     <TableCell key={`cell-${i}`} align="left">
                       {dayjs(item[x.key]).format('MM/DD/YYYY')}
+                    </TableCell>
+                  );
+                } else if (x.key === 'ein') {
+                  return (
+                    <TableCell key={`cell-${i}`} align="left">
+                      {item[x.key] || 'No ein provided'}
                     </TableCell>
                   );
                 }

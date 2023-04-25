@@ -10,8 +10,8 @@ import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function Organizations() {
-  const [search, setSearch] = useState<string>('');
-  const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState<string | null>(null);
+  const [limit, setLimit] = useState<number>(1000);
   const [results, setResults] = useState<Array<any>>([]);
   const [organizations, setOrganizations] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,14 +23,9 @@ export default function Organizations() {
     try {
       setLoading(true);
       // TODO: organizations related to user.organizations here please
-      let { data: _organizations } = await supabase
+      let { data: _organizations }: { data: any } = await supabase
         .from('organizations')
-        .select(
-          `*,
-        entities (
-          *
-        )`
-        )
+        .select(`*`)
         .order('created_at', { ascending: false })
         .limit(limit);
 

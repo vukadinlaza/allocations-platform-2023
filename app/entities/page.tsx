@@ -1,73 +1,120 @@
 'use client';
 
-import Entities from '@/components/Entities/Index';
+import { useAuthContext } from '@/app/context';
+import List from '@/components/Entities/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import { Card, Grid } from '@mui/material';
-import { useState } from 'react';
+import supabase from '@/lib/supabase';
+import { Search } from '@mui/icons-material';
+import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 export default function Entities() {
-  const [entitiesData, setEntitiesData] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState<string | null>(null);
+  const [entities, setEntities] = useState<Array<any>>([]);
+  const [limit, setLimit] = useState<number>(1000);
+  const [results, setResults] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // const { user } = useAuthContext();
+  const { user } = useAuthContext();
 
-  // const fetchOrganizations = async () => {
-  //   if (!user && !user.organizations) return;
-  //   const orgsIdArray = user.organizations.map((x) => x.organization_id);
-  //   try {
-  //     setLoading(true);
-  //     let { data: _organizations } = await supabase
-  //       .from('organizations')
-  //       .select('*')
-  //       .in('id', orgsIdArray)
-  //       .order('name');
+  const fetchEntities = async () => {
+    // if (!user && !user.organizations) return;
+    try {
+      setLoading(true);
+      // TODO: entities related to user.organizations here please
+      let { data: _entities }: any = await supabase
+        .from('entities')
+        .select(`*`)
+        .order('created_at', { ascending: true })
+        .limit(limit);
 
-  //     if (_organizations && _organizations.length > 0) {
-  //       // setOrganizations(_organizations);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      console.log(_entities);
 
-  // useEffect(() => {
-  //   fetchOrganizations();
-  // }, []);
+      if (_entities && _entities.length > 0) {
+        setEntities(_entities);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (search && search.length > 0) {
+      console.log(search);
+    }
+  }, [search]);
+
+  useEffect(() => {
+    fetchEntities();
+  }, []);
 
   return (
     <main>
       <Card className="card" variant="outlined">
-        <header className="flex items-start justify-between w-full mb-8">
+        <header>
           <div>
             <h1>Entities</h1>
             <p>Manage your entities.</p>
           </div>
-          <div className="flex items-center">
-            <button className="btn info" disabled>
+          <div>
+            <button disabled className="btn primary">
               Migrate
             </button>
-            <button className="btn primary" disabled>
+            <button disabled className="btn primary">
               Create new
             </button>
           </div>
         </header>
+        <Grid container xs={12} className="mb-6">
+          <Grid item xs={8}>
+            <TextField
+              id="outlined-start-adornment"
+              size="small"
+              placeholder="Search for entities..."
+              sx={{ width: '300px' }}
+              onInput={(e) => setSearch(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          {user.infos && user.infos.is_super_admin && (
+            <Grid item xs={4} className="mb-4">
+              <Alert severity="success">
+                As an admin, you can look for any entity.
+              </Alert>
+            </Grid>
+          )}
+        </Grid>
         <Grid container>
           {loading && (
             <Grid item xs={12} className="w-full">
               <LoadingList />
             </Grid>
           )}
-          {!loading && !entitiesData.length && (
+          {!loading && (
             <Grid item xs={12} className="w-full">
-              <None text="No entities yet. Create one?" />
-            </Grid>
-          )}
-          {!loading && entitiesData.length > 0 && (
-            <Grid item xs={12}>
-              <Entities />
+              {search && (
+                <div className="onsearch">
+                  {!results.length && <None text="No entities found." />}
+                  {results.length > 0 && <List data={results} />}
+                </div>
+              )}
+              {!search && (
+                <div>
+                  {entities.length < 1 && (
+                    <None text="No entities yet. Create one?" />
+                  )}
+                  {entities.length > 0 && <List data={entities} />}
+                </div>
+              )}
             </Grid>
           )}
         </Grid>
