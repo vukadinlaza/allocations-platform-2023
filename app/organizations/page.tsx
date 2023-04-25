@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 export default function Organizations() {
   const [search, setSearch] = useState<string>('');
+  const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [organizations, setOrganizations] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,7 +27,7 @@ export default function Organizations() {
         .from('organizations')
         .select(`*`)
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(limit);
 
       if (_organizations && _organizations.length > 0) {
         setOrganizations(_organizations);
@@ -91,14 +92,22 @@ export default function Organizations() {
               <LoadingList />
             </Grid>
           )}
-          {!loading && !organizations.length && (
+          {!loading && (
             <Grid item xs={12} className="w-full">
-              <None text="No organization yet. Create one?" />
-            </Grid>
-          )}
-          {!loading && organizations.length > 0 && (
-            <Grid item xs={12} className="w-full">
-              <List data={organizations} />
+              {search && (
+                <div>
+                  {!results.length && <None text="No organization found." />}
+                  {results.length && <List data={results} />}
+                </div>
+              )}
+              {!search && (
+                <div>
+                  {!organizations.length && (
+                    <None text="No organization yet. Create one?" />
+                  )}
+                  {organizations.length && <List data={organizations} />}
+                </div>
+              )}
             </Grid>
           )}
         </Grid>
