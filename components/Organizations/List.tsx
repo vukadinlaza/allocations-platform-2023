@@ -11,6 +11,7 @@ import {
   TableRow
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 
 export default function OrganizationList({ data }: { data: [Organization] }) {
   const headers = [
@@ -34,7 +35,7 @@ export default function OrganizationList({ data }: { data: [Organization] }) {
       key: 'button'
     }
   ];
-  console.log(data);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
@@ -76,10 +77,10 @@ export default function OrganizationList({ data }: { data: [Organization] }) {
                         </div>
                       </TableCell>
                     );
-                  } else if (x.key === 'migration') {
+                  } else if (x.key === 'created_at') {
                     return (
                       <TableCell key={`cell-${i}`} align="left">
-                        {item[x.key]}
+                        {dayjs(item[x.key]).format('DD/MM/YYYY')}
                       </TableCell>
                     );
                   } else if (x.key === 'type') {
