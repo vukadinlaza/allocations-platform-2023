@@ -46,16 +46,18 @@ export default function Header({ loading }, { loading: boolean }) {
               </div>
               {user && (
                 <div className="flex items-center justify-between">
-                  <div className="mx-2">
-                    {user.infos.is_super_admin && (
-                      <Chip
-                        size="small"
-                        color="primary"
-                        className="font-bold text-white"
-                        label="Admin"
-                      ></Chip>
-                    )}
-                  </div>
+                  {user.infos && (
+                    <div className="mx-2">
+                      {user.infos.is_super_admin && (
+                        <Chip
+                          size="small"
+                          color="primary"
+                          className="font-bold text-white"
+                          label="Admin"
+                        ></Chip>
+                      )}
+                    </div>
+                  )}
                   <div className="mr-2 select">
                     <select>
                       {user.organizations && !user.organizations.length > 0 && (
