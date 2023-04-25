@@ -29,17 +29,20 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const fetchUser = async (email: string) => {
     if (!email) return;
     try {
+      console.log(email);
       const { data } = await supabase
         .from('users')
         .select(
           `*,
         users_organizations (
-          *
+          *,
+          organizations (
+            *
+          )
         )`
         )
         .eq('email', email)
         .single();
-
       return data;
     } catch (error) {
       console.log(error);
@@ -56,8 +59,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        const user_infos = await fetchUser(session.user.email);
         // current user + merge users_organizations * organizations
+        const user_infos = await fetchUser(session.user.email);
         const build_user = {
           ...session.user,
           infos: user_infos,
