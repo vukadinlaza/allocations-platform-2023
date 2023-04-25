@@ -95,9 +95,9 @@ export default function Organizations() {
           {!loading && (
             <Grid item xs={12} className="w-full">
               {search && (
-                <div>
+                <div className="onsearch">
                   {!results.length && <None text="No organization found." />}
-                  {results.length && <List data={results} />}
+                  {results.length > 0 && <List data={results} />}
                 </div>
               )}
               {!search && (
@@ -105,7 +105,7 @@ export default function Organizations() {
                   {!organizations.length && (
                     <None text="No organization yet. Create one?" />
                   )}
-                  {organizations.length && <List data={organizations} />}
+                  {organizations.length > 0 && <List data={organizations} />}
                 </div>
               )}
             </Grid>

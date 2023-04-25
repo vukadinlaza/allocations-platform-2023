@@ -8,8 +8,8 @@ export default function None({ text }: { text: string }) {
     <Card className="card" variant="outlined">
       <Image
         alt="None"
-        src="/rocket.svg"
-        className="mb-4"
+        src="/no_file.svg"
+        className="mb-4 opacity-10"
         width={75}
         height={75}
       />

@@ -37,7 +37,7 @@ export default function OrganizationList({ data }: { data: [Organization] }) {
   ];
 
   return (
-    <div>
+    <div className="list">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
