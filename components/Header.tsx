@@ -72,7 +72,9 @@ export default function Header({ loading }, { loading: boolean }) {
                             key={organization.id}
                             value={organization.id}
                           >
-                            {organization.legal_name || 'No organization found'}
+                            {organization.name ||
+                              organization.legal_name ||
+                              'No organization found'}
                           </option>
                         ))}
                     </select>
