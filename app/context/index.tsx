@@ -60,10 +60,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         // current user + merge users_organizations * organizations
-        // const user_infos = await fetchUser(session.user);
-        const user_infos = await fetchUser({
-          email: 'michelle@allocations.co'
-        });
+        const user_infos = await fetchUser(session.user);
+        // const user_infos = await fetchUser({
+        //   email: 'michelle@allocations.co'
+        // });
         let merged = [];
         if (user_infos.users_organizations.length > 0) {
           merged = mergeOrganizations(user_infos.users_organizations);
