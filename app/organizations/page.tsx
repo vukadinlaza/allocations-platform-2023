@@ -40,7 +40,7 @@ export default function Organizations() {
   };
 
   const onSearch = async () => {
-    if (!user && !user.organizations && !search && !search.length > 0) return;
+    if (!user && !user.organizations && !search) return;
     try {
       setLoading(true);
       let { data: _results }: { data: any } = await supabase

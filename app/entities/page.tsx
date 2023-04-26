@@ -18,12 +18,10 @@ export default function Entities() {
 
   const { user } = useAuthContext();
 
-  const getTaxColor = (status: string) => {
-    
-  }
+  const getTaxColor = (status: string) => {};
 
   const fetchEntities = async () => {
-    // if (!user && !user.organizations) return;
+    if (!user && !user.organizations) return;
     try {
       setLoading(true);
       // TODO: entities related to user.organizations here please
@@ -32,8 +30,6 @@ export default function Entities() {
         .select(`*`)
         .order('created_at', { ascending: true })
         .limit(limit);
-
-      console.log(_entities);
 
       if (_entities && _entities.length > 0) {
         setEntities(_entities);
@@ -45,10 +41,35 @@ export default function Entities() {
     }
   };
 
+  const onSearch = async () => {
+    if (!user && !user.organizations && !search) return;
+    try {
+      setLoading(true);
+      let { data: _results }: { data: any } = await supabase
+        .from('entities')
+        .select(`*`)
+        .textSearch('name', search)
+        .order('name', { ascending: true });
+
+      if (_results && _results.length > 0) {
+        setResults(_results);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (search && search.length > 0) {
-      console.log(search);
+      setLoading(true);
+      const _search = setTimeout(() => {
+        onSearch();
+      }, 1000);
+      return () => clearTimeout(_search);
     }
+    setLoading(false);
   }, [search]);
 
   useEffect(() => {
