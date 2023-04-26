@@ -13,7 +13,7 @@ import {
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 
-export default function MigrationsList({ data }: { data: [any] }) {
+export default function SPVSList({ data }: { data: [any] }) {
   const headers = [
     {
       label: 'SPV name',

@@ -1,39 +1,37 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
+import List from '@/components/Funds/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import List from '@/components/Spvs/List';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-export default function SPVs() {
+export default function Funds() {
   const [search, setSearch] = useState<string | null>(null);
-  const [spvs, setSpvs] = useState<Array<any>>([]);
+  const [Funds, setSpvs] = useState<Array<any>>([]);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { user } = useAuthContext();
 
-  const getTaxColor = (status: string) => {};
-
-  const fetchSPVs = async () => {
+  const fetchFunds = async () => {
     if (!user) return;
     try {
       setLoading(true);
-      // TODO: spvs related to user.organizations here please
-      let { data: _spvs }: any = await supabase
+      // TODO: Funds related to user.organizations here please
+      let { data: _funds }: any = await supabase
         .from('deals')
         .select(`*`)
-        .eq('type', 'spv')
+        .eq('type', 'fund')
         .order('created_at', { ascending: true })
         .limit(limit);
 
-      if (_spvs && _spvs.length > 0) {
-        setSpvs(_spvs);
+      if (_funds && _funds.length > 0) {
+        setSpvs(_funds);
       }
     } catch (err) {
       console.log(err);
@@ -48,11 +46,11 @@ export default function SPVs() {
       setLoading(true);
       let { data: _results }: { data: any } = await supabase
         .from('deals')
-        .select()
+        .select(`*`)
         .textSearch('name', search, {
           type: 'websearch'
         })
-        .eq('type', 'spv');
+        .eq('type', 'fund');
 
       if (_results && _results.length > 0) {
         setResults(_results);
@@ -76,7 +74,7 @@ export default function SPVs() {
   }, [search]);
 
   useEffect(() => {
-    fetchSPVs();
+    fetchFunds();
   }, []);
 
   return (
@@ -84,8 +82,8 @@ export default function SPVs() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1>SPVs</h1>
-            <p>Manage your spvs.</p>
+            <h1>Funds</h1>
+            <p>Manage your Funds.</p>
           </div>
           <div>
             <button disabled className="btn primary">
@@ -98,7 +96,7 @@ export default function SPVs() {
             <TextField
               id="outlined-start-adornment"
               size="small"
-              placeholder="Search for spvs..."
+              placeholder="Search for funds..."
               sx={{ width: '300px' }}
               onInput={(e) => setSearch(e.target.value)}
               InputProps={{
@@ -110,7 +108,7 @@ export default function SPVs() {
               }}
             />
           </Grid>
-          {user && user.infos && user.infos.is_super_admin && (
+          {user.infos && user.infos.is_super_admin && (
             <Grid item xs={4} className="mb-4">
               <Alert severity="success">
                 As an admin, you can look for any spv.
@@ -128,14 +126,16 @@ export default function SPVs() {
             <Grid item xs={12} className="w-full">
               {search && (
                 <div className="onsearch">
-                  {!results.length && <None text="No spvs found." />}
+                  {!results.length && <None text="No Funds found." />}
                   {results.length > 0 && <List data={results} />}
                 </div>
               )}
               {!search && (
                 <div>
-                  {spvs.length < 1 && <None text="No spvs yet. Create one?" />}
-                  {spvs.length > 0 && <List data={spvs} />}
+                  {Funds.length < 1 && (
+                    <None text="No Funds yet. Create one?" />
+                  )}
+                  {Funds.length > 0 && <List data={Funds} />}
                 </div>
               )}
             </Grid>

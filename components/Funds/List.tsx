@@ -13,23 +13,27 @@ import {
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 
-export default function EntitiesList({ data }: { data: [any] }) {
+export default function FundsList({ data }: { data: [any] }) {
   const headers = [
     {
-      label: 'Deal display name',
+      label: 'SPV name',
       key: 'name'
     },
     {
-      label: 'Tax status',
-      key: 'tax_status'
+      label: 'Company name',
+      key: 'company_name'
     },
     {
-      label: 'Updated date',
-      key: 'created_at'
+      label: 'Entity name',
+      key: 'entity_name'
     },
     {
-      label: 'EIN',
-      key: 'ein'
+      label: 'Portfolio company name',
+      key: 'portfolio_company_name'
+    },
+    {
+      label: 'Status',
+      key: 'status'
     }
   ];
   return (
@@ -57,7 +61,7 @@ export default function EntitiesList({ data }: { data: [any] }) {
                       <Button variant="text">Manage</Button>
                     </TableCell>
                   );
-                } else if (x.key === 'tax_status') {
+                } else if (x.key === 'status') {
                   return (
                     <TableCell key={`cell-${i}`} align="left">
                       <Chip
@@ -66,16 +70,10 @@ export default function EntitiesList({ data }: { data: [any] }) {
                       />
                     </TableCell>
                   );
-                } else if (x.key === 'created_at') {
+                } else if (x.key === 'sign_deadline') {
                   return (
                     <TableCell key={`cell-${i}`} align="left">
-                      {dayjs(item[x.key]).format('MM/DD/YYYY')}
-                    </TableCell>
-                  );
-                } else if (x.key === 'ein') {
-                  return (
-                    <TableCell key={`cell-${i}`} align="left">
-                      {item[x.key] || 'No ein provided'}
+                      {dayjs(item[x.key]).format('DD/MM/YYYY') || 'No deadline'}
                     </TableCell>
                   );
                 }
