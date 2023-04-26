@@ -88,7 +88,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, []);
 
   const value = useMemo(() => {
-    console.log(user);
     return {
       user: user || null,
       setCurrentOrganization: (orgId: string) =>

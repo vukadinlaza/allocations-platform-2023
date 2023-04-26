@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 export default function Entities() {
   const [search, setSearch] = useState<string | null>(null);
   const [entities, setEntities] = useState<Array<any>>([]);
-  const [limit, setLimit] = useState<number>(1000);
+  const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
 

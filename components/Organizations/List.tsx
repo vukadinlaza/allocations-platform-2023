@@ -29,7 +29,7 @@ export default function OrganizationList({ data }: { data: [Organization] }) {
     },
     {
       label: 'Total Entities',
-      key: 'total_entities'
+      key: 'entities'
     },
     {
       key: 'button'
@@ -93,10 +93,10 @@ export default function OrganizationList({ data }: { data: [Organization] }) {
                           {/* TO DO  */}
                         </TableCell>
                       );
-                    } else if (x.key === 'total_entities') {
+                    } else if (x.key === 'entities') {
                       return (
                         <TableCell key={`cell-${i}`} align="left">
-                          {Math.floor(Math.random() * 13)}
+                          {item[x.key].length || 0}
                         </TableCell>
                       );
                     }

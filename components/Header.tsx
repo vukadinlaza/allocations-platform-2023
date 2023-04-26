@@ -17,7 +17,6 @@ interface HeaderProps {
 export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
-  console.log(user.organizations);
   return (
     <div className="Header">
       <div className="container flex items-center justify-center w-full">
