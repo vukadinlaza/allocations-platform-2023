@@ -30,8 +30,27 @@ export default function Organizations() {
         .limit(limit);
 
       if (_organizations && _organizations.length > 0) {
-        console.log(_organizations);
         setOrganizations(_organizations);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSearch = async () => {
+    if (!user && !user.organizations && !search && !search.length > 0) return;
+    try {
+      setLoading(true);
+      let { data: _results }: { data: any } = await supabase
+        .from('organizations')
+        .select(`*`)
+        .textSearch('name', search)
+        .order('name', { ascending: true });
+
+      if (_results && _results.length > 0) {
+        setResults(_results);
       }
     } catch (err) {
       console.log(err);
@@ -42,8 +61,13 @@ export default function Organizations() {
 
   useEffect(() => {
     if (search && search.length > 0) {
-      console.log(search);
+      setLoading(true);
+      const _search = setTimeout(() => {
+        onSearch();
+      }, 1000);
+      return () => clearTimeout(_search);
     }
+    setLoading(false);
   }, [search]);
 
   useEffect(() => {

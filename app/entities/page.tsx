@@ -18,6 +18,10 @@ export default function Entities() {
 
   const { user } = useAuthContext();
 
+  const getTaxColor = (status: string) => {
+    
+  }
+
   const fetchEntities = async () => {
     // if (!user && !user.organizations) return;
     try {

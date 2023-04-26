@@ -1,7 +1,6 @@
 'use client';
-import * as React from 'react';
 import { Avatar } from '@mui/material';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuthContext } from '../app/context';
 
 export default function AvatarComponent() {
@@ -13,7 +12,7 @@ export default function AvatarComponent() {
   };
   return (
     <Avatar
-      className="pointer"
+      className="cursor-pointer"
       onClick={() => router.push('/')}
       sx={{
         width: 40,

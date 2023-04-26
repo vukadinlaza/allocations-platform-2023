@@ -17,6 +17,7 @@ interface HeaderProps {
 export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
+  console.log(user.organizations);
   return (
     <div className="Header">
       <div className="container flex items-center justify-center w-full">
@@ -68,9 +69,14 @@ export default function Header({ loading }: HeaderProps) {
                       onChange={(e) => setCurrentOrganization(e.target.value)}
                     >
                       {user.organizations && user.organizations.length < 1 && (
-                        <option selected>No organization</option>
+                        <option selected>
+                          {user.infos.is_super_admin
+                            ? 'All organizations'
+                            : 'No organization'}
+                        </option>
                       )}
                       {user.organizations &&
+                        user.organizations.length > 0 &&
                         user.organizations.map((organization: Organization) => (
                           <option
                             className="text-xs"
