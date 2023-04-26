@@ -34,6 +34,9 @@ export default function SPVSList({ data }: { data: [any] }) {
     {
       label: 'Status',
       key: 'status'
+    },
+    {
+      key: 'button'
     }
   ];
   return (

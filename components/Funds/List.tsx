@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 export default function FundsList({ data }: { data: [any] }) {
   const headers = [
     {
-      label: 'SPV name',
+      label: 'Fund name',
       key: 'name'
     },
     {
@@ -34,6 +34,9 @@ export default function FundsList({ data }: { data: [any] }) {
     {
       label: 'Status',
       key: 'status'
+    },
+    {
+      key: 'button'
     }
   ];
   return (

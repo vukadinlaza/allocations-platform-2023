@@ -83,7 +83,7 @@ export default function Funds() {
         <header>
           <div>
             <h1>Funds</h1>
-            <p>Manage your Funds.</p>
+            <p>Manage your funds.</p>
           </div>
           <div>
             <button disabled className="btn primary">
