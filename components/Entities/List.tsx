@@ -24,7 +24,7 @@ export default function MigrationsList({ data }: { data: [any] }) {
       key: 'tax_status'
     },
     {
-      label: 'Created at',
+      label: 'Updated date',
       key: 'created_at'
     },
     {
