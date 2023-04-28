@@ -139,6 +139,12 @@ $primary: #3db278;
     }
   }
 
+  .slideover {
+    h1 {
+      @apply text-4xl;
+    }
+  }
+
   .upload {
     @apply cursor-pointer w-full border border-dashed border-primary rounded-lg transition flex flex-col items-center justify-center;
 

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CloseIcon from '@mui/icons-material/Close';
-
 import { Fragment } from 'react';
+import SlideOverContent from './SlideOver/Content';
 
 export default function SlideOver({
   open,
@@ -52,7 +52,7 @@ export default function SlideOver({
                     <div className="absolute top-0 left-0 flex pt-4 pr-2 -ml-8 sm:-ml-10 sm:pr-4">
                       <button
                         type="button"
-                        className="text-gray-300 rounded-md hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                        className="text-gray-300 rounded-md hover:text-white focus:outline-none"
                         onClick={() => setOpen(false)}
                       >
                         <span className="sr-only">Close panel</span>
@@ -60,15 +60,8 @@ export default function SlideOver({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex flex-col h-full py-6 overflow-y-scroll bg-white shadow-xl">
-                    <div className="px-4 sm:px-6">
-                      <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                        Panel title
-                      </Dialog.Title>
-                    </div>
-                    <div className="relative flex-1 px-4 mt-6 sm:px-6">
-                      {/* Your content */}
-                    </div>
+                  <div className="flex flex-col h-full p-6 overflow-y-scroll bg-white shadow-xl">
+                    <SlideOverContent data={data} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

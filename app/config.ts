@@ -109,3 +109,5 @@ export const headers_tables = {
     }
   ]
 };
+
+export const slider_overs_tables = {}
