@@ -78,6 +78,7 @@ export default function Upload() {
       >
         <label className="text-primary">
           <Image
+            alt="upload"
             src="/upload.svg"
             className="cursor-pointer text-primary"
             width={48}

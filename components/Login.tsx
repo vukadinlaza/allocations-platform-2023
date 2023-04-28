@@ -1,10 +1,9 @@
 'use client';
-import { useState } from 'react';
-import { Alert, Button, CircularProgress, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { useRouter } from 'next/navigation';
-import Logo from './Logo';
 import supabase from '@/lib/supabase';
+import { Alert, CircularProgress, TextField } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import Logo from './Logo';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -13,7 +12,7 @@ interface EmailStatus {
 
 export const isValidEmail = (email: string | null): boolean => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
+  return email ? regex.test(email) : false;
 };
 
 export default function Login() {
@@ -23,6 +22,7 @@ export default function Login() {
   const [email, setEmail] = useState<string | null>(null);
 
   const login = async () => {
+    if (!email) return;
     setStatus(null);
     if (!isValidEmail(email)) {
       return setStatus({

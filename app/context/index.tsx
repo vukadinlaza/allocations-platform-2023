@@ -2,7 +2,6 @@
 import Header from '@/components/Header';
 import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
-import SlideOverContent from '@/components/SlideOver/Content';
 import supabase from '@/lib/supabase';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
