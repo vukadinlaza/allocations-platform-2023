@@ -24,9 +24,10 @@ const mergeOrganizations = (orgs: any) => {
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [slideOverData, setSlideOverData] = useState({});
 
   const fetchUser = async (user: any) => {
     const { email } = user;
@@ -51,6 +52,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const setSlideOver = (open: boolean, data: any, type: string) => {
+    if (!type && !data) return;
+    setOpen(!open);
+    setSlideOverData({ data, type });
   };
 
   const onAuthStateChange = async () => {
@@ -91,11 +98,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const value = useMemo(() => {
     return {
-      user: user,
-      open: open,
+      user,
+      open,
       setCurrentOrganization: (orgId: string) =>
         setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
-      setOpen: setOpen
+      setSlideOver
     };
   }, [user]);
 
@@ -137,7 +144,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
               </Alert>
             </Collapse>
             {children}
-            <SlideOver open={open} setOpen={setOpen} />
+            <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
           </div>
         )}
       </div>
@@ -146,7 +153,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, open, setOpen, setCurrentOrganization }: any =
+  const { user, open, setSlideOver, setCurrentOrganization }: any =
     useContext(AuthContext);
-  return { user, open, setOpen, setCurrentOrganization };
+  return { user, open, setSlideOver, setCurrentOrganization };
 };

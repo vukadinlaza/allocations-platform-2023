@@ -29,12 +29,14 @@ const generateCell = (item: any, column: any) => {
 
 export default function List({
   headers,
+  type,
   data
 }: {
   headers: [any];
+  type: string;
   data: [any];
 }) {
-  const { setOpen } = useAuthContext();
+  const { setSlideOver } = useAuthContext();
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
@@ -53,9 +55,9 @@ export default function List({
             data.map((item, index) => (
               <TableRow
                 key={index}
-                className="transition cursor-pointer hover:bg-slate-50"
+                className="transition cursor-pointer hover:bg-gray-50"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onClick={() => setOpen(true)}
+                onClick={() => setSlideOver(true, item, type)}
               >
                 {headers &&
                   headers.map((column, i) => {

@@ -131,7 +131,11 @@ export default function SPVs() {
                 <div className="onsearch">
                   {!results.length && <None text="No spvs found." />}
                   {results.length > 0 && (
-                    <List headers={headers_tables['spvs']} data={results} />
+                    <List
+                      type="spvs"
+                      headers={headers_tables.spvs}
+                      data={results}
+                    />
                   )}
                 </div>
               )}
@@ -139,7 +143,11 @@ export default function SPVs() {
                 <div>
                   {spvs.length < 1 && <None text="No spvs yet. Create one?" />}
                   {spvs.length > 0 && (
-                    <List headers={headers_tables['spvs']} data={spvs} />
+                    <List
+                      type="spvs"
+                      headers={headers_tables.spvs}
+                      data={spvs}
+                    />
                   )}
                 </div>
               )}

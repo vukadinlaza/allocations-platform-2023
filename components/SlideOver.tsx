@@ -5,10 +5,12 @@ import { Fragment } from 'react';
 
 export default function SlideOver({
   open,
-  setOpen
+  setOpen,
+  data
 }: {
   open: boolean;
   setOpen: any;
+  data: any;
 }) {
   return (
     <Transition.Root show={open} as={Fragment}>
