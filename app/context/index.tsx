@@ -54,9 +54,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     }
   };
 
-  const setSlideOver = (open: boolean, data: any, type: string) => {
+  const setSlideOver = (isOpen: boolean, data: any, type: string) => {
     if (!type && !data) return;
-    setOpen(!open);
+    setOpen(isOpen);
     setSlideOverData({ data, type });
   };
 
