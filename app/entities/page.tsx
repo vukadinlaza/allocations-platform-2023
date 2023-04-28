@@ -49,7 +49,9 @@ export default function Entities() {
       let { data: _results }: { data: any } = await supabase
         .from('entities')
         .select(`*`)
-        .textSearch('name', search)
+        .textSearch('name', search || '', {
+          type: 'websearch'
+        })
         .order('name', { ascending: true });
 
       if (_results && _results.length > 0) {
@@ -101,7 +103,7 @@ export default function Entities() {
               size="small"
               placeholder="Search for entities..."
               sx={{ width: '300px' }}
-              onInput={(e) => setSearch(e.target.value)}
+              onInput={(e: any) => setSearch(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

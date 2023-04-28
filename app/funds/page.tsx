@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
 export default function Funds() {
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>(null);
   const [Funds, setSpvs] = useState<Array<any>>([]);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);

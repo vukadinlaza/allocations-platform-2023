@@ -50,7 +50,7 @@ export default function SPVs() {
       let { data: _results }: { data: any } = await supabase
         .from('deals')
         .select()
-        .textSearch('name', search, {
+        .textSearch('name', search || '', {
           type: 'websearch'
         })
         .eq('type', 'spv');

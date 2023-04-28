@@ -48,7 +48,9 @@ export default function Organizations() {
       let { data: _results }: { data: any } = await supabase
         .from('organizations')
         .select(`*`)
-        .textSearch('name', search)
+        .textSearch('name', search || '', {
+          type: 'websearch'
+        })
         .order('name', { ascending: true });
 
       if (_results && _results.length > 0) {
