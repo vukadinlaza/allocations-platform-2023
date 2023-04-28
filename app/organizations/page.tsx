@@ -3,7 +3,7 @@
 import { useAuthContext } from '@/app/context';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import List from '@/components/Organizations/List';
+import List from '@/components/List';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
-import List from '@/components/Entities/List';
+import List from '@/components/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';

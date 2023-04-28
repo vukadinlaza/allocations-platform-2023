@@ -1,13 +1,14 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
+import List from '@/components/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import List from '@/components/Spvs/List';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { headers_tables } from '../config';
 
 export default function SPVs() {
   const [search, setSearch] = useState<string | null>(null);
@@ -129,13 +130,17 @@ export default function SPVs() {
               {search && (
                 <div className="onsearch">
                   {!results.length && <None text="No spvs found." />}
-                  {results.length > 0 && <List data={results} />}
+                  {results.length > 0 && (
+                    <List headers={headers_tables['spvs']} data={results} />
+                  )}
                 </div>
               )}
               {!search && (
                 <div>
                   {spvs.length < 1 && <None text="No spvs yet. Create one?" />}
-                  {spvs.length > 0 && <List data={spvs} />}
+                  {spvs.length > 0 && (
+                    <List headers={headers_tables['spvs']} data={spvs} />
+                  )}
                 </div>
               )}
             </Grid>
