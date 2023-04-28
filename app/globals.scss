@@ -94,11 +94,11 @@ $primary: #3db278;
     @apply bg-white shadow-sm flex flex-col w-full;
 
     &--main {
-      @apply px-4 py-2 flex items-center justify-center w-full border-b;
+      @apply px-5 py-2 flex items-center justify-center w-full border-b;
     }
 
     &--sub {
-      @apply px-4 py-2 flex items-center justify-start w-full;
+      @apply px-4 py-3 flex items-center justify-start w-full;
     }
 
     select {
@@ -113,7 +113,7 @@ $primary: #3db278;
       @apply flex items-center;
 
       &--item {
-        @apply chip chip--small mr-2;
+        @apply chip chip--small mr-2 font-medium;
 
         &:hover {
           @apply bg-gray-200 text-black transition cursor-pointer;
