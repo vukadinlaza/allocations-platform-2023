@@ -90,6 +90,12 @@ $primary: #3db278;
     }
   }
 
+  .home {
+    h1 {
+      @apply text-3xl;
+    }
+  }
+
   .header {
     @apply bg-white shadow-sm flex flex-col w-full;
 

@@ -3,9 +3,9 @@ export const dictionary = {
 };
 
 export const navigation = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Organizations', href: '/organizations' },
-  { name: 'Entities', href: '/entities' },
+  { name: 'Home', href: '/' },
   { name: 'SPVs', href: '/spvs' },
-  { name: 'Funds', href: '/funds' }
+  { name: 'Funds', href: '/funds' },
+  { name: 'Organizations', href: '/organizations' },
+  { name: 'Entities', href: '/entities' }
 ];
