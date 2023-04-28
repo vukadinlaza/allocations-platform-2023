@@ -133,7 +133,11 @@ export default function Entities() {
                 <div className="onsearch">
                   {!results.length && <None text="No entities found." />}
                   {results.length > 0 && (
-                    <List headers={headers_tables.entities} data={results} />
+                    <List
+                      type={null}
+                      headers={headers_tables.entities}
+                      data={results}
+                    />
                   )}
                 </div>
               )}
@@ -143,7 +147,11 @@ export default function Entities() {
                     <None text="No entities yet. Create one?" />
                   )}
                   {entities.length > 0 && (
-                    <List headers={headers_tables.entities} data={entities} />
+                    <List
+                      type={null}
+                      headers={headers_tables.entities}
+                      data={entities}
+                    />
                   )}
                 </div>
               )}

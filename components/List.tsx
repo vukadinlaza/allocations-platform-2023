@@ -28,13 +28,13 @@ const generateCell = (item: any, column: any) => {
 };
 
 export default function List({
-  headers,
-  type,
-  data
+  headers = null,
+  type = null,
+  data = null
 }: {
-  headers: [any];
-  type: string;
-  data: [any];
+  headers: any;
+  type: any;
+  data: any;
 }) {
   const { setSlideOver } = useAuthContext();
   return (
@@ -43,7 +43,7 @@ export default function List({
         <TableHead>
           <TableRow>
             {headers &&
-              headers.map((x, i) => (
+              headers.map((x: any, i: any) => (
                 <TableCell align="left" key={i}>
                   {x.label}
                 </TableCell>
@@ -52,15 +52,17 @@ export default function List({
         </TableHead>
         <TableBody>
           {data &&
-            data.map((item, index) => (
+            data.map((item: any, index: any) => (
               <TableRow
                 key={index}
                 className="transition cursor-pointer hover:bg-gray-50"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onClick={() => setSlideOver(true, item, type)}
+                onClick={() => {
+                  if (type) setSlideOver(true, item, type);
+                }}
               >
                 {headers &&
-                  headers.map((column, i) => {
+                  headers.map((column: any, i: any) => {
                     return (
                       <TableCell align="left" key={i}>
                         {generateCell(item, column)}

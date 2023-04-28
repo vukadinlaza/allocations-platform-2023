@@ -97,7 +97,7 @@ export default function Organizations() {
               size="small"
               placeholder="Search for organizations..."
               sx={{ width: '300px' }}
-              onInput={(e) => setSearch(e.target.value)}
+              onInput={(e: any) => setSearch(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -128,6 +128,7 @@ export default function Organizations() {
                   {!results.length && <None text="No organization found." />}
                   {results.length > 0 && (
                     <List
+                      type={null}
                       headers={headers_tables.organizations}
                       data={results}
                     />
@@ -141,6 +142,7 @@ export default function Organizations() {
                   )}
                   {organizations.length > 0 && (
                     <List
+                      type={null}
                       headers={headers_tables.organizations}
                       data={organizations}
                     />

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
 export default function Funds() {
-  const [search, setSearch] = useState<string>(null);
+  const [search, setSearch] = useState<string | null>(null);
   const [Funds, setSpvs] = useState<Array<any>>([]);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
@@ -48,7 +48,7 @@ export default function Funds() {
       let { data: _results }: { data: any } = await supabase
         .from('deals')
         .select(`*`)
-        .textSearch('name', search, {
+        .textSearch('name', search || '', {
           type: 'websearch'
         })
         .eq('type', 'fund');
@@ -99,7 +99,7 @@ export default function Funds() {
               size="small"
               placeholder="Search for funds..."
               sx={{ width: '300px' }}
-              onInput={(e) => setSearch(e.target.value)}
+              onInput={(e: any) => setSearch(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -129,7 +129,11 @@ export default function Funds() {
                 <div className="onsearch">
                   {!results.length && <None text="No Funds found." />}
                   {results.length > 0 && (
-                    <List headers={headers_tables.funds} data={results} />
+                    <List
+                      type={null}
+                      headers={headers_tables.funds}
+                      data={results}
+                    />
                   )}
                 </div>
               )}
@@ -139,7 +143,11 @@ export default function Funds() {
                     <None text="No Funds yet. Create one?" />
                   )}
                   {Funds.length > 0 && (
-                    <List headers={headers_tables.funds} data={Funds} />
+                    <List
+                      type={null}
+                      headers={headers_tables.funds}
+                      data={Funds}
+                    />
                   )}
                 </div>
               )}
