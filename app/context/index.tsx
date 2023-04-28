@@ -105,7 +105,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           </div>
         )}
         {user && (
-          <div className="container px-2 my-6">
+          <div className="px-4 my-6">
             <Collapse in={betaAlert}>
               <Alert
                 className="mb-6 "

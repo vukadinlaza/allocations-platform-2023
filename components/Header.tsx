@@ -7,7 +7,6 @@ import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AvatarComponent from './Avatar';
-import LoadingUserItem from './Loading/UserItem';
 import Logo from './Logo';
 
 interface HeaderProps {
@@ -18,8 +17,8 @@ export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
   return (
-    <div className="Header">
-      <div className="container flex items-center justify-center w-full">
+    <div className="header">
+      <div className="header--main">
         <div>
           <Logo />
         </div>
@@ -29,26 +28,12 @@ export default function Header({ loading }: HeaderProps) {
               className="flex items-center justify-end grow"
               style={{ maxWidth: '300px' }}
             >
-              <LoadingUserItem />
+              <div className="w-32 h-4 mr-2 rounded-lg loading" />
+              <div className="w-8 h-8 rounded-full loading" />
             </div>
           )}
           {!loading && (
             <div className="flex items-center justify-end ml-4 grow">
-              <div className="Header--menu grow">
-                {navigation.map((item) => (
-                  <Link href={item.href} key={item.href}>
-                    <div
-                      className={`Header--menu--item ${
-                        pathname?.includes(item.name.toLowerCase())
-                          ? 'active'
-                          : 'inactive'
-                      }`}
-                    >
-                      {item.name}
-                    </div>
-                  </Link>
-                ))}
-              </div>
               {user && (
                 <div className="flex items-center justify-between">
                   {user.infos && (
@@ -95,6 +80,29 @@ export default function Header({ loading }: HeaderProps) {
             </div>
           )}
         </div>
+      </div>
+      <div className="header--sub">
+        {loading && (
+          <div className="flex items-center">
+            {Array.from({ length: 6 }).map((x, i) => (
+              <div key={i} className="w-32 h-5 mr-2 rounded-lg loading" />
+            ))}
+          </div>
+        )}
+        {!loading &&
+          navigation.map((item) => (
+            <Link href={item.href} key={item.href}>
+              <div
+                className={`header--menu--item ${
+                  pathname?.includes(item.name.toLowerCase())
+                    ? 'active'
+                    : 'inactive'
+                }`}
+              >
+                {item.name}
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
