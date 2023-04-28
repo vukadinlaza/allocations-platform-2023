@@ -1,6 +1,7 @@
 'use client';
 import Header from '@/components/Header';
 import Login from '@/components/Login';
+import SlideOver from '@/components/SlideOver';
 import supabase from '@/lib/supabase';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,6 +26,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const fetchUser = async (user: any) => {
     const { email } = user;
@@ -89,9 +91,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const value = useMemo(() => {
     return {
-      user: user || null,
+      user: user,
+      open: open,
       setCurrentOrganization: (orgId: string) =>
-        setUser((prev: any) => ({ ...prev, currentOrganization: orgId }))
+        setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
+      setOpen: setOpen
     };
   }, [user]);
 
@@ -133,6 +137,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
               </Alert>
             </Collapse>
             {children}
+            <SlideOver open={open} setOpen={setOpen} />
           </div>
         )}
       </div>
@@ -141,6 +146,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, setCurrentOrganization }: any = useContext(AuthContext);
-  return { user, setCurrentOrganization };
+  const { user, open, setOpen, setCurrentOrganization }: any =
+    useContext(AuthContext);
+  return { user, open, setOpen, setCurrentOrganization };
 };

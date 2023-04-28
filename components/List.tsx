@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthContext } from '@/app/context';
 import {
   Chip,
   Table,
@@ -33,6 +34,7 @@ export default function List({
   headers: [any];
   data: [any];
 }) {
+  const { setOpen } = useAuthContext();
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
@@ -51,7 +53,9 @@ export default function List({
             data.map((item, index) => (
               <TableRow
                 key={index}
+                className="transition cursor-pointer hover:bg-slate-50"
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                onClick={() => setOpen(true)}
               >
                 {headers &&
                   headers.map((column, i) => {
