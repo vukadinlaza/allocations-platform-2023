@@ -8,6 +8,7 @@ import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { headers_tables } from '../config';
 
 export default function Funds() {
   const [search, setSearch] = useState<string | null>(null);
@@ -127,7 +128,9 @@ export default function Funds() {
               {search && (
                 <div className="onsearch">
                   {!results.length && <None text="No Funds found." />}
-                  {results.length > 0 && <List data={results} />}
+                  {results.length > 0 && (
+                    <List headers={headers_tables.funds} data={results} />
+                  )}
                 </div>
               )}
               {!search && (
@@ -135,7 +138,9 @@ export default function Funds() {
                   {Funds.length < 1 && (
                     <None text="No Funds yet. Create one?" />
                   )}
-                  {Funds.length > 0 && <List data={Funds} />}
+                  {Funds.length > 0 && (
+                    <List headers={headers_tables.funds} data={Funds} />
+                  )}
                 </div>
               )}
             </Grid>

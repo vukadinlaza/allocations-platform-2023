@@ -8,6 +8,7 @@ import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { headers_tables } from '../config';
 
 export default function Entities() {
   const [search, setSearch] = useState<string | null>(null);
@@ -129,7 +130,9 @@ export default function Entities() {
               {search && (
                 <div className="onsearch">
                   {!results.length && <None text="No entities found." />}
-                  {results.length > 0 && <List data={results} />}
+                  {results.length > 0 && (
+                    <List headers={headers_tables.entities} data={results} />
+                  )}
                 </div>
               )}
               {!search && (
@@ -137,7 +140,9 @@ export default function Entities() {
                   {entities.length < 1 && (
                     <None text="No entities yet. Create one?" />
                   )}
-                  {entities.length > 0 && <List data={entities} />}
+                  {entities.length > 0 && (
+                    <List headers={headers_tables.entities} data={entities} />
+                  )}
                 </div>
               )}
             </Grid>

@@ -1,13 +1,14 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
+import List from '@/components/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import List from '@/components/List';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { headers_tables } from '../config';
 
 export default function Organizations() {
   const [search, setSearch] = useState<string | null>(null);
@@ -123,7 +124,12 @@ export default function Organizations() {
               {search && (
                 <div className="onsearch">
                   {!results.length && <None text="No organization found." />}
-                  {results.length > 0 && <List data={results} />}
+                  {results.length > 0 && (
+                    <List
+                      headers={headers_tables.organizations}
+                      data={results}
+                    />
+                  )}
                 </div>
               )}
               {!search && (
@@ -131,7 +137,12 @@ export default function Organizations() {
                   {!organizations.length && (
                     <None text="No organization yet. Create one?" />
                   )}
-                  {organizations.length > 0 && <List data={organizations} />}
+                  {organizations.length > 0 && (
+                    <List
+                      headers={headers_tables.organizations}
+                      data={organizations}
+                    />
+                  )}
                 </div>
               )}
             </Grid>
