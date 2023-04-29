@@ -15,7 +15,7 @@ export default function SlideOverHeader({ content }: { content: any }) {
             <p className="my-1 text-lg font-medium text-black">$0</p>
           </Grid>
         </Grid>
-        <Grid item xs={12} className="mt-2 mb-6">
+        <Grid item xs={12} className="my-4">
           <LinearProgress
             variant="determinate"
             value={50}
