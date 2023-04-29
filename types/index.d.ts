@@ -20,3 +20,9 @@ export interface Organization {
   mou_signed?: boolean;
   phase?: string;
 }
+
+export interface TabData {
+  title: string;
+  component?: React.ComponentType;
+  disabled?: boolean;
+}

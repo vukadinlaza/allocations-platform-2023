@@ -13,12 +13,10 @@ const getComponent = (data: any) => {
 export default function SlideOverContent({ data }: { data: any }) {
   const content = data.data;
   return (
-    <div className="slideover--content">
+    <div className="slideover">
       {!data && !content && <h1>No information.</h1>}
       {data && content && (
-        <div className="slideover--content--component">
-          {getComponent(data)}
-        </div>
+        <div className="slideover--component">{getComponent(data)}</div>
       )}
     </div>
   );
