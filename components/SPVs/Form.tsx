@@ -44,8 +44,9 @@ export default function SPVsForm() {
     <div className="border spvs-form">
       <Grid container>
         {items &&
-          items.map((item) => (
+          items.map((item, index) => (
             <Grid
+              key={index}
               container
               xs={12}
               alignItems="center"
