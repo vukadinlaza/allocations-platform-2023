@@ -30,6 +30,7 @@ export default function SPVsSlideOver({ data }: { data: any }) {
   };
 
   const content = data.data;
+
   return (
     <div className="spvs">
       {content && <SlideOverHeader content={content} />}
