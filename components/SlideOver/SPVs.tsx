@@ -32,7 +32,7 @@ export default function SPVsSlideOver({ data }: { data: any }) {
   const content = data.data;
 
   return (
-    <div className="spvs">
+    <div className="slideover--spvs">
       {content && <SlideOverHeader content={content} />}
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
