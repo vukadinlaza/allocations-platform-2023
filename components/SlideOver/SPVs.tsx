@@ -1,6 +1,7 @@
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
 import { useState } from 'react';
+import SlideOverHeader from './Header';
 
 const tabs = [
   {
@@ -31,7 +32,7 @@ export default function SPVsSlideOver({ data }: { data: any }) {
   const content = data.data;
   return (
     <div className="spvs">
-      <header>{content.name && <h1>{content.name}</h1>}</header>
+      {content && <SlideOverHeader content={content} />}
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
