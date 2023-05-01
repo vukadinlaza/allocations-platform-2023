@@ -39,7 +39,7 @@ export default function SlideOver({
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="relative w-screen max-w-md pointer-events-auto">
+                <Dialog.Panel className="relative w-[800px] pointer-events-auto">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-500"
