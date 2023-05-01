@@ -1,5 +1,6 @@
 import Tabs from '@/components/Tabs';
 import { useState } from 'react';
+import DealTerms from './DealTerms';
 import Form from './Form';
 
 const spvs_overview_tabs = [
@@ -10,7 +11,8 @@ const spvs_overview_tabs = [
   },
   {
     title: 'Deals terms',
-    disabled: true
+    disabled: false,
+    component: DealTerms
   },
   {
     title: 'Roles',
