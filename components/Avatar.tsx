@@ -48,14 +48,16 @@ export default function AvatarComponent() {
         {getFirstLetter()}
       </Avatar>
       {open && (
-        <MenuList className="absolute right-0 bg-white border top-12">
-          {menu &&
-            menu.map((item, index) => (
-              <MenuItem key={index} onClick={() => handleClick(item)}>
-                {item.title}
-              </MenuItem>
-            ))}
-        </MenuList>
+        <div className="absolute right-0 bg-white border top-12">
+          <MenuList>
+            {menu &&
+              menu.map((item, index) => (
+                <MenuItem key={index} onClick={() => handleClick(item)}>
+                  {item.title}
+                </MenuItem>
+              ))}
+          </MenuList>
+        </div>
       )}
     </div>
   );
