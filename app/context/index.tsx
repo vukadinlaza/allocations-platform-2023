@@ -54,6 +54,18 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     }
   };
 
+  const signOut = async () => {
+    try {
+      const response = await supabase.auth.signOut();
+      if (response) {
+        setUser(null);
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const setSlideOver = (isOpen: boolean, data: any, type: string) => {
     if (!type && !data) return;
     setOpen(isOpen);
@@ -100,7 +112,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       open,
       setCurrentOrganization: (orgId: string) =>
         setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
-      setSlideOver
+      setSlideOver,
+      signOut
     };
   }, [user]);
 
@@ -204,7 +217,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, open, setSlideOver, setCurrentOrganization }: any =
+  const { user, open, setSlideOver, setCurrentOrganization, signOut }: any =
     useContext(AuthContext);
-  return { user, open, setSlideOver, setCurrentOrganization };
+  return { user, open, setSlideOver, setCurrentOrganization, signOut };
 };
