@@ -1,6 +1,7 @@
 'use client';
 
-import None from '../None';
+import MissingData from '@/components/MissingData';
+import None from '@/components/None';
 import SPVS from './SPVs';
 
 const getComponent = (data: any) => {
@@ -14,7 +15,7 @@ export default function SlideOverContent({ data }: { data: any }) {
   const content = data.data;
   return (
     <div className="slideover">
-      {!data && !content && <h1>No information.</h1>}
+      {!data && !content && <MissingData />}
       {data && content && (
         <div className="slideover--component">{getComponent(data)}</div>
       )}
