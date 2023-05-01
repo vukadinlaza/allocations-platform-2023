@@ -5,6 +5,7 @@ import List from '@/components/List';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';
+import { Organization } from '@/types';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -12,28 +13,35 @@ import { headers_tables } from '../config';
 
 export default function Organizations() {
   const [search, setSearch] = useState<string | null>(null);
-  const [limit, setLimit] = useState<number>(10);
-  const [results, setResults] = useState<Array<any>>([]);
-  const [organizations, setOrganizations] = useState<Array<any>>([]);
+  const [limit, setLimit] = useState<number>(25);
+  const [results, setResults] = useState<Array<Organization>>([]);
+  const [organizations, setOrganizations] = useState<Array<Organization>>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { user } = useAuthContext();
 
   const fetchOrganizations = async () => {
+    let { data }: { data: any } = await supabase
+      .from('users_organizations')
+      .select(`*, organizations (*)`)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (data && data.length > 0) {
+      const orgs = data.map(
+        ({ organizations }: { organizations: Organization }) => organizations
+      );
+      return orgs;
+    }
+    return [];
+  };
+
+  const getOrganizations = async () => {
     if (!user && !user.organizations) return;
     try {
       setLoading(true);
-      // TODO: organizations related to user.organizations here please
-      let { data: _organizations }: { data: any } = await supabase
-        .from('organizations')
-        .select(`*, entities (*)`)
-        .order('created_at', { ascending: false })
-        .limit(limit);
-
-      if (_organizations && _organizations.length > 0) {
-        console.log(_organizations);
-        setOrganizations(_organizations);
-      }
+      let response = await fetchOrganizations();
+      setOrganizations(response);
     } catch (err) {
       console.log(err);
     } finally {
@@ -75,7 +83,7 @@ export default function Organizations() {
   }, [search]);
 
   useEffect(() => {
-    fetchOrganizations();
+    getOrganizations();
   }, []);
 
   return (
@@ -137,10 +145,10 @@ export default function Organizations() {
               )}
               {!search && (
                 <div>
-                  {!organizations.length && (
+                  {!organizations && (
                     <None text="No organization yet. Create one?" />
                   )}
-                  {organizations.length > 0 && (
+                  {organizations && organizations.length > 0 && (
                     <List
                       type={null}
                       headers={headers_tables.organizations}
