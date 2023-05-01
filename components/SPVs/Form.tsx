@@ -71,6 +71,9 @@ export default function SPVsForm() {
           </h2>
           <Upload />
         </Grid>
+        <Grid item xs={12} className="p-4">
+          <button className="btn primary">Save</button>
+        </Grid>
       </Grid>
     </div>
   );
