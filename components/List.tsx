@@ -37,7 +37,8 @@ const generateCell = (item: any, column: any) => {
     return (
       <Chip
         label={item[column.key] || no_info}
-        color={getColor(item[column.key])}
+        // color={getColor(item[column.key])}
+        color="warning"
         className="text-white"
       />
     );
