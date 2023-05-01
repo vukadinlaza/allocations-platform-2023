@@ -1,7 +1,9 @@
 import Tabs from '@/components/Tabs';
 import { useState } from 'react';
 import DealTerms from './DealTerms';
+import Esign from './Esign';
 import Form from './Form';
+import Roles from './Roles';
 
 const spvs_overview_tabs = [
   {
@@ -16,11 +18,13 @@ const spvs_overview_tabs = [
   },
   {
     title: 'Roles',
-    disabled: true
+    disabled: false,
+    component: Roles
   },
   {
     title: 'E-sign & submit',
-    disabled: true
+    disabled: false,
+    component: Esign
   }
 ];
 

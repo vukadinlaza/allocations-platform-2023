@@ -79,7 +79,7 @@ export default function DealTerms() {
             <h2 className="mb-4 font-medium text-black">Legal templates</h2>
             <button className="btn primary">Upload custom</button>
           </header>
-          <div className="bg-gray-100 border rounded-lg">
+          <div className="overflow-hidden bg-gray-100 border rounded-lg">
             {templates &&
               templates.map((template, index) => (
                 <div
