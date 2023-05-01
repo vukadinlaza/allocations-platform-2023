@@ -50,8 +50,8 @@ export default function AvatarComponent() {
       {open && (
         <MenuList className="absolute right-0 bg-white border top-12">
           {menu &&
-            menu.map((item) => (
-              <MenuItem onClick={() => handleClick(item)}>
+            menu.map((item, index) => (
+              <MenuItem key={index} onClick={() => handleClick(item)}>
                 {item.title}
               </MenuItem>
             ))}
