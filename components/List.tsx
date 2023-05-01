@@ -50,7 +50,7 @@ const generateCell = (item: any, column: any) => {
     return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
   // if (column || column.key === 'entities' || item[column.key].length)
   //   return item[column.key].length;
-  return <span>{no_info}</span>;
+  return <span>{item[column.key] ? item[column.key] : no_info}</span>;
 };
 
 export default function List({
