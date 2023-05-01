@@ -19,15 +19,13 @@ export default function Entities() {
 
   const { user } = useAuthContext();
 
-  const getTaxColor = (status: string) => {};
-
   const fetchEntities = async () => {
     if (!user && !user.organizations) return;
     try {
       setLoading(true);
       // TODO: entities related to user.organizations here please
       let { data: _entities }: any = await supabase
-        .from('entities')
+        .from('limited_entities')
         .select(`*`)
         .order('created_at', { ascending: true })
         .limit(limit);

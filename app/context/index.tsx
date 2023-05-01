@@ -37,15 +37,17 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .from('users')
         .select(
           `*,
-        users_organizations (
-          *,
-          organizations (
-            *
-          )
-        )`
+          users_organizations (
+            *,
+            organizations (
+              *
+            )
+          )`
         )
         .eq('email', email)
         .single();
+
+      console.log(data);
       return data;
     } catch (error) {
       console.log(error);

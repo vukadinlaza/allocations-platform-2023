@@ -39,7 +39,7 @@ const generateCell = (item: any, column: any) => {
         label={item[column.key] || no_info}
         // color={getColor(item[column.key])}
         color="warning"
-        className="text-white"
+        className="text-white capitalize"
       />
     );
   if (
