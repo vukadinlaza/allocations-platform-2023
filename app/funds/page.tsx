@@ -6,13 +6,14 @@ import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Card, Chip, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
 export default function Funds() {
   const [search, setSearch] = useState<string | null>(null);
   const [Funds, setSpvs] = useState<Array<any>>([]);
+  const [fundsTotalCount, setFundsTotalCount] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,15 +25,16 @@ export default function Funds() {
     try {
       setLoading(true);
       // TODO: Funds related to user.organizations here please
-      let { data: _funds }: any = await supabase
+      let { data: _funds, count}: any = await supabase
         .from('deals')
-        .select(`*`)
+        .select(`*`, {count: 'exact'})
         .eq('type', 'fund')
         .order('created_at', { ascending: true })
         .limit(limit);
 
       if (_funds && _funds.length > 0) {
         setSpvs(_funds);
+        setFundsTotalCount(count)
       }
     } catch (err) {
       console.log(err);
@@ -83,7 +85,7 @@ export default function Funds() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1>Funds</h1>
+            <h1> <Chip label={fundsTotalCount} /> Funds</h1>
             <p>Manage your funds.</p>
           </div>
           <div>

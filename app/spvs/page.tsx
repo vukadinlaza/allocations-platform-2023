@@ -6,13 +6,14 @@ import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Card, Chip, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
 export default function SPVs() {
   const [search, setSearch] = useState<string | null>(null);
   const [spvs, setSpvs] = useState<Array<any>>([]);
+  const [spvsTotalCount, setSpvsTotalCount] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,15 +27,16 @@ export default function SPVs() {
     try {
       setLoading(true);
       // TODO: spvs related to user.organizations here please
-      let { data: _spvs }: any = await supabase
+      let { data: _spvs, count }: any = await supabase
         .from('deals')
-        .select(`*`)
+        .select(`*`, {count: 'exact'})
         .eq('type', 'spv')
         .order('created_at', { ascending: true })
         .limit(limit);
 
       if (_spvs && _spvs.length > 0) {
         setSpvs(_spvs);
+        setSpvsTotalCount(count);
       }
     } catch (err) {
       console.log(err);
@@ -85,7 +87,9 @@ export default function SPVs() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1>SPVs</h1>
+            <h1>
+              <Chip label={spvsTotalCount}/> SPVs
+            </h1>
             <p>Manage your spvs.</p>
           </div>
           <div>

@@ -6,13 +6,14 @@ import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Card, Chip, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
 export default function Entities() {
   const [search, setSearch] = useState<string | null>(null);
   const [entities, setEntities] = useState<Array<any>>([]);
+  const [totalEntities, setTotalEntities] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [results, setResults] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,14 +25,15 @@ export default function Entities() {
     try {
       setLoading(true);
       // TODO: entities related to user.organizations here please
-      let { data: _entities }: any = await supabase
+      let { data: _entities, count }: any = await supabase
         .from('limited_entities')
-        .select(`*`)
+        .select(`*`, {count: 'exact'})
         .order('created_at', { ascending: true })
         .limit(limit);
 
       if (_entities && _entities.length > 0) {
         setEntities(_entities);
+        setTotalEntities(count);
       }
     } catch (err) {
       console.log(err);
@@ -82,7 +84,7 @@ export default function Entities() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1>Entities</h1>
+            <h1><Chip label={totalEntities}/> Entities</h1>
             <p>Manage your entities.</p>
           </div>
           <div>
