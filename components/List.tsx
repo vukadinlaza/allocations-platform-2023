@@ -48,8 +48,9 @@ const generateCell = (item: any, column: any) => {
     column.key === 'started_at'
   )
     return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
-  // if (column || column.key === 'entities' || item[column.key].length)
-  //   return item[column.key].length;
+  if (column.key === 'entities') {
+    return item[column.key] ? item[column.key].length : 0;
+  }
   return <span>{item[column.key] ? item[column.key] : no_info}</span>;
 };
 
