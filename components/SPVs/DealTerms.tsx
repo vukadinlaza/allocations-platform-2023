@@ -96,10 +96,12 @@ export default function DealTerms() {
                       height={24}
                     />
                   </div>
-                  <div className="w-full text-sm text-left grow-1">
+                  <div className="w-full text-sm text-left text-gray-500">
                     {template.title}
                   </div>
-                  <button className="border btn info">Generate</button>
+                  <div>
+                    <button className="border btn info">Generate</button>
+                  </div>
                 </div>
               ))}
           </div>
