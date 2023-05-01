@@ -1,8 +1,7 @@
 'use client';
 import Header from '@/components/Header';
 import Login from '@/components/Login';
-// import SlideOver from '@/components/SlideOver';
-import SlideOverContent from '@/components/SlideOver/Content';
+import SlideOver from '@/components/SlideOver';
 import supabase from '@/lib/supabase';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -144,7 +143,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                 </span>
               </Alert>
             </Collapse>
-            <SlideOverContent
+            {/* <SlideOverContent
               data={{
                 data: {
                   id: '75087e2b-86c5-4b17-b721-a0c412af6a31',
@@ -196,9 +195,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
                 },
                 type: 'spvs'
               }}
-            />
-            {/* {children} */}
-            {/* <SlideOver open={open} setOpen={setOpen} data={slideOverData} /> */}
+            /> */}
+            {children}
+            <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
           </div>
         )}
       </div>
