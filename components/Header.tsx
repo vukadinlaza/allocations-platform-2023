@@ -16,6 +16,7 @@ interface HeaderProps {
 const getCount = (name: string) => {
   // TODO: get number of items in user coming from context
   if (name === 'Organizations') return <span>(0)</span>;
+  if (name === 'Entities') return <span>(0)</span>;
   return null;
 };
 

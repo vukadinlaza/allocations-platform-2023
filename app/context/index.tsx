@@ -3,6 +3,13 @@ import Header from '@/components/Header';
 import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
 import supabase from '@/lib/supabase';
+import {
+  Entity,
+  Organization,
+  UserInterface,
+  UserOrganization,
+  UserSession
+} from '@/types';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Collapse, IconButton } from '@mui/material';
@@ -10,9 +17,9 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext({});
 
-const mergeOrganizations = (orgs: any) => {
-  if (!orgs) return [];
-  return orgs.map((org: any) => {
+const mergeOrganizations = (users_organizations: UserOrganization[] | any) => {
+  if (!users_organizations) return [];
+  return users_organizations.map((org: UserOrganization) => {
     let _org = {
       ...org,
       ...org.organizations
@@ -20,6 +27,44 @@ const mergeOrganizations = (orgs: any) => {
     delete _org.organizations;
     return _org;
   });
+};
+
+const mergeEntities = (organizations: Organization[]) => {
+  // merge entities here
+  let entities: Entity[] = [];
+
+  organizations.forEach((organization: Organization) => {
+    if (organization.entities) {
+      entities.push(...organization.entities);
+    }
+  });
+
+  return entities;
+};
+
+const buildUser = (
+  sessionUser: UserSession | any,
+  user: UserInterface | any
+) => {
+  if (!sessionUser) return;
+  let finalUser: UserInterface = { ...sessionUser };
+  if (user) {
+    const { users_organizations } = user;
+    const organizations = mergeOrganizations(users_organizations);
+    const entities = mergeEntities(organizations);
+    if (users_organizations) {
+      finalUser = {
+        ...finalUser,
+        organizations,
+        entities,
+        infos: user,
+        is_super_admin: user.is_super_admin || false,
+        currentOrganization: organizations ? organizations[0].id : null
+      };
+    }
+  }
+  console.log(finalUser);
+  return finalUser;
 };
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
@@ -49,8 +94,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         )
         .eq('email', email)
         .single();
-
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -86,22 +129,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        // current user + merge users_organizations * organizations
-        const user_infos = await fetchUser(session.user);
+        // merge session.user + user + users_organizations
+        const users_infos = await fetchUser(session.user);
+        // build current user, TODO: type UserInterface later
+        const build: any = await buildUser(session.user, users_infos);
 
-        // build user here: function to build a user?
-
-        let merged = [];
-        if (user_infos && user_infos.users_organizations.length > 0) {
-          merged = mergeOrganizations(user_infos.users_organizations);
-        }
-        const build_user: any = {
-          ...session.user,
-          infos: user_infos || [],
-          organizations: merged,
-          currentOrganization: merged[0]?.id || null
-        };
-        setUser(build_user);
+        setUser(build);
       }
     } catch (error) {
       console.log(error);
