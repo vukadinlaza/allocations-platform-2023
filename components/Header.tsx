@@ -14,13 +14,13 @@ interface HeaderProps {
 }
 
 const getCount = (name: string, user: UserInterface) => {
-  if (!user) return <span>0</span>;
+  if (!user) return null;
   // TODO: get number of items in user coming from context
   if (name === 'Organizations')
     return <span>({user.organizations ? user.organizations.length : 0})</span>;
   if (name === 'Entities')
     return <span>({user.entities ? user.entities.length : 0})</span>;
-  return <span>0</span>;
+  return null;
 };
 
 export default function Header({ loading }: HeaderProps) {
