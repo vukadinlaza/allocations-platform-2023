@@ -1,7 +1,9 @@
 'use client';
 
+import { headers_tables } from '@/app/config';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
+import PageList from '@/components/PageList';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 import { useAuthContext } from './context';
@@ -15,6 +17,19 @@ export default function Dashboard() {
     if (user.infos.first_name) return user.infos.first_name;
     return user.email;
   };
+
+  const getHeader = () => {
+    return {
+      name: 'SPVs',
+      description: 'Manage your spvs.',
+      buttons: [
+        {
+          title: 'Create new'
+        }
+      ]
+    };
+  };
+
   return (
     <Grid container className="home">
       {loading && (
@@ -25,7 +40,18 @@ export default function Dashboard() {
       )}
       {!loading && (
         <Grid item xs={12}>
-          <h1>Welcome back {getFullName()}!</h1>
+          <Grid item xs={12}>
+            <h1>Welcome back {getFullName()}!</h1>
+          </Grid>
+          <Grid item xs={12}>
+            <PageList
+              header={getHeader()}
+              headersTable={headers_tables.spvs}
+              type="spv"
+              table="deals"
+              query={`*`}
+            />
+          </Grid>
         </Grid>
       )}
     </Grid>

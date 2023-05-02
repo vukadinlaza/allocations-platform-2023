@@ -1,0 +1,177 @@
+'use client';
+
+import { useAuthContext } from '@/app/context';
+import List from '@/components/List';
+import LoadingList from '@/components/Loading/List';
+import None from '@/components/None';
+import supabase from '@/lib/supabase';
+import { Search } from '@mui/icons-material';
+import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+interface PageListInterface {
+  header?: any;
+  headersTable?: any;
+  table: string;
+  type?: string;
+  query: string;
+}
+
+export default function PageList({
+  header,
+  headersTable,
+  table,
+  type,
+  query
+}: PageListInterface) {
+  const [search, setSearch] = useState<string | null>(null);
+  const [initialData, setInitialData] = useState<Array<any>>([]);
+  const [results, setResults] = useState<Array<any>>([]);
+  const [initialDataCount, setInitialDataCount] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(50);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { user } = useAuthContext();
+
+  const fetchData = async () => {
+    if (!user && !table && !type) return;
+    try {
+      setLoading(true);
+      let { data: _data, count }: any = await supabase
+        .from(table)
+        .select(query ?? `*`, { count: 'exact' })
+        .order('created_at', { ascending: true })
+        .limit(limit);
+
+      if (_data && _data.length > 0) {
+        setInitialData(
+          type ? _data.filter((d: any) => d.type === type) : _data
+        );
+        if (count) setInitialDataCount(count);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSearch = async () => {
+    if (!user && !search) return;
+    try {
+      setLoading(true);
+      let { data: _results }: { data: any } = await supabase
+        .from(table)
+        .select()
+        .textSearch('name', search || '', {
+          type: 'websearch'
+        })
+        .eq('type', type);
+
+      if (_results && _results.length > 0) {
+        setResults(_results);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (search && search.length > 0) {
+      setLoading(true);
+      const _search = setTimeout(() => {
+        onSearch();
+      }, 1000);
+      return () => clearTimeout(_search);
+    }
+    setLoading(false);
+  }, [search]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <main>
+      <Card className="card" variant="outlined">
+        <header>
+          <div>
+            <h1 className="mb-2">
+              <span className="mr-2">{header.name || 'No title'}</span>
+              <div className="chip chip--small chip--info">{initialDataCount}</div>
+            </h1>
+            <p>{header.description || 'No description'}</p>
+          </div>
+          <div>
+            {header.buttons &&
+              header.buttons.map((button: any) => (
+                <button disabled className="btn primary">
+                  {button.title}
+                </button>
+              ))}
+          </div>
+        </header>
+        <Grid container xs={12} className="mb-6">
+          <Grid item xs={8}>
+            <TextField
+              id="outlined-start-adornment"
+              size="small"
+              placeholder="Search for spvs..."
+              sx={{ width: '300px' }}
+              onInput={(e: any) => setSearch(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          {user && user.infos && user.infos.is_super_admin && (
+            <Grid item xs={4} className="mb-4">
+              <Alert severity="success">
+                As an admin, you can look for any {table}.
+              </Alert>
+            </Grid>
+          )}
+        </Grid>
+        <Grid container>
+          {loading && (
+            <Grid item xs={12} className="w-full">
+              <LoadingList />
+            </Grid>
+          )}
+          {!loading && (
+            <Grid item xs={12} className="w-full">
+              {search && (
+                <div className="onsearch">
+                  {!results.length && <None text="No spvs found." />}
+                  {results.length > 0 && (
+                    <List type="spvs" headers={headersTable} data={results} />
+                  )}
+                </div>
+              )}
+              {!search && (
+                <div>
+                  {initialData.length < 1 && (
+                    <None text="No spvs yet. Create one?" />
+                  )}
+                  {initialData.length > 0 && (
+                    <List
+                      type="spvs"
+                      headers={headersTable}
+                      data={initialData}
+                    />
+                  )}
+                </div>
+              )}
+            </Grid>
+          )}
+        </Grid>
+      </Card>
+    </main>
+  );
+}

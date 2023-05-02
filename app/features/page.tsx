@@ -2,11 +2,11 @@
 
 import { Card } from '@mui/material';
 
+import Box from '@mui/material/Box';
 import CircularProgress, {
   CircularProgressProps
 } from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -46,27 +46,27 @@ export default function Features() {
     },
     {
       name: 'Entities',
-      value: 80,
+      value: 100,
       soon: false,
       text: 'Manage your entities.'
     },
     {
       name: 'Deals',
-      value: 60,
+      value: 80,
       soon: false,
       text: 'Manage all your deals.'
-    },
-    {
-      name: 'Taxes',
-      value: 0,
-      soon: true,
-      text: 'Manage and generate taxes reports.'
     },
     {
       name: 'Investments',
       value: 0,
       soon: true,
       text: 'Manage all your investiments.'
+    },
+    {
+      name: 'Taxes',
+      value: 0,
+      soon: true,
+      text: 'Manage and generate taxes reports.'
     }
   ];
   return (
@@ -78,7 +78,7 @@ export default function Features() {
             Follow the progress of the features we are developing at
             Allocations.com in real-time.
           </p>
-          <p className="text-xs">Last updated: 04/23.</p>
+          <p className="text-base">Last updated: 05/02.</p>
         </div>
         <div className="flex items-center">
           <button className="btn primary">Give us a feedback</button>
