@@ -6,7 +6,7 @@ import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Chip, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
@@ -27,7 +27,7 @@ export default function Entities() {
       // TODO: entities related to user.organizations here please
       let { data: _entities, count }: any = await supabase
         .from('limited_entities')
-        .select(`*`, {count: 'exact'})
+        .select(`*`, { count: 'exact' })
         .order('created_at', { ascending: true })
         .limit(limit);
 
@@ -84,7 +84,10 @@ export default function Entities() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1><Chip label={totalEntities}/> Entities</h1>
+            <h1 className="mb-4">
+              <span className="mr-2">Entities</span>
+              <div className="chip chip--small chip--info">{totalEntities}</div>
+            </h1>
             <p>Manage your entities.</p>
           </div>
           <div>

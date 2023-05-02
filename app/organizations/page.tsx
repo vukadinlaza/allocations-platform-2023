@@ -7,7 +7,7 @@ import None from '@/components/None';
 import supabase from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Chip, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { headers_tables } from '../config';
 
@@ -91,7 +91,12 @@ export default function Organizations() {
       <Card className="card" variant="outlined">
         <header>
           <div>
-            <h1><Chip label={organizations.length} /> Organizations</h1>
+            <h1>
+              <span className="mr-2">Organizations</span>
+              <div className="chip chip--small chip--info">
+                {organizations.length}
+              </div>
+            </h1>
             <p>Manage your organizations.</p>
           </div>
           <button disabled className="btn primary">

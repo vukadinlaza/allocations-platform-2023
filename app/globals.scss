@@ -74,6 +74,14 @@ $primary: #3db278;
     &--small {
       @apply px-3 py-1;
     }
+
+    &--info {
+      @apply bg-gray-100;
+    }
+
+    &--primary {
+      @apply bg-primary;
+    }
   }
 
   .min-w-12 {
@@ -93,6 +101,16 @@ $primary: #3db278;
   .home {
     h1 {
       @apply text-3xl;
+    }
+  }
+
+  header {
+    h1 {
+      @apply text-2xl flex items-center mb-4;
+    }
+
+    .chip {
+      @apply text-sm py-0.5 px-3;
     }
   }
 
