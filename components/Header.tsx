@@ -2,7 +2,7 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import { Organization } from '@/types';
+import { Organization, UserInterface } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -13,11 +13,14 @@ interface HeaderProps {
   loading: boolean;
 }
 
-const getCount = (name: string) => {
+const getCount = (name: string, user: UserInterface) => {
+  if (!user) return <span>0</span>;
   // TODO: get number of items in user coming from context
-  if (name === 'Organizations') return <span>(0)</span>;
-  if (name === 'Entities') return <span>(0)</span>;
-  return null;
+  if (name === 'Organizations')
+    return <span>({user.organizations ? user.organizations.length : 0})</span>;
+  if (name === 'Entities')
+    return <span>({user.entities ? user.entities.length : 0})</span>;
+  return <span>0</span>;
 };
 
 export default function Header({ loading }: HeaderProps) {
@@ -107,7 +110,7 @@ export default function Header({ loading }: HeaderProps) {
                 }`}
               >
                 <span className="mr-1">{item.name}</span>
-                {getCount(item.name)}
+                {getCount(item.name, user)}
               </div>
             </Link>
           ))}
