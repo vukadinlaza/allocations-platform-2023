@@ -40,7 +40,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           users_organizations (
             *,
             organizations (
-              *
+              *,
+              entities (
+                *
+              )
             )
           )`
         )
@@ -48,6 +51,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .single();
 
       console.log(data);
+
       return data;
     } catch (error) {
       console.log(error);
@@ -84,6 +88,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       if (session && session.user) {
         // current user + merge users_organizations * organizations
         const user_infos = await fetchUser(session.user);
+
+        // build user here: function to build a user?
 
         let merged = [];
         if (user_infos && user_infos.users_organizations.length > 0) {

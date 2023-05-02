@@ -13,6 +13,12 @@ interface HeaderProps {
   loading: boolean;
 }
 
+const getCount = (name: string) => {
+  // TODO: get number of items in user
+  if (name === 'Organizations') return <span>(0)</span>;
+  return null;
+};
+
 export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
@@ -99,7 +105,8 @@ export default function Header({ loading }: HeaderProps) {
                     : 'inactive'
                 }`}
               >
-                {item.name}
+                <span className="mr-1">{item.name}</span>
+                {getCount(item.name)}
               </div>
             </Link>
           ))}
