@@ -100,14 +100,16 @@ export default function PageList({
           <div>
             <h1 className="mb-2">
               <span className="mr-2">{header.name || 'No title'}</span>
-              <div className="chip chip--small chip--info">{initialDataCount}</div>
+              <div className="chip chip--small chip--info">
+                {initialDataCount}
+              </div>
             </h1>
             <p>{header.description || 'No description'}</p>
           </div>
           <div>
             {header.buttons &&
               header.buttons.map((button: any) => (
-                <button disabled className="btn primary">
+                <button key={button.title} disabled className="btn primary">
                   {button.title}
                 </button>
               ))}
