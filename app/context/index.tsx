@@ -4,6 +4,7 @@ import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
 import supabase from '@/lib/supabase';
 import {
+  Deal,
   Entity,
   Organization,
   UserInterface,
@@ -42,6 +43,13 @@ const mergeEntities = (organizations: Organization[]) => {
   return entities;
 };
 
+const mergeDeals = (organizations: Organization[], entities: Entity[]) => {
+  let deals: Deal[] = [];
+  // ici merger tous les deals
+  // attentions aux duplicates
+  return deals;
+};
+
 const buildUser = (
   sessionUser: UserSession | any,
   user: UserInterface | any
@@ -52,18 +60,20 @@ const buildUser = (
     const { users_organizations } = user;
     const organizations = mergeOrganizations(users_organizations);
     const entities = mergeEntities(organizations);
+    const deals = mergeDeals(organizations, entities);
+    // il manque les deals des users
     if (users_organizations) {
       finalUser = {
         ...finalUser,
         organizations,
         entities,
+        deals,
         infos: user,
         is_super_admin: user.is_super_admin || false,
         currentOrganization: organizations ? organizations[0].id : null
       };
     }
   }
-  console.log(finalUser);
   return finalUser;
 };
 
@@ -87,6 +97,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             organizations (
               *,
               entities (
+                *,
+                deals (
+                  *
+                )
+              ),
+              deals (
                 *
               )
             )
