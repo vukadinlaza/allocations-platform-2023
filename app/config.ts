@@ -27,7 +27,7 @@ export const headers_tables = {
   ],
   entities: [
     {
-      label: 'Deal display name',
+      label: 'Name',
       key: 'name'
     },
     {
