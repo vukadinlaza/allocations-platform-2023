@@ -7,6 +7,7 @@ import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import List from './List';
+import MissingData from './MissingData';
 import None from './None';
 
 interface PageListInterface {
@@ -59,37 +60,42 @@ export default function PageList({
     }
   };
 
-  const onSearch = async () => {
-    if (!user && !search) return;
-    try {
-      setLoading(true);
-      let { data: _results }: { data: any } = await supabase
-        .from(table)
-        .select()
-        .textSearch('name', search || '', {
-          type: 'websearch'
-        })
-        .eq('type', type);
+  // const onSearch = async () => {
+  //   if (!user && !search) return;
+  //   try {
+  //     setLoading(true);
+  //     let { data: _results }: { data: any } = await supabase
+  //       .from(table)
+  //       .select()
+  //       .textSearch('name', search || '', {
+  //         type: 'websearch'
+  //       })
+  //       .eq('type', type);
 
-      if (_results && _results.length > 0) {
-        setResults(_results);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (_results && _results.length > 0) {
+  //       setResults(_results);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     if (search && search.length > 0) {
-      setLoading(true);
-      const _search = setTimeout(() => {
-        onSearch();
-      }, 1000);
-      return () => clearTimeout(_search);
+      const filtered = initialData.filter((x) => x.name.includes(search));
+      console.log(filtered);
+      setResults(filtered);
+      return;
+      //   setLoading(true);
+      //   const _search = setTimeout(() => {
+      //     onSearch();
+      //   }, 1000);
+      //   return () => clearTimeout(_search);
     }
-    setLoading(false);
+    setResults([]);
+    // setLoading(false);
   }, [search]);
 
   useEffect(() => {
@@ -149,26 +155,32 @@ export default function PageList({
               <LoadingList />
             </Grid>
           )}
-          <Grid item xs={12} className="w-full">
-            {search && (
-              <div className="onsearch">
-                {!results.length && <None text={`No ${type} found.`} />}
-                {results.length > 0 && (
-                  <List type={type} headers={headersTable} data={results} />
-                )}
-              </div>
-            )}
-            {!search && (
-              <div>
-                {initialData.length < 1 && (
-                  <None text={`No ${type} yet. Create one?`} />
-                )}
-                {initialData.length > 0 && (
-                  <List type={type} headers={headersTable} data={initialData} />
-                )}
-              </div>
-            )}
-          </Grid>
+          {!loading && (
+            <Grid item xs={12} className="w-full">
+              {search && (
+                <div className="onsearch">
+                  {!results.length && <MissingData />}
+                  {results.length > 0 && (
+                    <List type={type} headers={headersTable} data={results} />
+                  )}
+                </div>
+              )}
+              {!search && (
+                <div>
+                  {initialData.length < 1 && (
+                    <None text={`No ${type} yet. Create one?`} />
+                  )}
+                  {initialData.length > 0 && (
+                    <List
+                      type={type}
+                      headers={headersTable}
+                      data={initialData}
+                    />
+                  )}
+                </div>
+              )}
+            </Grid>
+          )}
         </Grid>
       </Card>
     </main>
