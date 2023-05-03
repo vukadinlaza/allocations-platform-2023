@@ -27,7 +27,7 @@ export default function Header({ loading }: HeaderProps) {
       .then(({ count }) => count);
 
     const entities = await supabase
-      .from('entities')
+      .from('limited_entities')
       .select('*', { count: 'exact' })
       .then(({ count }) => count);
 
@@ -140,7 +140,9 @@ export default function Header({ loading }: HeaderProps) {
                 }`}
               >
                 <span className="mr-1">{item.name}</span>
-                {counts && item.showCount && <span>({counts[item.name.toLowerCase()]})</span>}
+                {counts && item.showCount && (
+                  <span>({counts[item.name.toLowerCase()]})</span>
+                )}
               </div>
             </Link>
           ))}
