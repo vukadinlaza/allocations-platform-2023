@@ -19,7 +19,8 @@ export default function SPVs() {
     <PageList
       header={getHeader()}
       headersTable={headers_tables.spvs}
-      type="spv"
+      type="spvs"
+      queryType="spv"
       table="deals"
       query={`*`}
     />

@@ -20,7 +20,7 @@ export default function Funds() {
       header={getHeader()}
       headersTable={headers_tables.funds}
       table="deals"
-      type="fund"
+      queryType="fund"
       query={`*`}
     />
   );

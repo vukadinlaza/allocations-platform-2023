@@ -16,6 +16,7 @@ interface PageListInterface {
   table: string;
   type?: string;
   query: string;
+  queryType?: string;
 }
 
 export default function PageList({
@@ -23,7 +24,8 @@ export default function PageList({
   headersTable,
   table,
   type,
-  query
+  query,
+  queryType
 }: PageListInterface) {
   const [search, setSearch] = useState<string | null>(null);
   const [initialData, setInitialData] = useState<Array<any>>([]);
@@ -44,8 +46,8 @@ export default function PageList({
         .select(query ?? `*`, { count: 'exact' })
         .order('created_at', { ascending: true });
 
-      if (type) {
-        request = request.eq('type', type);
+      if (queryType) {
+        request = request.eq('type', queryType);
       }
 
       let { data: _data, count }: any = await request;
