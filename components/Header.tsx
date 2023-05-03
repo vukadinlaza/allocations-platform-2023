@@ -31,6 +31,11 @@ export default function Header({ loading }: HeaderProps) {
       .select('*', { count: 'exact' })
       .then(({ count }) => count);
 
+    const deals = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
     const spvs = await supabase
       .from('deals')
       .select('*', { count: 'exact' })
@@ -46,6 +51,7 @@ export default function Header({ loading }: HeaderProps) {
     setCounts({
       organizations,
       entities,
+      deals,
       spvs,
       funds
     });
