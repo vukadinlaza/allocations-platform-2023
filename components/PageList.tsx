@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
-import LoadingList from '@/components/Loading/Line';
+import LoadingList from '@/components/Loading/List';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
@@ -84,7 +84,9 @@ export default function PageList({
 
   useEffect(() => {
     if (search && search.length > 0) {
-      const filtered = initialData.filter((x) => x.name.includes(search));
+      const filtered = initialData.filter((x) =>
+        x.name.toLowerCase().includes(search.toLowerCase())
+      );
       console.log(filtered);
       setResults(filtered);
       return;

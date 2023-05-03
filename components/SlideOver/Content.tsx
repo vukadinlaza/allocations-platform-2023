@@ -6,7 +6,7 @@ import SPVS from './SPVs';
 
 const getComponent = (data: any) => {
   const { type } = data;
-  if (!type) return <None text="No information found. Please try again." />;
+  if (!type) return <MissingData />;
   if (type === 'spvs') return <SPVS data={data} />;
   return <None text="No information found. Please try again." />;
 };
