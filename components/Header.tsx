@@ -2,10 +2,12 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import { Organization, UserInterface } from '@/types';
+import supabase from '@/lib/supabase';
+import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Logo from './Logo';
 
@@ -13,19 +15,46 @@ interface HeaderProps {
   loading: boolean;
 }
 
-const getCount = (name: string, user: UserInterface) => {
-  if (!user) return null;
-  // TODO: get number of items in user coming from context
-  if (name === 'Organizations')
-    return <span>({user.organizations ? user.organizations.length : 0})</span>;
-  if (name === 'Entities')
-    return <span>({user.entities ? user.entities.length : 0})</span>;
-  return null;
-};
-
 export default function Header({ loading }: HeaderProps) {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
+  const [counts, setCounts]: any = useState(null);
+
+  const getCount = async () => {
+    const organizations = await supabase
+      .from('organizations')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
+    const entities = await supabase
+      .from('entities')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
+    const spvs = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .eq('type', 'spv')
+      .then(({ count }) => count);
+
+    const funds = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .eq('type', 'fund')
+      .then(({ count }) => count);
+
+    setCounts({
+      organizations,
+      entities,
+      spvs,
+      funds
+    });
+  };
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
   return (
     <div className="header">
       <div className="header--main">
@@ -100,6 +129,7 @@ export default function Header({ loading }: HeaderProps) {
           </div>
         )}
         {!loading &&
+          navigation &&
           navigation.map((item) => (
             <Link href={item.href} key={item.href}>
               <div
@@ -110,7 +140,7 @@ export default function Header({ loading }: HeaderProps) {
                 }`}
               >
                 <span className="mr-1">{item.name}</span>
-                {getCount(item.name, user)}
+                {counts && item.showCount && <span>({counts[item.name.toLowerCase()]})</span>}
               </div>
             </Link>
           ))}

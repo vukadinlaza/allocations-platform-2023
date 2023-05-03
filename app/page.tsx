@@ -47,7 +47,6 @@ export default function Dashboard() {
             <PageList
               header={getHeader()}
               headersTable={headers_tables.spvs}
-              type="spv"
               table="deals"
               query={`*`}
             />

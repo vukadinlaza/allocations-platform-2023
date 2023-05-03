@@ -31,7 +31,6 @@ const mergeOrganizations = (users_organizations: UserOrganization[] | any) => {
 };
 
 const mergeEntities = (organizations: Organization[]) => {
-  // merge entities here
   let entities: Entity[] = [];
 
   organizations.forEach((organization: Organization) => {
@@ -62,6 +61,7 @@ const buildUser = (
     const entities = mergeEntities(organizations);
     const deals = mergeDeals(organizations, entities);
     // il manque les deals des users
+    // spvs, funds ?
     if (users_organizations) {
       finalUser = {
         ...finalUser,

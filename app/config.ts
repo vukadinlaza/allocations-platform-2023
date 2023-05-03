@@ -1,9 +1,9 @@
 export const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'SPVs', href: '/spvs' },
-  { name: 'Funds', href: '/funds' },
-  { name: 'Organizations', href: '/organizations' },
-  { name: 'Entities', href: '/entities' }
+  { name: 'SPVs', href: '/spvs', showCount: true },
+  { name: 'Funds', href: '/funds', showCount: true },
+  { name: 'Organizations', href: '/organizations', showCount: true },
+  { name: 'Entities', href: '/entities', showCount: true }
 ];
 
 export const headers_tables = {
