@@ -19,8 +19,8 @@ export default function Organizations() {
     <PageList
       header={getHeader()}
       headersTable={headers_tables.organizations}
-      table="users_organizations"
-      query={`*, organizations( * )`}
+      table="organizations"
+      query={`*, entities ( * )`}
     />
   );
 }

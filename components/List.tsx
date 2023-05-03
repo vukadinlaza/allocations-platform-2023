@@ -32,7 +32,9 @@ export const getColor = (str: string) => {
 
 const generateCell = (item: any, column: any) => {
   const no_info = 'None';
-  if (!item || !column || !column.key) return no_info;
+  if (!item || !column || !column.key) {
+    return no_info;
+  }
   if (column.key === 'status' || column.key === 'tax_status')
     return (
       <Chip

@@ -75,6 +75,10 @@ export const headers_tables = {
       key: 'status'
     },
     {
+      label: 'E-mail',
+      key: 'email'
+    },
+    {
       label: 'Creation date',
       key: 'created_at'
     },
@@ -99,6 +103,10 @@ export const headers_tables = {
     {
       label: 'Portfolio company name',
       key: 'portfolio_company_name'
+    },
+    {
+      label: 'EIN',
+      key: 'ein'
     },
     {
       label: 'Status',
