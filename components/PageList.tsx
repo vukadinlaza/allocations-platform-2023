@@ -1,13 +1,13 @@
 'use client';
 
 import { useAuthContext } from '@/app/context';
-import List from '@/components/List';
-import LoadingList from '@/components/Loading/List';
-import None from '@/components/None';
+import LoadingList from '@/components/Loading/Line';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import List from './List';
+import None from './None';
 
 interface PageListInterface {
   header?: any;
@@ -28,7 +28,6 @@ export default function PageList({
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [results, setResults] = useState<Array<any>>([]);
   const [initialDataCount, setInitialDataCount] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(50);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { user } = useAuthContext();
@@ -41,8 +40,7 @@ export default function PageList({
       let request = supabase
         .from(table)
         .select(query ?? `*`, { count: 'exact' })
-        .order('created_at', { ascending: true })
-        .limit(limit);
+        .order('created_at', { ascending: true });
 
       if (type) {
         request = request.eq('type', type);
@@ -151,32 +149,26 @@ export default function PageList({
               <LoadingList />
             </Grid>
           )}
-          {!loading && (
-            <Grid item xs={12} className="w-full">
-              {search && (
-                <div className="onsearch">
-                  {!results.length && <None text={`No ${type} found.`} />}
-                  {results.length > 0 && (
-                    <List type={type} headers={headersTable} data={results} />
-                  )}
-                </div>
-              )}
-              {!search && (
-                <div>
-                  {initialData.length < 1 && (
-                    <None text={`No ${type} yet. Create one?`} />
-                  )}
-                  {initialData.length > 0 && (
-                    <List
-                      type={type}
-                      headers={headersTable}
-                      data={initialData}
-                    />
-                  )}
-                </div>
-              )}
-            </Grid>
-          )}
+          <Grid item xs={12} className="w-full">
+            {search && (
+              <div className="onsearch">
+                {!results.length && <None text={`No ${type} found.`} />}
+                {results.length > 0 && (
+                  <List type={type} headers={headersTable} data={results} />
+                )}
+              </div>
+            )}
+            {!search && (
+              <div>
+                {initialData.length < 1 && (
+                  <None text={`No ${type} yet. Create one?`} />
+                )}
+                {initialData.length > 0 && (
+                  <List type={type} headers={headersTable} data={initialData} />
+                )}
+              </div>
+            )}
+          </Grid>
         </Grid>
       </Card>
     </main>

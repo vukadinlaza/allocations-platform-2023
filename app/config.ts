@@ -63,9 +63,6 @@ export const headers_tables = {
     {
       label: 'Status',
       key: 'status'
-    },
-    {
-      key: 'button'
     }
   ],
   organizations: [

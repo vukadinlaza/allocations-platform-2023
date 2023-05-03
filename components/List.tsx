@@ -72,7 +72,7 @@ export default function List({
             {headers &&
               headers.map((x: any, i: any) => (
                 <TableCell align="left" key={i}>
-                  {x.label}
+                  <span className="text-lg text-bold">{x.label}</span>
                 </TableCell>
               ))}
           </TableRow>
