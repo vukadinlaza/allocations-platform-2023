@@ -57,7 +57,7 @@ export default function PageList({
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -155,20 +155,20 @@ export default function PageList({
             <Grid item xs={12} className="w-full">
               {search && (
                 <div className="onsearch">
-                  {!results.length && <None text="No spvs found." />}
+                  {!results.length && <None text={`No ${type} found.`} />}
                   {results.length > 0 && (
-                    <List type="spvs" headers={headersTable} data={results} />
+                    <List type={type} headers={headersTable} data={results} />
                   )}
                 </div>
               )}
               {!search && (
                 <div>
                   {initialData.length < 1 && (
-                    <None text="No spvs yet. Create one?" />
+                    <None text={`No ${type} yet. Create one?`} />
                   )}
                   {initialData.length > 0 && (
                     <List
-                      type="spvs"
+                      type={type}
                       headers={headersTable}
                       data={initialData}
                     />
