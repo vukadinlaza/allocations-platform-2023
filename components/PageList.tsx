@@ -34,19 +34,24 @@ export default function PageList({
   const { user } = useAuthContext();
 
   const fetchData = async () => {
-    if (!user && !table && !type) return;
+    if (!user || !table) return;
     try {
       setLoading(true);
-      let { data: _data, count }: any = await supabase
+
+      let request = supabase
         .from(table)
         .select(query ?? `*`, { count: 'exact' })
         .order('created_at', { ascending: true })
         .limit(limit);
 
+      if (type) {
+        request = request.eq('type', type);
+      }
+
+      let { data: _data, count }: any = await request;
+
       if (_data && _data.length > 0) {
-        setInitialData(
-          type ? _data.filter((d: any) => d.type === type) : _data
-        );
+        setInitialData(_data);
         if (count) setInitialDataCount(count);
       }
     } catch (err) {
