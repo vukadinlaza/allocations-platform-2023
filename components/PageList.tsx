@@ -30,6 +30,7 @@ export default function PageList({
   const [results, setResults] = useState<Array<any>>([]);
   const [initialDataCount, setInitialDataCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [filterKeys, setFilterKeys] = useState<Array<any>>([]);
 
   const { user } = useAuthContext();
 
@@ -84,25 +85,33 @@ export default function PageList({
 
   useEffect(() => {
     if (search && search.length > 0) {
-      // all keys includes search
-      const filtered = initialData.filter((x) =>
-        x.name.toLowerCase().includes(search.toLowerCase())
-      );
-      console.log(filtered);
-      setResults(filtered);
-      return;
-      //   setLoading(true);
-      //   const _search = setTimeout(() => {
-      //     onSearch();
-      //   }, 1000);
-      //   return () => clearTimeout(_search);
+      setLoading(true);
+      const _search = setTimeout(() => {
+        //     onSearch();
+        const filtered = initialData.filter((x) => {
+          for (const key of filterKeys) {
+            if (!x[key]) return false;
+            if (x[key].toLowerCase().includes(search.toLowerCase())) {
+              return true;
+            }
+          }
+          return false;
+        });
+        setResults(filtered);
+        setLoading(false);
+        return;
+      }, 1000);
+      return () => clearTimeout(_search);
     }
     setResults([]);
-    // setLoading(false);
+    setLoading(false);
   }, [search]);
 
   useEffect(() => {
     fetchData();
+    if (headersTable) {
+      setFilterKeys(headersTable.map((header: any) => header.key));
+    }
   }, []);
 
   return (
