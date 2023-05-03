@@ -32,7 +32,13 @@ const tabs_spvs: TabData[] = [
   }
 ];
 
-export default function SPVsSlideOver({ data }: { data: any }) {
+export default function SPVsSlideOver({
+  data,
+  setOpen
+}: {
+  data: any;
+  setOpen: any;
+}) {
   const content = data.data;
 
   return (

@@ -61,7 +61,7 @@ export default function SlideOver({
                     </div>
                   </Transition.Child>
                   <div className="flex flex-col h-full p-6 overflow-y-scroll bg-white shadow-xl">
-                    <SlideOverContent data={data} />
+                    <SlideOverContent data={data} setOpen={setOpen} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

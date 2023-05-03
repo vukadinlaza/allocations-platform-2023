@@ -18,8 +18,8 @@ export const headers_tables = {
       key: 'status'
     },
     {
-      label: 'Started at',
-      key: 'started_at'
+      label: 'Created at',
+      key: 'created_at'
     },
     {
       label: 'EIN',

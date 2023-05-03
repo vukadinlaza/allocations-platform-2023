@@ -47,6 +47,10 @@ export interface Deal {
   user_email?: string;
 }
 
+export type DealKeys = keyof Deal;
+
+export type DealType = Deal[DealKeys];
+
 export interface Entity {
   id?: string;
   created_at?: string;
