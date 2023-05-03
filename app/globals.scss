@@ -130,7 +130,7 @@ $primary: #3db278;
     }
 
     .select {
-      @apply border rounded-full px-3 py-2 text-xs;
+      @apply border rounded-lg px-3 py-2 text-xs shadow-sm font-semibold cursor-pointer;
     }
 
     &--menu {

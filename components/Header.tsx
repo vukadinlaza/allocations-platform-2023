@@ -5,11 +5,13 @@ import { useAuthContext } from '@/app/context';
 import supabase from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Logo from './Logo';
+import Feedback from './Feedback';
 
 interface HeaderProps {
   loading: boolean;
@@ -93,6 +95,7 @@ export default function Header({ loading }: HeaderProps) {
                       )}
                     </div>
                   )}
+                  <Feedback />
                   <div className="mr-2 select">
                     <select
                       onChange={(e) => setCurrentOrganization(e.target.value)}
