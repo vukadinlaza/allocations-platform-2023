@@ -20,6 +20,11 @@ export const headers_tables = {
     {
       label: 'Started at',
       key: 'started_at'
+    },
+    {
+      label: 'EIN',
+      key: 'entities',
+      sub_key: 'ein'
     }
   ],
   entities: [

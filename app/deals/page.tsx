@@ -20,7 +20,7 @@ export default function Deals() {
       header={getHeader()}
       headersTable={headers_tables.deals}
       table="deals"
-      query={`*`}
+      query={`*, entities ( * )`}
     />
   );
 }
