@@ -18,6 +18,9 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext({});
 
+// TODO: Temporary solution to merge from one query
+// later will write accured policies to fetch related sources
+
 const mergeOrganizations = (users_organizations: UserOrganization[] | any) => {
   if (!users_organizations) return [];
   return users_organizations.map((org: UserOrganization) => {
@@ -32,21 +35,31 @@ const mergeOrganizations = (users_organizations: UserOrganization[] | any) => {
 
 const mergeEntities = (organizations: Organization[]) => {
   let entities: Entity[] = [];
-
   organizations.forEach((organization: Organization) => {
     if (organization.entities) {
       entities.push(...organization.entities);
     }
   });
-
   return entities;
 };
 
 const mergeDeals = (organizations: Organization[], entities: Entity[]) => {
   let deals: Deal[] = [];
-  // ici merger tous les deals
-  // attentions aux duplicates
-  return deals;
+  organizations.forEach((organization: Organization) => {
+    if (organization.deals) {
+      deals.push(...organization.deals);
+    }
+  });
+  entities.forEach((entity: Entity) => {
+    if (entity.deals) {
+      deals.push(...entity.deals);
+    }
+  });
+  // remove duplicates
+  const uniqueArray = deals.filter((obj, index, array) => {
+    return index === array.findIndex((item) => item.id === obj.id);
+  });
+  return uniqueArray;
 };
 
 const buildUser = (
@@ -60,8 +73,7 @@ const buildUser = (
     const organizations = mergeOrganizations(users_organizations);
     const entities = mergeEntities(organizations);
     const deals = mergeDeals(organizations, entities);
-    // il manque les deals des users
-    // spvs, funds ?
+    // users deals missing
     if (users_organizations) {
       finalUser = {
         ...finalUser,
@@ -96,14 +108,14 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             *,
             organizations (
               *,
+              deals (
+                *
+              ),
               entities (
                 *,
                 deals (
                   *
                 )
-              ),
-              deals (
-                *
               )
             )
           )`

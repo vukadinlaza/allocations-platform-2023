@@ -63,27 +63,27 @@ export default function PageList({
     }
   };
 
-  // const onSearch = async () => {
-  //   if (!user && !search) return;
-  //   try {
-  //     setLoading(true);
-  //     let { data: _results }: { data: any } = await supabase
-  //       .from(table)
-  //       .select()
-  //       .textSearch('name', search || '', {
-  //         type: 'websearch'
-  //       })
-  //       .eq('type', type);
+  const onSearch = async () => {
+    if (!user && !search) return;
+    try {
+      setLoading(true);
+      let { data: _results }: { data: any } = await supabase
+        .from(table)
+        .select()
+        .textSearch('name', search || '', {
+          type: 'websearch'
+        })
+        .eq('type', type);
 
-  //     if (_results && _results.length > 0) {
-  //       setResults(_results);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (_results && _results.length > 0) {
+        setResults(_results);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (search && search.length > 0) {

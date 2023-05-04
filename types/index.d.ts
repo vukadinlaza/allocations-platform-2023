@@ -65,6 +65,7 @@ export interface Entity {
   tax_status?: string;
   return_id?: string;
   is_migration?: boolean;
+  deals?: Deal[] | null;
 }
 
 export interface Migration {
@@ -89,6 +90,7 @@ export interface Organization {
   mou_signed?: boolean;
   phase?: string;
   entities?: Organization[] | null;
+  deals?: Deal[] | null;
 }
 
 export interface TabData {
