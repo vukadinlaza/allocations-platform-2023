@@ -162,6 +162,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         // build current user, TODO: type UserInterface later
         const build: any = await buildUser(session.user, users_infos);
 
+        console.log(build);
         setUser(build);
       }
     } catch (error) {
