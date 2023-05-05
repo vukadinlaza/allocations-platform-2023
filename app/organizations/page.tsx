@@ -33,15 +33,13 @@ export default function Organizations() {
   };
   return (
     <div>
-      <OrganizationForm />
       <Dialog
         open={openModal}
         TransitionComponent={Transition}
         keepMounted
-        onClose={() => setOpenModal(false)}
         aria-describedby="alert-dialog-slide-description"
       >
-        <OrganizationForm />
+        <OrganizationForm setOpenModal={setOpenModal} />
       </Dialog>
       <PageList
         header={getHeader()}

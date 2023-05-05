@@ -102,24 +102,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     try {
       const { data } = await supabase
         .from('users')
-        .select(
-          `*,
-          users_organizations (
-            *,
-            organizations (
-              *,
-              deals (
-                *
-              ),
-              entities (
-                *,
-                deals (
-                  *
-                )
-              )
-            )
-          )`
-        )
+        .select(`*`)
         .eq('email', email)
         .single();
 

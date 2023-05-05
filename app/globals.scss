@@ -58,6 +58,19 @@ $primary: #3db278;
   .card {
     @apply flex flex-col items-center justify-center p-8 mb-6;
 
+    &--popup {
+      header,
+      main {
+        @apply py-4 px-6;
+      }
+      header {
+        @apply flex items-center justify-between border-b py-4 px-6;
+      }
+      main {
+        @apply pb-8;
+      }
+    }
+
     header {
       @apply flex items-start justify-between w-full mb-4;
     }

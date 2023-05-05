@@ -1,5 +1,7 @@
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
+import supabase from '@/lib/supabase';
+import CloseIcon from '@mui/icons-material/Close';
 import { Card } from '@mui/material';
 import { useState } from 'react';
 
@@ -7,27 +9,50 @@ interface NewOrganization {
   name: string;
 }
 
-export default function OrganizationForm() {
+const items: any = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'string'
+  }
+];
+
+export default function OrganizationForm({
+  setOpenModal
+}: {
+  setOpenModal: any;
+}) {
   const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
     null
   );
   const [loading, setLoading] = useState<boolean>(false);
 
-  const items: any = [
-    {
-      key: 'name',
-      label: 'Name',
-      type: 'string'
-    }
-  ];
+  const createNew = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('organizations')
+        .insert(newOrganization);
 
-  const createNew = () => {};
+      setOpenModal(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setNewOrganization(null);
+      setLoading(false);
+    }
+  };
   return (
-    <Card className="card" variant="outlined">
+    <Card className="mb-0 card--popup" variant="outlined">
       <header>
         <h2>Create a new organization</h2>
+        <CloseIcon
+          fontSize="inherit"
+          className="text-2xl cursor-pointer text-gray"
+          onClick={() => setOpenModal(false)}
+        />
       </header>
-      <main>
+      <main className="w-96">
         <FormBuilder
           items={items}
           loading={loading}
