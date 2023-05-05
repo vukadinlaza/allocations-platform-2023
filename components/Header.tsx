@@ -54,15 +54,6 @@ export default function Header({ loading }: HeaderProps) {
       .eq('type', 'fund')
       .then(({ count }) => count);
 
-    console.log({
-      organizations,
-      investments,
-      entities,
-      deals,
-      spvs,
-      funds
-    });
-
     setCounts({
       organizations,
       investments,

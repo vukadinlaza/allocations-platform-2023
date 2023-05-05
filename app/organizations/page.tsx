@@ -1,8 +1,9 @@
 'use client';
 
 import { headers_tables } from '@/app/config';
+import OrganizationForm from '@/components/Organizations/Form';
 import PageList from '@/components/PageList';
-import { Slide } from '@mui/material';
+import { Dialog, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useState } from 'react';
 
@@ -32,7 +33,7 @@ export default function Organizations() {
   };
   return (
     <div>
-      {/* <OrganizationForm />
+      <OrganizationForm />
       <Dialog
         open={openModal}
         TransitionComponent={Transition}
@@ -41,7 +42,7 @@ export default function Organizations() {
         aria-describedby="alert-dialog-slide-description"
       >
         <OrganizationForm />
-      </Dialog> */}
+      </Dialog>
       <PageList
         header={getHeader()}
         headersTable={headers_tables.organizations}

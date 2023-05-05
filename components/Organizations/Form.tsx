@@ -8,7 +8,9 @@ interface NewOrganization {
 }
 
 export default function OrganizationForm() {
-  const [newOrganization, setNewOrganization] = useState<any | null>(null);
+  const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(false);
 
   const items: any = [
@@ -28,9 +30,8 @@ export default function OrganizationForm() {
       <main>
         <FormBuilder
           items={items}
-          values={newOrganization}
           loading={loading}
-          onChange={(e) => console.log(e)}
+          onChange={(key, value) => setNewOrganization({ [key]: value })}
         />
         <Button
           loading={loading}
