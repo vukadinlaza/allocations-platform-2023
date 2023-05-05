@@ -1,5 +1,4 @@
 import { Grid, TextField } from '@mui/material';
-import { useState } from 'react';
 
 type Field = {
   key: string;
@@ -24,14 +23,14 @@ export default function FormBuilder({
     <Grid container spacing={2}>
       {items.map((field) => (
         <Grid item xs={12} key={field.key}>
-          {field.type === 'string' && (
+          {field.type === 'string' && field.key && (
             <TextField
               disabled={loading}
               size="small"
               label={field.label}
               variant="outlined"
               fullWidth
-              value={values[field.key] || ''}
+              value={values ? values[field.key] : null}
               onChange={(event) => onChange(field.key, event.target.value)}
             />
           )}
