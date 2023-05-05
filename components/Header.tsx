@@ -152,7 +152,6 @@ export default function Header({ loading }: HeaderProps) {
           </div>
         )}
         {!loading &&
-          navigation &&
           navigation.map((item) => (
             <Link href={item.href} key={item.href}>
               <div
