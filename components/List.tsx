@@ -1,5 +1,4 @@
 'use client';
-
 import { useAuthContext } from '@/app/context';
 import {
   Chip,
@@ -12,6 +11,7 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
+import numeral from 'numeral';
 
 export const getColor = (str: string) => {
   let color;
@@ -34,6 +34,13 @@ const generateCell = (item: any, column: any) => {
   const no_info = 'None';
   if (!item || !column || !column.key) {
     return no_info;
+  }
+  if (
+    column.key === 'subscription_amount' ||
+    column.key === 'capital_wired_amount'
+  ) {
+    if (!item[column.key]) return `$0`;
+    return `$${numeral(item[column.key]).format('0,0') || 0}`;
   }
   if (column.key === 'status' || column.key === 'tax_status')
     return (

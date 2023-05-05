@@ -5,13 +5,12 @@ import { useAuthContext } from '@/app/context';
 import supabase from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
-import Logo from './Logo';
 import Feedback from './Feedback';
+import Logo from './Logo';
 
 interface HeaderProps {
   loading: boolean;
@@ -38,6 +37,11 @@ export default function Header({ loading }: HeaderProps) {
       .select('*', { count: 'exact' })
       .then(({ count }) => count);
 
+    const investments = await supabase
+      .from('investments')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
     const spvs = await supabase
       .from('deals')
       .select('*', { count: 'exact' })
@@ -50,8 +54,18 @@ export default function Header({ loading }: HeaderProps) {
       .eq('type', 'fund')
       .then(({ count }) => count);
 
+    console.log({
+      organizations,
+      investments,
+      entities,
+      deals,
+      spvs,
+      funds
+    });
+
     setCounts({
       organizations,
+      investments,
       entities,
       deals,
       spvs,
@@ -150,7 +164,7 @@ export default function Header({ loading }: HeaderProps) {
               >
                 <span className="mr-1">{item.name}</span>
                 {counts && item.showCount && (
-                  <span>({counts[item.name.toLowerCase()]})</span>
+                  <span>({counts[item.name.toLowerCase()] || 0})</span>
                 )}
               </div>
             </Link>

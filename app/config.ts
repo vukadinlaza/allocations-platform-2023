@@ -4,7 +4,8 @@ export const navigation = [
   { name: 'Funds', href: '/funds', showCount: true },
   { name: 'Organizations', href: '/organizations', showCount: true },
   { name: 'Entities', href: '/entities', showCount: true },
-  { name: 'Deals', href: '/deals', showCount: true }
+  { name: 'Investments', href: '/investments', showCount: true },
+  { name: 'Deals Admin', href: '/deals', showCount: true, admin: true }
 ];
 
 export const headers_tables = {
@@ -65,6 +66,28 @@ export const headers_tables = {
     {
       label: 'Status',
       key: 'status'
+    }
+  ],
+  investments: [
+    {
+      label: 'Deal name',
+      key: 'name'
+    },
+    {
+      label: 'Subscription amount',
+      key: 'subscription_amount'
+    },
+    {
+      label: 'Capital wired amount',
+      key: 'capital_wired_amount'
+    },
+    {
+      label: 'Status',
+      key: 'status'
+    },
+    {
+      label: 'Updated at',
+      key: 'created_at'
     }
   ],
   organizations: [
