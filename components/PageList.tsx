@@ -132,7 +132,15 @@ export default function PageList({
           <div>
             {header.buttons &&
               header.buttons.map((button: any) => (
-                <button key={button.title} disabled className="btn primary">
+                <button
+                  key={button.title}
+                  disabled={button.disabled}
+                  className="btn primary"
+                  onClick={() => {
+                    if (!button.action) return;
+                    button.action();
+                  }}
+                >
                   {button.title}
                 </button>
               ))}

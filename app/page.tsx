@@ -13,8 +13,8 @@ export default function Dashboard() {
   const { user } = useAuthContext();
 
   const getFullName = () => {
-    if (!user || !user.infos) return '';
-    if (user.infos.first_name) return user.infos.first_name;
+    if (!user) return '';
+    if (user.infos && user.infos.first_name) return user.infos.first_name;
     return user.email;
   };
 
