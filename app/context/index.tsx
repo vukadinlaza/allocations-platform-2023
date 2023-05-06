@@ -106,8 +106,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .eq('email', email)
         .single();
 
-      console.log(data);
-
       return data;
     } catch (error) {
       console.log(error);
