@@ -4,8 +4,7 @@ export const navigation = [
   { name: 'Funds', href: '/funds', showCount: true },
   { name: 'Organizations', href: '/organizations', showCount: true },
   { name: 'Entities', href: '/entities', showCount: true },
-  { name: 'Investments', href: '/investments', showCount: true },
-  { name: 'Deals Admin', href: '/deals', showCount: true, showAdmin: true }
+  { name: 'Investments', href: '/investments', showCount: true }
 ];
 
 export const headers_tables = {

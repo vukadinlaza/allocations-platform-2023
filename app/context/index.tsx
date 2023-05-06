@@ -90,7 +90,7 @@ const buildUser = (
 };
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
@@ -105,6 +105,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         .select(`*`)
         .eq('email', email)
         .single();
+
+      console.log(data);
 
       return data;
     } catch (error) {
@@ -143,10 +145,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         // merge session.user + user + users_organizations
         const users_infos = await fetchUser(session.user);
         // build current user, TODO: type UserInterface later
-        const build: any = await buildUser(session.user, users_infos);
+        // const build: any = await buildUser(session.user, users_infos);
 
-        console.log(build);
-        setUser(build);
+        setUser(users_infos);
       }
     } catch (error) {
       console.log(error);
