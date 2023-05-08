@@ -44,7 +44,7 @@ export default function PageList({
       let request = supabase
         .from(table)
         .select(query ?? `*`, { count: 'exact' })
-        .order('created_at', { ascending: true });
+        .order('created_at', { ascending: false });
 
       if (queryType) {
         request = request.eq('type', queryType);
@@ -151,7 +151,7 @@ export default function PageList({
             <TextField
               id="outlined-start-adornment"
               size="small"
-              placeholder="Search for spvs..."
+              placeholder={'Search...'}
               sx={{ width: '300px' }}
               onInput={(e: any) => setSearch(e.target.value)}
               InputProps={{

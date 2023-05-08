@@ -44,7 +44,7 @@ export default function Organizations() {
       <PageList
         header={getHeader()}
         headersTable={headers_tables.organizations}
-        table="organizations"
+        table="limited_organizations"
         query={`*, entities ( * )`}
       />
     </div>

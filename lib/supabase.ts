@@ -17,7 +17,10 @@ export const fetchUser = async (email: string | undefined) => {
 };
 
 export const fetchOrganizations = async () => {
-  return await supabase.from('organizations').select(`*`, { count: 'exact' });
+  return await supabase
+    .from('limited_organizations')
+    .select(`*`, { count: 'exact' })
+    .order('created_at', { ascending: true });
 };
 
 export const fetchEntities = async () => {
