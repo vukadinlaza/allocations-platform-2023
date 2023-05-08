@@ -28,7 +28,6 @@ export default function PageList({
   dialog,
   header,
   headersTable,
-  data,
   type,
   query,
   table,

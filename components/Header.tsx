@@ -2,6 +2,7 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
+import supabase from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
@@ -15,11 +16,46 @@ export default function Header() {
   const pathname = usePathname();
   const { user, organizations, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
-  
-  useEffect(() => {
+
+  const getCount = async () => {
+    const organizations = await supabase
+      .from('organizations')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
+    const entities = await supabase
+      .from('limited_entities')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
+    const deals = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .then(({ count }) => count);
+
+    const spvs = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .eq('type', 'spv')
+      .then(({ count }) => count);
+
+    const funds = await supabase
+      .from('deals')
+      .select('*', { count: 'exact' })
+      .eq('type', 'fund')
+      .then(({ count }) => count);
+
     setCounts({
-      organizations: organizations.length
+      organizations,
+      entities,
+      deals,
+      spvs,
+      funds
     });
+  };
+
+  useEffect(() => {
+    getCount;
   }, []);
 
   return (
