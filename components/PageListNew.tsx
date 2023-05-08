@@ -23,7 +23,7 @@ export default function PageListNew({
   const { user } = useAuthContext();
 
   useEffect(() => {
-    if (search) {
+    if (search && initialData.length > 0) {
       const filteredResults = initialData.filter((x) => {
         const values = Object.values(x);
         return values.some((value: any) => {
@@ -52,7 +52,7 @@ export default function PageListNew({
 
   return (
     <main>
-      {data && (
+      {data && user && (
         <Card className="card" variant="outlined">
           {header && (
             <header>

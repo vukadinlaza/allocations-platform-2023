@@ -15,7 +15,8 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export default async function Organizations() {
+
+export default function Organizations() {
   const { user } = useAuthContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -43,11 +44,13 @@ export default async function Organizations() {
       >
         <OrganizationForm setOpenModal={setOpenModal} open={openModal} />
       </Dialog>
-      <PageListNew
-        header={getHeader()}
-        headersTable={headers_tables.organizations}
-        data={user.organizations}
-      />
+      {user && user.organizations && (
+        <PageListNew
+          header={getHeader()}
+          headersTable={headers_tables.organizations}
+          data={user.organizations}
+        />
+      )}
     </div>
   );
 }

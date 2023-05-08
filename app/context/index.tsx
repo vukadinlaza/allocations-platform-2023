@@ -106,7 +106,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           <Header />
           <div className="p-4">
             {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
-            {user && children}
+            {children}
           </div>
           <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
           <ToastContainer />
