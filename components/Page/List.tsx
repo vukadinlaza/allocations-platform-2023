@@ -31,7 +31,8 @@ export default function PageList({
   type,
   query,
   table,
-  queryType
+  queryType,
+  target
 }: {
   dialog: any;
   header: any;
@@ -41,6 +42,7 @@ export default function PageList({
   table?: string;
   query?: string;
   queryType?: string;
+  target?: string;
 }) {
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
@@ -69,8 +71,11 @@ export default function PageList({
       console.log(_data);
 
       if (_data && _data.length > 0) {
+        if (target) {
+          setInitialData(_data.map((d: any) => d[target]));
+          return;
+        }
         setInitialData(_data);
-        console.log(_data);
       }
     } catch (err) {
       console.log(err);
@@ -80,7 +85,7 @@ export default function PageList({
   };
 
   useEffect(() => {
-    if (search && initialData.length > 0) {
+    if (search && initialData) {
       const filteredResults = initialData.filter((x) => {
         const values = Object.values(x);
         return values.some((value: any) => {
@@ -107,11 +112,12 @@ export default function PageList({
       .channel('organizations_roles_subscribers')
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: table },
+        { event: 'INSERT', schema: 'public', table: target ? target : table },
+        // target for subkey
         (payload) => {
-          console.log(payload);
           const newElement = payload.new;
-          setInitialData((prevData) => [...prevData, newElement]);
+          console.log(initialData);
+          setInitialData((prevData: any) => [...prevData, newElement]);
         }
       )
       .subscribe();
@@ -142,7 +148,7 @@ export default function PageList({
                 <h1 className="mb-2">
                   <span className="mr-2">{header.name || 'No title'}</span>
                   <div className="chip chip--small chip--info">
-                    {initialData.length || 0}
+                    {initialData && initialData.length ? initialData.length : 0}
                   </div>
                 </h1>
                 <p>{header.description || 'No description'}</p>
@@ -193,8 +199,17 @@ export default function PageList({
             )}
           </Grid>
           <Grid container>
-            {!search && (
-              <List type={type} headers={headersTable} data={initialData} />
+            {!search && initialData && (
+              <List
+                type={type}
+                headers={headersTable}
+                data={initialData.sort((a: any, b: any) => {
+                  const dateA = new Date(a.created_at);
+                  const dateB = new Date(b.created_at);
+                  // @ts-ignore
+                  return dateB - dateA;
+                })}
+              />
             )}
             {search && (
               <List type={type} headers={headersTable} data={results} />

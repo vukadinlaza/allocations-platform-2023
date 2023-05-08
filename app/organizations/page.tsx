@@ -28,6 +28,7 @@ export default function Organizations() {
         headersTable={headers_tables.organizations}
         table="organizations_roles"
         query={`*, organizations (*)`}
+        target="organizations"
       />
     </div>
   );
