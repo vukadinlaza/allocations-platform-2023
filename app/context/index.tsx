@@ -1,5 +1,7 @@
 'use client';
+import AlertsBeta from '@/components/Alerts/Beta';
 import Header from '@/components/Header';
+import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
 import supabase, {
@@ -9,9 +11,6 @@ import supabase, {
   fetchOrganizations,
   fetchUser
 } from '@/lib/supabase';
-import { SpaceDashboardOutlined } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
-import { Alert, Collapse, IconButton } from '@mui/material';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +21,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [betaAlert, hasBetaAlert] = useState(true);
+  const [betaAlert, showBetaAlert] = useState(true);
   const [slideOverData, setSlideOverData] = useState({});
 
   const signOut = async () => {
@@ -100,100 +99,19 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {user && <Header loading={loading} />}
-      <div>
-        {!user && !loading && (
-          <div className="my-12">
-            <Login />
-          </div>
-        )}
-        {user && (
-          <div className="px-5 my-6">
-            <ToastContainer />
-            <Collapse in={betaAlert}>
-              <Alert
-                className="mb-6 "
-                icon={<SpaceDashboardOutlined className=" text-primary" />}
-                severity="success"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                      hasBetaAlert(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" className="text-primary" />
-                  </IconButton>
-                }
-              >
-                <h2 className="mt-0">Welcome to Allocations v2.0 !</h2>
-                <span>
-                  Welcome to our beta fund administration platform, where you
-                  can experience the latest features and help us shape the
-                  future of our new product.
-                </span>
-              </Alert>
-            </Collapse>
-            {/* <SlideOverContent
-              data={{
-                data: {
-                  id: '75087e2b-86c5-4b17-b721-a0c412af6a31',
-                  created_at: '2023-04-26T19:35:30.005226+00:00',
-                  updated_at: '2023-04-26T19:35:30.005226+00:00',
-                  accept_crypto: false,
-                  asset_type: 'Startup',
-                  carry_fee: '0',
-                  closing_date: '2018-12-26T00:00:00.000Z',
-                  closed: false,
-                  company_name: 'Bakkt',
-                  deal_term: '10 years',
-                  documents: null,
-                  elevated_returns: false,
-                  entity_id: 'null',
-                  entity_name: 'AS Bruch Fund LLC',
-                  international_investors: false,
-                  invited_investors: 'null',
-                  legacy_manager_email: 'null',
-                  legacy_manager_name: 'null',
-                  legacy_organization_name: 'null',
-                  management_fee: '0',
-                  management_fee_dollar: 'null',
-                  management_fee_frequency: 'null',
-                  management_fee_percent: 'null',
-                  management_fee_type: 'null',
-                  manager_email: 'null',
-                  manager_type: 'individual',
-                  minimum_investment: '10000',
-                  mongo_id: '5de560a92817ed4e5b8a7afa',
-                  mongo_organization_id: '5e4d9a334ffe0530c9350d40',
-                  name: 'Bakkt',
-                  offering_type: 'null',
-                  onboarding_link: 'null',
-                  owner_mongo_id: 'null',
-                  portfolio_company_name: 'Bakkt',
-                  series_name: 'null',
-                  setup_cost: '0',
-                  side_letters: false,
-                  sign_deadline: 'null',
-                  status: 'closed',
-                  target: 'null',
-                  target_raise_goal: '0',
-                  total_carry: 'null',
-                  total_round_size: 'null',
-                  type: 'spv',
-                  wire_deadline: '2018-12-27T22:00:00.000Z',
-                  user_email: 'null'
-                },
-                type: 'spvs'
-              }}
-            /> */}
+      {loading && <LoadingApp />}
+      {!loading && !user && <Login />}
+      {!loading && user && (
+        <main>
+          <Header />
+          <div className="p-4">
+            {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
             {children}
-            <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
           </div>
-        )}
-      </div>
+          <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
+          <ToastContainer />
+        </main>
+      )}
     </AuthContext.Provider>
   );
 };

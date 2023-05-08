@@ -17,11 +17,7 @@ import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
 
-interface HeaderProps {
-  loading: boolean;
-}
-
-export default function Header({ loading }: HeaderProps) {
+export default function Header() {
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
@@ -34,7 +30,7 @@ export default function Header({ loading }: HeaderProps) {
     const { count: spvs } = await fetchDeals('spv');
     const { count: funds } = await fetchDeals('fund');
     const { count: investments } = await fetchInvestments();
-    
+
     setCounts({
       organizations,
       entities,
@@ -56,16 +52,7 @@ export default function Header({ loading }: HeaderProps) {
           <Logo />
         </div>
         <div className="flex items-center justify-end w-full grow">
-          {loading && (
-            <div
-              className="flex items-center justify-end grow"
-              style={{ maxWidth: '300px' }}
-            >
-              <div className="w-32 h-4 mr-2 rounded-lg loading" />
-              <div className="w-8 h-8 rounded-full loading" />
-            </div>
-          )}
-          {!loading && (
+          {user && (
             <div className="flex items-center justify-end ml-4 grow">
               {user && (
                 <div className="flex items-center justify-between">
@@ -117,14 +104,7 @@ export default function Header({ loading }: HeaderProps) {
         </div>
       </div>
       <div className="header--sub">
-        {loading && (
-          <div className="flex items-center">
-            {Array.from({ length: 6 }).map((x, i) => (
-              <div key={i} className="w-32 h-5 mr-2 rounded-lg loading" />
-            ))}
-          </div>
-        )}
-        {!loading &&
+        {user &&
           navigation.map((item) => (
             <Link href={item.href} key={item.href}>
               <div
