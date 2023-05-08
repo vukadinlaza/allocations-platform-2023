@@ -109,6 +109,10 @@ export const headers_tables = {
     {
       label: 'Total Entities',
       key: 'entities'
+    },
+    {
+      label: '',
+      key: 'edit'
     }
   ],
   spvs: [

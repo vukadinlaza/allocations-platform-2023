@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import numeral from 'numeral';
 
 export const getColor = (str: string) => {
@@ -34,6 +35,17 @@ const generateCell = (item: any, column: any) => {
   const no_info = 'None';
   if (!item || !column || !column.key) {
     return no_info;
+  }
+  if (column.key === 'edit') {
+    return (
+      <Image
+        src="/pen.svg"
+        alt={'Edit'}
+        className="ml-auto opacity-25 cursor-pointer text-gray"
+        width={24}
+        height={24}
+      />
+    );
   }
   if (
     column.key === 'subscription_amount' ||
@@ -84,7 +96,7 @@ export default function List({
             {headers &&
               headers.map((x: any, i: any) => (
                 <TableCell align="left" key={i}>
-                  <span className="text-lg text-bold">{x.label}</span>
+                  <span className="text-base text-bold">{x.label}</span>
                 </TableCell>
               ))}
           </TableRow>
@@ -103,7 +115,10 @@ export default function List({
                 {headers &&
                   headers.map((column: any, i: any) => {
                     return (
-                      <TableCell align="left" key={i}>
+                      <TableCell
+                        align={column.key === 'edit' ? 'right' : 'left'}
+                        key={i}
+                      >
                         {generateCell(item, column)}
                       </TableCell>
                     );
