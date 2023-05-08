@@ -11,6 +11,7 @@ import supabase, {
   fetchOrganizations,
   fetchUser
 } from '@/lib/supabase';
+import { Deal, Entity, Investment, Organization } from '@/types';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +19,14 @@ import 'react-toastify/dist/ReactToastify.css';
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
+  // data
   const [user, setUser] = useState<any>(null);
+  const [organizations, setOrganizations] = useState<Organization[] | null>([]);
+  const [entities, setEntities] = useState<Entity[] | null>([]);
+  const [deals, setDeals] = useState<Deal[] | null>([]);
+  const [investments, setInvestments] = useState<Investment[] | null>([]);
+
+  // app
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(true);
@@ -51,18 +59,18 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         const users_infos = await fetchUser(session.user.email);
-        const { data: organizations } = await fetchOrganizations();
-        const { data: entities } = await fetchEntities();
-        const { data: deals } = await fetchDeals();
-        const { data: investments } = await fetchInvestments();
+        const { data: _organizations } = await fetchOrganizations();
+        setOrganizations(_organizations);
+        const { data: _entities } = await fetchEntities();
+        setEntities(_entities);
+        const { data: _deals } = await fetchDeals();
+        setDeals(deals);
+        const { data: _investments } = await fetchInvestments();
+        setInvestments(_investments);
 
         setUser({
           ...session.user,
           ...users_infos,
-          organizations,
-          entities,
-          deals,
-          investments,
           is_super_admin: users_infos?.is_super_admin,
           currentOrganization: null
         });
@@ -88,6 +96,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const value = useMemo(() => {
     return {
       user,
+      organizations,
+      entities,
+      deals,
+      investments,
       open,
       notify,
       setCurrentOrganization: (orgId: string) =>
@@ -119,11 +131,26 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 export const useAuthContext = () => {
   const {
     user,
+    organizations,
+    entities,
+    deals,
+    investments,
     open,
     notify,
     setSlideOver,
     setCurrentOrganization,
     signOut
   }: any = useContext(AuthContext);
-  return { user, open, notify, setSlideOver, setCurrentOrganization, signOut };
+  return {
+    user,
+    organizations,
+    entities,
+    deals,
+    investments,
+    open,
+    notify,
+    setSlideOver,
+    setCurrentOrganization,
+    signOut
+  };
 };

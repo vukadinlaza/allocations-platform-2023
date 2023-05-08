@@ -110,7 +110,7 @@ export interface Organization {
   legal_name?: string;
   mou_signed?: boolean;
   phase?: string;
-  entities?: Organization[] | null;
+  entities?: Entities[] | null;
   deals?: Deal[] | null;
 }
 
@@ -120,7 +120,7 @@ export interface TabData {
   disabled?: boolean;
 }
 
-export interface UserInfos {
+export interface User {
   id?: null | string;
   created_at?: string | Date;
   updated_at?: string | Date;
@@ -130,4 +130,7 @@ export interface UserInfos {
   investor_type?: null | string;
   is_super_admin?: boolean;
   mongo_id?: string;
+  organizations?: Organizations[] | null;
+  entities?: Entities[] | null;
+  deals?: Deal[] | null;
 }

@@ -20,7 +20,7 @@ export const fetchOrganizations = async () => {
   return await supabase
     .from('limited_organizations')
     .select(`*`, { count: 'exact' })
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false });
 };
 
 export const fetchEntities = async () => {

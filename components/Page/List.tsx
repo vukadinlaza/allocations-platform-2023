@@ -1,26 +1,97 @@
 'use client';
 import { useAuthContext } from '@/app/context';
 import List from '@/components/List';
+import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
-import { Alert, Grid, InputAdornment, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import {
+  Alert,
+  Card,
+  Dialog,
+  Grid,
+  InputAdornment,
+  Slide,
+  TextField
+} from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
+import React, { useEffect, useState } from 'react';
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function PageList({
+  dialog,
   header,
   headersTable,
   data,
-  type
+  type,
+  query,
+  table,
+  queryType
 }: {
-  header?: any;
+  dialog: any;
+  header: any;
   headersTable?: any;
   data?: any;
   type?: string;
+  table?: string;
+  query?: string;
+  queryType?: string;
 }) {
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
   const [results, setResults] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const { user } = useAuthContext();
+
+  const fetchData = async () => {
+    if (!user || !table) return;
+    try {
+      setLoading(true);
+
+      let request = supabase
+        .from(table)
+        .select(query ?? `*`, { count: 'exact' })
+        .order('created_at', { ascending: true });
+
+      if (queryType) {
+        request = request.eq('type', queryType);
+      }
+
+      let { data: _data, count }: any = await request;
+
+      if (_data && _data.length > 0) {
+        setInitialData(_data);
+        console.log(_data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const organizations = supabase
+    .channel('custom-insert-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'organizations' },
+      (payload) => {
+        const { eventType } = payload;
+        if (eventType === 'INSERT') {
+          const newOrganization = payload.new;
+          setInitialData((prevData) => [...prevData, newOrganization]);
+        }
+      }
+    )
+    .subscribe();
 
   useEffect(() => {
     if (search && initialData.length > 0) {
@@ -45,15 +116,59 @@ export default function PageList({
   }, [search]);
 
   useEffect(() => {
-    if (data) {
-      setInitialData(data);
-    }
+    fetchData();
   }, []);
 
   return (
-    <main className="w-full">
-      {data && user && (
+    <Card className="card" variant="outlined">
+      {!loading && user && (
         <div className="w-full">
+          {dialog && (
+            <Dialog
+              open={openModal}
+              TransitionComponent={Transition}
+              keepMounted
+              aria-describedby="alert-dialog-slide-description"
+            >
+              {dialog.component && (
+                <dialog.component
+                  setOpenModal={setOpenModal}
+                  open={openModal}
+                />
+              )}
+            </Dialog>
+          )}
+          {header && (
+            <header>
+              <div>
+                <h1 className="mb-2">
+                  <span className="mr-2">{header.name || 'No title'}</span>
+                  <div className="chip chip--small chip--info">
+                    {initialData.length || 0}
+                  </div>
+                </h1>
+                <p>{header.description || 'No description'}</p>
+              </div>
+              <div>
+                {header.buttons &&
+                  header.buttons.map((button: any) => (
+                    <button
+                      key={button.title}
+                      disabled={button.disabled}
+                      className="btn primary"
+                      onClick={() => {
+                        if (!button.action) return;
+                        if (button.action === 'modal') {
+                          setOpenModal(true);
+                        }
+                      }}
+                    >
+                      {button.title}
+                    </button>
+                  ))}
+              </div>
+            </header>
+          )}
           <Grid container xs={12} className="mb-6">
             <Grid item xs={8}>
               <TextField
@@ -89,6 +204,6 @@ export default function PageList({
           </Grid>
         </div>
       )}
-    </main>
+    </Card>
   );
 }

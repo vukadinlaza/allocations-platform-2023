@@ -2,12 +2,6 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import {
-  fetchDeals,
-  fetchEntities,
-  fetchInvestments,
-  fetchOrganizations
-} from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
@@ -19,30 +13,13 @@ import Logo from './Logo';
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, setCurrentOrganization } = useAuthContext();
+  const { user, organizations, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
-
-  const getCount = async () => {
-    if (!user) return;
-    const { count: organizations } = await fetchOrganizations();
-    const { count: entities } = await fetchEntities();
-    const { count: deals } = await fetchDeals();
-    const { count: spvs } = await fetchDeals('spv');
-    const { count: funds } = await fetchDeals('fund');
-    const { count: investments } = await fetchInvestments();
-
-    setCounts({
-      organizations,
-      entities,
-      investments,
-      deals,
-      spvs,
-      funds
-    });
-  };
-
+  
   useEffect(() => {
-    getCount();
+    setCounts({
+      organizations: organizations.length
+    });
   }, []);
 
   return (
@@ -74,16 +51,16 @@ export default function Header() {
                       onChange={(e) => setCurrentOrganization(e.target.value)}
                       style={{ maxWidth: '150px' }}
                     >
-                      {user.organizations && user.organizations.length < 1 && (
+                      {organizations && organizations.length < 1 && (
                         <option selected>
-                          {user.infos.is_super_admin
+                          {user.is_super_admin
                             ? 'All organizations'
                             : 'No organization'}
                         </option>
                       )}
-                      {user.organizations &&
-                        user.organizations.length > 0 &&
-                        user.organizations.map((organization: Organization) => (
+                      {organizations &&
+                        organizations.length > 0 &&
+                        organizations.map((organization: Organization) => (
                           <option
                             className="text-xs"
                             key={organization.id}

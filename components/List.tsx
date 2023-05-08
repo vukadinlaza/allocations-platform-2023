@@ -108,28 +108,32 @@ export default function List({
             </TableHead>
             <TableBody>
               {data &&
-                data.map((item: any, index: any) => (
-                  <TableRow
-                    key={index}
-                    className="transition cursor-pointer hover:bg-gray-50"
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    onClick={() => {
-                      if (type) setSlideOver(true, item, type);
-                    }}
-                  >
-                    {headers &&
-                      headers.map((column: any, i: any) => {
-                        return (
-                          <TableCell
-                            align={column.key === 'edit' ? 'right' : 'left'}
-                            key={i}
-                          >
-                            {generateCell(item, column)}
-                          </TableCell>
-                        );
-                      })}
-                  </TableRow>
-                ))}
+                data
+                  .map((item: any, index: any) => (
+                    <TableRow
+                      key={index}
+                      className="transition cursor-pointer hover:bg-gray-50"
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      onClick={() => {
+                        if (type) setSlideOver(true, item, type);
+                      }}
+                    >
+                      {headers &&
+                        headers.map((column: any, i: any) => {
+                          return (
+                            <TableCell
+                              align={column.key === 'edit' ? 'right' : 'left'}
+                              key={i}
+                            >
+                              {generateCell(item, column)}
+                            </TableCell>
+                          );
+                        })}
+                    </TableRow>
+                  ))
+                  .sort(
+                    (a, b) => new Date(a.created_at) - new Date(b.created_at)
+                  )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -36,18 +36,17 @@ export default function OrganizationForm({
       setLoading(true);
       const { data, error } = await supabase
         .from('organizations')
-        .insert(newOrganization);
+        .insert(newOrganization)
+        .select();
 
-      if (error) {
-        notify('Sorry, could not create the organization.', false);
+      if (data) {
+        notify('Successfully created !', true);
       }
-
-      notify('Organization created.', true);
-      setNewOrganization(null);
     } catch (error) {
       console.log(error);
       notify('Sorry, could not create the organization.', false);
     } finally {
+      setNewOrganization(null);
       setLoading(false);
       setOpenModal(false);
     }
