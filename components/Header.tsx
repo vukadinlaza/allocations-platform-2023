@@ -2,7 +2,6 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import supabase from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
@@ -22,46 +21,40 @@ export default function Header({ loading }: HeaderProps) {
   const [counts, setCounts]: any = useState(null);
 
   const getCount = async () => {
-    const organizations = await supabase
-      .from('organizations')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const entities = await supabase
-      .from('limited_entities')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const deals = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const investments = await supabase
-      .from('investments')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const spvs = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .eq('type', 'spv')
-      .then(({ count }) => count);
-
-    const funds = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .eq('type', 'fund')
-      .then(({ count }) => count);
-
-    setCounts({
-      organizations,
-      investments,
-      entities,
-      deals,
-      spvs,
-      funds
-    });
+    // const organizations = await supabase
+    //   .from('organizations')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const entities = await supabase
+    //   .from('limited_entities')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const deals = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const investments = await supabase
+    //   .from('investments')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const spvs = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .eq('type', 'spv')
+    //   .then(({ count }) => count);
+    // const funds = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .eq('type', 'fund')
+    //   .then(({ count }) => count);
+    // setCounts({
+    //   organizations,
+    //   investments,
+    //   entities,
+    //   deals,
+    //   spvs,
+    //   funds
+    // });
   };
 
   useEffect(() => {
@@ -88,9 +81,9 @@ export default function Header({ loading }: HeaderProps) {
             <div className="flex items-center justify-end ml-4 grow">
               {user && (
                 <div className="flex items-center justify-between">
-                  {user.infos && (
+                  {user.is_super_admin && (
                     <div className="mx-2">
-                      {user.infos.is_super_admin && (
+                      {user.is_super_admin && (
                         <Chip
                           size="small"
                           color="info"
@@ -104,6 +97,7 @@ export default function Header({ loading }: HeaderProps) {
                   <div className="mr-2 select">
                     <select
                       onChange={(e) => setCurrentOrganization(e.target.value)}
+                      style={{ maxWidth: '150px' }}
                     >
                       {user.organizations && user.organizations.length < 1 && (
                         <option selected>

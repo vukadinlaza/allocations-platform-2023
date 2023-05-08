@@ -1,32 +1,3 @@
-// 'use client';
-
-// import { createClient, SupabaseClientOptions } from '@supabase/supabase-js';
-// import { Database } from './database.types';
-// import { useSession } from 'next-auth/react';
-// import { useEffect } from 'react';
-// const useSupabase = () => {
-//   const { data } = useSession();
-
-//   const options: SupabaseClientOptions<any> = {};
-
-//   if (data?.supabaseAccessToken) {
-//     options.global = {
-//       headers: {
-//         //@ts-ignore
-//         Authorization: `Bearer ${data.supabaseAccessToken}`
-//       }
-//     };
-//   }
-
-//   return createClient<Database>(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-//     process.env.NEXT_PUBLIC_SUPABASE_KEY as string,
-//     options
-//   );
-// };
-
-// export { useSupabase };
-
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
@@ -34,3 +5,30 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default supabase;
+
+export const fetchUser = async (email: string | undefined) => {
+  if (!email) return;
+  const { data } = await supabase
+    .from('users')
+    .select(`*`)
+    .eq('email', email)
+    .single();
+  return data || null;
+};
+
+export const fetchOrganizations = async () => {
+  const { data: organizations } = await supabase
+    .from('organizations')
+    .select(`*`);
+  return organizations || [];
+};
+
+export const fetchEntities = async () => {
+  const { data: entities } = await supabase.from('deals').select(`*`);
+  return entities || [];
+};
+
+export const fetchDeals = async () => {
+  const { data: deals } = await supabase.from('deals').select(`*`);
+  return deals || [];
+};

@@ -30,7 +30,7 @@ export default function AvatarComponent() {
     setOpen(false);
   };
   const getFirstLetter = () => {
-    if (!user) return 'A';
+    if (!user || !user.email) return 'A';
     return user.email[0];
   };
   return (

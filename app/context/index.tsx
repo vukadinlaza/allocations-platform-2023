@@ -2,15 +2,12 @@
 import Header from '@/components/Header';
 import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
-import supabase from '@/lib/supabase';
-import {
-  Deal,
-  Entity,
-  Organization,
-  UserInterface,
-  UserOrganization,
-  UserSession
-} from '@/types';
+import supabase, {
+  fetchDeals,
+  fetchEntities,
+  fetchOrganizations,
+  fetchUser
+} from '@/lib/supabase';
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Collapse, IconButton } from '@mui/material';
@@ -18,101 +15,12 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext({});
 
-// TODO: Temporary solution to merge from one query
-// later will write accured policies to fetch related sources
-
-const mergeOrganizations = (users_organizations: UserOrganization[] | any) => {
-  if (!users_organizations) return [];
-  return users_organizations.map((org: UserOrganization) => {
-    let _org = {
-      ...org,
-      ...org.organizations
-    };
-    delete _org.organizations;
-    return _org;
-  });
-};
-
-const mergeEntities = (organizations: Organization[]) => {
-  let entities: Entity[] = [];
-  organizations.forEach((organization: Organization) => {
-    if (organization.entities) {
-      entities.push(...organization.entities);
-    }
-  });
-  return entities;
-};
-
-const mergeDeals = (organizations: Organization[], entities: Entity[]) => {
-  let deals: Deal[] = [];
-  organizations.forEach((organization: Organization) => {
-    if (organization.deals) {
-      deals.push(...organization.deals);
-    }
-  });
-  entities.forEach((entity: Entity) => {
-    if (entity.deals) {
-      deals.push(...entity.deals);
-    }
-  });
-  // remove duplicates
-  const uniqueArray = deals.filter((obj, index, array) => {
-    return index === array.findIndex((item) => item.id === obj.id);
-  });
-  return uniqueArray;
-};
-
-const buildUser = (
-  sessionUser: UserSession | any,
-  user: UserInterface | any
-) => {
-  if (!sessionUser) return;
-  let finalUser: UserInterface = { ...sessionUser };
-  if (user) {
-    const { users_organizations } = user;
-    const organizations = mergeOrganizations(users_organizations);
-    const entities = mergeEntities(organizations);
-    const deals = mergeDeals(organizations, entities);
-    // users deals missing
-    if (users_organizations) {
-      finalUser = {
-        ...finalUser,
-        organizations,
-        entities,
-        deals,
-        infos: user,
-        is_super_admin: user.is_super_admin || false,
-        currentOrganization: organizations ? organizations[0].id : null
-      };
-    }
-  }
-  return finalUser;
-};
-
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, hasBetaAlert] = useState(true);
   const [slideOverData, setSlideOverData] = useState({});
-
-  const fetchUser = async (user: any) => {
-    const { email } = user;
-    if (!email) return;
-    try {
-      const { data } = await supabase
-        .from('users')
-        .select(`*`)
-        .eq('email', email)
-        .single();
-
-      return data;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const signOut = async () => {
     try {
@@ -140,12 +48,20 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        // merge session.user + user + users_organizations
-        const users_infos = await fetchUser(session.user);
-        // build current user, TODO: type UserInterface later
-        // const build: any = await buildUser(session.user, users_infos);
+        const users_infos = await fetchUser(session.user.email);
+        const organizations = await fetchOrganizations();
+        const entities = await fetchEntities();
+        const deals = await fetchDeals();
 
-        setUser(users_infos);
+        setUser({
+          ...session.user,
+          ...users_infos,
+          organizations,
+          entities,
+          deals,
+          is_super_admin: users_infos?.is_super_admin,
+          currentOrganization: null
+        });
       }
     } catch (error) {
       console.log(error);
