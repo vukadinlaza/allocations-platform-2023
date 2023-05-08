@@ -1,11 +1,11 @@
 'use client';
 import { useAuthContext } from '@/app/context';
+import List from '@/components/List';
 import { Search } from '@mui/icons-material';
-import { Alert, Card, Grid, InputAdornment, TextField } from '@mui/material';
+import { Alert, Grid, InputAdornment, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import List from './List';
 
-export default function PageListNew({
+export default function PageList({
   header,
   headersTable,
   data,
@@ -51,38 +51,9 @@ export default function PageListNew({
   }, []);
 
   return (
-    <main>
+    <main className="w-full">
       {data && user && (
-        <Card className="card" variant="outlined">
-          {header && (
-            <header>
-              <div>
-                <h1 className="mb-2">
-                  <span className="mr-2">{header.name || 'No title'}</span>
-                  <div className="chip chip--small chip--info">
-                    {data.length || 0}
-                  </div>
-                </h1>
-                <p>{header.description || 'No description'}</p>
-              </div>
-              <div>
-                {header.buttons &&
-                  header.buttons.map((button: any) => (
-                    <button
-                      key={button.title}
-                      disabled={button.disabled}
-                      className="btn primary"
-                      onClick={() => {
-                        if (!button.action) return;
-                        button.action();
-                      }}
-                    >
-                      {button.title}
-                    </button>
-                  ))}
-              </div>
-            </header>
-          )}
+        <div className="w-full">
           <Grid container xs={12} className="mb-6">
             <Grid item xs={8}>
               <TextField
@@ -116,7 +87,7 @@ export default function PageListNew({
               <List type={type} headers={headersTable} data={results} />
             )}
           </Grid>
-        </Card>
+        </div>
       )}
     </main>
   );

@@ -1,26 +1,39 @@
 'use client';
+import PageBase from '@/components/Page/Base';
+import { useState } from 'react';
+import { headers_tables } from '../config';
+import { useAuthContext } from '../context';
 
-import { headers_tables } from '@/app/config';
-import PageList from '@/components/PageList';
+export default function Investments() {
+  const { user } = useAuthContext();
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
-export default function Deals() {
-  const getHeader = () => {
+  const getContent = () => {
     return {
-      name: 'Investments',
-      description: 'Manage your investments.',
-      buttons: [
-        {
-          title: 'Create new'
-        }
-      ]
+      header: {
+        name: 'Investments',
+        description: 'Manage your investments.',
+        buttons: [
+          {
+            title: 'Create new'
+          }
+        ]
+      },
+      headersTable: headers_tables.investments,
+      dialog: {
+        component: null
+      }
     };
   };
+
   return (
-    <PageList
-      header={getHeader()}
-      headersTable={headers_tables.investments}
-      table="investments"
-      query={`*`}
-    />
+    <div>
+      <PageBase
+        content={getContent()}
+        data={user.investments}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
+    </div>
   );
 }
