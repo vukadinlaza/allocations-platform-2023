@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import numeral from 'numeral';
+import MissingData from './MissingData';
 
 export const getColor = (str: string) => {
   let color;
@@ -83,50 +84,56 @@ export default function List({
   type = null,
   data = null
 }: {
-  headers: any;
-  type: any;
-  data: any;
+  headers?: any;
+  type?: any;
+  data?: any;
 }) {
   const { setSlideOver } = useAuthContext();
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }}>
-        <TableHead>
-          <TableRow>
-            {headers &&
-              headers.map((x: any, i: any) => (
-                <TableCell align="left" key={i}>
-                  <span className="text-base text-bold">{x.label}</span>
-                </TableCell>
-              ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data &&
-            data.map((item: any, index: any) => (
-              <TableRow
-                key={index}
-                className="transition cursor-pointer hover:bg-gray-50"
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onClick={() => {
-                  if (type) setSlideOver(true, item, type);
-                }}
-              >
+    <div className="w-full">
+      {data.length < 1 && <MissingData />}
+      {data && data.length > 0 && (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }}>
+            <TableHead>
+              <TableRow>
                 {headers &&
-                  headers.map((column: any, i: any) => {
-                    return (
-                      <TableCell
-                        align={column.key === 'edit' ? 'right' : 'left'}
-                        key={i}
-                      >
-                        {generateCell(item, column)}
-                      </TableCell>
-                    );
-                  })}
+                  headers.map((x: any, i: any) => (
+                    <TableCell align="left" key={i}>
+                      <span className="text-base text-bold">{x.label}</span>
+                    </TableCell>
+                  ))}
               </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableHead>
+            <TableBody>
+              {data &&
+                data.map((item: any, index: any) => (
+                  <TableRow
+                    key={index}
+                    className="transition cursor-pointer hover:bg-gray-50"
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    onClick={() => {
+                      if (type) setSlideOver(true, item, type);
+                    }}
+                  >
+                    {headers &&
+                      headers.map((column: any, i: any) => {
+                        return (
+                          <TableCell
+                            align={column.key === 'edit' ? 'right' : 'left'}
+                            key={i}
+                          >
+                            {generateCell(item, column)}
+                          </TableCell>
+                        );
+                      })}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </div>
   );
 }

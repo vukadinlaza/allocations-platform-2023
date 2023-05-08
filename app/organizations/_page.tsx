@@ -1,11 +1,10 @@
 'use client';
+import { headers_tables } from '@/app/config';
 import OrganizationForm from '@/components/Organizations/Form';
-import PageListNew from '@/components/PageListNew';
+import PageList from '@/components/PageList';
 import { Dialog, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useState } from 'react';
-import { headers_tables } from '../config';
-import { useAuthContext } from '../context';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -15,9 +14,8 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export default async function Organizations() {
-  const { user } = useAuthContext();
 
+export default function Organizations() {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const getHeader = () => {
@@ -32,7 +30,6 @@ export default async function Organizations() {
       ]
     };
   };
-
   return (
     <div>
       <Dialog
@@ -43,10 +40,11 @@ export default async function Organizations() {
       >
         <OrganizationForm setOpenModal={setOpenModal} open={openModal} />
       </Dialog>
-      <PageListNew
+      <PageList
         header={getHeader()}
         headersTable={headers_tables.organizations}
-        data={user.organizations}
+        table="limited_organizations"
+        query={`*, entities ( * )`}
       />
     </div>
   );

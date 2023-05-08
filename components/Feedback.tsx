@@ -13,7 +13,7 @@ export default function Feedback() {
         <Image
           src="/message.svg"
           alt="Feedback"
-          className="mr-2 opacity-50 cursor-pointer"
+          className="mr-2 opacity-50 text-primary-400"
           width={16}
           height={16}
         />

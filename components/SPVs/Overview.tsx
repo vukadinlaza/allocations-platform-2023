@@ -33,7 +33,7 @@ export default function Overview() {
   return (
     <div className="overview">
       <div>
-        <div className="flex items-center justify-center w-full h-48 my-8 bg-primary">
+        <div className="flex items-center justify-center w-full h-48 my-8 bg-primary-400">
           <p className="text-white">Logo here</p>
         </div>
         <Tabs tabs={spvs_overview_tabs} />
