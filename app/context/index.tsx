@@ -13,6 +13,8 @@ import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Collapse, IconButton } from '@mui/material';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext({});
 
@@ -73,6 +75,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     }
   };
 
+  const notify = (msg: string, success: boolean = false) => {
+    if (success) {
+      return toast.success(msg);
+    }
+    return toast.error(msg);
+  };
+
   useEffect(() => {
     onAuthStateChange();
   }, []);
@@ -81,6 +90,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     return {
       user,
       open,
+      notify,
       setCurrentOrganization: (orgId: string) =>
         setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
       setSlideOver,
@@ -99,6 +109,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         )}
         {user && (
           <div className="px-5 my-6">
+            <ToastContainer />
             <Collapse in={betaAlert}>
               <Alert
                 className="mb-6 "
@@ -188,7 +199,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, open, setSlideOver, setCurrentOrganization, signOut }: any =
-    useContext(AuthContext);
-  return { user, open, setSlideOver, setCurrentOrganization, signOut };
+  const {
+    user,
+    open,
+    notify,
+    setSlideOver,
+    setCurrentOrganization,
+    signOut
+  }: any = useContext(AuthContext);
+  return { user, open, notify, setSlideOver, setCurrentOrganization, signOut };
 };

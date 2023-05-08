@@ -131,37 +131,3 @@ export interface UserInfos {
   is_super_admin?: boolean;
   mongo_id?: string;
 }
-
-export interface UserOrganization {
-  id?: string;
-  created_at?: string;
-  organization_id?: string | null;
-  is_admin?: boolean | null;
-  organization_mongo_id?: string | null;
-  invite?: boolean | null;
-  user_mongo_id?: string | null;
-  user_email?: string | null;
-  organizations?: Organization[] | null;
-}
-
-export interface UserSession {
-  created_at?: string;
-  email?: string;
-  first_name?: string;
-  id?: string | null;
-  investor_type?: string | null;
-  is_super_admin?: boolean;
-  last_name?: string;
-  mongo_id?: string;
-  updated_at?: string;
-}
-
-export interface UserInterface extends UserSession {
-  deals?: Deal[] | null;
-  entities?: Entity[] | null;
-  currentOrganization?: string | null;
-  infos?: UserInfos | null;
-  is_super_admin?: boolean;
-  organizations?: Organization[] | null;
-  users_organizations?: UserOrganization[] | undefined;
-}

@@ -1,4 +1,5 @@
 import { Grid, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 type Field = {
   key: string;
@@ -8,11 +9,23 @@ type Field = {
 
 type Props = {
   items: Field[];
-  onChange: (key: string, value: string) => void;
+  onChange: (data: any) => void;
   loading: boolean;
 };
 
-export default function FormBuilder({ items, onChange, loading }: Props) {
+export default function FormBuilder({ items, loading, onChange }: Props) {
+  const [data, setData] = useState<any>({});
+
+  useEffect(() => {
+    onChange(data);
+  }, [data]);
+
+  useEffect(() => {
+    return () => {
+      setData({});
+    };
+  }, []);
+
   return (
     <Grid container spacing={2}>
       {items.map((field) => (
@@ -25,7 +38,13 @@ export default function FormBuilder({ items, onChange, loading }: Props) {
               variant="outlined"
               className="w-full"
               fullWidth
-              onChange={(event) => onChange(field.key, event.target.value)}
+              value={data[field.key]}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setData((prevData: any) => ({
+                  ...prevData,
+                  [field.key]: e.target.value
+                }))
+              }
             />
           )}
           {/* add more conditions for other field types as needed */}

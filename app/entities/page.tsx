@@ -19,7 +19,7 @@ export default function Entities() {
     <PageList
       header={getHeader()}
       headersTable={headers_tables.entities}
-      table="limited_entities"
+      table="entities"
       query={`*`}
     />
   );

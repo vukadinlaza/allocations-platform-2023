@@ -34,6 +34,7 @@ export default function Header({ loading }: HeaderProps) {
     const { count: spvs } = await fetchDeals('spv');
     const { count: funds } = await fetchDeals('fund');
     const { count: investments } = await fetchInvestments();
+    
     setCounts({
       organizations,
       entities,

@@ -1,3 +1,4 @@
+import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import supabase from '@/lib/supabase';
@@ -18,10 +19,13 @@ const items: any = [
 ];
 
 export default function OrganizationForm({
+  open,
   setOpenModal
 }: {
+  open: any;
   setOpenModal: any;
 }) {
+  const { user, notify } = useAuthContext();
   const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
     null
   );
@@ -34,12 +38,18 @@ export default function OrganizationForm({
         .from('organizations')
         .insert(newOrganization);
 
-      setOpenModal(false);
+      if (error) {
+        notify('Sorry, could not create the organization.', false);
+      }
+
+      notify('Organization created.', true);
+      setNewOrganization(null);
     } catch (error) {
       console.log(error);
+      notify('Sorry, could not create the organization.', false);
     } finally {
-      setNewOrganization(null);
       setLoading(false);
+      setOpenModal(false);
     }
   };
   return (
@@ -52,19 +62,21 @@ export default function OrganizationForm({
           onClick={() => setOpenModal(false)}
         />
       </header>
-      <main className="w-96">
-        <FormBuilder
-          items={items}
-          loading={loading}
-          onChange={(key, value) => setNewOrganization({ [key]: value })}
-        />
-        <Button
-          loading={loading}
-          disabled={loading}
-          label={'Create'}
-          onClick={createNew}
-        />
-      </main>
+      {open && (
+        <main className="w-96">
+          <FormBuilder
+            items={items}
+            loading={loading}
+            onChange={setNewOrganization}
+          />
+          <Button
+            loading={loading}
+            disabled={loading}
+            label={'Create'}
+            onClick={createNew}
+          />
+        </main>
+      )}
     </Card>
   );
 }

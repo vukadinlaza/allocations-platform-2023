@@ -39,7 +39,7 @@ export default function Organizations() {
         keepMounted
         aria-describedby="alert-dialog-slide-description"
       >
-        <OrganizationForm setOpenModal={setOpenModal} />
+        <OrganizationForm setOpenModal={setOpenModal} open={openModal} />
       </Dialog>
       <PageList
         header={getHeader()}
