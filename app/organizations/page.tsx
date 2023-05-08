@@ -2,11 +2,8 @@
 import OrganizationForm from '@/components/Organizations/Form';
 import PageList from '@/components/Page/List';
 import { headers_tables } from '../config';
-import { useAuthContext } from '../context';
 
 export default function Organizations() {
-  const { user, organizations } = useAuthContext();
-
   const header = {
     name: 'Organizations',
     description: 'Manage your organizations.',
@@ -29,8 +26,8 @@ export default function Organizations() {
         dialog={dialog}
         header={header}
         headersTable={headers_tables.organizations}
-        table="organizations"
-        query={`*, entities ( * )`}
+        table="organizations_roles"
+        query={`*, organizations (*)`}
       />
     </div>
   );

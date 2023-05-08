@@ -18,8 +18,8 @@ export const fetchUser = async (email: string | undefined) => {
 
 export const fetchOrganizations = async () => {
   return await supabase
-    .from('limited_organizations')
-    .select(`*`, { count: 'exact' })
+    .from('organizations')
+    .select(`*`)
     .order('created_at', { ascending: false });
 };
 

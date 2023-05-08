@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 interface NewOrganization {
   name: string;
+  user_id: string;
 }
 
 const items: any = [
@@ -36,12 +37,13 @@ export default function OrganizationForm({
       setLoading(true);
       const { data, error } = await supabase
         .from('organizations')
-        .insert(newOrganization)
-        .select();
+        .insert(newOrganization);
 
-      if (data) {
-        notify('Successfully created !', true);
+      if (error) {
+        notify('Sorry, could not create the organization.', false);
+        return;
       }
+      notify('Successfully created !', true);
     } catch (error) {
       console.log(error);
       notify('Sorry, could not create the organization.', false);
@@ -64,6 +66,7 @@ export default function OrganizationForm({
       {open && (
         <main className="w-96">
           <FormBuilder
+            model={newOrganization}
             items={items}
             loading={loading}
             onChange={setNewOrganization}

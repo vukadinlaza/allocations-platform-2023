@@ -11,9 +11,15 @@ type Props = {
   items: Field[];
   onChange: (data: any) => void;
   loading: boolean;
+  model: any;
 };
 
-export default function FormBuilder({ items, loading, onChange }: Props) {
+export default function FormBuilder({
+  items,
+  loading,
+  onChange,
+  model
+}: Props) {
   const [data, setData] = useState<any>({});
 
   useEffect(() => {
@@ -21,6 +27,9 @@ export default function FormBuilder({ items, loading, onChange }: Props) {
   }, [data]);
 
   useEffect(() => {
+    if (model) {
+      setData(model);
+    }
     return () => {
       setData({});
     };

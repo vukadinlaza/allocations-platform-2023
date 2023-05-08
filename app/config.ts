@@ -3,8 +3,8 @@ export const navigation = [
   // { name: 'SPVs', href: '/spvs', showCount: true },
   // { name: 'Funds', href: '/funds', showCount: true },
   { name: 'Organizations', href: '/organizations', showCount: true }
+  // { name: 'Investments', href: '/investments', showCount: true },
   // { name: 'Entities', href: '/entities', showCount: true },
-  // { name: 'Investments', href: '/investments', showCount: true }
 ];
 
 export const headers_tables = {

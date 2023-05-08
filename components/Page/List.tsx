@@ -58,13 +58,15 @@ export default function PageList({
       let request = supabase
         .from(table)
         .select(query ?? `*`, { count: 'exact' })
-        .order('created_at', { ascending: true });
+        .order('created_at', { ascending: false });
 
       if (queryType) {
         request = request.eq('type', queryType);
       }
 
       let { data: _data, count }: any = await request;
+
+      console.log(_data);
 
       if (_data && _data.length > 0) {
         setInitialData(_data);
@@ -76,21 +78,6 @@ export default function PageList({
       setLoading(false);
     }
   };
-
-  const organizations = supabase
-    .channel('custom-insert-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'organizations' },
-      (payload) => {
-        const { eventType } = payload;
-        if (eventType === 'INSERT') {
-          const newOrganization = payload.new;
-          setInitialData((prevData) => [...prevData, newOrganization]);
-        }
-      }
-    )
-    .subscribe();
 
   useEffect(() => {
     if (search && initialData.length > 0) {
@@ -116,6 +103,18 @@ export default function PageList({
 
   useEffect(() => {
     fetchData();
+    const organizationsRoles = supabase
+      .channel('organizations_roles_subscribers')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: table },
+        (payload) => {
+          console.log(payload);
+          const newElement = payload.new;
+          setInitialData((prevData) => [...prevData, newElement]);
+        }
+      )
+      .subscribe();
   }, []);
 
   return (
