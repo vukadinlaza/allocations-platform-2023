@@ -5,6 +5,7 @@ import SlideOver from '@/components/SlideOver';
 import supabase, {
   fetchDeals,
   fetchEntities,
+  fetchInvestments,
   fetchOrganizations,
   fetchUser
 } from '@/lib/supabase';
@@ -49,9 +50,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         const users_infos = await fetchUser(session.user.email);
-        const organizations = await fetchOrganizations();
-        const entities = await fetchEntities();
-        const deals = await fetchDeals();
+        const { data: organizations } = await fetchOrganizations();
+        const { data: entities } = await fetchEntities();
+        const { data: deals } = await fetchDeals();
+        const { data: investments } = await fetchInvestments();
 
         setUser({
           ...session.user,
@@ -59,6 +61,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           organizations,
           entities,
           deals,
+          investments,
           is_super_admin: users_infos?.is_super_admin,
           currentOrganization: null
         });

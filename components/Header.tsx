@@ -2,6 +2,12 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
+import {
+  fetchDeals,
+  fetchEntities,
+  fetchInvestments,
+  fetchOrganizations
+} from '@/lib/supabase';
 import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
@@ -21,40 +27,21 @@ export default function Header({ loading }: HeaderProps) {
   const [counts, setCounts]: any = useState(null);
 
   const getCount = async () => {
-    // const organizations = await supabase
-    //   .from('organizations')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const entities = await supabase
-    //   .from('limited_entities')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const deals = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const investments = await supabase
-    //   .from('investments')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const spvs = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .eq('type', 'spv')
-    //   .then(({ count }) => count);
-    // const funds = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .eq('type', 'fund')
-    //   .then(({ count }) => count);
-    // setCounts({
-    //   organizations,
-    //   investments,
-    //   entities,
-    //   deals,
-    //   spvs,
-    //   funds
-    // });
+    if (!user) return;
+    const { count: organizations } = await fetchOrganizations();
+    const { count: entities } = await fetchEntities();
+    const { count: deals } = await fetchDeals();
+    const { count: spvs } = await fetchDeals('spv');
+    const { count: funds } = await fetchDeals('fund');
+    const { count: investments } = await fetchInvestments();
+    setCounts({
+      organizations,
+      entities,
+      investments,
+      deals,
+      spvs,
+      funds
+    });
   };
 
   useEffect(() => {

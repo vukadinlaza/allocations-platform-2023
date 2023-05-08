@@ -17,18 +17,23 @@ export const fetchUser = async (email: string | undefined) => {
 };
 
 export const fetchOrganizations = async () => {
-  const { data: organizations } = await supabase
-    .from('organizations')
-    .select(`*`);
-  return organizations || [];
+  return await supabase.from('organizations').select(`*`, { count: 'exact' });
 };
 
 export const fetchEntities = async () => {
-  const { data: entities } = await supabase.from('deals').select(`*`);
-  return entities || [];
+  return await supabase.from('entities').select(`*`, { count: 'exact' });
 };
 
-export const fetchDeals = async () => {
-  const { data: deals } = await supabase.from('deals').select(`*`);
-  return deals || [];
+export const fetchDeals = async (type: string | null = null) => {
+  if (type) {
+    return await supabase
+      .from('deals')
+      .select(`*`, { count: 'exact' })
+      .eq('type', type);
+  }
+  return await supabase.from('deals').select(`*`, { count: 'exact' });
+};
+
+export const fetchInvestments = async () => {
+  return await supabase.from('investments').select(`*`, { count: 'exact' });
 };
