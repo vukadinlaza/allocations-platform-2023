@@ -117,24 +117,8 @@ export const headers_tables = {
   ],
   spvs: [
     {
-      label: 'SPV name',
-      key: 'name'
-    },
-    {
       label: 'Company name',
       key: 'company_name'
-    },
-    {
-      label: 'Entity name',
-      key: 'entity_name'
-    },
-    {
-      label: 'Portfolio company name',
-      key: 'portfolio_company_name'
-    },
-    {
-      label: 'EIN',
-      key: 'ein'
     },
     {
       label: 'Status',
