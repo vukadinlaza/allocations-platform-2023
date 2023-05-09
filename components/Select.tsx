@@ -1,5 +1,3 @@
-import React from 'react';
-
 type SelectProps<T> = {
   items: T[] | null | undefined;
   onChange: (selected: string) => any;
@@ -20,7 +18,7 @@ function Select<T>({
 
   return (
     <select onChange={handleSelectChange}>
-      <option selected>{selected ? selected : 'Select an option'}</option>
+      <option selected>{selected ? selected : 'Select'}</option>
       {items &&
         items
           .filter((x) => x !== selected)

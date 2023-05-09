@@ -92,8 +92,6 @@ export default function List({
                     className="transition cursor-pointer hover:bg-gray-50"
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     onClick={() => {
-                      console.log(type);
-                      console.log(item);
                       if (type) setSlideOver(true, item, type);
                     }}
                   >
