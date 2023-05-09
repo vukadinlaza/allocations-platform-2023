@@ -1,6 +1,7 @@
 'use client';
 import { useAuthContext } from '@/app/context';
 import List from '@/components/List';
+import LoadingPageList from '@/components/Loading/PageList';
 import supabase from '@/lib/supabase';
 import { Search } from '@mui/icons-material';
 import {
@@ -125,6 +126,7 @@ export default function PageList({
 
   return (
     <Card className="card" variant="outlined">
+      {loading && <LoadingPageList />}
       {!loading && user && (
         <div className="w-full">
           {dialog && (

@@ -111,9 +111,22 @@ $primary: #3db278;
     }
   }
 
-  .home {
-    h1 {
-      @apply text-3xl;
+  .features {
+    circle {
+      fill: #eee !important;
+      stroke-linecap: round;
+    }
+  }
+
+  .form {
+    header {
+      @apply mb-4;
+      h1 {
+        @apply text-3xl mb-1;
+      }
+      h2 {
+        @apply text-2xl mb-1;
+      }
     }
   }
 
@@ -163,10 +176,9 @@ $primary: #3db278;
     }
   }
 
-  .features {
-    circle {
-      fill: #eee !important;
-      stroke-linecap: round;
+  .home {
+    h1 {
+      @apply text-3xl;
     }
   }
 

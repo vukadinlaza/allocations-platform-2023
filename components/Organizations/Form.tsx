@@ -1,84 +1,63 @@
-import { useAuthContext } from '@/app/context';
-import Button from '@/components/Button';
-import FormBuilder from '@/components/FormBuilder';
-import supabase from '@/lib/supabase';
-import CloseIcon from '@mui/icons-material/Close';
-import { Card } from '@mui/material';
+import { Organization } from '@/types';
+import dayjs from 'dayjs';
 import { useState } from 'react';
+import Button from '../Button';
+import ChipStatus from '../ChipStatus';
+import DangerZone from '../DangerZone';
+import FormBuilder, { Field } from '../FormBuilder';
 
-interface NewOrganization {
-  name: string;
-  user_id: string;
-}
-
-const items: any = [
-  {
-    key: 'name',
-    label: 'Name',
-    type: 'string'
-  }
-];
-
-export default function OrganizationForm({
-  open,
-  setOpenModal
-}: {
-  open: any;
-  setOpenModal: any;
-}) {
-  const { user, notify } = useAuthContext();
-  const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
-    null
-  );
+export default function OrganizationForm() {
   const [loading, setLoading] = useState<boolean>(false);
-
-  const createNew = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('organizations')
-        .insert(newOrganization);
-
-      if (error) {
-        notify('Sorry, could not create the organization.', false);
-        return;
-      }
-      notify('Successfully created !', true);
-    } catch (error) {
-      console.log(error);
-      notify('Sorry, could not create the organization.', false);
-    } finally {
-      setNewOrganization(null);
-      setLoading(false);
-      setOpenModal(false);
+  const [data, setData] = useState<Organization>({
+    id: '916ab295-c4e5-48ea-b9d0-42ab089be7dc',
+    created_at: '2023-05-09T08:29:34.89119+00:00',
+    updated_at: '2023-05-09T08:29:34.89119+00:00',
+    status: 'Processing',
+    mongo_id: null,
+    name: 'Organizations new',
+    slug: null,
+    approved: null,
+    high_volume_partner: false,
+    legal_name: null,
+    mou_signed: false,
+    phase: null
+  });
+  const model: Field[] = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string'
     }
+  ];
+
+  const saveOrganization = () => {
+    console.log('save');
+  };
+  const deleteOrganization = () => {
+    console.log('delete');
   };
   return (
-    <Card className="mb-0 card--popup" variant="outlined">
+    <div className="form">
       <header>
-        <h2>Create a new organization</h2>
-        <CloseIcon
-          fontSize="inherit"
-          className="text-2xl cursor-pointer text-gray"
-          onClick={() => setOpenModal(false)}
-        />
+        <h1>{data.name}</h1>
+        <p className="mb-4">
+          Creation date: {dayjs(data.created_at).format('MM/DD/YYYY')}
+        </p>
+        <ChipStatus status={data.status} />
       </header>
-      {open && (
-        <main className="w-96">
-          <FormBuilder
-            model={newOrganization}
-            items={items}
-            loading={loading}
-            onChange={setNewOrganization}
-          />
+      <main className="mb-6">
+        <h2>Informations</h2>
+        <FormBuilder model={model} data={data} onChange={setData} />
+        <div>
           <Button
             loading={loading}
             disabled={loading}
-            label={'Create'}
-            onClick={createNew}
+            label="Save"
+            onClick={saveOrganization}
           />
-        </main>
-      )}
-    </Card>
+        </div>
+      </main>
+      <DangerZone toCheck={data.name} onClick={deleteOrganization} />
+    </div>
   );
 }

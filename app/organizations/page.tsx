@@ -1,5 +1,6 @@
 'use client';
 import OrganizationForm from '@/components/Organizations/Form';
+import OrganizationNew from '@/components/Organizations/New';
 import PageList from '@/components/Page/List';
 import { headers_tables } from '../config';
 
@@ -17,11 +18,12 @@ export default function Organizations() {
 
   const dialog = {
     type: 'modal',
-    component: OrganizationForm
+    component: OrganizationNew
   };
 
   return (
     <div>
+      {/* <OrganizationForm /> */}
       <PageList
         dialog={dialog}
         header={header}
@@ -29,6 +31,7 @@ export default function Organizations() {
         table="organizations_roles"
         query={`*, organizations (*)`}
         target="organizations"
+        type="organization"
       />
     </div>
   );

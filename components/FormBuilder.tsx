@@ -1,34 +1,31 @@
 import { Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-type Field = {
+type FieldType = 'string' | 'number' | 'email';
+
+export type Field = {
   key: string;
   label: string;
-  type: 'string' | 'number' | 'email'; // add more types as needed
+  type: FieldType; // add more types as needed
 };
 
 type Props = {
-  items: Field[];
+  model: Field[];
   onChange: (data: any) => void;
-  loading: boolean;
-  model: any;
+  loading?: boolean;
+  data: any;
 };
 
-export default function FormBuilder({
-  items,
-  loading,
-  onChange,
-  model
-}: Props) {
-  const [data, setData] = useState<any>({});
+export default function FormBuilder({ model, loading, onChange, data }: Props) {
+  const [_data, setData] = useState<any>({});
 
   useEffect(() => {
     onChange(data);
   }, [data]);
 
   useEffect(() => {
-    if (model) {
-      setData(model);
+    if (data) {
+      setData(data);
     }
     return () => {
       setData({});
@@ -37,7 +34,7 @@ export default function FormBuilder({
 
   return (
     <Grid container spacing={2}>
-      {items.map((field) => (
+      {model.map((field) => (
         <Grid item xs={12} key={field.key}>
           <p className="mb-2">{field.label || 'No label'}</p>
           {field.type === 'string' && field.key && (

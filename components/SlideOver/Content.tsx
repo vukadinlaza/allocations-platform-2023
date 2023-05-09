@@ -5,6 +5,11 @@ import None from '@/components/None';
 import DealsSliveOver from './Deals';
 import SPVSSlideOver from './SPVs';
 
+interface SlideOverContentData {
+  type: string;
+  // missing component here
+}
+
 export default function SlideOverContent({
   data,
   setOpen
