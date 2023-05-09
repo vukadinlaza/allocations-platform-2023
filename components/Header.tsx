@@ -118,7 +118,7 @@ export default function Header({
                       : 'inactive'
                   }`}
                 >
-                  <span className="mr-1">{item.name}</span>
+                  <span>{item.name}</span>
                   {counts && item.showCount && (
                     <span>({counts[item.name.toLowerCase()] || 0})</span>
                   )}
@@ -129,7 +129,7 @@ export default function Header({
         )}
         <div className="mr-2">
           <div
-            className="p-1 rounded cursor-pointer bg-slate-100"
+            className="p-1 transition rounded cursor-pointer bg-gray-50 hover:bg-gray-100"
             onClick={() => setExpand(!expand)}
           >
             <Image
