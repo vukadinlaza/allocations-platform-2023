@@ -113,12 +113,33 @@ export default function PageList({
       .channel('organizations_roles_subscribers')
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: target ? target : table },
-        // target for subkey
+        { event: '*', schema: 'public', table: target ? target : table },
         (payload) => {
-          const newElement = payload.new;
-          console.log(initialData);
-          setInitialData((prevData: any) => [...prevData, newElement]);
+          const { eventType } = payload;
+          const newElement: any = payload.new;
+          if (eventType === 'INSERT') {
+            setInitialData((prevData: any) => [...prevData, newElement]);
+          }
+          if (eventType === 'DELETE') {
+            setInitialData((prevData: any) => {
+              const filteredData = prevData.filter(
+                (x: any) => x.id !== newElement.id
+              );
+              return filteredData;
+            });
+          }
+          if (eventType === 'UPDATE') {
+            setInitialData((prevData: any) => {
+              const updatedData = prevData.map((x: any) => {
+                if (x.id === newElement.id) {
+                  return Object.assign({}, x, newElement);
+                } else {
+                  return x;
+                }
+              });
+              return updatedData;
+            });
+          }
         }
       )
       .subscribe();

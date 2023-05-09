@@ -16,7 +16,7 @@ export default function DangerZone({
     setDisabled(!(toCheck === name));
   }, [name]);
   return (
-    <div className="p-4 mb-6 border border-red-200 rounded-lg danger-zone">
+    <div className="p-4 mb-6 border border-red-200 rounded-lg danger-zone disabled">
       <h2 className="mb-2 text-red-600">Danger zone</h2>
       <p className="mb-2">
         This action is irreversible and will permanently delete all the data
@@ -26,6 +26,7 @@ export default function DangerZone({
         disabled={loading}
         size="small"
         variant="outlined"
+        placeholder="Enter complete name of element"
         className="w-full"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setName(e.target.value)

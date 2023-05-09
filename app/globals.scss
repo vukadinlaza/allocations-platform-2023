@@ -22,6 +22,7 @@ $primary: #3db278;
   }
 
   .disabled {
+    @apply bg-gray-100 hover:bg-gray-100 text-gray-500 opacity-50 pointer-events-none;
     &:disabled {
       @apply bg-gray-100 hover:bg-gray-100 text-gray-500 opacity-50 pointer-events-none;
     }

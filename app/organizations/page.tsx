@@ -1,5 +1,4 @@
 'use client';
-import OrganizationForm from '@/components/Organizations/Form';
 import OrganizationNew from '@/components/Organizations/New';
 import PageList from '@/components/Page/List';
 import { headers_tables } from '../config';
@@ -23,7 +22,6 @@ export default function Organizations() {
 
   return (
     <div>
-      {/* <OrganizationForm /> */}
       <PageList
         dialog={dialog}
         header={header}

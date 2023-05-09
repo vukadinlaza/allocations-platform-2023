@@ -11,7 +11,7 @@ interface NewOrganization {
   user_id: string;
 }
 
-const items: any = [
+const model: any = [
   {
     key: 'name',
     label: 'Name',
@@ -66,8 +66,8 @@ export default function OrganizationNew({
       {open && (
         <main className="w-96">
           <FormBuilder
-            model={newOrganization}
-            items={items}
+            data={newOrganization}
+            model={model}
             loading={loading}
             onChange={setNewOrganization}
           />

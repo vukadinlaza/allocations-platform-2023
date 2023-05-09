@@ -20,8 +20,8 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
-    onChange(data);
-  }, [data]);
+    onChange(_data);
+  }, [_data]);
 
   useEffect(() => {
     if (data) {
@@ -44,7 +44,7 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
               variant="outlined"
               className="w-full"
               fullWidth
-              value={data[field.key]}
+              value={_data[field.key]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setData((prevData: any) => ({
                   ...prevData,

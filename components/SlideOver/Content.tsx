@@ -2,6 +2,7 @@
 
 import MissingData from '@/components/MissingData';
 import None from '@/components/None';
+import OrganizationForm from '../Organizations/Form';
 import DealsSliveOver from './Deals';
 import SPVSSlideOver from './SPVs';
 
@@ -21,6 +22,8 @@ export default function SlideOverContent({
   const getComponent = (data: any) => {
     const { type } = data;
     if (!type) return <MissingData />;
+    if (type === 'organizations') return;
+    <OrganizationForm />;
     if (type === 'spvs') return <SPVSSlideOver data={data} setOpen={setOpen} />;
     if (type === 'deals')
       return <DealsSliveOver data={data} setOpen={setOpen} />;

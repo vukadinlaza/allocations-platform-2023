@@ -1,9 +1,5 @@
 import { Chip } from '@mui/material';
 
-type Status = {
-  
-}
-
 export default function ChipStatus({ status }: { status: string | null | undefined }) {
   const colors: any = {
     processing: 'warning'
@@ -11,7 +7,7 @@ export default function ChipStatus({ status }: { status: string | null | undefin
   return (
     <Chip
       label={status}
-      color={status ? colors[status.toLowerCase()] : 'grey'}
+      color={status ? colors[status.toLowerCase()] : 'warning'}
       className="text-white capitalize"
     />
   );

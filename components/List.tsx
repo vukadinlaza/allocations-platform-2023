@@ -15,6 +15,7 @@ import Image from 'next/image';
 import numeral from 'numeral';
 import MissingData from './MissingData';
 
+// TODO: export to status
 export const getColor = (str: string) => {
   let color;
   switch (str) {
