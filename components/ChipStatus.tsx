@@ -1,7 +1,13 @@
 import { Chip } from '@mui/material';
 
-export default function ChipStatus({ status }: { status: string | null | undefined }) {
+export default function ChipStatus({
+  status
+}: {
+  status: string | null | undefined;
+}) {
   const colors: any = {
+    archived: 'primary',
+    closed: 'error',
     processing: 'warning',
     complete: 'success'
   };

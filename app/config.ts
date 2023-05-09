@@ -51,20 +51,16 @@ export const headers_tables = {
       key: 'name'
     },
     {
-      label: 'Company name',
-      key: 'company_name'
-    },
-    {
-      label: 'Entity name',
-      key: 'entity_name'
-    },
-    {
-      label: 'Portfolio company name',
-      key: 'portfolio_company_name'
-    },
-    {
       label: 'Status',
       key: 'status'
+    },
+    {
+      label: 'Total raised',
+      key: 'total_raised'
+    },
+    {
+      label: '',
+      key: 'edit'
     }
   ],
   investments: [
@@ -73,20 +69,16 @@ export const headers_tables = {
       key: 'name'
     },
     {
-      label: 'Subscription amount',
+      label: 'Investment amount',
       key: 'subscription_amount'
     },
     {
-      label: 'Capital wired amount',
-      key: 'capital_wired_amount'
-    },
-    {
-      label: 'Status',
+      label: 'Deal status',
       key: 'status'
     },
     {
-      label: 'Updated at',
-      key: 'created_at'
+      label: '',
+      key: 'edit'
     }
   ],
   organizations: [
@@ -117,12 +109,20 @@ export const headers_tables = {
   ],
   spvs: [
     {
-      label: 'Company name',
-      key: 'company_name'
+      label: 'Name',
+      key: 'name'
     },
     {
       label: 'Status',
       key: 'status'
+    },
+    {
+      label: 'Total raised',
+      key: 'total_raised'
+    },
+    {
+      label: '',
+      key: 'edit'
     }
   ]
 };
