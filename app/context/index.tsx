@@ -4,29 +4,22 @@ import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import SlideOver from '@/components/SlideOver';
-import supabase, {
-  fetchDeals,
-  fetchEntities,
-  fetchInvestments,
-  fetchOrganizations,
-  fetchUser
-} from '@/lib/supabase';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Entity, Investment, Organization } from '@/types';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
+  const { supabase, fetchUser, fetchOrganizations, fetchEntities, fetchDeals, fetchInvestments } = useSupabase();
   // data
   const [user, setUser] = useState<any>(null);
   const [organizations, setOrganizations] = useState<Organization[] | null>([]);
   const [entities, setEntities] = useState<Entity[] | null>([]);
   const [deals, setDeals] = useState<Deal[] | null>([]);
   const [investments, setInvestments] = useState<Investment[] | null>([]);
-
-  // app
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(true);
@@ -116,7 +109,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       {!loading && user && (
         <main>
           <Header />
-          <div className="p-4">
+          <div className='p-4'>
             {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
             {children}
           </div>

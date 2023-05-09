@@ -1,9 +1,9 @@
 'use client';
-import supabase from '@/lib/supabase';
 import { Alert, CircularProgress, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Logo from './Logo';
+import { useSupabase } from '@/lib/supabase-provider';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -16,6 +16,7 @@ export const isValidEmail = (email: string | null): boolean => {
 };
 
 export default function Login() {
+  const {supabase} = useSupabase();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<EmailStatus | null>(null);
@@ -34,7 +35,11 @@ export default function Login() {
       setLoading(true);
 
       let { data } = await supabase.auth.signInWithOtp({
-        email
+        email,
+        options: {
+          // Always redirect to current application
+          emailRedirectTo: window.location.origin
+        }
       });
 
       if (data) {
@@ -68,27 +73,32 @@ export default function Login() {
         <br />
         Please enter your e-mail to login.
       </p>
-      {!status && (
-        <div>
-          <TextField
-            id="outlined-basic"
-            label="mail@address.com"
-            variant="outlined"
-            className="w-full mb-4"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      )}
-      {status && <Alert severity={status.type}>{status.message}</Alert>}
-      {!status && (
-        <button
-          onClick={login}
-          className={`mt-4 btn primary ${loading ? 'loading' : ''}`}
-        >
-          {loading && <CircularProgress color="inherit" size={12} />}
-          {!loading && 'Sign in'}
-        </button>
-      )}
+      <form onSubmit={async (e)=>{
+        e.preventDefault();
+        await login();
+      }}>
+        {!status && (
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="mail@address.com"
+              variant="outlined"
+              className="w-full mb-4"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        )}
+        {status && <Alert severity={status.type}>{status.message}</Alert>}
+        {!status && (
+          <button
+            onClick={login}
+            className={`mt-4 btn primary ${loading ? 'loading' : ''}`}
+          >
+            {loading && <CircularProgress color="inherit" size={12} />}
+            {!loading && 'Sign in'}
+          </button>
+        )}
+      </form>
     </div>
   );
 }

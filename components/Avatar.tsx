@@ -20,6 +20,12 @@ export default function AvatarComponent() {
       action: async () => {
         await signOut();
       }
+    },
+    {
+      title: 'My Identities',
+      action: () => {
+        router.push('/identities');
+      }
     }
   ];
 

@@ -11,10 +11,8 @@ import {
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import numeral from 'numeral';
 import ChipStatus from './ChipStatus';
 import MissingData from './MissingData';
-
 const generateCell = (item: any, column: any) => {
   const no_info = 'None';
   if (!item || !column || !column.key) {
@@ -36,7 +34,7 @@ const generateCell = (item: any, column: any) => {
     column.key === 'capital_wired_amount'
   ) {
     if (!item[column.key]) return `$0`;
-    return `$${numeral(item[column.key]).format('0,0') || 0}`;
+    return `$${item[column.key].toLocaleString("en-US") || 0}`;
   }
   if (column.key === 'status' || column.key === 'tax_status')
     return <ChipStatus status={item[column.key]} />;

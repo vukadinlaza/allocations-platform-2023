@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/app/context';
-import supabase from '@/lib/supabase';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Organization, OrganizationStatusValues } from '@/types';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ export default function OrganizationForm({
 }: {
   organization: Organization;
 }) {
+  const {supabase} = useSupabase();
   const [data, setData] = useState<Organization | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { notify, user } = useAuthContext();
@@ -62,7 +63,7 @@ export default function OrganizationForm({
       setLoading(true);
       const { data: response, error } = await supabase
         .from('organizations')
-        .upsert(data, { onConflict: 'id' });
+        .upsert(data as Organization, { onConflict: 'id' });
 
       if (error) {
         notify('Sorry, update failed.', false);
