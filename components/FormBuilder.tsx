@@ -33,7 +33,7 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className="FormBuilder">
       {model.map((field) => (
         <Grid item xs={12} key={field.key}>
           <p className="mb-2">{field.label || 'No label'}</p>
@@ -42,7 +42,6 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
               disabled={loading}
               size="small"
               variant="outlined"
-              className="w-full"
               fullWidth
               value={_data[field.key]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

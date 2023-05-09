@@ -22,8 +22,8 @@ export default function SlideOverContent({
   const getComponent = (data: any) => {
     const { type } = data;
     if (!type) return <MissingData />;
-    if (type === 'organizations') return;
-    <OrganizationForm />;
+    if (type === 'organization')
+      return <OrganizationForm organization={content} />;
     if (type === 'spvs') return <SPVSSlideOver data={data} setOpen={setOpen} />;
     if (type === 'deals')
       return <DealsSliveOver data={data} setOpen={setOpen} />;
