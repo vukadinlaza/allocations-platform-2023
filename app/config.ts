@@ -91,15 +91,7 @@ export const headers_tables = {
       key: 'status'
     },
     {
-      label: 'E-mail',
-      key: 'email'
-    },
-    {
-      label: 'Creation date',
-      key: 'created_at'
-    },
-    {
-      label: 'Total Entities',
+      label: 'Total deals',
       key: 'entities'
     },
     {
