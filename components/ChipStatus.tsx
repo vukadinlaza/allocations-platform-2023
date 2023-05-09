@@ -16,10 +16,9 @@ export default function ChipStatus({
   };
   return (
     <div
-      className={`text-white capitalize rounded-full px-4 py-2 items-center ${
+      className={`inline text-white capitalize rounded-full px-4 py-2 items-center ${
         status ? colors[status.toLowerCase()] : null
       }`}
-      style={{ display: 'inherit' }}
     >
       {status}
     </div>
