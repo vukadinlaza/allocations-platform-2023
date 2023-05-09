@@ -26,7 +26,7 @@ export default function PageList({
   queryType,
   target
 }: {
-  dialog: any;
+  dialog?: any;
   header: any;
   headersTable?: any;
   data?: any;
@@ -173,7 +173,9 @@ export default function PageList({
                     <button
                       key={button.title}
                       disabled={button.disabled}
-                      className="btn primary"
+                      className={`btn primary ${
+                        !button.action ? 'disabled' : ''
+                      }`}
                       onClick={() => {
                         if (!button.action) return;
                         if (button.action === 'modal') {

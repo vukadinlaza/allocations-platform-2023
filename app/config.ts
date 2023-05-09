@@ -1,9 +1,9 @@
 export const navigation = [
   { name: 'Home', href: '/' },
-  // { name: 'SPVs', href: '/spvs', showCount: true },
-  // { name: 'Funds', href: '/funds', showCount: true },
-  { name: 'Organizations', href: '/organizations', showCount: true }
-  // { name: 'Investments', href: '/investments', showCount: true },
+  { name: 'SPVs', href: '/spvs', showCount: true },
+  { name: 'Funds', href: '/funds', showCount: true },
+  { name: 'Organizations', href: '/organizations', showCount: true },
+  { name: 'Investments', href: '/investments', showCount: true }
   // { name: 'Entities', href: '/entities', showCount: true },
 ];
 
