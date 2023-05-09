@@ -166,7 +166,7 @@ export default function PageList({
                 </h1>
                 <p>{header.description || 'No description'}</p>
               </div>
-              <div>
+              <div className="flex items-center">
                 {header.buttons &&
                   header.buttons.map((button: any) => (
                     <button

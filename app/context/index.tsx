@@ -7,13 +7,20 @@ import SlideOver from '@/components/SlideOver';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Entity, Investment, Organization } from '@/types';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
-  const { supabase, fetchUser, fetchOrganizations, fetchEntities, fetchDeals, fetchInvestments } = useSupabase();
+  const {
+    supabase,
+    fetchUser,
+    fetchOrganizations,
+    fetchEntities,
+    fetchDeals,
+    fetchInvestments
+  } = useSupabase();
   // data
   const [user, setUser] = useState<any>(null);
   const [organizations, setOrganizations] = useState<Organization[] | null>([]);
@@ -23,6 +30,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(true);
+  const [expand, setExpand] = useState(false);
   const [slideOverData, setSlideOverData] = useState({});
 
   const signOut = async () => {
@@ -107,9 +115,13 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       {loading && <LoadingApp />}
       {!loading && !user && <Login />}
       {!loading && user && (
-        <main>
-          <Header />
-          <div className='p-4'>
+        <main className="relative">
+          <Header setExpand={setExpand} expand={expand} />
+          <div
+            className={`p-4 ${
+              expand ? 'container transition-all duration-500 ease-out' : ''
+            }`}
+          >
             {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
             {children}
           </div>

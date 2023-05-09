@@ -2,18 +2,25 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Chip } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
-import { useSupabase } from '@/lib/supabase-provider';
 import Select from './Select';
 
-export default function Header() {
-  const {supabase} = useSupabase();
+export default function Header({
+  expand,
+  setExpand
+}: {
+  expand: boolean;
+  setExpand: any;
+}) {
+  const { supabase } = useSupabase();
   const pathname = usePathname();
   const { user, organizations, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
@@ -99,24 +106,41 @@ export default function Header() {
           )}
         </div>
       </div>
-      <div className="header--sub">
-        {user &&
-          navigation.map((item) => (
-            <Link href={item.href} key={item.href}>
-              <div
-                className={`header--menu--item ${
-                  pathname?.includes(item.name.toLowerCase())
-                    ? 'active'
-                    : 'inactive'
-                }`}
-              >
-                <span className="mr-1">{item.name}</span>
-                {counts && item.showCount && (
-                  <span>({counts[item.name.toLowerCase()] || 0})</span>
-                )}
-              </div>
-            </Link>
-          ))}
+      <div className="flex items-center justify-between w-full px-4 py-3">
+        {user && (
+          <div className="flex items-center justify-start">
+            {navigation.map((item) => (
+              <Link href={item.href} key={item.href}>
+                <div
+                  className={`header--menu--item ${
+                    pathname?.includes(item.name.toLowerCase())
+                      ? 'active'
+                      : 'inactive'
+                  }`}
+                >
+                  <span className="mr-1">{item.name}</span>
+                  {counts && item.showCount && (
+                    <span>({counts[item.name.toLowerCase()] || 0})</span>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+        <div className="mr-2">
+          <div
+            className="p-1 rounded cursor-pointer bg-slate-100"
+            onClick={() => setExpand(!expand)}
+          >
+            <Image
+              src="/shrink.svg"
+              alt="shrink"
+              className="opacity-50"
+              width={24}
+              height={24}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
