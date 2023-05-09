@@ -3,16 +3,7 @@ import { useAuthContext } from '@/app/context';
 import List from '@/components/List';
 import LoadingPageList from '@/components/Loading/PageList';
 import supabase from '@/lib/supabase';
-import { Search } from '@mui/icons-material';
-import {
-  Alert,
-  Card,
-  Dialog,
-  Grid,
-  InputAdornment,
-  Slide,
-  TextField
-} from '@mui/material';
+import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
 
@@ -198,19 +189,12 @@ export default function PageList({
           )}
           <Grid container xs={12} className="mb-6">
             <Grid item xs={8}>
-              <TextField
+              <input
+                style={{ maxWidth: '400px' }}
+                type="text"
                 id="outlined-start-adornment"
-                size="small"
                 placeholder={'Search...'}
-                sx={{ width: '300px' }}
                 onInput={(e: any) => setSearch(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  )
-                }}
               />
             </Grid>
             {user && user.is_super_admin && (

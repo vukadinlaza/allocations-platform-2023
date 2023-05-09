@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 type FieldType = 'string' | 'number' | 'email';
@@ -38,11 +38,10 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
         <Grid item xs={12} key={field.key}>
           <p className="mb-2">{field.label || 'No label'}</p>
           {field.type === 'string' && field.key && (
-            <TextField
+            <input
+              type="text"
               disabled={loading}
-              size="small"
-              variant="outlined"
-              fullWidth
+              className={`${loading ? 'disabled' : ''}`}
               value={_data[field.key]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setData((prevData: any) => ({
