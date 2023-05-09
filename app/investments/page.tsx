@@ -24,7 +24,7 @@ export default function Investments() {
         header={header}
         headersTable={headers_tables.investments}
         table="investments"
-        query={`*, deals(*)`}
+        query={`*`}
         type="investment"
       />
     </div>

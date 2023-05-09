@@ -34,9 +34,13 @@ const generateCell = (item: any, column: any) => {
     column.key === 'capital_wired_amount'
   ) {
     if (!item[column.key]) return `$0`;
-    return `$${item[column.key].toLocaleString("en-US") || 0}`;
+    return `$${item[column.key].toLocaleString('en-US') || 0}`;
   }
-  if (column.key === 'status' || column.key === 'tax_status')
+  if (
+    column.key === 'status' ||
+    column.key === 'tax_status' ||
+    column.key === 'deal_status'
+  )
     return <ChipStatus status={item[column.key]} />;
   if (
     column.key === 'sign_deadline' ||
