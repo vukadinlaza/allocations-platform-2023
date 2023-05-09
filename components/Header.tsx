@@ -3,7 +3,6 @@
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
 import supabase from '@/lib/supabase';
-import { Organization } from '@/types';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,6 +10,7 @@ import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
+import Select from './Select';
 
 export default function Header() {
   const pathname = usePathname();
@@ -55,7 +55,7 @@ export default function Header() {
   };
 
   useEffect(() => {
-    getCount;
+    getCount;ù
   }, []);
 
   return (
@@ -82,32 +82,14 @@ export default function Header() {
                     </div>
                   )}
                   <Feedback />
-                  <div className="mr-2 select">
-                    <select
-                      onChange={(e) => setCurrentOrganization(e.target.value)}
-                      style={{ maxWidth: '150px' }}
-                    >
-                      {organizations && organizations.length < 1 && (
-                        <option selected>
-                          {user.is_super_admin
-                            ? 'All organizations'
-                            : 'No organization'}
-                        </option>
-                      )}
-                      {organizations &&
-                        organizations.length > 0 &&
-                        organizations.map((organization: Organization) => (
-                          <option
-                            className="text-xs"
-                            key={organization.id}
-                            value={organization.id}
-                          >
-                            {organization.name ||
-                              organization.legal_name ||
-                              'No organization found'}
-                          </option>
-                        ))}
-                    </select>
+                  <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
+                    <Select
+                      items={organizations}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        // setCurrentOrganization(e.target.value)
+                      }}
+                      displayLabel={(o: any) => o.name}
+                    />
                   </div>
                   <AvatarComponent />
                 </div>

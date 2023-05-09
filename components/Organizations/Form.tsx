@@ -1,6 +1,6 @@
 import { useAuthContext } from '@/app/context';
 import supabase from '@/lib/supabase';
-import { Organization } from '@/types';
+import { Organization, OrganizationStatusValues } from '@/types';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
@@ -16,13 +16,44 @@ export default function OrganizationForm({
 }) {
   const [data, setData] = useState<Organization | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { notify } = useAuthContext();
+  const { notify, user } = useAuthContext();
 
   const model: Field[] = [
     {
       key: 'name',
       label: 'Name',
-      type: 'string'
+      type: 'string',
+      show: true,
+      disabled: false
+    },
+    {
+      key: 'id',
+      label: 'ID',
+      type: 'string',
+      show: user.is_super_admin,
+      disabled: true
+    },
+    {
+      key: 'mongo_id',
+      label: 'Mongo ID',
+      type: 'string',
+      show: user.is_super_admin,
+      disabled: false
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'select',
+      show: user.is_super_admin,
+      disabled: false,
+      items: OrganizationStatusValues
+    },
+    {
+      key: 'slug',
+      label: 'Slug',
+      type: 'string',
+      show: user.is_super_admin,
+      disabled: false
     }
   ];
 
@@ -84,7 +115,7 @@ export default function OrganizationForm({
             <ChipStatus status={data.status} />
           </header>
           <main className="mb-6">
-            <h2>Informations</h2>
+            <h2 className="mb-4">Informations</h2>
             <FormBuilder model={model} data={data} onChange={setData} />
             <div>
               <Button

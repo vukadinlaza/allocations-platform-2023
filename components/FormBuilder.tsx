@@ -1,12 +1,16 @@
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
+import Select from './Select';
 
-type FieldType = 'string' | 'number' | 'email';
+type FieldType = 'string' | 'number' | 'boolean' | 'select';
 
 export type Field = {
   key: string;
   label: string;
   type: FieldType; // add more types as needed
+  show?: boolean | true;
+  disabled?: boolean | false;
+  items?: any[] | null | undefined;
 };
 
 type Props = {
@@ -34,26 +38,35 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
 
   return (
     <Grid container spacing={2} className="FormBuilder">
-      {model.map((field) => (
-        <Grid item xs={12} key={field.key}>
-          <p className="mb-2">{field.label || 'No label'}</p>
-          {field.type === 'string' && field.key && (
-            <input
-              type="text"
-              disabled={loading}
-              className={`${loading ? 'disabled' : ''}`}
-              value={_data[field.key]}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setData((prevData: any) => ({
-                  ...prevData,
-                  [field.key]: e.target.value
-                }))
-              }
-            />
-          )}
-          {/* add more conditions for other field types as needed */}
-        </Grid>
-      ))}
+      {model.map((field) => {
+        if (field.show) {
+          return (
+            <Grid item xs={12} key={field.key}>
+              <p className="mb-2">{field.label || 'No label'}</p>
+              {field.type === 'string' && field.key && (
+                <input
+                  type="text"
+                  disabled={loading || field.disabled}
+                  className={`${loading ? 'disabled' : ''}`}
+                  value={_data[field.key]}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setData((prevData: any) => ({
+                      ...prevData,
+                      [field.key]: e.target.value
+                    }))
+                  }
+                />
+              )}
+              {field.type === 'select' && field.key && (
+                <Select
+                  items={field.items}
+                  onChange={(s) => console.log(s)}
+                ></Select>
+              )}
+            </Grid>
+          );
+        }
+      })}
     </Grid>
   );
 }

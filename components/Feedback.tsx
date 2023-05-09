@@ -5,10 +5,10 @@ export default function Feedback() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative mr-2 cursor-pointer">
       <div
         onClick={() => setOpen(!open)}
-        className="flex items-center mr-2 transition select hover:bg-gray-100"
+        className="flex items-center text-xs font-medium transition input hover:bg-gray-100"
       >
         <Image
           src="/message.svg"

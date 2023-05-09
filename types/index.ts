@@ -1,3 +1,15 @@
+// types
+
+export const OrganizationStatusValues = ['Processing', 'Complete'];
+
+export type OrganizationStatus = (typeof OrganizationStatusValues)[number];
+
+export type DealKeys = keyof Deal;
+
+export type DealType = Deal[DealKeys];
+
+// interfaces
+
 export interface Deal {
   id: string;
   created_at?: string;
@@ -47,10 +59,6 @@ export interface Deal {
   user_email?: string;
 }
 
-export type DealKeys = keyof Deal;
-
-export type DealType = Deal[DealKeys];
-
 export interface Entity {
   id?: string;
   created_at?: string;
@@ -87,7 +95,7 @@ export interface Investment {
   invited_at?: string;
   status?: string;
   updated_at?: string;
-};
+}
 
 export interface Migration {
   legal_entity_id?: string;

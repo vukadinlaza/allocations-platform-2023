@@ -55,8 +55,13 @@ $primary: #3db278;
     }
   }
 
-  input[type="text"] {
-    @apply px-3 py-2 border rounded outline-primary-500 w-full;
+  .input {
+    @apply px-3 py-2 border rounded outline-primary-500 w-full
+  }
+
+  input[type="text"],
+  select {
+    @apply input cursor-pointer;
   }
 
   // tw
@@ -125,13 +130,13 @@ $primary: #3db278;
 
   .form {
     header {
-      @apply mb-4;
+      @apply mb-8;
       h1 {
         @apply text-3xl mb-1;
       }
-      h2 {
-        @apply text-2xl mb-1;
-      }
+    }
+    h2 {
+      @apply text-xl mb-4;
     }
   }
 
@@ -154,14 +159,6 @@ $primary: #3db278;
 
     &--sub {
       @apply px-4 py-3 flex items-center justify-start w-full;
-    }
-
-    select {
-      @apply outline-none cursor-pointer;
-    }
-
-    .select {
-      @apply border rounded-lg px-3 py-2 text-xs shadow-sm font-semibold cursor-pointer;
     }
 
     &--menu {
