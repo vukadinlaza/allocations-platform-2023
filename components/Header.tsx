@@ -55,7 +55,7 @@ export default function Header() {
   };
 
   useEffect(() => {
-    getCount;ù
+    getCount;
   }, []);
 
   return (
@@ -85,7 +85,7 @@ export default function Header() {
                   <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
                     <Select
                       items={organizations}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      onChange={(e: any) => {
                         // setCurrentOrganization(e.target.value)
                       }}
                       displayLabel={(o: any) => o.name}

@@ -118,7 +118,7 @@ export interface Organization {
   legal_name?: string | null;
   mou_signed?: boolean;
   phase?: string | null;
-  entities?: Entities[] | null;
+  entities?: Entity[] | null;
   deals?: Deal[] | null;
 }
 
@@ -138,7 +138,7 @@ export interface User {
   investor_type?: null | string;
   is_super_admin?: boolean;
   mongo_id?: string;
-  organizations?: Organizations[] | null;
-  entities?: Entities[] | null;
+  organizations?: Organization[] | null;
+  entities?: Entity[] | null;
   deals?: Deal[] | null;
 }

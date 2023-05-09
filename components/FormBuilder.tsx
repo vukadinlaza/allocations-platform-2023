@@ -57,10 +57,17 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
                   }
                 />
               )}
-              {field.type === 'select' && field.key && (
+              {field.type === 'select' && field.items && field.key && (
                 <Select
+                  selected={_data[field.key]}
+                  displayLabel={(v) => v}
                   items={field.items}
-                  onChange={(s) => console.log(s)}
+                  onChange={(e) => {
+                    setData((prevData: any) => ({
+                      ...prevData,
+                      [field.key]: e
+                    }));
+                  }}
                 ></Select>
               )}
             </Grid>

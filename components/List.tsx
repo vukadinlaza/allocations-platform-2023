@@ -1,7 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/context';
 import {
-  Chip,
   Table,
   TableBody,
   TableCell,
@@ -13,25 +12,8 @@ import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import numeral from 'numeral';
+import ChipStatus from './ChipStatus';
 import MissingData from './MissingData';
-
-// TODO: export to status
-export const getColor = (str: string) => {
-  let color;
-  switch (str) {
-    case 'Completed':
-      color = 'success';
-      break;
-    case 'Processing':
-      color = 'warning';
-      break;
-
-    default:
-      color = 'warning';
-      break;
-  }
-  return color;
-};
 
 const generateCell = (item: any, column: any) => {
   const no_info = 'None';
@@ -57,14 +39,7 @@ const generateCell = (item: any, column: any) => {
     return `$${numeral(item[column.key]).format('0,0') || 0}`;
   }
   if (column.key === 'status' || column.key === 'tax_status')
-    return (
-      <Chip
-        label={item[column.key] || no_info}
-        // color={getColor(item[column.key])}
-        color="warning"
-        className="text-white capitalize"
-      />
-    );
+    return <ChipStatus status={item[column.key]} />;
   if (
     column.key === 'sign_deadline' ||
     column.key === 'created_at' ||
