@@ -2,7 +2,7 @@
 import { useAuthContext } from '@/app/context';
 import List from '@/components/List';
 import LoadingPageList from '@/components/Loading/PageList';
-import {useSupabase} from '@/lib/supabase-provider';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
@@ -36,7 +36,7 @@ export default function PageList({
   queryType?: string;
   target?: string;
 }) {
-  const {supabase} = useSupabase();
+  const { supabase } = useSupabase();
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
   const [results, setResults] = useState<Array<any>>([]);
@@ -59,9 +59,7 @@ export default function PageList({
         request = request.eq('type', queryType);
       }
 
-      let { data: _data, count }: any = await request;
-
-      console.log(_data);
+      let { data: _data }: any = await request;
 
       if (_data && _data.length > 0) {
         if (target) {
@@ -106,7 +104,7 @@ export default function PageList({
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: target ? target : table },
-        (payload) => {
+        (payload: any) => {
           const { eventType } = payload;
           const newElement: any = payload.new;
           if (eventType === 'INSERT') {

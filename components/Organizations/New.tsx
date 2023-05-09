@@ -11,14 +11,6 @@ interface NewOrganization {
   user_id: string;
 }
 
-const model: any = [
-  {
-    key: 'name',
-    label: 'Name',
-    type: 'string'
-  }
-];
-
 export default function OrganizationNew({
   open,
   setOpenModal
@@ -26,12 +18,23 @@ export default function OrganizationNew({
   open: any;
   setOpenModal: any;
 }) {
-  const {supabase} = useSupabase();
+  const { supabase } = useSupabase();
   const { user, notify } = useAuthContext();
   const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
-    null
+    {
+      name: undefined
+    }
   );
   const [loading, setLoading] = useState<boolean>(false);
+
+  const model: any = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string',
+      show: true
+    }
+  ];
 
   const createNew = async () => {
     try {
@@ -64,22 +67,20 @@ export default function OrganizationNew({
           onClick={() => setOpenModal(false)}
         />
       </header>
-      {open && (
-        <main className="w-96">
-          <FormBuilder
-            data={newOrganization}
-            model={model}
-            loading={loading}
-            onChange={setNewOrganization}
-          />
-          <Button
-            loading={loading}
-            disabled={loading}
-            label={'Create'}
-            onClick={createNew}
-          />
-        </main>
-      )}
+      <main className="w-96">
+        <FormBuilder
+          data={newOrganization}
+          model={model}
+          loading={loading}
+          onChange={setNewOrganization}
+        />
+        <Button
+          loading={loading}
+          disabled={loading}
+          label={'Create'}
+          onClick={createNew}
+        />
+      </main>
     </Card>
   );
 }
