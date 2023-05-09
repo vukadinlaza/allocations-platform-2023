@@ -118,6 +118,7 @@ export interface Organization {
   legal_name?: string | null;
   mou_signed?: boolean;
   phase?: string | null;
+  is_archived?: boolean | false;
   entities?: Entity[] | null;
   deals?: Deal[] | null;
 }

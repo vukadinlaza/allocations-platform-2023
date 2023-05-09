@@ -1,9 +1,9 @@
 'use client';
-import { Alert, CircularProgress, TextField } from '@mui/material';
+import { useSupabase } from '@/lib/supabase-provider';
+import { Alert, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Logo from './Logo';
-import { useSupabase } from '@/lib/supabase-provider';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -16,7 +16,7 @@ export const isValidEmail = (email: string | null): boolean => {
 };
 
 export default function Login() {
-  const {supabase} = useSupabase();
+  const { supabase } = useSupabase();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<EmailStatus | null>(null);
@@ -62,7 +62,7 @@ export default function Login() {
 
   return (
     <div
-      className="p-8 mx-auto bg-white border rounded-lg"
+      className="p-8 mx-auto my-6 bg-white border rounded-lg"
       style={{ width: '400px' }}
     >
       <div className="mb-4">
@@ -73,16 +73,18 @@ export default function Login() {
         <br />
         Please enter your e-mail to login.
       </p>
-      <form onSubmit={async (e)=>{
-        e.preventDefault();
-        await login();
-      }}>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await login();
+        }}
+      >
         {!status && (
           <div>
-            <TextField
+            <input
+              type="text"
               id="outlined-basic"
-              label="mail@address.com"
-              variant="outlined"
+              placeholder="mail@address.com"
               className="w-full mb-4"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -92,7 +94,7 @@ export default function Login() {
         {!status && (
           <button
             onClick={login}
-            className={`mt-4 btn primary ${loading ? 'loading' : ''}`}
+            className={`btn primary ${loading ? 'loading' : ''}`}
           >
             {loading && <CircularProgress color="inherit" size={12} />}
             {!loading && 'Sign in'}

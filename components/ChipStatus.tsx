@@ -9,13 +9,15 @@ export default function ChipStatus({
     archived: 'primary',
     closed: 'error',
     processing: 'warning',
+    build: 'warning',
+    onboarding: 'info',
     complete: 'success'
   };
   return (
     <Chip
       label={status}
       color={status ? colors[status.toLowerCase()] : 'warning'}
-      className="text-white capitalize"
+      className="capitalize "
     />
   );
 }

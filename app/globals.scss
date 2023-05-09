@@ -56,12 +56,12 @@ $primary: #3db278;
   }
 
   .input {
-    @apply px-3 py-2 border rounded outline-primary-500 w-full
+    @apply px-3 py-2 border rounded outline-primary-500 w-full;
   }
 
   input[type="text"],
   select {
-    @apply input cursor-pointer;
+    @apply input;
   }
 
   // tw
