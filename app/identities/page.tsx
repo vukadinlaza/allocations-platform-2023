@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import { headers_tables } from '@/app/config';
 import PageList from '@/components/Page/List';
 import { useRouter } from 'next/navigation';
 
-const Identities = ()=>{
+const Identities = () => {
   const router = useRouter();
   const getHeader = () => {
     return {
@@ -13,7 +13,7 @@ const Identities = ()=>{
       buttons: [
         {
           title: 'Create new',
-          action: async ()=>{
+          action: async () => {
             await router.push('/identities/create');
           }
         }
@@ -29,6 +29,6 @@ const Identities = ()=>{
       query={`*`}
     />
   );
-}
+};
 
 export default Identities;

@@ -54,7 +54,7 @@ export default function AvatarComponent() {
         {getFirstLetter()}
       </Avatar>
       {open && (
-        <div className="absolute right-0 bg-white border top-12">
+        <div className="absolute right-0 bg-white border top-12 z-[1000]">
           <MenuList>
             {menu &&
               menu.map((item, index) => (
