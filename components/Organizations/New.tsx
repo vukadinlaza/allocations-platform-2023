@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
-import supabase from '@/lib/supabase';
+import { useSupabase } from '@/lib/supabase-provider';
 import CloseIcon from '@mui/icons-material/Close';
 import { Card } from '@mui/material';
 import { useState } from 'react';
@@ -26,6 +26,7 @@ export default function OrganizationNew({
   open: any;
   setOpenModal: any;
 }) {
+  const {supabase} = useSupabase();
   const { user, notify } = useAuthContext();
   const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
     null

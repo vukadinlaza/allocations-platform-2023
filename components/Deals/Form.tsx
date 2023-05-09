@@ -1,9 +1,9 @@
 import Button from '@/components/Button';
-import supabase from '@/lib/supabase';
 import { Deal } from '@/types';
 import { Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Status, { StatusInterface } from '../Status';
+import { useSupabase } from '@/lib/supabase-provider';
 
 export default function DealsForm({
   content,
@@ -12,6 +12,7 @@ export default function DealsForm({
   content: any;
   setOpen: any;
 }) {
+  const {supabase} = useSupabase();
   const [_deal, setDeal] = useState<Deal | any>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<StatusInterface | null>(null);

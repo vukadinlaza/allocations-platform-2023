@@ -2,7 +2,7 @@
 import { useAuthContext } from '@/app/context';
 import List from '@/components/List';
 import LoadingPageList from '@/components/Loading/PageList';
-import supabase from '@/lib/supabase';
+import {useSupabase} from '@/lib/supabase-provider';
 import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
@@ -36,6 +36,7 @@ export default function PageList({
   queryType?: string;
   target?: string;
 }) {
+  const {supabase} = useSupabase();
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
   const [results, setResults] = useState<Array<any>>([]);

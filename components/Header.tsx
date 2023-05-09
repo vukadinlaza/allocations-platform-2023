@@ -2,7 +2,6 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import supabase from '@/lib/supabase';
 import { Chip } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,9 +9,11 @@ import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
+import { useSupabase } from '@/lib/supabase-provider';
 import Select from './Select';
 
 export default function Header() {
+  const {supabase} = useSupabase();
   const pathname = usePathname();
   const { user, organizations, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
