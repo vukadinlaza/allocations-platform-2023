@@ -46,6 +46,7 @@ export default function OrganizationForm({
   };
 
   const deleteOrganization = async () => {
+    if (!data) return;
     try {
       setLoading(true);
       const { data: response, error } = await supabase
