@@ -57,7 +57,8 @@ export default function OrganizationForm({
     }
   ];
 
-  const saveOrganization = async () => {
+  const saveOrganization = async (form: any) => {
+    if (!form) return;
     try {
       setLoading(true);
       const { data: response, error } = await supabase
@@ -117,15 +118,14 @@ export default function OrganizationForm({
           <main className="mb-6">
             <h2 className="mb-4">Informations</h2>
             {/* ici il faut adapter le form builder */}
-            {/* <FormBuilder model={model} data={data} />
-            <div>
-              <Button
-                loading={loading}
-                disabled={loading}
-                label="Save"
-                onClick={saveOrganization}
-              />
-            </div> */}
+            <FormBuilder
+              loading={loading}
+              disabled={loading}
+              model={model}
+              data={data}
+              onSubmit={(form: any) => saveOrganization(form)}
+              buttonLabel={'Save'}
+            />
           </main>
           <DangerZone toCheck={data.name} onClick={deleteOrganization} />
         </div>

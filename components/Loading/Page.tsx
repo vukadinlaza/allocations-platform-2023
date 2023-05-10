@@ -1,7 +1,7 @@
 import Line from './Line';
 import List from './List';
 
-export default function PageList() {
+export default function Page() {
   return (
     <div className="w-full h-full">
       <div>

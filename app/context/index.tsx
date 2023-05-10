@@ -45,10 +45,22 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     }
   };
 
-  const setSlideOver = (isOpen: boolean, data: any, type: string) => {
+  const setSlideOver = ({
+    isOpen,
+    data,
+    type,
+    model,
+    table
+  }: {
+    isOpen: boolean;
+    data: any;
+    type: string;
+    model: any;
+    table: string;
+  }) => {
     if (!type && !data) return;
     setOpen(isOpen);
-    setSlideOverData({ data, type });
+    setSlideOverData({ data, type, model, table });
   };
 
   const onAuthStateChange = async () => {
@@ -125,7 +137,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
             {children}
           </div>
-          <SlideOver open={open} setOpen={setOpen} data={slideOverData} />
+          <SlideOver
+            open={open}
+            setOpen={setOpen}
+            slideOverData={slideOverData}
+          />
           <ToastContainer />
         </main>
       )}

@@ -14,24 +14,25 @@ export default function Funds() {
     ]
   };
 
+  const model = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string',
+      show: true
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      type: 'string',
+      show: false,
+      disabled: true,
+      value: 'fund'
+    }
+  ];
+
   const dialog = {
     element: 'fund',
-    model: [
-      {
-        key: 'name',
-        label: 'Name',
-        type: 'string',
-        show: true
-      },
-      {
-        key: 'type',
-        label: 'Type',
-        type: 'string',
-        show: false,
-        disabled: true,
-        value: 'fund'
-      }
-    ],
     table: 'deals',
     type: 'FormsNew'
   };
@@ -42,6 +43,7 @@ export default function Funds() {
         dialog={dialog}
         header={header}
         headersTable={headers_tables.funds}
+        model={model}
         query={`*`}
         queryType="fund"
         table="deals"

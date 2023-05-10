@@ -1,6 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/context';
-import LoadingPageList from '@/components/Loading/PageList';
+import LoadingPageList from '@/components/Loading/Page';
 import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
@@ -17,25 +17,29 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function PageList({
-  dialog,
-  header,
-  headersTable,
-  query,
-  queryType,
-  table,
-  target,
-  type
-}: {
+type Props = {
   dialog?: any;
   header: any;
   headersTable?: any;
+  model?: any;
   query?: string;
   queryType?: string;
   table?: string;
   target?: string;
   type?: string;
-}) {
+};
+
+export default function PageList({
+  dialog,
+  header,
+  headersTable,
+  model,
+  query,
+  queryType,
+  table,
+  target,
+  type
+}: Props) {
   const { supabase } = useSupabase();
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
@@ -150,7 +154,7 @@ export default function PageList({
               {dialog.type === 'FormsNew' && (
                 <FormsNew
                   element={dialog.element}
-                  model={dialog.model}
+                  model={model}
                   setOpenModal={setOpenModal}
                   table={dialog.table}
                 />
@@ -211,18 +215,26 @@ export default function PageList({
           <Grid container>
             {!search && initialData && (
               <Table
-                type={type}
-                headers={headersTable}
                 data={initialData.sort((a: any, b: any) => {
                   const dateA = new Date(a.created_at);
                   const dateB = new Date(b.created_at);
                   // @ts-ignore
                   return dateB - dateA;
                 })}
+                headers={headersTable}
+                model={model}
+                table={table}
+                type={type}
               />
             )}
             {search && (
-              <Table type={type} headers={headersTable} data={results} />
+              <Table
+                data={results}
+                headers={headersTable}
+                model={model}
+                table={table}
+                type={type}
+              />
             )}
           </Grid>
         </div>

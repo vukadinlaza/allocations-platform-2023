@@ -14,16 +14,17 @@ export default function Organizations() {
     ]
   };
 
+  const model = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string',
+      show: true
+    }
+  ];
+
   const dialog = {
     element: 'organization',
-    model: [
-      {
-        key: 'name',
-        label: 'Name',
-        type: 'string',
-        show: true
-      }
-    ],
     table: 'organizations',
     type: 'FormsNew'
   };
@@ -34,6 +35,7 @@ export default function Organizations() {
         dialog={dialog}
         header={header}
         headersTable={headers_tables.organizations}
+        model={model}
         query={`*, organizations (*)`}
         table="organizations_roles"
         target="organizations"

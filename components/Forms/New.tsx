@@ -1,5 +1,4 @@
 import { useAuthContext } from '@/app/context';
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
@@ -7,17 +6,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+type Props = {
+  element: string;
+  model?: Field[] | any;
+  table: string;
+  setOpenModal: any;
+};
+
 export default function FormsNew({
   element,
   model,
   table,
   setOpenModal
-}: {
-  element: string;
-  model?: Field | any;
-  table: string;
-  setOpenModal: any;
-}) {
+}: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
   const [newElement, setNewElement] = useState<any>(null);
@@ -45,11 +46,13 @@ export default function FormsNew({
   };
 
   useEffect(() => {
-    const initialElement: any = {};
-    model.forEach((field: Field) => {
-      initialElement[field.key] = field.value ?? undefined;
-    });
-    setNewElement(initialElement);
+    if (model) {
+      const initialElement: any = {};
+      model.forEach((field: Field) => {
+        initialElement[field.key] = field.value ?? undefined;
+      });
+      setNewElement(initialElement);
+    }
   }, [model]);
 
   return (

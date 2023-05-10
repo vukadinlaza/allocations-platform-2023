@@ -57,15 +57,21 @@ const generateCell = (item: any, column: any) => {
   return <span>{item[column.key] ? item[column.key] : no_info}</span>;
 };
 
-export default function List({
-  headers = null,
-  type = null,
-  data = null
-}: {
+type Props = {
   headers?: any;
   type?: any;
   data?: any;
-}) {
+  model?: any;
+  table?: string;
+};
+
+export default function TableComponent({
+  headers,
+  type,
+  data,
+  model,
+  table
+}: Props) {
   const { setSlideOver } = useAuthContext();
 
   return (
@@ -92,7 +98,14 @@ export default function List({
                     className="transition cursor-pointer hover:bg-gray-50"
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     onClick={() => {
-                      if (type) setSlideOver(true, item, type);
+                      if (type && item && model && data)
+                        setSlideOver({
+                          isOpen: true,
+                          data: item,
+                          type,
+                          model,
+                          table
+                        });
                     }}
                   >
                     {headers &&

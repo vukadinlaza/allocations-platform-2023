@@ -14,24 +14,25 @@ export default function SPVS() {
     ]
   };
 
+  const model = [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'string',
+      show: true
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      type: 'string',
+      show: false,
+      disabled: true,
+      value: 'spv'
+    }
+  ];
+
   const dialog = {
     element: 'SPV',
-    model: [
-      {
-        key: 'name',
-        label: 'Name',
-        type: 'string',
-        show: true
-      },
-      {
-        key: 'type',
-        label: 'Type',
-        type: 'string',
-        show: false,
-        disabled: true,
-        value: 'spv'
-      }
-    ],
     table: 'deals',
     type: 'FormsNew'
   };
@@ -42,6 +43,7 @@ export default function SPVS() {
         dialog={dialog}
         header={header}
         headersTable={headers_tables.spvs}
+        model={model}
         query={`*`}
         queryType="spv"
         table="deals"

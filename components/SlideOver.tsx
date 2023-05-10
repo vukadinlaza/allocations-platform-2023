@@ -1,17 +1,16 @@
 import { Dialog, Transition } from '@headlessui/react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Fragment } from 'react';
-import SlideOverContent from './SlideOver/Content';
+import FormsBasic from './Forms/Basic';
 
-export default function SlideOver({
-  open,
-  setOpen,
-  data
-}: {
+type Props = {
+  slideOverData: any;
   open: boolean;
   setOpen: any;
-  data: any;
-}) {
+};
+
+export default function SlideOver({ slideOverData, open, setOpen }: Props) {
+  console.log(slideOverData);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -61,7 +60,15 @@ export default function SlideOver({
                     </div>
                   </Transition.Child>
                   <div className="flex flex-col h-full p-6 overflow-y-scroll bg-white shadow-xl">
-                    <SlideOverContent data={data} setOpen={setOpen} />
+                    {slideOverData && (
+                      <FormsBasic
+                        data={slideOverData.data}
+                        model={slideOverData.model}
+                        table={slideOverData.table}
+                        type={slideOverData.type}
+                        setOpen={setOpen}
+                      />
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
