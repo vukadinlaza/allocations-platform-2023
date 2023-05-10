@@ -20,6 +20,13 @@ export default function Migrations() {
       label: 'Name',
       type: 'string',
       show: true
+    },
+    {
+      key: 'type',
+      label: 'Type',
+      type: 'select',
+      show: true,
+      items: ['spv', 'fund']
     }
   ];
 

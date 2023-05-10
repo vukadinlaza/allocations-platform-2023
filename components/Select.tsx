@@ -18,12 +18,14 @@ function Select<T>({
 
   return (
     <select onChange={handleSelectChange}>
-      <option selected>{selected ? selected : 'Select'}</option>
       {items &&
         items
           .filter((x) => x !== selected)
           .map((item: any, index: number) => (
-            <option key={index}>
+            <option
+              className="capitalize"
+              key={index}
+            >
               {displayLabel ? displayLabel(item) : item}
             </option>
           ))}

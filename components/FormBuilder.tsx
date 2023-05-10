@@ -28,6 +28,7 @@ export default function FormBuilder({
   return (
     <Grid container spacing={2} className="FormBuilder">
       {model &&
+        _data &&
         model.map((field) => {
           if (field.show) {
             return (
