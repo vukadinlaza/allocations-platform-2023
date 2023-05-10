@@ -1,11 +1,12 @@
 'use client';
 import { useAuthContext } from '@/app/context';
-import List from '@/components/List';
 import LoadingPageList from '@/components/Loading/PageList';
+import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
+import FormsNew from '../Forms/New';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -20,21 +21,20 @@ export default function PageList({
   dialog,
   header,
   headersTable,
-  type,
   query,
-  table,
   queryType,
-  target
+  table,
+  target,
+  type
 }: {
   dialog?: any;
   header: any;
   headersTable?: any;
-  data?: any;
-  type?: string;
-  table?: string;
   query?: string;
   queryType?: string;
+  table?: string;
   target?: string;
+  type?: string;
 }) {
   const { supabase } = useSupabase();
   const [initialData, setInitialData] = useState<Array<any>>([]);
@@ -147,10 +147,11 @@ export default function PageList({
               keepMounted
               aria-describedby="alert-dialog-slide-description"
             >
-              {dialog.component && (
-                <dialog.component
+              {dialog.type === 'FormsNew' && (
+                <FormsNew
+                  model={dialog.model}
                   setOpenModal={setOpenModal}
-                  open={openModal}
+                  table={dialog.table}
                 />
               )}
             </Dialog>
@@ -208,7 +209,7 @@ export default function PageList({
           </Grid>
           <Grid container>
             {!search && initialData && (
-              <List
+              <Table
                 type={type}
                 headers={headersTable}
                 data={initialData.sort((a: any, b: any) => {
@@ -220,7 +221,7 @@ export default function PageList({
               />
             )}
             {search && (
-              <List type={type} headers={headersTable} data={results} />
+              <Table type={type} headers={headersTable} data={results} />
             )}
           </Grid>
         </div>

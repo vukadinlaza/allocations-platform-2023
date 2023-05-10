@@ -7,15 +7,15 @@ export default function Investments() {
     name: 'Investments',
     description: 'Manage your investments.',
     buttons: [
-      {
-        title: 'Create new'
-      }
+      // {
+      //   title: 'Create new'
+      // }
     ]
   };
 
   // const dialog = {
   //   type: 'modal',
-  //   component: OrganizationNew
+  //   component: InvestmentsNew
   // };
 
   return (

@@ -1,5 +1,4 @@
 'use client';
-import OrganizationNew from '@/components/Organizations/New';
 import PageList from '@/components/Page/List';
 import { headers_tables } from '../config';
 
@@ -16,8 +15,16 @@ export default function Organizations() {
   };
 
   const dialog = {
-    type: 'modal',
-    component: OrganizationNew
+    model: [
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        show: true
+      }
+    ],
+    table: 'organizations',
+    type: 'FormsNew'
   };
 
   return (

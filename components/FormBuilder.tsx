@@ -1,17 +1,7 @@
+import { Field } from '@/types';
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Select from './Select';
-
-type FieldType = 'string' | 'number' | 'boolean' | 'select';
-
-export type Field = {
-  key: string;
-  label: string;
-  type: FieldType; // add more types as needed
-  show?: boolean | true;
-  disabled?: boolean | false;
-  items?: any[] | null | undefined;
-};
 
 type Props = {
   model: Field[];

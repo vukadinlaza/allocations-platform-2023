@@ -1,12 +1,13 @@
 import { useAuthContext } from '@/app/context';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Organization, OrganizationStatusValues } from '@/types';
+import { Field } from '@/types';
+import { Organization } from '@/types/organizations';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
 import ChipStatus from '../ChipStatus';
 import DangerZone from '../DangerZone';
-import FormBuilder, { Field } from '../FormBuilder';
+import FormBuilder from '../FormBuilder';
 import MissingData from '../MissingData';
 
 export default function OrganizationForm({
@@ -14,7 +15,7 @@ export default function OrganizationForm({
 }: {
   organization: Organization;
 }) {
-  const {supabase} = useSupabase();
+  const { supabase } = useSupabase();
   const [data, setData] = useState<Organization | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { notify, user } = useAuthContext();
@@ -47,7 +48,7 @@ export default function OrganizationForm({
       type: 'select',
       show: user.is_super_admin,
       disabled: false,
-      items: OrganizationStatusValues
+      items: ['Processing', 'Complete']
     },
     {
       key: 'slug',

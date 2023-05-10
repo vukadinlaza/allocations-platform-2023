@@ -2,57 +2,49 @@ import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
+import { Field } from '@/types';
 import CloseIcon from '@mui/icons-material/Close';
 import { Card } from '@mui/material';
 import { useState } from 'react';
 
-interface NewOrganization {
-  name: string;
-  user_id: string;
-}
-
-export default function OrganizationNew({
-  open,
+export default function FormsNew({
+  model,
+  table,
   setOpenModal
 }: {
-  open: any;
+  model?: Field | any;
+  table: string;
   setOpenModal: any;
 }) {
   const { supabase } = useSupabase();
-  const { user, notify } = useAuthContext();
-  const [newOrganization, setNewOrganization] = useState<NewOrganization | any>(
-    {
-      name: undefined
-    }
-  );
+  const { notify } = useAuthContext();
+  const [newElement, setNewElement] = useState<any>({
+    name: undefined
+  });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const model: any = [
-    {
-      key: 'name',
-      label: 'Name',
-      type: 'string',
-      show: true
+  const singular = (str: string) => {
+    if (str && str.endsWith('s')) {
+      return str.slice(0, -1);
     }
-  ];
+  };
 
   const createNew = async () => {
+    if (!table || !newElement) return;
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('organizations')
-        .insert(newOrganization);
+      const { data, error } = await supabase.from(table).insert(newElement);
 
       if (error) {
-        notify('Sorry, could not create the organization.', false);
+        notify(`Sorry, could not create new ${singular(table)}.`, false);
         return;
       }
       notify('Successfully created !', true);
     } catch (error) {
       console.log(error);
-      notify('Sorry, could not create the organization.', false);
+      notify(`Sorry, could not create new ${singular(table)}.`, false);
     } finally {
-      setNewOrganization(null);
+      setNewElement(null);
       setLoading(false);
       setOpenModal(false);
     }
@@ -60,7 +52,7 @@ export default function OrganizationNew({
   return (
     <Card className="mb-0 card--popup" variant="outlined">
       <header>
-        <h2>Create a new organization</h2>
+        {table && <h2>Create a new {singular(table)}</h2>}
         <CloseIcon
           fontSize="inherit"
           className="text-2xl cursor-pointer text-gray"
@@ -69,10 +61,10 @@ export default function OrganizationNew({
       </header>
       <main className="w-96">
         <FormBuilder
-          data={newOrganization}
+          data={newElement}
           model={model}
           loading={loading}
-          onChange={setNewOrganization}
+          onChange={setNewElement}
         />
         <Button
           loading={loading}
