@@ -21,6 +21,7 @@ type Props = {
   dialog?: any;
   header: any;
   headersTable?: any;
+  isMigration?: boolean;
   model?: any;
   query?: string;
   queryType?: string;
@@ -33,6 +34,7 @@ export default function PageList({
   dialog,
   header,
   headersTable,
+  isMigration,
   model,
   query,
   queryType,
@@ -61,6 +63,10 @@ export default function PageList({
 
       if (queryType) {
         request = request.eq('type', queryType);
+      }
+
+      if (isMigration) {
+        request = request.eq('is_migration', true);
       }
 
       let { data: _data }: any = await request;

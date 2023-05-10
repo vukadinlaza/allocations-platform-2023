@@ -138,7 +138,7 @@ export default function FormBasic({
             {existing.status && <ChipStatus status={existing.status} />}
           </header>
           <main className="mb-6">
-            <h2 className="mb-4">Informations</h2>
+            <h2 className="mb-4">Manage</h2>
             <FormBuilder
               loading={loading}
               model={model}

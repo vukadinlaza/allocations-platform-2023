@@ -10,16 +10,20 @@ export const navigation = [
 export const headers_tables = {
   deals: [
     {
-      label: 'Deal display name',
+      label: 'Name',
       key: 'name'
+    },
+    {
+      label: 'Entity name',
+      key: 'entity_name' // just for migration
     },
     {
       label: 'Status',
       key: 'status'
     },
     {
-      label: 'Created at',
-      key: 'created_at'
+      label: 'Total raised',
+      key: 'total_raised'
     },
     {
       label: 'EIN',
