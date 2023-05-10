@@ -31,7 +31,8 @@ const generateCell = (item: any, column: any) => {
   }
   if (
     column.key === 'subscription_amount' ||
-    column.key === 'capital_wired_amount'
+    column.key === 'capital_wired_amount' ||
+    column.key === 'raise_amount'
   ) {
     if (!item[column.key]) return `$0`;
     return `$${item[column.key].toLocaleString('en-US') || 0}`;
@@ -78,8 +79,8 @@ export default function TableComponent({
     <div className="w-full">
       {data.length < 1 && <MissingData />}
       {data && data.length > 0 && (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
+        <TableContainer sx={{ maxHeight: 700 }} component={Paper}>
+          <Table style={{ tableLayout: 'fixed' }} stickyHeader>
             <TableHead>
               <TableRow>
                 {headers &&
@@ -112,6 +113,7 @@ export default function TableComponent({
                       headers.map((column: any, i: any) => {
                         return (
                           <TableCell
+                            size="medium"
                             align={column.key === 'edit' ? 'right' : 'left'}
                             key={i}
                           >

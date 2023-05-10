@@ -23,7 +23,7 @@ export const headers_tables = {
     },
     {
       label: 'Total raised',
-      key: 'total_raised'
+      key: 'raise_amount'
     },
     {
       label: 'EIN',
@@ -49,28 +49,10 @@ export const headers_tables = {
       key: 'ein'
     }
   ],
-  funds: [
-    {
-      label: 'Name',
-      key: 'name'
-    },
-    {
-      label: 'Status',
-      key: 'status'
-    },
-    {
-      label: 'Total raised',
-      key: 'total_raised'
-    },
-    {
-      label: '',
-      key: 'edit'
-    }
-  ],
   investments: [
     {
       label: 'Deal name',
-      key: 'name'
+      key: 'deal_name'
     },
     {
       label: 'Investment amount',
@@ -96,7 +78,7 @@ export const headers_tables = {
     },
     {
       label: 'Total deals',
-      key: 'entities'
+      key: 'raise_amount'
     },
     {
       label: '',
@@ -109,12 +91,38 @@ export const headers_tables = {
       key: 'name'
     },
     {
+      label: 'Total raised',
+      key: 'raise_amount'
+    },
+    {
       label: 'Status',
       key: 'status'
     },
     {
+      label: 'Entity name',
+      key: 'entity_name' // just for migration
+    },
+    {
+      label: '',
+      key: 'edit'
+    }
+  ],
+  funds: [
+    {
+      label: 'Name',
+      key: 'name'
+    },
+    {
       label: 'Total raised',
-      key: 'total_raised'
+      key: 'raise_amount'
+    },
+    {
+      label: 'Status',
+      key: 'status'
+    },
+    {
+      label: 'Entity name',
+      key: 'entity_name' // just for migration
     },
     {
       label: '',

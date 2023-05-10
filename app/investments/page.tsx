@@ -23,7 +23,7 @@ export default function Investments() {
       <PageList
         header={header}
         headersTable={headers_tables.investments}
-        table="investments"
+        table="hydrated_investments"
         query={`*`}
         type="investment"
       />
