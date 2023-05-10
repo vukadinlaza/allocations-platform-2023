@@ -116,6 +116,7 @@ export default function OrganizationForm({
           </header>
           <main className="mb-6">
             <h2 className="mb-4">Informations</h2>
+            {/* ici il faut adapter le form builder */}
             {/* <FormBuilder model={model} data={data} />
             <div>
               <Button

@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
-import Select from './Select';
 
 export default function Header({
   expand,
@@ -90,7 +89,7 @@ export default function Header({
                     </div>
                   )}
                   <Feedback />
-                  <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
+                  {/* <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
                     <Select
                       items={organizations}
                       onChange={(e: any) => {
@@ -98,7 +97,7 @@ export default function Header({
                       }}
                       displayLabel={(o: any) => o.name}
                     />
-                  </div>
+                  </div> */}
                   <AvatarComponent />
                 </div>
               )}
@@ -133,8 +132,8 @@ export default function Header({
             onClick={() => setExpand(!expand)}
           >
             <Image
-              src="/shrink.svg"
-              alt="shrink"
+              src={expand ? './expand.svg' : './shrink.svg'}
+              alt="expand"
               className="opacity-50"
               width={24}
               height={24}
