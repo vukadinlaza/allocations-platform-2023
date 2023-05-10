@@ -5,54 +5,57 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
 import CloseIcon from '@mui/icons-material/Close';
 import { Card } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function FormsNew({
+  element,
   model,
   table,
   setOpenModal
 }: {
+  element: string;
   model?: Field | any;
   table: string;
   setOpenModal: any;
 }) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
-  const [newElement, setNewElement] = useState<any>({
-    name: undefined
-  });
+  const [newElement, setNewElement] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const singular = (str: string) => {
-    if (str && str.endsWith('s')) {
-      return str.slice(0, -1);
-    }
-  };
-
-  const createNew = async () => {
-    if (!table || !newElement) return;
+  const createNew = async (form: any) => {
+    if (!form && !table && !newElement) return;
     try {
       setLoading(true);
-      const { data, error } = await supabase.from(table).insert(newElement);
+      const { data, error } = await supabase.from(table).insert(form);
 
       if (error) {
-        notify(`Sorry, could not create new ${singular(table)}.`, false);
+        notify(`Sorry, could not create new ${element}.`, false);
         return;
       }
       notify('Successfully created !', true);
+      setNewElement(null);
     } catch (error) {
       console.log(error);
-      notify(`Sorry, could not create new ${singular(table)}.`, false);
+      notify(`Sorry, could not create new ${element}.`, false);
     } finally {
-      setNewElement(null);
       setLoading(false);
       setOpenModal(false);
     }
   };
+
+  useEffect(() => {
+    const initialElement: any = {};
+    model.forEach((field: Field) => {
+      initialElement[field.key] = field.value ?? undefined;
+    });
+    setNewElement(initialElement);
+  }, [model]);
+
   return (
     <Card className="mb-0 card--popup" variant="outlined">
       <header>
-        {table && <h2>Create a new {singular(table)}</h2>}
+        {table && <h2>Create a new {element}</h2>}
         <CloseIcon
           fontSize="inherit"
           className="text-2xl cursor-pointer text-gray"
@@ -64,13 +67,7 @@ export default function FormsNew({
           data={newElement}
           model={model}
           loading={loading}
-          onChange={setNewElement}
-        />
-        <Button
-          loading={loading}
-          disabled={loading}
-          label={'Create'}
-          onClick={createNew}
+          onSubmit={(form: any) => createNew(form)}
         />
       </main>
     </Card>

@@ -4,10 +4,8 @@ import { Field } from '@/types';
 import { Organization } from '@/types/organizations';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import Button from '../Button';
 import ChipStatus from '../ChipStatus';
 import DangerZone from '../DangerZone';
-import FormBuilder from '../FormBuilder';
 import MissingData from '../MissingData';
 
 export default function OrganizationForm({
@@ -118,7 +116,7 @@ export default function OrganizationForm({
           </header>
           <main className="mb-6">
             <h2 className="mb-4">Informations</h2>
-            <FormBuilder model={model} data={data} onChange={setData} />
+            {/* <FormBuilder model={model} data={data} />
             <div>
               <Button
                 loading={loading}
@@ -126,7 +124,7 @@ export default function OrganizationForm({
                 label="Save"
                 onClick={saveOrganization}
               />
-            </div>
+            </div> */}
           </main>
           <DangerZone toCheck={data.name} onClick={deleteOrganization} />
         </div>

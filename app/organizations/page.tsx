@@ -15,6 +15,7 @@ export default function Organizations() {
   };
 
   const dialog = {
+    element: 'organization',
     model: [
       {
         key: 'name',
@@ -33,8 +34,8 @@ export default function Organizations() {
         dialog={dialog}
         header={header}
         headersTable={headers_tables.organizations}
-        table="organizations_roles"
         query={`*, organizations (*)`}
+        table="organizations_roles"
         target="organizations"
         type="organization"
       />

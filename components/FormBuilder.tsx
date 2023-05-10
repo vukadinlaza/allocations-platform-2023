@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -5,26 +6,17 @@ import Select from './Select';
 
 type Props = {
   model: Field[];
-  onChange: (data: any) => void;
-  loading?: boolean;
+  onSubmit: (data: any) => void;
+  loading: boolean;
   data: any;
 };
 
-export default function FormBuilder({ model, loading, onChange, data }: Props) {
+export default function FormBuilder({ model, loading, data, onSubmit }: Props) {
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
-    onChange(_data);
-  }, [_data]);
-
-  useEffect(() => {
-    if (data) {
-      setData(data);
-    }
-    return () => {
-      setData({});
-    };
-  }, []);
+    setData(data);
+  }, [data]);
 
   return (
     <Grid container spacing={2} className="FormBuilder">
@@ -38,7 +30,7 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
                   type="text"
                   disabled={loading || field.disabled}
                   className={`${loading ? 'disabled' : ''}`}
-                  value={_data[field.key]}
+                  value={_data && [field.key] ? _data[field.key] : null}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setData((prevData: any) => ({
                       ...prevData,
@@ -64,6 +56,14 @@ export default function FormBuilder({ model, loading, onChange, data }: Props) {
           );
         }
       })}
+      <Grid item xs={12}>
+        <Button
+          loading={loading}
+          disabled={loading}
+          label={'Create'}
+          onClick={() => onSubmit(_data)}
+        />
+      </Grid>
     </Grid>
   );
 }

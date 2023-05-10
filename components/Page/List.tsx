@@ -149,6 +149,7 @@ export default function PageList({
             >
               {dialog.type === 'FormsNew' && (
                 <FormsNew
+                  element={dialog.element}
                   model={dialog.model}
                   setOpenModal={setOpenModal}
                   table={dialog.table}

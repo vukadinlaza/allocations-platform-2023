@@ -8,24 +8,44 @@ export default function SPVS() {
     description: 'Manage your spvs.',
     buttons: [
       {
-        title: 'Create new'
+        title: 'Create new',
+        action: 'modal'
       }
     ]
   };
 
-  // const dialog = {
-  //   type: 'modal',
-  //   component: OrganizationNew
-  // };
+  const dialog = {
+    element: 'SPV',
+    model: [
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        show: true
+      },
+      {
+        key: 'type',
+        label: 'Type',
+        type: 'string',
+        show: false,
+        disabled: true,
+        value: 'spv'
+      }
+    ],
+    table: 'deals',
+    type: 'FormsNew'
+  };
 
   return (
     <div>
       <PageList
+        dialog={dialog}
         header={header}
         headersTable={headers_tables.spvs}
-        table="deals"
         query={`*`}
         queryType="spv"
+        table="deals"
+        type="spv"
       />
     </div>
   );
