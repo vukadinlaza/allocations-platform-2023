@@ -9,7 +9,7 @@ export interface TabData {
   disabled?: boolean;
 }
 
-type FieldType = 'string' | 'number' | 'boolean' | 'select';
+type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
 
 export type Field = {
   disabled?: boolean | false;
@@ -19,4 +19,5 @@ export type Field = {
   show?: boolean | true;
   type: FieldType; // add more types as needed
   value?: any;
+  copy?: boolean | false;
 };

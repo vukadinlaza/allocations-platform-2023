@@ -18,6 +18,7 @@ function Select<T>({
 
   return (
     <select onChange={handleSelectChange}>
+      <option selected>{selected}</option>
       {items &&
         items
           .filter((x) => x !== selected)
