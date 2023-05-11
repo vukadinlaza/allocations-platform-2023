@@ -5,9 +5,12 @@ export default function ChipStatus({
 }) {
   const colors: any = {
     archived: 'bg-gray-600',
+    draft: 'bg-gray-300',
     closed: 'bg-green-500',
     processing: 'bg-amber-400',
     build: 'bg-yellow-500',
+    'post-build': 'bg-orange-500',
+    'pre-onboarding': 'bg-amber-400',
     onboarding: 'bg-amber-400',
     signed: 'bg-amber-400',
     complete: 'bg-green-500',

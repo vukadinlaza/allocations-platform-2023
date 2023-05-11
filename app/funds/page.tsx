@@ -1,7 +1,7 @@
 'use client';
 import PageList from '@/components/Page/List';
 import { Field } from '@/types';
-import { deal_types, true_false } from '@/types/values';
+import { deal_types, deals_status, true_false } from '@/types/values';
 import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
 
@@ -156,6 +156,14 @@ export default function Funds() {
       type: 'string',
       show: user.is_super_admin,
       disabled: false
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'select',
+      show: user.is_super_admin,
+      disabled: false,
+      items: deals_status
     },
     {
       key: 'target_raise_goal',

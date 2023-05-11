@@ -17,16 +17,13 @@ function Select<T>({
   };
 
   return (
-    <select onChange={handleSelectChange}>
+    <select onChange={handleSelectChange} className="capitalize">
       <option selected>{selected}</option>
       {items &&
         items
           .filter((x) => x !== selected)
           .map((item: any, index: number) => (
-            <option
-              className="capitalize"
-              key={index}
-            >
+            <option key={index}>
               {displayLabel ? displayLabel(item) : item}
             </option>
           ))}

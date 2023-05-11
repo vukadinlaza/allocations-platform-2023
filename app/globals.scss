@@ -29,6 +29,7 @@ $primary: #3db278;
   }
 
   button {
+    @apply outline-none;
     &.btn {
       min-width: 75px;
       @apply font-medium cursor-pointer rounded-lg px-4 py-2 mr-2;
