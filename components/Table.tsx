@@ -18,6 +18,9 @@ const generateCell = (item: any, column: any) => {
   if (!item || !column || !column.key) {
     return no_info;
   }
+  if (column.key === 'manage') {
+    return <button className="btn primary">View deal</button>;
+  }
   if (column.key === 'edit') {
     return (
       <Image

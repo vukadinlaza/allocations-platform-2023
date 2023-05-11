@@ -1,36 +1,3 @@
-// 'use client';
-// import PageList from '@/components/Page/List';
-// import { headers_tables } from '../config';
-
-// export default function Investments() {
-//   const header = {
-//     name: 'Investments',
-//     description: 'Manage your investments.',
-//     buttons: [
-//       // {
-//       //   title: 'Create new'
-//       // }
-//     ]
-//   };
-
-//   // const dialog = {
-//   //   type: 'modal',
-//   //   component: InvestmentsNew
-//   // };
-
-//   return (
-//     <div>
-//       <PageList
-//         header={header}
-//         headersTable={headers_tables.investments}
-//         table="hydrated_investments"
-//         query={`*`}
-//         type="investment"
-//       />
-//     </div>
-//   );
-// }
-
 'use client';
 import PageList from '@/components/Page/List';
 import { Field } from '@/types';

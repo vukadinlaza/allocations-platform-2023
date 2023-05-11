@@ -64,6 +64,10 @@ export const headers_tables = {
     },
     {
       label: '',
+      key: 'manage'
+    },
+    {
+      label: '',
       key: 'edit'
     }
   ],
@@ -104,6 +108,10 @@ export const headers_tables = {
     },
     {
       label: '',
+      key: 'manage'
+    },
+    {
+      label: '',
       key: 'edit'
     }
   ],
@@ -123,6 +131,10 @@ export const headers_tables = {
     {
       label: 'Entity name',
       key: 'entity_name' // just for migration
+    },
+    {
+      label: '',
+      key: 'manage'
     },
     {
       label: '',
