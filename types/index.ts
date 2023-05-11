@@ -3,13 +3,13 @@ export * from './entities';
 export * from './investments';
 export * from './organizations';
 
+type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
+
 export interface TabData {
   title: string;
   component?: React.ComponentType;
   disabled?: boolean;
 }
-
-type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
 
 export type Field = {
   disabled?: boolean | false;

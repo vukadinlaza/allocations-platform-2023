@@ -88,12 +88,17 @@ export default function FormBuilder({
                       disabled={loading || field.disabled}
                       className={`${loading ? 'disabled' : ''}`}
                       value={_data && _data[field.key] ? _data[field.key] : ''}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setData((prevData: any) => ({
-                          ...prevData,
-                          [field.key]: e.target.value
-                        }))
-                      }
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const inputValue = e.target.value;
+                        const numericValue = parseFloat(inputValue);
+
+                        if (!isNaN(numericValue)) {
+                          setData((prevData: any) => ({
+                            ...prevData,
+                            [field.key]: numericValue
+                          }));
+                        }
+                      }}
                     />
                   )}
                   {field.copy && <CopyToClipboard toCopy={_data[field.key]} />}

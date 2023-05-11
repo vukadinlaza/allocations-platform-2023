@@ -46,7 +46,3 @@ export interface Deal {
   wire_deadline?: string;
   user_email?: string;
 }
-
-export type DealKeys = keyof Deal;
-
-export type DealType = Deal[DealKeys];
