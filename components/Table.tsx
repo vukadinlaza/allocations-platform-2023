@@ -96,10 +96,16 @@ export default function TableComponent({
                     {headers &&
                       headers.map((column: any, i: any) => {
                         return column.key === 'edit' ? (
-                          <TableCell className="flex items-center justify-end">
+                          <TableCell
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'end'
+                            }}
+                          >
                             {column.manage && (
                               <button
-                                // onClick={() => openURL(`${table}/${item.id}`)}
+                                onClick={() => openURL(`${table}/${item.id}`)}
                                 className="mr-2 btn primary"
                               >
                                 View
