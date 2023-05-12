@@ -1,5 +1,6 @@
 'use client';
 import AlertsBeta from '@/components/Alerts/Beta';
+import AlertsMigration from '@/components/Alerts/Migration';
 import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
@@ -134,7 +135,14 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
               expand ? 'container transition-all duration-500 ease-out' : ''
             }`}
           >
-            {betaAlert && <AlertsBeta showBetaAlert={showBetaAlert} />}
+            {betaAlert && (
+              <div>
+                <AlertsBeta showBetaAlert={showBetaAlert} />
+                <AlertsMigration
+                  showBetaAlert={showBetaAlert}
+                ></AlertsMigration>
+              </div>
+            )}
             {children}
           </div>
           <SlideOver

@@ -122,6 +122,11 @@ $primary: #3db278;
         @apply mb-4;
       }
     }
+    &--main {
+      > div {
+        @apply mb-8;
+      }
+    }
   }
 
   .min-w-12 {

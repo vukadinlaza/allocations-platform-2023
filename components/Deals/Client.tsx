@@ -39,7 +39,7 @@ export default function DealClient({ deal }: { deal: Deal }) {
             />
           </div>
         </header>
-        <main>
+        <main className="deal--main">
           <div>
             <h1 className="mb-8 text-2xl">Description</h1>
             <div className="deal--description">
@@ -48,6 +48,31 @@ export default function DealClient({ deal }: { deal: Deal }) {
                 <p dangerouslySetInnerHTML={{ __html: deal.description }} />
               )}
             </div>
+          </div>
+          <div>
+            <h1 className="mb-8 text-2xl">Disclaimer</h1>
+            <p>
+              Allocations, Inc., (“Allocations”), does not provide investment,
+              tax, or legal advice, and no information provided should be
+              construed as such. Therefore, information on this page should not
+              be relied upon as research, investment advice or a recommendation
+              of any kind. You are encouraged to consult with your investment
+              advisers and other counsel prior to investing. Some of the
+              information provided by Allocations herein, has been obtained from
+              third-party sources and believed to be accurate as of the date of
+              publication; however, no warranties or other guarantees are given
+              as to the accuracy or completeness of the information. Past
+              performance is not indicative of future returns. Examples of past
+              investments by syndicates are purely for illustrative
+              purposes.Some institutional and professional investors may have
+              additional material information about this deal. These investors
+              may also have access to a broader set of deals than is available
+              to other backers on the Allocations platform, may be able to view
+              deals before other backers, and have certain other preferential
+              deal access and allocation rights. The existence of these
+              additional rights and privileges may be material to your
+              investment decision.
+            </p>
           </div>
         </main>
       </div>
