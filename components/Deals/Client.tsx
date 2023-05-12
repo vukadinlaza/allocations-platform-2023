@@ -11,9 +11,13 @@ export default function DealClient({ deal }: { deal: Deal }) {
       <div className="col-span-4">
         <header className="flex items-start justify-start mb-16">
           <div className="flex items-center justify-center w-16 h-16 mt-1 mr-4 text-white rounded bg-primary-500">
+            {!deal.name && <h1 className="mb-0 text-3xl">N</h1>}
             {deal.name && <h1 className="mb-0 text-3xl">{deal.name[0]}</h1>}
           </div>
           <div className="flex flex-col items-start gap-2 grow">
+            {!deal.name && (
+              <h1 className="mb-0 text-3xl">Deal with no name.</h1>
+            )}
             {deal.name && <h1 className="mb-0 text-3xl">{deal.name}</h1>}
             {deal.status && <ChipStatus small status={deal.status} />}
           </div>

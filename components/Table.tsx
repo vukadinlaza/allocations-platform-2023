@@ -13,52 +13,9 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import ChipStatus from './ChipStatus';
 import MissingData from './MissingData';
-const generateCell = (item: any, column: any) => {
-  const no_info = 'None';
-  if (!item || !column || !column.key) {
-    return no_info;
-  }
-  if (column.key === 'manage') {
-    return <button className="btn primary">View deal</button>;
-  }
-  if (column.key === 'edit') {
-    return (
-      <Image
-        src="/pen.svg"
-        alt={'Edit'}
-        className="ml-auto opacity-25 cursor-pointer text-gray"
-        width={24}
-        height={24}
-      />
-    );
-  }
-  if (
-    column.key === 'subscription_amount' ||
-    column.key === 'capital_wired_amount' ||
-    column.key === 'raise_amount'
-  ) {
-    if (!item[column.key]) return `$0`;
-    return `$${item[column.key].toLocaleString('en-US') || 0}`;
-  }
-  if (
-    column.key === 'status' ||
-    column.key === 'tax_status' ||
-    column.key === 'deal_status'
-  )
-    return <ChipStatus status={item[column.key]} />;
-  if (
-    column.key === 'sign_deadline' ||
-    column.key === 'created_at' ||
-    column.key === 'started_at'
-  )
-    return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
-  if (column.key === 'entities') {
-    if (item[column.key] && column.sub_key) {
-      return item.entities[column.sub_key];
-    }
-    return item[column.key] ? item[column.key].length : 0;
-  }
-  return <span>{item[column.key] ? item[column.key] : no_info}</span>;
+
+export const openURL = (url: string) => {
+  window.open(url, '_blank');
 };
 
 type Props = {
@@ -77,6 +34,40 @@ export default function TableComponent({
   table
 }: Props) {
   const { setSlideOver } = useAuthContext();
+
+  const generateCell = (item: any, column: any) => {
+    const no_info = 'None';
+    if (!item || !column || !column.key) {
+      return no_info;
+    }
+    if (
+      column.key === 'subscription_amount' ||
+      column.key === 'capital_wired_amount' ||
+      column.key === 'raise_amount'
+    ) {
+      if (!item[column.key]) return `$0`;
+      return `$${item[column.key].toLocaleString('en-US') || 0}`;
+    }
+    if (
+      column.key === 'status' ||
+      column.key === 'tax_status' ||
+      column.key === 'deal_status'
+    )
+      return <ChipStatus status={item[column.key]} />;
+    if (
+      column.key === 'sign_deadline' ||
+      column.key === 'created_at' ||
+      column.key === 'started_at'
+    )
+      return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
+    if (column.key === 'entities') {
+      if (item[column.key] && column.sub_key) {
+        return item.entities[column.sub_key];
+      }
+      return item[column.key] ? item[column.key].length : 0;
+    }
+    return <span>{item[column.key] ? item[column.key] : no_info}</span>;
+  };
 
   return (
     <div className="w-full">
@@ -101,25 +92,42 @@ export default function TableComponent({
                     key={index}
                     className="transition cursor-pointer hover:bg-gray-50"
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    onClick={() => {
-                      if (type && item && model && data)
-                        setSlideOver({
-                          isOpen: true,
-                          data: item,
-                          type,
-                          model,
-                          table
-                        });
-                    }}
                   >
                     {headers &&
                       headers.map((column: any, i: any) => {
-                        return (
-                          <TableCell
-                            size="medium"
-                            align={column.key === 'edit' ? 'right' : 'left'}
-                            key={i}
-                          >
+                        return column.key === 'edit' ? (
+                          <TableCell className="flex items-center justify-end">
+                            {column.manage && (
+                              <button
+                                // onClick={() => openURL(`${table}/${item.id}`)}
+                                className="mr-2 btn primary"
+                              >
+                                View
+                              </button>
+                            )}
+                            <div
+                              onClick={() => {
+                                if (type && item && model && data)
+                                  setSlideOver({
+                                    isOpen: true,
+                                    data: item,
+                                    type,
+                                    model,
+                                    table
+                                  });
+                              }}
+                            >
+                              <Image
+                                src="/pen.svg"
+                                alt={'Edit'}
+                                className="ml-auto opacity-25 cursor-pointer text-gray"
+                                width={24}
+                                height={24}
+                              />
+                            </div>
+                          </TableCell>
+                        ) : (
+                          <TableCell size="medium" key={i}>
                             {generateCell(item, column)}
                           </TableCell>
                         );

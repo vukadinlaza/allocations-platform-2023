@@ -134,11 +134,8 @@ export const headers_tables = {
     },
     {
       label: '',
-      key: 'manage'
-    },
-    {
-      label: '',
-      key: 'edit'
+      key: 'edit',
+      manage: true
     }
   ]
 };
