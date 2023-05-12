@@ -28,11 +28,15 @@ $primary: #3db278;
     }
   }
 
+  .btn {
+    @apply font-medium cursor-pointer rounded-lg;
+  }
+
   button {
     @apply outline-none;
     &.btn {
       min-width: 75px;
-      @apply font-medium cursor-pointer rounded-lg px-4 py-2;
+      @apply px-4 py-2;
 
       &.primary {
         @apply bg-primary-400 hover:bg-primary-300 text-white;
@@ -238,4 +242,22 @@ $primary: #3db278;
       opacity: 0.5;
     }
   }
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
 }

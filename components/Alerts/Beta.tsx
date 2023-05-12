@@ -19,7 +19,7 @@ export default function Beta({ showBetaAlert }: { showBetaAlert: any }) {
         </IconButton>
       }
     >
-      <h2 className="mt-0">Welcome to Allocations 2.0 !</h2>
+      <h2 className="mt-0">New platform</h2>
       <span>
         Welcome to our new fund administration platform built for scalability.
       </span>

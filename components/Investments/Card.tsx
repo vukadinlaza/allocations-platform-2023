@@ -4,8 +4,14 @@ import Price from '@/components/Price';
 import { Deal } from '@/types';
 import dayjs from 'dayjs';
 import Image from 'next/image';
+import { useState } from 'react';
+import InvestmentsAccreditation from './Accreditation';
+import InvestmentsIdentity from './Identity';
+import InvestmentsKYC from './KYC';
 
 export default function CardAsideInfo({ deal }: { deal: Deal }) {
+  const [amount, setAmount] = useState<number>(0);
+  const [investing, setInvesting] = useState(true);
   const dealInformations = [
     {
       label: 'Minimum investment',
@@ -58,62 +64,81 @@ export default function CardAsideInfo({ deal }: { deal: Deal }) {
           <DateComponent date={deal.closing_date} />
         </p>
       </header>
-      <div className="relative grid px-4 py-1">
+      <div className="relative grid px-6 py-1">
         <div className="flex items-center input">
           <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
           <input
             type="number"
             className="w-full outline-none"
             placeholder="0"
+            onChange={(e: any) => setAmount(e.target.value)}
           />
         </div>
       </div>
-      <div className="grid w-full px-4 py-3">
-        {deal.closing_date && (
-          <Button
-            loading={false}
-            disabled={isDatePassed}
-            label={'Invest'}
-            onClick={() => {}}
-          />
-        )}
-      </div>
-      <ul className="divide-y divide-gray-200">
-        {dealInformations.map((item) => (
-          <li
-            key={item.label}
-            className="flex items-center justify-between px-6 py-4"
-          >
-            <h3 className="text-sm font-semibold">{item.label}</h3>
-            <p className="text-sm">
-              {item.type === 'string' && (
-                <div>
-                  {item.value ? (
-                    <p>{item.value}</p>
-                  ) : (
-                    <span>{item.defaultValue}</span>
+      {!investing && (
+        <div>
+          <div className="grid w-full px-6 py-3">
+            {deal.closing_date && (
+              <Button
+                loading={false}
+                disabled={isDatePassed}
+                label={'Invest'}
+                onClick={() => setInvesting(true)}
+              />
+            )}
+          </div>
+          <ul className="divide-y divide-gray-200">
+            {dealInformations.map((item) => (
+              <li
+                key={item.label}
+                className="flex items-center justify-between px-6 py-4"
+              >
+                <h3 className="text-sm font-semibold">{item.label}</h3>
+                <p className="text-sm">
+                  {item.type === 'string' && (
+                    <div>
+                      {item.value ? (
+                        <p>{item.value}</p>
+                      ) : (
+                        <span>{item.defaultValue}</span>
+                      )}
+                    </div>
                   )}
-                </div>
-              )}
-              {item.type === 'money' && <Price price={item.value} />}
-              {item.type === 'date' && <DateComponent date={item.value} />}
-              {item.type === 'percent' && (
-                <div className="flex">
-                  <span>{item.value || 0}</span>
-                  <Image
-                    src="/percent.svg"
-                    alt={'Percent'}
-                    className="opacity-50 cursor-pointer text-primary"
-                    width={18}
-                    height={18}
-                  />
-                </div>
-              )}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <p className="px-4 py-2 mt-1 text-xs">View Closing Docs</p>
+                  {item.type === 'money' && <Price price={item.value} />}
+                  {item.type === 'date' && <DateComponent date={item.value} />}
+                  {item.type === 'percent' && (
+                    <div className="flex">
+                      <span>{item.value || 0}</span>
+                      <Image
+                        src="/percent.svg"
+                        alt={'Percent'}
+                        className="opacity-50 cursor-pointer text-primary"
+                        width={18}
+                        height={18}
+                      />
+                    </div>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>
+        </div>
+      )}
+      {investing && (
+        <div className="mt-4">
+          <div className="p-6 border-t">
+            <InvestmentsIdentity />
+          </div>
+          <div className="p-6 border-t">
+            <InvestmentsKYC />
+          </div>
+          <div className="p-6 border-t">
+            {/* ONLY IF USER HAS NO ACCREDITATION */}
+            <InvestmentsAccreditation />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

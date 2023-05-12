@@ -18,3 +18,4 @@ export interface Investment {
   status?: string;
   updated_at?: string;
 }
+

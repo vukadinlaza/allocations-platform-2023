@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [investments, setInvestments] = useState<Investment[] | null>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [betaAlert, showBetaAlert] = useState(true);
+  const [betaAlert, showBetaAlert] = useState(false);
   const [expand, setExpand] = useState(false);
   const [slideOverData, setSlideOverData] = useState({});
 
