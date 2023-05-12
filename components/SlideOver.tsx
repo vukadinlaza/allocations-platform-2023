@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default function SlideOver({ slideOverData, open, setOpen }: Props) {
-  console.log(slideOverData);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>

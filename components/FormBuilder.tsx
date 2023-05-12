@@ -30,7 +30,9 @@ export default function FormBuilder({
 
   return (
     <>
-      {!model && !_data && <None text="Sorry this content is not yet available." />}
+      {!model && !_data && (
+        <None text="Sorry this content is not yet available." />
+      )}
       {model && (
         <Grid container spacing={2} className="FormBuilder">
           {_data &&
@@ -74,7 +76,7 @@ export default function FormBuilder({
                           className={`${loading ? 'disabled' : ''}`}
                           value={
                             _data && _data[field.key]
-                              ? dayjs(_data[field.key]).format('YYYY-MM-DD')
+                              ? dayjs(_data[field.key]).format('MM/DD/YYYY')
                               : ''
                           }
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

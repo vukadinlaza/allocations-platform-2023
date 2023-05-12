@@ -32,7 +32,7 @@ $primary: #3db278;
     @apply outline-none;
     &.btn {
       min-width: 75px;
-      @apply font-medium cursor-pointer rounded-lg px-4 py-2 mr-2;
+      @apply font-medium cursor-pointer rounded-lg px-4 py-2;
 
       &.primary {
         @apply bg-primary-400 hover:bg-primary-300 text-white;
@@ -62,7 +62,6 @@ $primary: #3db278;
 
   input[type="text"],
   input[type="date"],
-  input[type="number"],
   select {
     @apply input;
   }
@@ -107,6 +106,21 @@ $primary: #3db278;
 
     &--primary {
       @apply bg-primary-400;
+    }
+  }
+
+  .deal {
+    .stat {
+      @apply border border-primary-500/25 rounded-lg flex flex-col items-center justify-center;
+    }
+    &--description {
+      @apply text-black;
+      h1 {
+        @apply text-lg my-4 text-black font-medium;
+      }
+      p {
+        @apply mb-4;
+      }
     }
   }
 

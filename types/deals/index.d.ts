@@ -9,6 +9,7 @@ export interface Deal {
   closed?: boolean;
   company_name?: string;
   deal_term?: string;
+  description?: string;
   documents?: string;
   elevated_returns?: boolean;
   entity_id?: string;

@@ -1,7 +1,9 @@
 export default function ChipStatus({
-  status
+  status,
+  small = false
 }: {
   status: string | null | undefined;
+  small?: boolean;
 }) {
   const colors: any = {
     archived: 'bg-gray-600',
@@ -19,9 +21,9 @@ export default function ChipStatus({
   };
   return (
     <div
-      className={`inline text-white capitalize rounded-full px-4 py-2 items-center ${
-        status ? colors[status.toLowerCase()] : null
-      }`}
+      className={`inline text-white capitalize rounded-full ${
+        small ? 'px-2 py-1 text-sm' : 'px-4 py-2'
+      } items-center ${status ? colors[status.toLowerCase()] : null}`}
     >
       {status}
     </div>

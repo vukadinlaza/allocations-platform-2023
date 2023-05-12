@@ -132,7 +132,7 @@ export default function Header({
             onClick={() => setExpand(!expand)}
           >
             <Image
-              src={!expand ? './expand.svg' : './shrink.svg'}
+              src={!expand ? '/expand.svg' : '/shrink.svg'}
               alt="expand"
               className="opacity-50"
               width={24}

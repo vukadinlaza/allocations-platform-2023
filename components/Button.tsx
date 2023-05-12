@@ -7,6 +7,7 @@ interface ButtonProps {
   label: string;
   disabled?: boolean;
   color?: string;
+  icon?: any;
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -14,18 +15,24 @@ const Button: FunctionComponent<ButtonProps> = ({
   loading,
   label,
   disabled,
-  color
+  color,
+  icon
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`mt-4 btn ${color ? color : 'primary'} ${
+      className={`btn mr-0 ${color ? color : 'primary'} ${
         loading ? 'loading' : ''
       } ${disabled ? 'disabled' : ''}`}
       disabled={disabled || loading}
     >
       {loading && <CircularProgress color="inherit" size={12} />}
-      {!loading && label}
+      {!loading && (
+        <div className="flex items-center justify-center">
+          {icon && <span className="mr-1">{icon}</span>}
+          {label}
+        </div>
+      )}
     </button>
   );
 };
