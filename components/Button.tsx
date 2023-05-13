@@ -28,7 +28,7 @@ const Button: FunctionComponent<ButtonProps> = ({
     >
       {loading && <CircularProgress color="inherit" size={12} />}
       {!loading && (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center w-full text-center">
           {icon && <span className="mr-1">{icon}</span>}
           {label}
         </div>

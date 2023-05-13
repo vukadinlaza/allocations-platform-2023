@@ -8,10 +8,13 @@ import { useState } from 'react';
 import InvestmentsAccreditation from './Accreditation';
 import InvestmentsIdentity from './Identity';
 import InvestmentsKYC from './KYC';
+import InvestmentsSign from './Sign';
 
-export default function CardAsideInfo({ deal }: { deal: Deal }) {
+export default function InvestmentModule({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(0);
-  const [investing, setInvesting] = useState(true);
+  const [investing, setInvesting] = useState<boolean>(true);
+  // const [investorStatus, investorStatus] = useState<any>(null);
+
   const dealInformations = [
     {
       label: 'Minimum investment',
@@ -127,6 +130,7 @@ export default function CardAsideInfo({ deal }: { deal: Deal }) {
       )}
       {investing && (
         <div className="mt-4">
+          {/* here check all the statuses & validate steps */}
           <div className="p-6 border-t">
             <InvestmentsIdentity />
           </div>
@@ -134,8 +138,10 @@ export default function CardAsideInfo({ deal }: { deal: Deal }) {
             <InvestmentsKYC />
           </div>
           <div className="p-6 border-t">
-            {/* ONLY IF USER HAS NO ACCREDITATION */}
             <InvestmentsAccreditation />
+          </div>
+          <div className="p-6 border-t">
+            <InvestmentsSign />
           </div>
         </div>
       )}

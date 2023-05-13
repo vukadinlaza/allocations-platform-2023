@@ -4,12 +4,12 @@ export default function InvestmentsIdentity() {
   const [loading, setLoading] = useState<boolean>(true);
   return (
     <div>
-      <header className="mb-8">
+      <header className="mb-6">
         <h2 className="text-lg font-bold">Who is investing?</h2>
         <p className="text-sm">You have no identity yet.</p>
       </header>
       <main>
-        <p className="flex items-center btn btn--text primary">
+        <button className="text info">
           <Image
             src={'/plus.svg'}
             alt="plus"
@@ -18,7 +18,7 @@ export default function InvestmentsIdentity() {
             height={18}
           />
           <span>New investment entity</span>
-        </p>
+        </button>
       </main>
     </div>
   );

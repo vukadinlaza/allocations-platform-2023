@@ -20,7 +20,7 @@ const RadioGroup = ({ options, onChange }: { options: any; onChange: any }) => {
             src={
               selectedOption === option.value
                 ? '/radio_checked.svg'
-                : '/empty.svg'
+                : '/empty_radio.svg'
             }
             alt="radio"
             className={`mt-1 mr-2 ${

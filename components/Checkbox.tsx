@@ -8,7 +8,7 @@ const Checkbox = ({
 }: {
   onChange: (v: any) => any;
   label: string;
-  value: string;
+  value: boolean;
 }) => {
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -23,9 +23,9 @@ const Checkbox = ({
       onClick={handleChange}
     >
       <Image
-        src={checked ? '/checked.svg' : '/empty.svg'}
+        src={checked ? '/checkbox_checked.svg' : '/checkbox_empty.svg'}
         alt="checkbox"
-        className="mr-2"
+        className={`mt-1 mr-2 ${checked ? '' : 'opacity-50'}`}
         width={20}
         height={20}
       />

@@ -28,15 +28,36 @@ $primary: #3db278;
     }
   }
 
+  .info {
+    @apply text-gray-500;
+
+    &:disabled {
+      @apply disabled;
+    }
+  }
+
   .btn {
     @apply font-medium cursor-pointer rounded-lg;
   }
 
   button {
-    @apply outline-none;
+    @apply outline-none flex items-center;
+
+    &.text {
+      @apply my-2;
+      svg {
+        @apply mr-2;
+      }
+    }
+
     &.btn {
       min-width: 75px;
+      max-width: 100%;
       @apply px-4 py-2;
+
+      &.info {
+        @apply bg-gray-100 hover:bg-gray-50;
+      }
 
       &.primary {
         @apply bg-primary-400 hover:bg-primary-300 text-white;
@@ -48,14 +69,6 @@ $primary: #3db278;
 
       &.loading {
         @apply bg-gray-100 hover:bg-gray-100 text-gray-500 pointer-events-none;
-      }
-
-      &.info {
-        @apply bg-gray-100 hover:bg-gray-50 text-gray-500;
-
-        &:disabled {
-          @apply disabled;
-        }
       }
     }
   }

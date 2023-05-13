@@ -1,6 +1,6 @@
 'use client';
 import ChipStatus from '@/components/ChipStatus';
-import InvestmentCard from '@/components/Investments/Card';
+import InvestmentCard from '@/components/Investments/Module';
 import { Deal } from '@/types';
 import Image from 'next/image';
 import Button from '../Button';
