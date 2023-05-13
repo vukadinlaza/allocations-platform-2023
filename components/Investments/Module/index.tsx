@@ -61,12 +61,17 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
                   <InvestmentsKYC />
                 </div>
               )}
-              <div className="p-6 border-t">
-                <InvestmentsAccreditation />
-              </div>
-              <div className="p-6 border-t">
-                <InvestmentsSign />
-              </div>
+              {!identity.accreditations && (
+                <div className="p-6 border-t">
+                  <InvestmentsAccreditation />
+                </div>
+              )}
+              {currentUser.users_personal_identities &&
+                identity.accreditations && (
+                  <div className="p-6 border-t">
+                    <InvestmentsSign />
+                  </div>
+                )}
             </div>
           )}
         </div>
