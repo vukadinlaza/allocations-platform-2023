@@ -204,7 +204,7 @@ export default function SPVS() {
         model={model}
         query={`*`}
         queryType="spv"
-        table="deals"
+        table="hydrated_deals"
         type="spv"
       />
     </div>
