@@ -39,6 +39,7 @@ export interface Deal {
   side_letters?: boolean;
   sign_deadline?: string;
   status?: string;
+  total_raised_amount?: number;
   target?: string;
   target_raise_goal?: string;
   total_carry?: string;

@@ -119,7 +119,9 @@ export default function PageList({
     fetchData();
     const organizationsRoles = supabase
       .channel('organizations_roles_subscribers')
-      .on('postgres_changes',
+      .on(
+        // @ts-ignore
+        'postgres_changes',
         {
           event: '*',
           schema: 'public',

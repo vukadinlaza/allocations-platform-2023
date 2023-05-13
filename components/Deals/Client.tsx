@@ -19,7 +19,14 @@ export default function DealClient({ deal }: { deal: Deal }) {
               <h1 className="mb-0 text-3xl">Deal with no name.</h1>
             )}
             {deal.name && <h1 className="mb-0 text-3xl">{deal.name}</h1>}
-            {deal.status && <ChipStatus small status={deal.status} />}
+            <div className="flex gap-4">
+              {deal.status && <ChipStatus small status={deal.status} />}
+              {deal.total_raised_amount && (
+                <p className="text-xs">
+                  • Total raised: ${deal.total_raised_amount}
+                </p>
+              )}
+            </div>
           </div>
           <div>
             <Button
