@@ -51,6 +51,14 @@ export default function PageList({
 
   const { user } = useAuthContext();
 
+  const getOriginalTable = (original: string | undefined) => {
+    if (!original) return;
+    if (original.includes('hydrated_')) {
+      return original.replace('hydrated_', '').trim();
+    }
+    return original;
+  };
+
   const fetchData = async () => {
     if (!user || !table) return;
     try {
@@ -111,9 +119,12 @@ export default function PageList({
     fetchData();
     const organizationsRoles = supabase
       .channel('organizations_roles_subscribers')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: target ? target : table },
+      .on('postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: target ? target : getOriginalTable
+        },
         (payload: any) => {
           const { eventType } = payload;
           const newElement: any = payload.new;
@@ -229,7 +240,7 @@ export default function PageList({
                 })}
                 headers={headersTable}
                 model={model}
-                table={table}
+                table={getOriginalTable(table)}
                 type={type}
               />
             )}
@@ -238,7 +249,7 @@ export default function PageList({
                 data={results}
                 headers={headersTable}
                 model={model}
-                table={table}
+                table={getOriginalTable(table)}
                 type={type}
               />
             )}

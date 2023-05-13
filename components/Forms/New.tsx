@@ -56,8 +56,8 @@ export default function FormsNew({
   }, [model]);
 
   return (
-    <Card className="mb-0 card--popup" variant="outlined">
-      <header>
+    <Card className="mb-0 overflow-auto card--popup" variant="outlined">
+      <header className='sticky'>
         {table && <h2>Create a new {element}</h2>}
         <CloseIcon
           fontSize="inherit"
@@ -65,7 +65,7 @@ export default function FormsNew({
           onClick={() => setOpenModal(false)}
         />
       </header>
-      <main className="w-96">
+      <main className="overflow-auto w-96">
         <FormBuilder
           data={newElement}
           model={model}
