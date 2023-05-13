@@ -3,11 +3,12 @@
 import ClientDeal from '@/components/Deals/Client';
 import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
-import supabase from '@/lib/supabase';
+import { useSupabase } from '@/lib/supabase-provider';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function DealID() {
+  const { supabase } = useSupabase();
   const [deal, setDeal] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
@@ -28,7 +29,6 @@ export default function DealID() {
         }
 
         if (_deal) {
-          console.log(_deal);
           setDeal(_deal);
         }
       } catch (error) {

@@ -1,19 +1,23 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import type { Database } from '@/lib/database.types';
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import type { Database } from '@/lib/database.types';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type SupabaseContext = {
-  supabase: SupabaseClient<Database>,
-  [key: string]: any
-}
+  supabase: SupabaseClient<Database>;
+  [key: string]: any;
+};
 
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
-export default function SupabaseProvider({ children }: { children: React.ReactNode }) {
+export default function SupabaseProvider({
+  children
+}: {
+  children: React.ReactNode;
+}) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
   const router = useRouter();
 
@@ -33,9 +37,22 @@ export default function SupabaseProvider({ children }: { children: React.ReactNo
     if (!email) return;
     const { data } = await supabase
       .from('users')
-      .select(`*`)
+      .select(
+        `*,
+        users_investment_entities (
+          *,
+          accreditations (
+            *
+          )
+        ),
+        users_personal_identities (
+          *
+        )
+      `
+      )
       .eq('email', email)
       .single();
+    console.log(data);
     return data || null;
   };
 
@@ -64,9 +81,17 @@ export default function SupabaseProvider({ children }: { children: React.ReactNo
     return await supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
-
   return (
-    <Context.Provider value={{ supabase, fetchUser, fetchOrganizations, fetchEntities, fetchDeals, fetchInvestments }}>
+    <Context.Provider
+      value={{
+        supabase,
+        fetchUser,
+        fetchOrganizations,
+        fetchEntities,
+        fetchDeals,
+        fetchInvestments
+      }}
+    >
       <>{children}</>
     </Context.Provider>
   );

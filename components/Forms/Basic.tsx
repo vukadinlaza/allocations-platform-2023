@@ -118,7 +118,7 @@ export default function FormBasic({
 
   useEffect(() => {
     // pass over joined tables
-    if (type === 'organization' && table === 'organizations_roles')
+    if (type && type === 'organization' && table === 'organizations_roles')
       return setSupabaseTable('organizations');
     setSupabaseTable(table);
   }, [table]);

@@ -5,15 +5,11 @@ import { Deal } from '@/types';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useState } from 'react';
-import InvestmentsAccreditation from './Accreditation';
-import InvestmentsIdentity from './Identity';
-import InvestmentsKYC from './KYC';
-import InvestmentsSign from './Sign';
+import InvestmentsModule from './Module';
 
-export default function InvestmentModule({ deal }: { deal: Deal }) {
+export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(0);
   const [investing, setInvesting] = useState<boolean>(true);
-  // const [investorStatus, investorStatus] = useState<any>(null);
 
   const dealInformations = [
     {
@@ -130,19 +126,7 @@ export default function InvestmentModule({ deal }: { deal: Deal }) {
       )}
       {investing && (
         <div className="mt-4">
-          {/* here check all the statuses & validate steps */}
-          <div className="p-6 border-t">
-            <InvestmentsIdentity />
-          </div>
-          <div className="p-6 border-t">
-            <InvestmentsKYC />
-          </div>
-          <div className="p-6 border-t">
-            <InvestmentsAccreditation />
-          </div>
-          <div className="p-6 border-t">
-            <InvestmentsSign />
-          </div>
+          <InvestmentsModule amount={amount} />
         </div>
       )}
     </div>

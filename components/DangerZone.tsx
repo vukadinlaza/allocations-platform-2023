@@ -13,7 +13,9 @@ export default function DangerZone({
   const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
-    setDisabled(!(toCheck === name));
+    if (toCheck) {
+      setDisabled(!(toCheck === name));
+    }
   }, [name]);
   return (
     <div className="p-4 mb-6 border border-red-200 rounded-lg danger-zone disabled">

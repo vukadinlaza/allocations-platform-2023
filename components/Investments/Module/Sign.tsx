@@ -1,7 +1,7 @@
 import Checkbox from '@/components/Checkbox';
 import Image from 'next/image';
 import { useState } from 'react';
-import Button from '../Button';
+import Button from '../../Button';
 export default function InvestmentSignature() {
   const [loading, setLoading] = useState<boolean>(false);
   const [signed, setSigned] = useState<boolean>(false);
