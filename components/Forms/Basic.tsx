@@ -16,8 +16,6 @@ type Props = {
   type?: string;
 };
 
-// TODO if table organizations_roles, table = organizations MAKE A JOIN FUNCTION HERE
-
 export default function FormBasic({
   data,
   model,
@@ -31,45 +29,6 @@ export default function FormBasic({
 
   const { supabase } = useSupabase();
   const { notify, user } = useAuthContext();
-
-  // const model: Field[] = [
-  //   {
-  //     key: 'name',
-  //     label: 'Name',
-  //     type: 'string',
-  //     show: true,
-  //     disabled: false
-  //   },
-  //   {
-  //     key: 'id',
-  //     label: 'ID',
-  //     type: 'string',
-  //     show: user.is_super_admin,
-  //     disabled: true
-  //   },
-  //   {
-  //     key: 'mongo_id',
-  //     label: 'Mongo ID',
-  //     type: 'string',
-  //     show: user.is_super_admin,
-  //     disabled: false
-  //   },
-  //   {
-  //     key: 'status',
-  //     label: 'Status',
-  //     type: 'select',
-  //     show: user.is_super_admin,
-  //     disabled: false,
-  //     items: ['Processing', 'Complete']
-  //   },
-  //   {
-  //     key: 'slug',
-  //     label: 'Slug',
-  //     type: 'string',
-  //     show: user.is_super_admin,
-  //     disabled: false
-  //   }
-  // ];
 
   const upsertElement = async (form: any) => {
     if (!form) return;

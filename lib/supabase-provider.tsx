@@ -52,7 +52,6 @@ export default function SupabaseProvider({
       )
       .eq('email', email)
       .single();
-    console.log(data);
     return data || null;
   };
 

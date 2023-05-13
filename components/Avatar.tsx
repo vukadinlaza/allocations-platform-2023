@@ -9,6 +9,11 @@ interface MenuItem {
   action: Function;
 }
 
+export const getFirstLetter = (email: string) => {
+  if (!email) return 'A';
+  return email[0];
+};
+
 export default function AvatarComponent() {
   const { user, signOut } = useAuthContext();
   const router = useRouter();
@@ -35,10 +40,7 @@ export default function AvatarComponent() {
     }
     setOpen(false);
   };
-  const getFirstLetter = () => {
-    if (!user || !user.email) return 'A';
-    return user.email[0];
-  };
+
   return (
     <div className="relative avatar">
       <Avatar
@@ -51,9 +53,9 @@ export default function AvatarComponent() {
           textTransform: 'capitalize'
         }}
       >
-        {getFirstLetter()}
+        {getFirstLetter(user.email)}
       </Avatar>
-      {open && (
+      {open && menu && (
         <div className="absolute right-0 bg-white border top-12 z-[1000]">
           <MenuList>
             {menu &&

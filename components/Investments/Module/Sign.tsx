@@ -32,7 +32,7 @@ export default function InvestmentSignature() {
         <div className="mb-6">
           <Checkbox
             label="I have read the terms and provisions and agree to e-sign the above documents."
-            value={signed}
+            selected={signed}
             onChange={() => setSigned(!signed)}
           />
         </div>

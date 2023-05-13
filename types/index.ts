@@ -2,6 +2,7 @@ export * from './deals';
 export * from './entities';
 export * from './investments';
 export * from './organizations';
+export * from './user';
 
 type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
 

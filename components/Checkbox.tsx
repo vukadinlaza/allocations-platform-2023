@@ -4,32 +4,26 @@ import { useState } from 'react';
 const Checkbox = ({
   onChange,
   label,
-  value
+  selected
 }: {
-  onChange: (v: any) => any;
-  label: string;
-  value: boolean;
+  onChange?: (v: any) => any;
+  label?: string;
+  selected: boolean;
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
-
-  const handleChange = () => {
-    setChecked(!checked);
-    onChange(value);
-  };
 
   return (
     <div
-      className="flex items-start my-4 cursor-pointer"
-      onClick={handleChange}
+      className="flex items-start my-3 cursor-pointer"
+      onClick={onChange}
     >
       <Image
-        src={checked ? '/checkbox_checked.svg' : '/checkbox_empty.svg'}
+        src={selected ? '/checkbox_checked.svg' : '/checkbox_empty.svg'}
         alt="checkbox"
-        className={`mt-1 mr-2 ${checked ? '' : 'opacity-50'}`}
+        className={`mr-2 ${selected ? '' : 'opacity-50'}`}
         width={20}
         height={20}
       />
-      <p className="leading-1">{label}</p>
+      {label && <p className="leading-1">{label}</p>}
     </div>
   );
 };
