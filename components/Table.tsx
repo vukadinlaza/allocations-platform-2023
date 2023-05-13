@@ -36,7 +36,7 @@ export default function TableComponent({
   const { setSlideOver } = useAuthContext();
 
   const generateCell = (item: any, column: any) => {
-    const no_info = 'None';
+    const no_info = null;
     if (!item || !column || !column.key) {
       return no_info;
     }
