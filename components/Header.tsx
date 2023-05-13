@@ -21,44 +21,39 @@ export default function Header({
 }) {
   const { supabase } = useSupabase();
   const pathname = usePathname();
-  const { user, organizations, setCurrentOrganization } = useAuthContext();
+  const { user, setCurrentOrganization } = useAuthContext();
   const [counts, setCounts]: any = useState(null);
 
   const getCount = async () => {
-    const organizations = await supabase
-      .from('organizations')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const entities = await supabase
-      .from('limited_entities')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const deals = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .then(({ count }) => count);
-
-    const spvs = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .eq('type', 'spv')
-      .then(({ count }) => count);
-
-    const funds = await supabase
-      .from('deals')
-      .select('*', { count: 'exact' })
-      .eq('type', 'fund')
-      .then(({ count }) => count);
-
-    setCounts({
-      organizations,
-      entities,
-      deals,
-      spvs,
-      funds
-    });
+    // const organizations = await supabase
+    //   .from('organizations')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const entities = await supabase
+    //   .from('limited_entities')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const deals = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .then(({ count }) => count);
+    // const spvs = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .eq('type', 'spv')
+    //   .then(({ count }) => count);
+    // const funds = await supabase
+    //   .from('deals')
+    //   .select('*', { count: 'exact' })
+    //   .eq('type', 'fund')
+    //   .then(({ count }) => count);
+    // setCounts({
+    //   organizations,
+    //   entities,
+    //   deals,
+    //   spvs,
+    //   funds
+    // });
   };
 
   useEffect(() => {

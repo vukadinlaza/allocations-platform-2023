@@ -37,7 +37,7 @@ $primary: #3db278;
   }
 
   .btn {
-    @apply font-medium cursor-pointer rounded-lg;
+    @apply font-medium cursor-pointer rounded-lg flex items-center;
   }
 
   button {
@@ -53,7 +53,7 @@ $primary: #3db278;
     &.btn {
       min-width: 75px;
       max-width: 100%;
-      @apply px-4 py-2;
+      @apply px-4 py-2 flex items-center justify-center;
 
       &.info {
         @apply bg-gray-100 hover:bg-gray-50;

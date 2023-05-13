@@ -212,7 +212,7 @@ export default function Funds() {
         model={model}
         query={`*`}
         queryType="fund"
-        table="deals"
+        table="hydrated_deals"
         type="fund"
       />
     </div>

@@ -24,10 +24,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   } = useSupabase();
   // data
   const [user, setUser] = useState<any>(null);
+  // probably useless
   const [organizations, setOrganizations] = useState<Organization[] | null>([]);
   const [entities, setEntities] = useState<Entity[] | null>([]);
   const [deals, setDeals] = useState<Deal[] | null>([]);
   const [investments, setInvestments] = useState<Investment[] | null>([]);
+  //
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(false);
@@ -73,14 +75,14 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       if (session && session.user) {
         const users_infos = await fetchUser(session.user.email);
-        const { data: _organizations } = await fetchOrganizations();
-        setOrganizations(_organizations);
-        const { data: _entities } = await fetchEntities();
-        setEntities(_entities);
-        const { data: _deals } = await fetchDeals();
-        setDeals(deals);
-        const { data: _investments } = await fetchInvestments();
-        setInvestments(_investments);
+        // const { data: _organizations } = await fetchOrganizations();
+        // setOrganizations(_organizations);
+        // const { data: _entities } = await fetchEntities();
+        // setEntities(_entities);
+        // const { data: _deals } = await fetchDeals();
+        // setDeals(deals);
+        // const { data: _investments } = await fetchInvestments();
+        // setInvestments(_investments);
 
         setUser({
           ...session.user,
@@ -160,10 +162,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 export const useAuthContext = () => {
   const {
     user,
-    organizations,
-    entities,
-    deals,
-    investments,
     open,
     notify,
     setSlideOver,
@@ -172,10 +170,6 @@ export const useAuthContext = () => {
   }: any = useContext(AuthContext);
   return {
     user,
-    organizations,
-    entities,
-    deals,
-    investments,
     open,
     notify,
     setSlideOver,

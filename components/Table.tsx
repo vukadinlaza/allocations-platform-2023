@@ -43,7 +43,7 @@ export default function TableComponent({
     if (
       column.key === 'subscription_amount' ||
       column.key === 'capital_wired_amount' ||
-      column.key === 'raise_amount'
+      column.key === 'total_raised_amount'
     ) {
       if (!item[column.key]) return `$0`;
       return `$${item[column.key].toLocaleString('en-US') || 0}`;

@@ -23,7 +23,7 @@ export const headers_tables = {
     },
     {
       label: 'Total raised',
-      key: 'raise_amount'
+      key: 'total_raised_amount'
     },
     {
       label: 'EIN',
@@ -82,7 +82,7 @@ export const headers_tables = {
     },
     {
       label: 'Total deals',
-      key: 'raise_amount'
+      key: 'total_raised_amount'
     },
     {
       label: '',
@@ -96,7 +96,7 @@ export const headers_tables = {
     },
     {
       label: 'Total raised',
-      key: 'raise_amount'
+      key: 'total_raised_amount'
     },
     {
       label: 'Status',
@@ -122,7 +122,7 @@ export const headers_tables = {
     },
     {
       label: 'Total raised',
-      key: 'raise_amount'
+      key: 'total_raised_amount'
     },
     {
       label: 'Status',
