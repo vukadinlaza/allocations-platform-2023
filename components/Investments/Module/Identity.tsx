@@ -23,8 +23,9 @@ export default function InvestmentsIdentity({
         <div>
           {entities && (
             <div>
-              {entities.map((entity: UserInvestmentEntity) => (
+              {entities.map((entity: UserInvestmentEntity, index: number) => (
                 <div
+                  key={index}
                   className="flex items-center justify-between p-2 mb-4 border rounded cursor-pointer hover:bg-gray-50"
                   onClick={() => onChange(entity)}
                 >

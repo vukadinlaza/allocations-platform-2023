@@ -8,7 +8,7 @@ import InvestmentsSign from './Sign';
 
 export default function InvestmentsModule({ amount }: { amount: number }) {
   const { supabase, fetchUser } = useSupabase();
-  const [identity, setIdentity] = useState<any>(null);
+  const [entity, setEntity] = useState<any>(null);
   const [hasAccreditation, setHasAccreditation] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,24 +50,24 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
           <div className="p-6 border-t">
             <InvestmentsIdentity
               entities={currentUser.users_investment_entities}
-              onChange={(v) => setIdentity(v)}
-              selected={identity?.id}
+              onChange={(v) => setEntity(v)}
+              selected={entity?.id}
             />
           </div>
-          {identity && (
+          {entity && (
             <div>
-              {!currentUser.users_personal_identities && (
+              {currentUser.users_personal_identities.length < 1 && (
                 <div className="p-6 border-t">
                   <InvestmentsKYC />
                 </div>
               )}
-              {!identity.accreditations && (
+              {entity.accreditations.length < 1 && (
                 <div className="p-6 border-t">
                   <InvestmentsAccreditation />
                 </div>
               )}
-              {currentUser.users_personal_identities &&
-                identity.accreditations && (
+              {currentUser.users_personal_identities.length > 0 &&
+                entity.accreditations.length > 0 && (
                   <div className="p-6 border-t">
                     <InvestmentsSign />
                   </div>
