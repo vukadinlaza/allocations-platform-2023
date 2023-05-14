@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import ChipStatus from './ChipStatus';
-import MissingData from './MissingData';
+import None from './None';
 import Price from './Price';
 
 export const openURL = (url: string) => {
@@ -72,7 +72,7 @@ export default function TableComponent({
 
   return (
     <div className="w-full">
-      {data.length < 1 && <MissingData />}
+      {data.length < 1 && <None text="There is no data yet." />}
       {data && data.length > 0 && (
         <TableContainer sx={{ maxHeight: 700 }} component={Paper}>
           <Table style={{ tableLayout: 'fixed' }} stickyHeader>

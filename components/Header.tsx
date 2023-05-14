@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
+import MissingData from './MissingData';
 
 export default function Header({
   expand,
@@ -46,6 +47,7 @@ export default function Header({
                     </div>
                   )}
                   <Feedback />
+                  <MissingData />
                   {/* <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
                     <Select
                       items={organizations}

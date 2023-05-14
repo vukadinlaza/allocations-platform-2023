@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import ChipStatus from '../ChipStatus';
 import DangerZone from '../DangerZone';
 import FormBuilder from '../FormBuilder';
-import MissingData from '../MissingData';
 
 type Props = {
   data: any;
@@ -84,7 +83,6 @@ export default function FormBasic({
 
   return (
     <>
-      {!existing && <MissingData />}
       {existing && (
         <div className="form">
           <header>

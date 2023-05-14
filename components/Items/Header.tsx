@@ -1,6 +1,7 @@
 'use client';
 
 import ChipStatus from '@/components/ChipStatus';
+import Price from '../Price';
 
 export default function ItemHeader({ data }: { data: any }) {
   return (
@@ -16,8 +17,8 @@ export default function ItemHeader({ data }: { data: any }) {
             {data.status && <ChipStatus small status={data.status} />}
             {data.total_raised_amount && (
               <p className="text-sm">
-                • Total raised: $
-                {data.total_raised_amount ? data.total_raised_amount : 0}
+                • Total raised:
+                <Price price={data.total_raised_amount} />
               </p>
             )}
           </div>

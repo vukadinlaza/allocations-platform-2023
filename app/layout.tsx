@@ -20,6 +20,7 @@ export default function RootLayout({
           </SupabaseProvider>
         </body>
       </ThemeProvider>
+      <script async src="https://tally.so/widgets/embed.js"></script>
     </html>
   );
 }
