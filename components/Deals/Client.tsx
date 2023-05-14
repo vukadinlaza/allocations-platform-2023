@@ -5,7 +5,13 @@ import { Deal } from '@/types';
 import Image from 'next/image';
 import Button from '../Button';
 
-export default function DealClient({ deal }: { deal: Deal }) {
+export default function DealClient({
+  deal,
+  demo = false
+}: {
+  deal: Deal;
+  demo?: boolean;
+}) {
   return (
     <div className="container grid grid-cols-6 gap-8 mt-8 deal">
       <div className="col-span-4">
@@ -67,7 +73,7 @@ export default function DealClient({ deal }: { deal: Deal }) {
         </main>
       </div>
       <div className="col-span-2">
-        <InvestmentCard deal={deal} />
+        <InvestmentCard deal={deal} demo={demo} />
       </div>
     </div>
   );

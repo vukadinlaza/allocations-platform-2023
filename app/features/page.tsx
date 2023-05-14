@@ -45,32 +45,50 @@ export default function Features() {
       text: 'Manage your organizations.'
     },
     {
-      name: 'Entities',
-      value: 100,
-      soon: false,
-      text: 'Manage your entities.'
-    },
-    {
-      name: 'Deals',
+      name: 'SPVs',
       value: 80,
       soon: false,
-      text: 'Manage all your deals.'
+      text: 'Manage all your SPVs. Coming soon: Manage page, Create new SPVs.'
+    },
+    {
+      name: 'Funds',
+      value: 50,
+      soon: true,
+      text: 'Manage and generate funds. Coming soon: Manage page, Create new Fund.'
     },
     {
       name: 'Investments',
-      value: 0,
+      value: 50,
       soon: true,
       text: 'Manage all your investiments.'
+    },
+    {
+      name: 'Migrations',
+      value: 0,
+      soon: true,
+      text: 'Manage and generate migrations.'
+    },
+    {
+      name: 'Transactions',
+      value: 0,
+      soon: true,
+      text: 'Manage and generate transactions.'
     },
     {
       name: 'Taxes',
       value: 0,
       soon: true,
       text: 'Manage and generate taxes reports.'
+    },
+    {
+      name: 'Support',
+      value: 0,
+      soon: true,
+      text: 'All about basic support, missing data.'
     }
   ];
   return (
-    <Card className="features card" variant="outlined">
+    <Card className="container features card" variant="outlined">
       <header className="pb-12">
         <div>
           <h1>Features coming</h1>
@@ -78,10 +96,7 @@ export default function Features() {
             Follow the progress of the features we are developing at
             Allocations.com in real-time.
           </p>
-          <p className="text-base">Last updated: 05/02.</p>
-        </div>
-        <div className="flex items-center">
-          <button className="btn primary">Give us a feedback</button>
+          <p className="text-base">Last updated: 05/14.</p>
         </div>
       </header>
       <main className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4">
@@ -94,7 +109,9 @@ export default function Features() {
               <CircularProgressWithLabel size={75} value={feature.value} />
             </Box>
             <p className="mb-2">{feature.name}</p>
-            <p className="text-xs text-center opacity-50">{feature.text}</p>
+            <p className="mb-4 text-xs text-center opacity-50">
+              {feature.text}
+            </p>
           </div>
         ))}
       </main>

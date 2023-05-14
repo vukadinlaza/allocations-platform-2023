@@ -2,12 +2,19 @@ import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
+import { Alert } from '@mui/material';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useState } from 'react';
 import InvestmentsModule from './Module';
 
-export default function InvestmentSidebar({ deal }: { deal: Deal }) {
+export default function InvestmentSidebar({
+  deal,
+  demo = false
+}: {
+  deal: Deal;
+  demo?: boolean;
+}) {
   const [amount, setAmount] = useState<number>(0);
   const [investing, setInvesting] = useState<boolean>(true);
 
@@ -74,59 +81,72 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
           />
         </div>
       </div>
-      {!investing && (
-        <div>
-          <div className="grid w-full px-6 py-3">
-            {deal.closing_date && (
-              <Button
-                loading={false}
-                disabled={isDatePassed}
-                label={'Invest'}
-                onClick={() => setInvesting(true)}
-              />
-            )}
-          </div>
-          <ul className="divide-y divide-gray-200">
-            {dealInformations.map((item) => (
-              <li
-                key={item.label}
-                className="flex items-center justify-between px-6 py-4"
-              >
-                <h3 className="text-sm font-semibold">{item.label}</h3>
-                <p className="text-sm">
-                  {item.type === 'string' && (
-                    <div>
-                      {item.value ? (
-                        <p>{item.value}</p>
-                      ) : (
-                        <span>{item.defaultValue}</span>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'money' && <Price price={item.value} />}
-                  {item.type === 'date' && <DateComponent date={item.value} />}
-                  {item.type === 'percent' && (
-                    <div className="flex">
-                      <span>{item.value || 0}</span>
-                      <Image
-                        src="/percent.svg"
-                        alt={'Percent'}
-                        className="opacity-50 cursor-pointer text-primary"
-                        width={18}
-                        height={18}
-                      />
-                    </div>
-                  )}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>
+      {demo && (
+        <div className="px-6 py-3 mb-4">
+          <Alert severity="success">
+            You are in demo mode. Investing module is displayed here for client.
+          </Alert>
         </div>
       )}
-      {investing && (
-        <div className="mt-4">
-          <InvestmentsModule deal={deal} amount={amount} />
+      {!demo && (
+        <div>
+          {!investing && (
+            <div>
+              <div className="grid w-full px-6 py-3">
+                {deal.closing_date && (
+                  <Button
+                    loading={false}
+                    disabled={isDatePassed}
+                    label={'Invest'}
+                    onClick={() => setInvesting(true)}
+                  />
+                )}
+              </div>
+              <ul className="divide-y divide-gray-200">
+                {dealInformations.map((item) => (
+                  <li
+                    key={item.label}
+                    className="flex items-center justify-between px-6 py-4"
+                  >
+                    <h3 className="text-sm font-semibold">{item.label}</h3>
+                    <p className="text-sm">
+                      {item.type === 'string' && (
+                        <div>
+                          {item.value ? (
+                            <p>{item.value}</p>
+                          ) : (
+                            <span>{item.defaultValue}</span>
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'money' && <Price price={item.value} />}
+                      {item.type === 'date' && (
+                        <DateComponent date={item.value} />
+                      )}
+                      {item.type === 'percent' && (
+                        <div className="flex">
+                          <span>{item.value || 0}</span>
+                          <Image
+                            src="/percent.svg"
+                            alt={'Percent'}
+                            className="opacity-50 cursor-pointer text-primary"
+                            width={18}
+                            height={18}
+                          />
+                        </div>
+                      )}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>
+            </div>
+          )}
+          {investing && (
+            <div className="mt-4">
+              <InvestmentsModule deal={deal} amount={amount} />
+            </div>
+          )}
         </div>
       )}
     </div>

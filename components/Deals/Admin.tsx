@@ -3,10 +3,27 @@
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
 import { Deal } from '@/types';
+import { useState } from 'react';
+import Nav from '../Nav';
 import None from '../None';
 import Price from '../Price';
+import DealAdminBanking from './Admin/Banking';
+import DealAdminDocuments from './Admin/Documents';
+import DealAdminInvestors from './Admin/Investors';
+import DealAdminOnboarding from './Admin/Onboarding';
+import DealAdminProgress from './Admin/Progress';
+import Client from './Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
+  const [active, setActive] = useState('Progress');
+  const items = [
+    { key: 'Progress' },
+    { key: 'Investors onboarding status' },
+    { key: 'Investors' },
+    { key: 'Banking' },
+    { key: 'Documents' },
+    { key: 'View page' }
+  ];
   const getProgress = () => {
     if (!deal) return;
     if (deal.target_raise_goal && deal.total_raised_amount) {
@@ -39,6 +56,23 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
               </div>
             }
           />
+          <div className="py-4 my-6 border-b">
+            <Nav
+              items={items.map((item) => item.key)}
+              active={active}
+              setActive={setActive}
+            />
+          </div>
+          <div>
+            {active === 'Progress' && <DealAdminProgress />}
+            {active === 'Investors onboarding status' && (
+              <DealAdminOnboarding />
+            )}
+            {active === 'Investors' && <DealAdminInvestors />}
+            {active === 'Banking' && <DealAdminBanking />}
+            {active === 'Documents' && <DealAdminDocuments />}
+            {active === 'View page' && <Client deal={deal} demo />}
+          </div>
         </div>
       )}
     </div>
