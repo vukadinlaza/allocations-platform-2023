@@ -1,10 +1,57 @@
 import Checkbox from '@/components/Checkbox';
+import { useSupabase } from '@/lib/supabase-provider';
+import { Deal, Entity } from '@/types';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '../../Button';
-export default function InvestmentSignature() {
+
+export default function InvestmentSignature({
+  deal,
+  entity,
+  amount,
+  onUpdate
+}: {
+  deal: Deal;
+  entity: Entity;
+  amount: number;
+  onUpdate?: () => any;
+}) {
+  const { supabase, user } = useSupabase();
   const [loading, setLoading] = useState<boolean>(false);
   const [signed, setSigned] = useState<boolean>(false);
+  const router = useRouter();
+
+  const saveInvestment = async () => {
+    if (!deal || !deal.minimum_investment) return;
+    if (!signed) return alert('You have to sign to complete your investment.');
+    if (amount < deal.minimum_investment)
+      return alert(`Minimum investment amount is $${deal.minimum_investment}.`);
+    try {
+      setLoading(true);
+      const { data } = await supabase
+        .from('investments')
+        .insert({
+          deal_id: deal.id,
+          subscription_amount: amount
+        })
+        .select();
+
+      if (data) {
+        console.log(data);
+        router.push('/investments');
+      }
+
+      // if (data) {
+      //   onUpdate();
+      // }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <header className="mb-6">
@@ -41,7 +88,7 @@ export default function InvestmentSignature() {
             label="Commit & E-sign"
             loading={loading}
             disabled={!signed}
-            onClick={() => {}}
+            onClick={saveInvestment}
           />
         </div>
       </main>

@@ -70,7 +70,7 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
             type="number"
             className="w-full outline-none"
             placeholder="0"
-            onChange={(e: any) => setAmount(e.target.value)}
+            onChange={(e: any) => setAmount(parseInt(e.target.value))}
           />
         </div>
       </div>
@@ -126,7 +126,7 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
       )}
       {investing && (
         <div className="mt-4">
-          <InvestmentsModule amount={amount} />
+          <InvestmentsModule deal={deal} amount={amount} />
         </div>
       )}
     </div>

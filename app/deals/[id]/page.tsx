@@ -32,7 +32,7 @@ export default function DealID() {
           setDeal(_deal);
         }
       } catch (error) {
-        console.error('Erreur lors de la recherche du deal:', error);
+        console.error(error);
       } finally {
         setLoading(false);
       }

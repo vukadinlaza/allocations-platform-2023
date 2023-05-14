@@ -26,7 +26,7 @@ export interface Deal {
   management_fee_type?: string;
   manager_email?: string;
   manager_type?: string;
-  minimum_investment?: string;
+  minimum_investment?: number;
   mongo_id?: string;
   mongo_organization_id?: string;
   name?: string;

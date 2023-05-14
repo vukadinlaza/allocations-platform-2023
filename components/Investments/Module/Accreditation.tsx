@@ -1,10 +1,18 @@
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
+import { useSupabase } from '@/lib/supabase-provider';
 import { useState } from 'react';
 
-export default function Accreditation() {
+export default function Accreditation({
+  entity,
+  onUpdate
+}: {
+  entity: any;
+  onUpdate: () => void;
+}) {
   const [accreditationType, setAccreditationType] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { supabase } = useSupabase();
 
   const options = [
     {
@@ -33,7 +41,26 @@ export default function Accreditation() {
     }
   ];
 
-  const saveAccreditation = () => {};
+  const saveAccreditation = async () => {
+    if (!accreditationType && !entity)
+      alert('Please enter an accreditation type.');
+    try {
+      setLoading(true);
+      const { data } = await supabase
+        .from('accreditations')
+        .insert({
+          user_investment_entity_id: entity.id,
+          value: accreditationType
+        })
+        .select();
+
+      onUpdate();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>

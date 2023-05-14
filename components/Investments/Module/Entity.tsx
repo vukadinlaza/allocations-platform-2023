@@ -7,7 +7,7 @@ import { Avatar } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
 
-export default function InvestmentsIdentity({
+export default function InvestmentEntity({
   entities,
   onChange,
   selected,

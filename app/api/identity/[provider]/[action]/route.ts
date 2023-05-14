@@ -1,8 +1,13 @@
-import { NextResponse } from 'next/server';
-import { Configuration, CountryCode, PlaidApi, PlaidEnvironments, Products } from 'plaid';
 import { createRouteHandlerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { cookies, headers } from 'next/headers';
-import type { Database } from '@/lib/database.types';
+import { NextResponse } from 'next/server';
+import {
+  Configuration,
+  CountryCode,
+  PlaidApi,
+  PlaidEnvironments,
+  Products
+} from 'plaid';
 
 export const revalidate = 0;
 
@@ -19,15 +24,20 @@ const getPlaidClient = async () => {
   return new PlaidApi(configuration);
 };
 
-export async function GET(request: Request, { params }: {
-  params: {
-    provider: string,
-    action: string
+export async function GET(
+  request: Request,
+  {
+    params
+  }: {
+    params: {
+      provider: string;
+      action: string;
+    };
   }
-}) {
+) {
   const provider = params.provider;
   const action = params.action;
-  const supabase = createRouteHandlerSupabaseClient<Database>({
+  const supabase = createRouteHandlerSupabaseClient<any>({
     headers,
     cookies
   });
@@ -40,8 +50,8 @@ export async function GET(request: Request, { params }: {
       const request = {
         user: {
           // This should correspond to a unique id for the current user.
-          client_user_id: clientUserId as string ?? 'test',
-          email_address: clientUserEmail as string ?? 'test@example.com'
+          client_user_id: (clientUserId as string) ?? 'test',
+          email_address: (clientUserEmail as string) ?? 'test@example.com'
         },
         products: ['identity_verification'] as Products[],
         identity_verification: {
@@ -58,22 +68,25 @@ export async function GET(request: Request, { params }: {
         console.error(error);
       }
     } else if (action === 'store_identity') {
-
     }
-
   }
   return NextResponse.json({ provider, action });
 }
 
-export async function POST(request: Request, { params }: {
-  params: {
-    provider: string,
-    action: string
+export async function POST(
+  request: Request,
+  {
+    params
+  }: {
+    params: {
+      provider: string;
+      action: string;
+    };
   }
-}) {
+) {
   const provider = params.provider;
   const action = params.action;
-  const supabase = createRouteHandlerSupabaseClient<Database>({
+  const supabase = createRouteHandlerSupabaseClient<any>({
     headers,
     cookies
   });
@@ -92,7 +105,8 @@ export async function POST(request: Request, { params }: {
       console.dir(await supabase.auth.getUser(), { colors: true, depth: null });
       if (IDVData.status == 'success') {
         console.log('Verified');
-        const existingIdentity = await supabase.from('identities')
+        const existingIdentity = await supabase
+          .from('identities')
           .select('*')
           .eq('provider_id', IDVData.id)
           .select();
@@ -102,24 +116,28 @@ export async function POST(request: Request, { params }: {
           existingRecordId = existingIdentity.data[0].id;
         }
         console.log(existingRecordId);
-        const data = await supabase.from('identities').upsert({
-          id: existingRecordId,
-          user_id: clientUserId as string,
-          provider: 'PLAID',
-          provider_id: IDVData.id,
-          status: 'verified',
-          legal_name: `${IDVData?.user?.name?.given_name} ${IDVData?.user?.name?.family_name}`,
-          address_line_1: IDVData?.user?.address?.street,
-          address_line_2: IDVData?.user?.address?.street2,
-          city: IDVData?.user?.address?.city,
-          region: IDVData?.user?.address?.region,
-          postal_code: IDVData?.user?.address?.postal_code,
-          country: IDVData?.user.address?.country,
-          phone_number: IDVData?.user?.phone_number,
-          type: 'Individual',
-          tax_id: IDVData?.user?.id_number?.value,
-          tax_id_type: IDVData?.user?.id_number?.type === 'us_ssn' ? 'SSN' : 'TIN'
-        }).select();
+        const data = await supabase
+          .from('identities')
+          .upsert({
+            id: existingRecordId,
+            user_id: clientUserId as string,
+            provider: 'PLAID',
+            provider_id: IDVData.id,
+            status: 'verified',
+            legal_name: `${IDVData?.user?.name?.given_name} ${IDVData?.user?.name?.family_name}`,
+            address_line_1: IDVData?.user?.address?.street,
+            address_line_2: IDVData?.user?.address?.street2,
+            city: IDVData?.user?.address?.city,
+            region: IDVData?.user?.address?.region,
+            postal_code: IDVData?.user?.address?.postal_code,
+            country: IDVData?.user.address?.country,
+            phone_number: IDVData?.user?.phone_number,
+            type: 'Individual',
+            tax_id: IDVData?.user?.id_number?.value,
+            tax_id_type:
+              IDVData?.user?.id_number?.type === 'us_ssn' ? 'SSN' : 'TIN'
+          })
+          .select();
         console.log(data);
       } else {
         console.log('Not Verified');

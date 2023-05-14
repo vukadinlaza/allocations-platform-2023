@@ -1,12 +1,20 @@
 import LoadingModule from '@/components/Loading/Module';
+import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
+import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
 import InvestmentsAccreditation from './Accreditation';
-import InvestmentsIdentity from './Identity';
+import InvestmentsEntity from './Entity';
 import InvestmentsKYC from './KYC';
 import InvestmentsSign from './Sign';
 
-export default function InvestmentsModule({ amount }: { amount: number }) {
+export default function InvestmentsModule({
+  amount,
+  deal
+}: {
+  amount: number;
+  deal: Deal;
+}) {
   const { supabase, fetchUser } = useSupabase();
   const [entity, setEntity] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -15,7 +23,7 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
   const checkPermissions = async () => {
     try {
       setLoading(true);
-      // check user session everytime
+      setCurrentUser(null);
       const {
         data: { session }
       } = await supabase.auth.getSession();
@@ -24,7 +32,6 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
         const user = await fetchUser(session.user.email);
         setCurrentUser(user);
       }
-      //
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,10 +50,13 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
           <LoadingModule />
         </div>
       )}
+      {!loading && !currentUser && (
+        <None text="Sorry no user data found. Please refresh." />
+      )}
       {!loading && currentUser && (
         <div>
           <div className="p-6 border-t">
-            <InvestmentsIdentity
+            <InvestmentsEntity
               entities={currentUser.users_investment_entities}
               onChange={(v) => setEntity(v)}
               onUpdate={checkPermissions}
@@ -62,13 +72,20 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
               )}
               {entity.accreditations.length < 1 && (
                 <div className="p-6 border-t">
-                  <InvestmentsAccreditation />
+                  <InvestmentsAccreditation
+                    entity={entity}
+                    onUpdate={checkPermissions}
+                  />
                 </div>
               )}
               {currentUser.users_personal_identities.length > 0 &&
                 entity.accreditations.length > 0 && (
                   <div className="p-6 border-t">
-                    <InvestmentsSign />
+                    <InvestmentsSign
+                      deal={deal}
+                      entity={entity}
+                      amount={amount}
+                    />
                   </div>
                 )}
             </div>
