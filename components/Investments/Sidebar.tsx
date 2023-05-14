@@ -144,7 +144,7 @@ export default function InvestmentSidebar({
             <p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>
           </div>
         )}
-        {!demo && investing && (
+        {investing && (
           <div className="mt-4">
             <InvestmentsModule deal={deal} amount={amount} />
           </div>
