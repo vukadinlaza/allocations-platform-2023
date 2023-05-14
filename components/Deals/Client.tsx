@@ -1,6 +1,6 @@
 'use client';
-import ChipStatus from '@/components/ChipStatus';
 import InvestmentCard from '@/components/Investments/Sidebar';
+import ItemsHeader from '@/components/Items/Header';
 import { Deal } from '@/types';
 import Image from 'next/image';
 import Button from '../Button';
@@ -9,24 +9,8 @@ export default function DealClient({ deal }: { deal: Deal }) {
   return (
     <div className="container grid grid-cols-6 gap-8 mt-8 deal">
       <div className="col-span-4">
-        <header className="flex items-start justify-start mb-16">
-          <div className="flex items-center justify-center w-16 h-16 mt-1 mr-4 text-white rounded bg-primary-500">
-            {!deal.name && <h1 className="mb-0 text-3xl">N</h1>}
-            {deal.name && <h1 className="mb-0 text-3xl">{deal.name[0]}</h1>}
-          </div>
-          <div className="flex flex-col items-start gap-2 grow">
-            {!deal.name && (
-              <h1 className="mb-0 text-3xl">Deal with no name.</h1>
-            )}
-            {deal.name && <h1 className="mb-0 text-3xl">{deal.name}</h1>}
-            <div className="flex items-center gap-4">
-              {deal.status && <ChipStatus small status={deal.status} />}
-              <p className="text-sm">
-                • Total raised: $
-                {deal.total_raised_amount ? deal.total_raised_amount : 0}
-              </p>
-            </div>
-          </div>
+        <header className="flex items-start justify-between mb-8">
+          <ItemsHeader data={deal} />
           <div>
             <Button
               loading={false}

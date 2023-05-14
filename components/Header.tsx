@@ -7,7 +7,6 @@ import { Chip } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
@@ -22,43 +21,6 @@ export default function Header({
   const { supabase } = useSupabase();
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
-  const [counts, setCounts]: any = useState(null);
-
-  const getCount = async () => {
-    // const organizations = await supabase
-    //   .from('organizations')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const entities = await supabase
-    //   .from('limited_entities')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const deals = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .then(({ count }) => count);
-    // const spvs = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .eq('type', 'spv')
-    //   .then(({ count }) => count);
-    // const funds = await supabase
-    //   .from('deals')
-    //   .select('*', { count: 'exact' })
-    //   .eq('type', 'fund')
-    //   .then(({ count }) => count);
-    // setCounts({
-    //   organizations,
-    //   entities,
-    //   deals,
-    //   spvs,
-    //   funds
-    // });
-  };
-
-  useEffect(() => {
-    getCount;
-  }, []);
 
   return (
     <div className="header">
@@ -113,9 +75,6 @@ export default function Header({
                   }`}
                 >
                   <span>{item.name}</span>
-                  {counts && item.showCount && (
-                    <span>({counts[item.name.toLowerCase()] || 0})</span>
-                  )}
                 </div>
               </Link>
             ))}
