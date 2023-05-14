@@ -1,18 +1,47 @@
 import { getFirstLetter } from '@/components/Avatar';
+import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
+import { useSupabase } from '@/lib/supabase-provider';
 import { UserInvestmentEntity } from '@/types';
 import { Avatar } from '@mui/material';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function InvestmentsIdentity({
   entities,
   onChange,
-  selected
+  selected,
+  onUpdate
 }: {
   entities: UserInvestmentEntity[];
   onChange: (v: any) => any;
+  onUpdate: () => any;
   selected: any;
 }) {
+  const { supabase, user } = useSupabase();
+  const [name, setName] = useState<string>('');
+  const [show, setShow] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const saveNewEntity = async () => {
+    if (!name && name === '' && name.length < 3) alert('Please enter a name');
+    try {
+      setLoading(true);
+      const { data } = await supabase
+        .from('users_investment_entities')
+        .insert({ name })
+        .select();
+
+      if (data) {
+        onUpdate();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <header className="mb-6">
@@ -49,16 +78,32 @@ export default function InvestmentsIdentity({
             </div>
           )}
         </div>
-        <button className="text info">
-          <Image
-            src={'/plus.svg'}
-            alt="plus"
-            className="mr-2 text-primary-500"
-            width={18}
-            height={18}
-          />
-          <span>New investment entity</span>
-        </button>
+        {show && (
+          <div className="flex items-center gap-2 mb-4">
+            <input
+              type="text"
+              placeholder="New entity name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Button
+              loading={loading}
+              label="Save"
+              onClick={() => saveNewEntity()}
+            />
+          </div>
+        )}
+        {!loading && (
+          <button className="text info" onClick={() => setShow(true)}>
+            <Image
+              src={'/plus.svg'}
+              alt="plus"
+              className="mr-2 text-primary-500"
+              width={18}
+              height={18}
+            />
+            <span>New investment entity</span>
+          </button>
+        )}
       </main>
     </div>
   );

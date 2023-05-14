@@ -9,7 +9,6 @@ import InvestmentsSign from './Sign';
 export default function InvestmentsModule({ amount }: { amount: number }) {
   const { supabase, fetchUser } = useSupabase();
   const [entity, setEntity] = useState<any>(null);
-  const [hasAccreditation, setHasAccreditation] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -24,7 +23,6 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
       if (session && session.user) {
         const user = await fetchUser(session.user.email);
         setCurrentUser(user);
-        console.log(user);
       }
       //
     } catch (error) {
@@ -51,6 +49,7 @@ export default function InvestmentsModule({ amount }: { amount: number }) {
             <InvestmentsIdentity
               entities={currentUser.users_investment_entities}
               onChange={(v) => setEntity(v)}
+              onUpdate={checkPermissions}
               selected={entity?.id}
             />
           </div>
