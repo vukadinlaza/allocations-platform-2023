@@ -15,7 +15,7 @@ import DealAdminProgress from './Admin/Progress';
 import Client from './Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
-  const [active, setActive] = useState('Progress');
+  const [active, setActive] = useState('Investors');
   const items = [
     { key: 'Progress' },
     { key: 'Investors onboarding status' },
@@ -64,13 +64,13 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             />
           </div>
           <div>
-            {active === 'Progress' && <DealAdminProgress />}
+            {active === 'Progress' && <DealAdminProgress deal={deal} />}
             {active === 'Investors onboarding status' && (
-              <DealAdminOnboarding />
+              <DealAdminOnboarding deal={deal} />
             )}
-            {active === 'Investors' && <DealAdminInvestors />}
-            {active === 'Banking' && <DealAdminBanking />}
-            {active === 'Documents' && <DealAdminDocuments />}
+            {active === 'Investors' && <DealAdminInvestors deal={deal} />}
+            {active === 'Banking' && <DealAdminBanking deal={deal} />}
+            {active === 'Documents' && <DealAdminDocuments deal={deal} />}
             {active === 'View page' && <Client deal={deal} demo />}
           </div>
         </div>

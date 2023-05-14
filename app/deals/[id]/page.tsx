@@ -35,8 +35,6 @@ export default function DealID() {
 
         if (_deal) {
           setDeal(_deal);
-          console.log(user);
-          console.log(_deal);
         }
       } catch (error) {
         console.error(error);

@@ -9,7 +9,7 @@ interface MenuItem {
   action: Function;
 }
 
-export const getFirstLetter = (email: string) => {
+export const getFirstLetter = (email: string | null) => {
   if (!email) return 'A';
   return email[0];
 };

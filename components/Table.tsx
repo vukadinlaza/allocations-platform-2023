@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import ChipStatus from './ChipStatus';
 import MissingData from './MissingData';
+import Price from './Price';
 
 export const openURL = (url: string) => {
   window.open(url, '_blank');
@@ -46,7 +47,7 @@ export default function TableComponent({
       column.key === 'total_raised_amount'
     ) {
       if (!item[column.key]) return `$0`;
-      return `$${item[column.key].toLocaleString('en-US') || 0}`;
+      return <Price price={item[column.key]} />;
     }
     if (
       column.key === 'status' ||
