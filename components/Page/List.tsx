@@ -226,7 +226,7 @@ export default function PageList({
             {user && user.is_super_admin && (
               <Grid item xs={4} className="mb-4">
                 <Alert severity="success">
-                  As an admin, you can look & edit.
+                  As an admin, you can edit.
                 </Alert>
               </Grid>
             )}
