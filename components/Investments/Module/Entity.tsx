@@ -20,7 +20,7 @@ export default function InvestmentEntity({
 }) {
   const { supabase, user } = useSupabase();
   const [name, setName] = useState<string>('');
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const saveNewEntity = async () => {
