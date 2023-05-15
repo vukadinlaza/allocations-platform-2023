@@ -1,6 +1,25 @@
+import Button from '@/components/Button';
+import PlaidIdentityLink from '@/components/Plaid/IdentityLink';
+import { getIdentityLinkToken } from '@/lib/plaid';
 import { useState } from 'react';
-export default function KYC() {
-  const [loading, setLoading] = useState<boolean>(true);
+
+export default function KYC({ onUpdate }: { onUpdate: () => void }) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
+  const openIdentity = async () => {
+    try {
+      setLoading(true);
+      const response = await getIdentityLinkToken();
+
+      if (response && response.link_token) {
+        setToken(response.link_token);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <header className="mb-8">
@@ -12,9 +31,14 @@ export default function KYC() {
         </p>
       </header>
       <main>
-        <button className="flex items-center btn primary">
-          <span>Verify my identity</span>
-        </button>
+        <Button
+          label={'Verify my identity'}
+          loading={loading}
+          onClick={openIdentity}
+        />
+        {token && (
+          <PlaidIdentityLink linkToken={token} onSuccess={() => onUpdate()} />
+        )}
       </main>
     </div>
   );

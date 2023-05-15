@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 
 interface ButtonProps {
   onClick: () => void;
-  loading: boolean;
+  loading?: boolean;
   label: string;
   disabled?: boolean;
   color?: string;

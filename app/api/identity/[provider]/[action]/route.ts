@@ -100,13 +100,12 @@ export async function POST(
       });
       const IDVData = IDVResult.data;
       const clientUser = (await supabase.auth.getSession()).data.session?.user;
-      const clientUserId = clientUser?.id;
       console.dir(IDVData, { colors: true, depth: null });
       console.dir(await supabase.auth.getUser(), { colors: true, depth: null });
       if (IDVData.status == 'success') {
         console.log('Verified');
         const existingIdentity = await supabase
-          .from('identities')
+          .from('users_personal_identities')
           .select('*')
           .eq('provider_id', IDVData.id)
           .select();
@@ -117,10 +116,10 @@ export async function POST(
         }
         console.log(existingRecordId);
         const data = await supabase
-          .from('identities')
+          .from('users_personal_identities')
           .upsert({
             id: existingRecordId,
-            user_id: clientUserId as string,
+            user_email: clientUser?.email,
             provider: 'PLAID',
             provider_id: IDVData.id,
             status: 'verified',

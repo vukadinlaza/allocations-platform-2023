@@ -67,17 +67,18 @@ export default function InvestmentsModule({
             <div>
               {currentUser.users_personal_identities.length < 1 && (
                 <div className="p-6 border-t">
-                  <InvestmentsKYC />
+                  <InvestmentsKYC onUpdate={checkPermissions} />
                 </div>
               )}
-              {entity.accreditations.length < 1 && (
-                <div className="p-6 border-t">
-                  <InvestmentsAccreditation
-                    entity={entity}
-                    onUpdate={checkPermissions}
-                  />
-                </div>
-              )}
+              {currentUser.users_personal_identities.length > 0 &&
+                entity.accreditations.length < 1 && (
+                  <div className="p-6 border-t">
+                    <InvestmentsAccreditation
+                      entity={entity}
+                      onUpdate={checkPermissions}
+                    />
+                  </div>
+                )}
               {currentUser.users_personal_identities.length > 0 &&
                 entity.accreditations.length > 0 && (
                   <div className="p-6 border-t">

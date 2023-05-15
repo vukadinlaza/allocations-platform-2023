@@ -1,11 +1,11 @@
 import { getFirstLetter } from '@/components/Avatar';
-import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import { useSupabase } from '@/lib/supabase-provider';
 import { UserInvestmentEntity } from '@/types';
 import { Avatar } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
+import NewUserInvestmentsEntity from './Entity/New';
 
 export default function InvestmentEntity({
   entities,
@@ -20,7 +20,7 @@ export default function InvestmentEntity({
 }) {
   const { supabase, user } = useSupabase();
   const [name, setName] = useState<string>('');
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
   const saveNewEntity = async () => {
@@ -79,8 +79,8 @@ export default function InvestmentEntity({
           )}
         </div>
         {show && (
-          <div className="flex items-center gap-2 mb-4">
-            <input
+          <div className="w-full">
+            {/* <input
               type="text"
               placeholder="New entity name"
               onChange={(e) => setName(e.target.value)}
@@ -89,7 +89,8 @@ export default function InvestmentEntity({
               loading={loading}
               label="Save"
               onClick={() => saveNewEntity()}
-            />
+            /> */}
+            <NewUserInvestmentsEntity saveNewEntity={saveNewEntity} />
           </div>
         )}
         {!loading && (
