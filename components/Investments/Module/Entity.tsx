@@ -1,6 +1,5 @@
 import { getFirstLetter } from '@/components/Avatar';
 import Checkbox from '@/components/Checkbox';
-import { useSupabase } from '@/lib/supabase-provider';
 import { UserInvestmentEntity } from '@/types';
 import { Avatar } from '@mui/material';
 import Image from 'next/image';
@@ -18,29 +17,7 @@ export default function InvestmentEntity({
   onUpdate: () => any;
   selected: any;
 }) {
-  const { supabase, user } = useSupabase();
-  const [name, setName] = useState<string>('');
   const [show, setShow] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const saveNewEntity = async () => {
-    if (!name && name === '' && name.length < 3) alert('Please enter a name');
-    try {
-      setLoading(true);
-      const { data } = await supabase
-        .from('users_investment_entities')
-        .insert({ name })
-        .select();
-
-      if (data) {
-        onUpdate();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div>
@@ -78,33 +55,17 @@ export default function InvestmentEntity({
             </div>
           )}
         </div>
-        {show && (
-          <div className="w-full">
-            {/* <input
-              type="text"
-              placeholder="New entity name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Button
-              loading={loading}
-              label="Save"
-              onClick={() => saveNewEntity()}
-            /> */}
-            <NewUserInvestmentsEntity saveNewEntity={saveNewEntity} />
-          </div>
-        )}
-        {!loading && (
-          <button className="text info" onClick={() => setShow(true)}>
-            <Image
-              src={'/plus.svg'}
-              alt="plus"
-              className="mr-2 text-primary-500"
-              width={18}
-              height={18}
-            />
-            <span>New investment entity</span>
-          </button>
-        )}
+        {show && <NewUserInvestmentsEntity onUpdate={onUpdate} />}
+        <button className="text info" onClick={() => setShow(true)}>
+          <Image
+            src={'/plus.svg'}
+            alt="plus"
+            className="mr-2 text-primary-500"
+            width={18}
+            height={18}
+          />
+          <span>New investment entity</span>
+        </button>
       </main>
     </div>
   );

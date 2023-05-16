@@ -1,7 +1,6 @@
 import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import CopyToClipboard from './Copy';
 import None from './None';
@@ -25,6 +24,12 @@ export default function FormBuilder({
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
+    if (!buttonLabel) {
+      onSubmit(_data);
+    }
+  }, [_data]);
+
+  useEffect(() => {
     setData(data);
   }, [data]);
 
@@ -44,6 +49,7 @@ export default function FormBuilder({
                     {field.type === 'string' && field.key && (
                       <input
                         type="text"
+                        placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={_data && [field.key] ? _data[field.key] : null}
@@ -57,7 +63,7 @@ export default function FormBuilder({
                     )}
                     {field.type === 'select' && field.items && field.key && (
                       <Select
-                        selected={_data[field.key]}
+                        selected={field.value || null}
                         displayLabel={(v) => v}
                         items={field.items}
                         onChange={(e) => {
@@ -74,9 +80,7 @@ export default function FormBuilder({
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={
-                          _data && _data[field.key]
-                            ? dayjs(_data[field.key]).format('MM/DD/YYYY')
-                            : ''
+                          _data && _data[field.key] ? _data[field.key] : ''
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
@@ -89,6 +93,7 @@ export default function FormBuilder({
                     {field.type === 'number' && field.key && (
                       <input
                         type="number"
+                        placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={

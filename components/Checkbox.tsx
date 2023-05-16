@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useState } from 'react';
 
 const Checkbox = ({
   onChange,
@@ -8,14 +7,10 @@ const Checkbox = ({
 }: {
   onChange?: (v: any) => any;
   label?: string;
-  selected: boolean;
+  selected?: boolean;
 }) => {
-
   return (
-    <div
-      className="flex items-start my-3 cursor-pointer"
-      onClick={onChange}
-    >
+    <div className="flex items-start my-3 cursor-pointer" onClick={onChange}>
       <Image
         src={selected ? '/checkbox_checked.svg' : '/checkbox_empty.svg'}
         alt="checkbox"

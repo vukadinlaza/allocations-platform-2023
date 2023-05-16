@@ -16,6 +16,7 @@ export type Field = {
   disabled?: boolean | false;
   items?: any[] | null | undefined;
   label: string;
+  placeholder?: string;
   key: string;
   show?: boolean | true;
   type: FieldType; // add more types as needed
