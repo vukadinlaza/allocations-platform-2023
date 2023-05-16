@@ -1,8 +1,7 @@
 'use client';
+import numeral from 'numeral';
 export default function Price({ price }: { price: any }) {
   return (
-    <>
-      <span>{price && '$' + (price.toLocaleString('en-US'))}</span>
-    </>
+    <div>{price > 0 && <span>{numeral(price).format('$0,0')}</span>}</div>
   );
 }

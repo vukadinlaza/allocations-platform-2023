@@ -15,7 +15,7 @@ import DealAdminProgress from './Admin/Progress';
 import Client from './Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
-  const [active, setActive] = useState('Investors');
+  const [active, setActive] = useState('View page');
   const items = [
     { key: 'Progress' },
     { key: 'Investors onboarding status' },
@@ -44,13 +44,19 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
                 <div>
                   <p>Funds raised</p>
                   <div className="text-xl font-bold">
-                    <Price price={deal.total_raised_amount} />
+                    {(deal.total_raised_amount && (
+                      <Price price={deal.total_raised_amount} />
+                    )) ||
+                      '$0'}
                   </div>
                 </div>
                 <div>
                   <p>Funds goal</p>
                   <div className="text-xl font-bold">
-                    <Price price={deal.target_raise_goal} />
+                    {(deal.target_raise_goal && (
+                      <Price price={deal.target_raise_goal} />
+                    )) ||
+                      '$0'}
                   </div>
                 </div>
               </div>

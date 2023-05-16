@@ -17,13 +17,18 @@ export default function ChipStatus({
     signed: 'bg-amber-400',
     complete: 'bg-green-500',
     null: 'bg-zinc-400',
-    wired: 'bg-green-500'
+    wired: 'bg-green-500',
+    crypto: 'bg-primary-500'
   };
   return (
     <div
       className={`inline text-white capitalize rounded-full ${
         small ? 'px-2 py-1 text-sm' : 'px-4 py-2'
-      } items-center ${status ? colors[status.toLowerCase()] : null}`}
+      } items-center ${
+        status && colors[status.toLowerCase()]
+          ? colors[status.toLowerCase()]
+          : null
+      }`}
     >
       {status}
     </div>

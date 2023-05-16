@@ -11,13 +11,15 @@ type Props = {
   model?: Field[] | any;
   table: string;
   setOpenModal: any;
+  type?: string;
 };
 
 export default function FormsNew({
   element,
   model,
   table,
-  setOpenModal
+  setOpenModal,
+  type
 }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
@@ -47,17 +49,18 @@ export default function FormsNew({
 
   useEffect(() => {
     if (model) {
-      const initialElement: any = {};
+      let initialElement: any = {};
       model.forEach((field: Field) => {
         initialElement[field.key] = field.value ?? undefined;
       });
+      if (type) initialElement = { ...initialElement, type };
       setNewElement(initialElement);
     }
   }, [model]);
 
   return (
     <Card className="mb-0 overflow-auto card--popup" variant="outlined">
-      <header className='sticky'>
+      <header className="sticky">
         {table && <h2>Create a new {element}</h2>}
         <CloseIcon
           fontSize="inherit"
@@ -70,6 +73,7 @@ export default function FormsNew({
           data={newElement}
           model={model}
           loading={loading}
+          buttonLabel={'Create'}
           onSubmit={(form: any) => createNew(form)}
         />
       </main>

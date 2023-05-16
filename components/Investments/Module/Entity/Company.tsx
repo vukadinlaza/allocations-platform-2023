@@ -81,7 +81,7 @@ export default function NewCompany({
       setLoading(true);
       const { data } = await supabase
         .from('users_investment_entities')
-        .insert({ ...newCompany, type })
+        .insert({ ...newCompany, type: type === 'Partnership' ? 'LP' : type })
         .select();
 
       if (data) {

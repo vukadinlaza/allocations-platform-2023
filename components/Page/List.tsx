@@ -84,6 +84,7 @@ export default function PageList({
           setInitialData(_data.map((d: any) => d[target]));
           return;
         }
+        console.log(_data)
         setInitialData(_data);
       }
     } catch (err) {
@@ -125,7 +126,7 @@ export default function PageList({
         {
           event: '*',
           schema: 'public',
-          table: target ? target : getOriginalTable
+          table: target ? target : getOriginalTable(table)
         },
         (payload: any) => {
           const { eventType } = payload;
@@ -176,6 +177,7 @@ export default function PageList({
                   model={model}
                   setOpenModal={setOpenModal}
                   table={dialog.table}
+                  type={type}
                 />
               )}
             </Dialog>
@@ -225,9 +227,7 @@ export default function PageList({
             </Grid>
             {user && user.is_super_admin && (
               <Grid item xs={4} className="mb-4">
-                <Alert severity="success">
-                  As an admin, you can edit.
-                </Alert>
+                <Alert severity="success">As an admin, you can edit.</Alert>
               </Grid>
             )}
           </Grid>

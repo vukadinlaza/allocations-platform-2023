@@ -1,9 +1,9 @@
 'use client';
 
 import ChipStatus from '@/components/ChipStatus';
-import Price from '../Price';
 
 export default function ItemHeader({ data }: { data: any }) {
+  console.log(data.accept_crypto);
   return (
     <div>
       <header className="flex items-start justify-start mb-8">
@@ -13,14 +13,15 @@ export default function ItemHeader({ data }: { data: any }) {
         </div>
         <div className="flex flex-col items-start gap-2 grow">
           {data.name && <h1 className="mb-0 text-3xl">{data.name}</h1>}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             {data.status && <ChipStatus small status={data.status} />}
-            {data.total_raised_amount && (
-              <p className="text-sm">
+            {/* {data.accept_crypto && <ChipStatus small status={'Crypto'} />} */}
+            {/* <p className="text-sm">
+              <span>
                 • Total raised:
-                <Price price={data.total_raised_amount} />
-              </p>
-            )}
+                {<Price price={data.total_raised_amount} />}
+              </span>
+            </p> */}
           </div>
         </div>
       </header>

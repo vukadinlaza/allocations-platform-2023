@@ -65,7 +65,7 @@ export default function InvestmentSidebar({
     <div className="sticky self-start w-full bg-white rounded-md shadow top-8">
       <header className="px-6 py-4">
         <h2 className="text-lg font-bold">Invest</h2>
-        <p className="text-sm">
+        <p className="flex items-center gap-1 text-sm">
           Minimum is <Price price={deal.minimum_investment} /> - invest by{' '}
           <DateComponent date={deal.closing_date} />
         </p>

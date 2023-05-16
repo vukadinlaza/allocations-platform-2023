@@ -25,7 +25,6 @@ export default function Funds() {
       type: 'string',
       show: true
     }
-
   ];
 
   const dialog = {
@@ -43,7 +42,7 @@ export default function Funds() {
         model={model}
         query={`*`}
         queryType="fund"
-        table="hydrated_deals"
+        table="limited_deals"
         type="fund"
       />
     </div>
