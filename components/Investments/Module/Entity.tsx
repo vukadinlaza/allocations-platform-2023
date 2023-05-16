@@ -46,8 +46,13 @@ export default function InvestmentEntity({
                   >
                     {getFirstLetter(entity.name)}
                   </Avatar>
-                  <div className="grow">
-                    {entity.name && <p>{entity.name}</p>}
+                  <div className="flex flex-col grow">
+                    {entity.name && <span className="mb-0">{entity.name}</span>}
+                    {entity.type && (
+                      <span className="text-xs text-gray-600">
+                        {entity.type}
+                      </span>
+                    )}
                   </div>
                   <Checkbox selected={selected === entity.id} />
                 </div>

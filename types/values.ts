@@ -24,3 +24,14 @@ export const deal_types = ['spv', 'fund'];
 export const organizations_status = ['Processing', 'Complete'];
 
 export const investments_status = ['viewed', 'signed', 'wired'];
+
+export const entity_returns_status = ['complete', 'new'];
+
+export const users_investiment_entities_types = [
+  'Myself/Individual',
+  'LLC',
+  'Corporation',
+  'Partnership',
+  'Trust',
+  'Self-directed IRA'
+];

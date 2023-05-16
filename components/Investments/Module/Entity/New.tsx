@@ -1,22 +1,17 @@
 import NewCompany from '@/components/Investments/Module/Entity/Company';
 import Select from '@/components/Select';
+import { users_investiment_entities_types } from '@/types/values';
 import { useState } from 'react';
+import NewIRA from './IRA';
 import NewIndividual from './Individual';
+import NewTrust from './Trust';
 
-export default function NewUserInvestmentsEntity({
+export default function NewUserInvestmentEntity({
   onUpdate
 }: {
   onUpdate: () => any;
 }) {
-  const [type, setType] = useState<any>('Myself/Individual');
-  const items = [
-    'Myself/Individual',
-    'LLC',
-    'Corporation',
-    'Partnership',
-    'Trust',
-    'Self-directed IRA'
-  ];
+  const [type, setType] = useState<string>('Myself/Individual');
 
   return (
     <div className="w-full mb-6">
@@ -24,7 +19,7 @@ export default function NewUserInvestmentsEntity({
         <h2>Create a new investment entity</h2>
         <p>Type of entity:</p>
         <Select
-          items={items}
+          items={users_investiment_entities_types}
           selected={type}
           onChange={(type: string) => setType(type)}
         />
@@ -33,6 +28,8 @@ export default function NewUserInvestmentsEntity({
       {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'Corporation' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'Partnership' && <NewCompany type={type} onUpdate={onUpdate} />}
+      {type === 'Trust' && <NewTrust onUpdate={onUpdate} />}
+      {type === 'Self-directed IRA' && <NewIRA onUpdate={onUpdate} />}
     </div>
   );
 }

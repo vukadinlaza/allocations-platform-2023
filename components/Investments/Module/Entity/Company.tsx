@@ -114,7 +114,7 @@ export default function NewCompany({
   }, [agree, newCompany]);
 
   return (
-    <div className="newCompany">
+    <div className="new--company">
       <FormBuilder
         emit={true}
         model={model}
