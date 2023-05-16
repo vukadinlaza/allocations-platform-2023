@@ -9,7 +9,6 @@ export default function NewUserInvestmentsEntity({
   onUpdate: () => any;
 }) {
   const [type, setType] = useState<any>('Myself/Individual');
-  const [loading, setLoading] = useState<boolean>(false);
   const items = [
     'Myself/Individual',
     'LLC',
@@ -23,13 +22,6 @@ export default function NewUserInvestmentsEntity({
     <div className="w-full mb-6">
       <div className="grid grid-cols-1 gap-4 pb-4">
         <h2>Create a new investment entity</h2>
-        {/* <input
-          type="text"
-          placeholder="New entity name"
-          onChange={(e) =>
-            setNewEntity((prev: any) => ({ ...prev, name: e.target.value }))
-          }
-        /> */}
         <p>Type of entity:</p>
         <Select
           items={items}

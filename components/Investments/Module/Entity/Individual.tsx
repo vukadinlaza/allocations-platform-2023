@@ -40,7 +40,11 @@ export default function NewIndividual({ onUpdate }: { onUpdate: () => void }) {
 
   return (
     <div className="newCompany">
-      <FormBuilder model={model} onSubmit={(v) => setNewCompany(v)} />
+      <FormBuilder
+        emit={true}
+        model={model}
+        onSubmit={(v) => setNewCompany(v)}
+      />
       <div className="mt-4">
         <Button
           loading={loading}

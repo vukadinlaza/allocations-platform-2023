@@ -39,7 +39,6 @@ export default function NewCompany({
       key: 'country',
       type: 'select',
       placeholder: 'United States',
-      value: 'United States',
       show: true,
       items: countries
     },
@@ -76,6 +75,8 @@ export default function NewCompany({
 
   const saveNewEntity = async () => {
     if (!newCompany.name) return alert('Please enter a name');
+    if (!newCompany.country)
+      setNewCompany((prev: any) => ({ ...prev, country: 'United States' }));
     try {
       setLoading(true);
       const { data } = await supabase
@@ -96,17 +97,29 @@ export default function NewCompany({
   useEffect(() => {
     console.log(newCompany);
     if (!newCompany) return;
-    const areAllFieldsValid = Object.keys(newCompany).every((key) => {
-      const field = model.find((item) => item.key === key);
-      return field && newCompany[key].length > 0;
-    });
+    const modelKeys = model.map((model) => model.key);
+    const newCompanyKeys = Object.keys(newCompany);
 
-    setDisabled(!(areAllFieldsValid && agree));
-  }, [newCompany, agree]);
+    const isAllKeysPresent = modelKeys.every((key) =>
+      newCompanyKeys.includes(key)
+    );
+
+    const hasAllValues = modelKeys.every(
+      (key) => newCompany[key] && newCompany[key].length > 1
+    );
+
+    if (isAllKeysPresent && hasAllValues && agree) return setDisabled(false);
+
+    setDisabled(true);
+  }, [agree, newCompany]);
 
   return (
     <div className="newCompany">
-      <FormBuilder model={model} onSubmit={(v) => setNewCompany(v)} />
+      <FormBuilder
+        emit={true}
+        model={model}
+        onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
+      />
       <div>
         <Checkbox
           selected={agree}

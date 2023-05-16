@@ -10,6 +10,7 @@ type Props = {
   model: Field[];
   onSubmit: (data: any) => void;
   loading?: boolean;
+  emit?: boolean | false;
   data?: any;
   buttonLabel?: string;
 };
@@ -19,15 +20,16 @@ export default function FormBuilder({
   loading,
   data,
   onSubmit,
+  emit = false,
   buttonLabel
 }: Props) {
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
     // TODO
-    // if (!buttonLabel) {
-    //   onSubmit(_data);
-    // }
+    if (emit) {
+      onSubmit(_data);
+    }
   }, [_data]);
 
   useEffect(() => {

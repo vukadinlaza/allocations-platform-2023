@@ -26,8 +26,7 @@ export default function KYC({ onUpdate }: { onUpdate: () => void }) {
         <h2 className="text-lg font-bold">Personal information</h2>
         <p className="text-sm">
           Required by United Stated banking laws. This information is{' '}
-          <span className="text-primary-500">kept secure</span>. It will never
-          be used fo any purpose beyond executing your investment.
+          <span className="text-primary-500">kept secure</span>.
         </p>
       </header>
       <main>
