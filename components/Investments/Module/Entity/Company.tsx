@@ -2,10 +2,17 @@ import { countries } from '@/app/config';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
 import { useEffect, useState } from 'react';
 
-export default function NewCompany({ type }: { type: string }) {
+export default function NewCompany({
+  type,
+  onUpdate
+}: {
+  type: string;
+  onUpdate: () => void;
+}) {
   const [newCompany, setNewCompany] = useState<any>({
     type
   });
@@ -65,6 +72,27 @@ export default function NewCompany({ type }: { type: string }) {
     }
   ];
 
+  const { supabase } = useSupabase();
+
+  const saveNewEntity = async () => {
+    if (!newCompany.name) return alert('Please enter a name');
+    try {
+      setLoading(true);
+      const { data } = await supabase
+        .from('users_investment_entities')
+        .insert({ ...newCompany, type })
+        .select();
+
+      if (data) {
+        onUpdate();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     console.log(newCompany);
     if (!newCompany) return;
@@ -101,7 +129,7 @@ export default function NewCompany({ type }: { type: string }) {
           disabled={disabled}
           loading={loading}
           label="Save investment entity"
-          onClick={() => {}}
+          onClick={saveNewEntity}
         />
       </div>
     </div>

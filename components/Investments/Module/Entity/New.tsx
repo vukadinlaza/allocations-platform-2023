@@ -38,7 +38,9 @@ export default function NewUserInvestmentsEntity({
         />
       </div>
       {type === 'Myself/Individual' && <NewIndividual onUpdate={onUpdate} />}
-      {type === 'LLC' && <NewCompany type={type} />}
+      {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
+      {type === 'Corporation' && <NewCompany type={type} onUpdate={onUpdate} />}
+      {type === 'Partnership' && <NewCompany type={type} onUpdate={onUpdate} />}
     </div>
   );
 }

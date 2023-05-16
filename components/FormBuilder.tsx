@@ -24,9 +24,10 @@ export default function FormBuilder({
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
-    if (!buttonLabel) {
-      onSubmit(_data);
-    }
+    // TODO
+    // if (!buttonLabel) {
+    //   onSubmit(_data);
+    // }
   }, [_data]);
 
   useEffect(() => {

@@ -120,10 +120,8 @@ export default function Login() {
             Discover What's New in Allocations 2.0
           </h2>
           <p className="text-base text-white lg:text-lg">
-            With Allocations v2.0, users can expect a more streamlined and
-            intuitive experience. We have added a range of exciting nex features
-            that will help users to manage their investments with greater ease
-            and efficiency.
+            With Allocations v2.0, users can expect a more stable platform and
+            intuitive experience.
           </p>
         </div>
       </div>
