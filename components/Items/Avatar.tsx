@@ -1,21 +1,29 @@
-import { getFirstLetter } from '@/components/Avatar';
+import { getFirstLetter } from '@/lib/utils';
 import { Avatar } from '@mui/material';
 
-export default function AvatarItem({ item }: { item: string | null }) {
+export default function AvatarItem({
+  item,
+  showAdress = true,
+  size = 32
+}: {
+  item: string | undefined | null;
+  showAdress?: boolean;
+  size?: number;
+}) {
   return (
     <div className="flex items-center gap-2">
       <Avatar
-        className="mr-2 cursor-pointer"
+        className={`${showAdress ? 'mr-2' : ''} cursor-pointer`}
         sx={{
-          width: 32,
-          height: 32,
+          width: size,
+          height: size,
           backgroundColor: '#3db278',
           textTransform: 'capitalize'
         }}
       >
         {getFirstLetter(item)}
       </Avatar>
-      <div className="grow">{item && <p>{item}</p>}</div>
+      {showAdress && <div className="grow">{item && <p>{item}</p>}</div>}
     </div>
   );
 }

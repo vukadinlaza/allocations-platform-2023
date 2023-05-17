@@ -79,6 +79,17 @@ export default function SupabaseProvider({
     return await supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
+  const updateUser = async (email: string | undefined, newUser: any) => {
+    if (!email && !newUser) return;
+
+    const { data } = await supabase
+      .from('users')
+      .upsert(newUser, { onConflict: 'id' })
+      .select();
+
+    return data || null;
+  };
+
   return (
     <Context.Provider
       value={{
@@ -87,7 +98,8 @@ export default function SupabaseProvider({
         fetchOrganizations,
         fetchEntities,
         fetchDeals,
-        fetchInvestments
+        fetchInvestments,
+        updateUser
       }}
     >
       <>{children}</>

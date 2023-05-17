@@ -30,7 +30,7 @@ type Props = {
 export default function TableComponent({
   headers,
   type,
-  data,
+  data = [],
   model,
   table
 }: Props) {
@@ -40,6 +40,14 @@ export default function TableComponent({
     const no_info = null;
     if (!item || !column || !column.key) {
       return no_info;
+    }
+    if (column.key === 'address') {
+      if (item.address_line_1 || item.address_line_2) {
+        return `${item.address_line_1}${
+          item.address_line_2 ? ' ' + item.address_line_2 : ''
+        }`;
+      }
+      return item[column.key];
     }
     if (
       column.key === 'subscription_amount' ||
@@ -70,9 +78,11 @@ export default function TableComponent({
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 
+  console.log(data);
+
   return (
     <div className="w-full">
-      {data.length < 1 && <None text="There is no data yet." />}
+      {!data.length && <None text="There is no data yet." />}
       {data && data.length > 0 && (
         <TableContainer sx={{ maxHeight: 700 }} component={Paper}>
           <Table style={{ tableLayout: 'fixed' }} stickyHeader>

@@ -297,47 +297,7 @@ export const headers_tables = {
       key: 'ein'
     }
   ],
-  investments: [
-    {
-      label: 'Deal name',
-      key: 'deal_name'
-    },
-    {
-      label: 'Investment amount',
-      key: 'subscription_amount'
-    },
-    {
-      label: 'Deal status',
-      key: 'status'
-    },
-    {
-      label: '',
-      key: 'manage'
-    },
-    {
-      label: '',
-      key: 'edit'
-    }
-  ],
-  organizations: [
-    {
-      label: 'Name',
-      key: 'name'
-    },
-    {
-      label: 'Status',
-      key: 'status'
-    },
-    {
-      label: 'Total deals',
-      key: 'total_raised_amount'
-    },
-    {
-      label: '',
-      key: 'edit'
-    }
-  ],
-  spvs: [
+  funds: [
     {
       label: 'Name',
       key: 'name'
@@ -360,7 +320,107 @@ export const headers_tables = {
       manage: true
     }
   ],
-  funds: [
+  investments: [
+    {
+      label: 'Deal name',
+      key: 'deal_name'
+    },
+    {
+      label: 'Investment amount',
+      key: 'subscription_amount'
+    },
+    {
+      label: 'Deal status',
+      key: 'status'
+    },
+    {
+      label: '',
+      key: 'manage'
+    },
+    {
+      label: '',
+      key: 'edit'
+    }
+  ],
+  investments_entities: [
+    {
+      label: 'Name',
+      key: 'name'
+    },
+    {
+      label: 'Type',
+      key: 'type'
+    },
+    {
+      label: 'Address',
+      key: 'address'
+    },
+    {
+      label: 'State',
+      key: 'state'
+    },
+    {
+      label: 'Country',
+      key: 'country'
+    },
+    {
+      label: 'Phone',
+      key: 'phone'
+    },
+    {
+      label: 'Tax ID',
+      key: 'tax_id'
+    }
+  ],
+  organizations: [
+    {
+      label: 'Name',
+      key: 'name'
+    },
+    {
+      label: 'Status',
+      key: 'status'
+    },
+    {
+      label: 'Total deals',
+      key: 'total_raised_amount'
+    },
+    {
+      label: '',
+      key: 'edit'
+    }
+  ],
+  personal_identities: [
+    {
+      label: 'Legal name',
+      key: 'legal_name'
+    },
+    {
+      label: 'Address',
+      key: 'address'
+    },
+    {
+      label: 'City',
+      key: 'city'
+    },
+    {
+      label: 'State',
+      key: 'state'
+    },
+    {
+      label: 'Country',
+      key: 'country'
+    },
+    {
+      label: 'Phone',
+      key: 'phone_number'
+    },
+    {
+      label: 'Tax ID',
+      key: 'tax_id'
+    }
+  ],
+  spvs: [
     {
       label: 'Name',
       key: 'name'

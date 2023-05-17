@@ -12,5 +12,6 @@ export interface Entity {
   tax_status?: string;
   return_id?: string;
   is_migration?: boolean;
+  type?: string;
   deals?: Deal[] | null;
 }

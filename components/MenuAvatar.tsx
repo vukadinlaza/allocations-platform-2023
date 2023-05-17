@@ -3,16 +3,12 @@ import { Avatar, MenuItem, MenuList } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuthContext } from '../app/context';
+import { getFirstLetter } from '@/lib/utils';
 
 interface MenuItem {
   title: string;
   action: Function;
 }
-
-export const getFirstLetter = (email: string | null) => {
-  if (!email) return 'A';
-  return email[0];
-};
 
 export default function AvatarComponent() {
   const { user, signOut } = useAuthContext();
@@ -21,15 +17,21 @@ export default function AvatarComponent() {
 
   const menu: MenuItem[] = [
     {
-      title: 'Logout',
-      action: async () => {
-        await signOut();
+      title: 'My profile',
+      action: () => {
+        router.push('/profile');
       }
     },
     {
       title: 'My Identities',
       action: () => {
         router.push('/identities');
+      }
+    },
+    {
+      title: 'Logout',
+      action: async () => {
+        await signOut();
       }
     }
   ];

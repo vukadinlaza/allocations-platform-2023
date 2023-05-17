@@ -56,6 +56,9 @@ export default function PageList({
     if (original.includes('hydrated_')) {
       return original.replace('hydrated_', '').trim();
     }
+    if (original.includes('limited_')) {
+      return original.replace('limited_', '').trim();
+    }
     return original;
   };
 
@@ -84,7 +87,7 @@ export default function PageList({
           setInitialData(_data.map((d: any) => d[target]));
           return;
         }
-        console.log(_data)
+        console.log(_data);
         setInitialData(_data);
       }
     } catch (err) {

@@ -18,3 +18,15 @@ export interface UserInvestmentEntity {
   user_email: string;
   value: null | string;
 }
+
+export interface User {
+  id?: string | undefined;
+  created_at?: string;
+  updated_at?: string;
+  mongo_id?: string | undefined;
+  email: string | undefined;
+  first_name?: string | undefined;
+  investor_type?: string | undefined;
+  last_name?: string | undefined;
+  is_super_admin?: boolean;
+}

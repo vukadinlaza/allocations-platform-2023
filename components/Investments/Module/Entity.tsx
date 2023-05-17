@@ -1,5 +1,5 @@
-import { getFirstLetter } from '@/components/Avatar';
 import Checkbox from '@/components/Checkbox';
+import { getFirstLetter } from '@/lib/utils';
 import { UserInvestmentEntity } from '@/types';
 import { Avatar } from '@mui/material';
 import Image from 'next/image';

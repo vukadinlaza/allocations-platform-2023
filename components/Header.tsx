@@ -7,9 +7,9 @@ import { Chip } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import AvatarComponent from './Avatar';
 import Feedback from './Feedback';
 import Logo from './Logo';
+import MenuAvatar from './MenuAvatar';
 import MissingData from './MissingData';
 
 export default function Header({
@@ -57,7 +57,7 @@ export default function Header({
                       displayLabel={(o: any) => o.name}
                     />
                   </div> */}
-                  <AvatarComponent />
+                  <MenuAvatar />
                 </div>
               )}
             </div>
