@@ -1,28 +1,28 @@
 'use client';
 
+import Button from '@/components/Button';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
 import { Deal } from '@/types';
+import Image from 'next/image';
 import { useState } from 'react';
 import Nav from '../Nav';
 import None from '../None';
 import Price from '../Price';
 import DealAdminBanking from './Admin/Banking';
 import DealAdminDocuments from './Admin/Documents';
+import DealEdit from './Admin/Edit';
 import DealAdminInvestors from './Admin/Investors';
-import DealAdminOnboarding from './Admin/Onboarding';
-import DealAdminProgress from './Admin/Progress';
 import Client from './Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
   const [active, setActive] = useState('View page');
   const items = [
-    { key: 'Progress' },
-    { key: 'Investors onboarding status' },
+    { key: 'Edit deal' },
+    { key: 'View page' },
     { key: 'Investors' },
     { key: 'Banking' },
-    { key: 'Documents' },
-    { key: 'View page' }
+    { key: 'Documents' }
   ];
   const getProgress = () => {
     if (!deal) return;
@@ -36,7 +36,24 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
       {!deal && <None text="No deal found." />}
       {deal && (
         <div>
-          <ItemsHeader data={deal} />
+          <div className="flex items-start justify-between">
+            <ItemsHeader data={deal} />
+            <Button
+              loading={false}
+              disabled={false}
+              label={'Invite'}
+              onClick={() => {}}
+              icon={
+                <Image
+                  src={'/invite.svg'}
+                  alt="invite"
+                  className="opacity-50 invert"
+                  width={20}
+                  height={20}
+                />
+              }
+            />
+          </div>
           <Progress
             value={getProgress()}
             footer={
@@ -70,10 +87,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             />
           </div>
           <div>
-            {active === 'Progress' && <DealAdminProgress deal={deal} />}
-            {active === 'Investors onboarding status' && (
-              <DealAdminOnboarding deal={deal} />
-            )}
+            {active === 'Edit deal' && <DealEdit deal={deal} />}
             {active === 'Investors' && <DealAdminInvestors deal={deal} />}
             {active === 'Banking' && <DealAdminBanking deal={deal} />}
             {active === 'Documents' && <DealAdminDocuments deal={deal} />}

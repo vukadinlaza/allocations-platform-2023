@@ -1,9 +1,9 @@
 'use client';
+import Button from '@/components/Button';
 import InvestmentCard from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
 import { Deal } from '@/types';
 import Image from 'next/image';
-import Button from '../Button';
 
 export default function DealClient({
   deal,
@@ -17,19 +17,19 @@ export default function DealClient({
       <div className="col-span-4">
         <header className="flex items-start justify-between mb-8">
           <ItemsHeader data={deal} />
-          <div>
+          <div className="flex items-center gap-4">
             <Button
               loading={false}
               disabled={false}
-              label={'Open pitch deck'}
+              label={'Copy link'}
               onClick={() => {}}
               icon={
                 <Image
-                  src={'/pitch.svg'}
-                  alt="pitch"
+                  src={'/copy.svg'}
+                  alt="copy"
                   className="opacity-50 invert"
-                  width={24}
-                  height={24}
+                  width={20}
+                  height={20}
                 />
               }
             />
@@ -37,9 +37,9 @@ export default function DealClient({
         </header>
         <main className="deal--main">
           <div>
-            <h1 className="mb-8 text-2xl">Description</h1>
+            <h1 className="mb-8 text-2xl">Pitch deck</h1>
             <div className="deal--description">
-              {!deal.description && <p>No description.</p>}
+              {!deal.description && <p>No pitch deck.</p>}
               {deal.description && (
                 <p dangerouslySetInnerHTML={{ __html: deal.description }} />
               )}

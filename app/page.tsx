@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   const items = [
     {
-      title: 'Total assets',
+      title: 'Total raised',
       key: 'total_assets',
       value: 100000,
       type: 'price'
