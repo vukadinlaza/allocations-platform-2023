@@ -1,6 +1,7 @@
 'use client';
 import PageList from '@/components/Page/List';
 import { Field } from '@/types';
+import { Card } from '@mui/material';
 import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
 
@@ -34,7 +35,7 @@ export default function Funds() {
   };
 
   return (
-    <div>
+    <Card className="card" variant="outlined">
       <PageList
         dialog={dialog}
         header={header}
@@ -45,6 +46,6 @@ export default function Funds() {
         table="limited_deals"
         type="fund"
       />
-    </div>
+    </Card>
   );
 }

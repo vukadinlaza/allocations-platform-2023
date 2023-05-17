@@ -3,7 +3,7 @@ import { useAuthContext } from '@/app/context';
 import LoadingPageList from '@/components/Loading/Page';
 import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Alert, Card, Dialog, Grid, Slide } from '@mui/material';
+import { Alert, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
 import FormsNew from '../Forms/New';
@@ -19,8 +19,9 @@ const Transition = React.forwardRef(function Transition(
 
 type Props = {
   dialog?: any;
-  header: any;
+  header?: any;
   headersTable?: any;
+  hideHeader?: boolean;
   isMigration?: boolean;
   model?: any;
   query?: string;
@@ -34,6 +35,7 @@ export default function PageList({
   dialog,
   header,
   headersTable,
+  hideHeader = false,
   isMigration,
   model,
   query,
@@ -120,6 +122,7 @@ export default function PageList({
   }, [search]);
 
   useEffect(() => {
+    setInitialData([]);
     fetchData();
     const organizationsRoles = supabase
       .channel('organizations_roles_subscribers')
@@ -160,10 +163,10 @@ export default function PageList({
         }
       )
       .subscribe();
-  }, []);
+  }, [table, type]);
 
   return (
-    <Card className="card" variant="outlined">
+    <div className="w-full">
       {loading && <LoadingPageList />}
       {!loading && user && (
         <div className="w-full">
@@ -185,7 +188,7 @@ export default function PageList({
               )}
             </Dialog>
           )}
-          {header && (
+          {!hideHeader && header && (
             <header>
               <div>
                 <h1 className="mb-2">
@@ -261,6 +264,6 @@ export default function PageList({
           </Grid>
         </div>
       )}
-    </Card>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import PageList from '@/components/Page/List';
+import { Card } from '@mui/material';
 import { headers_tables } from '../config';
 
 export default function Migrations() {
@@ -37,7 +38,7 @@ export default function Migrations() {
   };
 
   return (
-    <div>
+    <Card className="card" variant="outlined">
       <PageList
         dialog={dialog}
         header={header}
@@ -48,6 +49,6 @@ export default function Migrations() {
         table="limited_deals"
         type="organization"
       />
-    </div>
+    </Card>
   );
 }

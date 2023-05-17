@@ -1,7 +1,7 @@
 'use client';
 import PageList from '@/components/Page/List';
 import { Field } from '@/types';
-import { true_false } from '@/types/values';
+import { Card } from '@mui/material';
 import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
 
@@ -13,9 +13,9 @@ export default function Investments() {
   };
 
   const model: Field[] | null = null;
-  
+
   return (
-    <div>
+    <Card className="card" variant="outlined">
       <PageList
         header={header}
         headersTable={headers_tables.investments}
@@ -24,6 +24,6 @@ export default function Investments() {
         table="hydrated_investments"
         type="investment"
       />
-    </div>
+    </Card>
   );
 }
