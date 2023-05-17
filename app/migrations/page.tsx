@@ -45,7 +45,7 @@ export default function Migrations() {
         model={model}
         query={`*`}
         isMigration={true}
-        table="deals"
+        table="limited_deals"
         type="organization"
       />
     </div>
