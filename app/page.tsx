@@ -37,19 +37,19 @@ export default function Dashboard() {
       const model = [
         {
           title: 'Total raised',
-          key: 't_investments_deals_user_email',
+          key: 'total_investments_raised',
           value: 0,
           type: 'price'
         },
         {
           title: 'Total deals',
-          key: 't_deals_user_email',
+          key: '',
           value: 0,
           type: 'number'
         },
         {
           title: 'Total investors',
-          key: 't_investors_per_deal',
+          key: '',
           value: 0,
           type: 'number'
         }
