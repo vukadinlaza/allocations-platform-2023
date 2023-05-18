@@ -89,7 +89,6 @@ export default function PageList({
           setInitialData(_data.map((d: any) => d[target]));
           return;
         }
-        console.log(_data);
         setInitialData(_data);
       }
     } catch (err) {

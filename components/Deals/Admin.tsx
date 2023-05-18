@@ -18,7 +18,6 @@ import Client from './Client';
 export default function DealAdmin({ deal }: { deal?: Deal }) {
   const [active, setActive] = useState('View page');
   const items = [
-    { key: 'Edit deal' },
     { key: 'View page' },
     { key: 'Investors' },
     { key: 'Banking' },

@@ -78,8 +78,6 @@ export default function TableComponent({
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 
-  console.log(data);
-
   return (
     <div className="w-full">
       {!data.length && <None text="There is no data yet." />}

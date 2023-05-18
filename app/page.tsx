@@ -6,13 +6,17 @@ import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
 import Nav from '@/components/Nav';
 import PageList from '@/components/Page/List';
+import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
 import { Card, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from './context';
 
 export default function Dashboard() {
+  const { supabase } = useSupabase();
+  const { user } = useAuthContext();
   const [active, setActive] = useState('SPVs');
+  const [items, setItems] = useState<any>([]);
   const [selectedTab, setSelectedTab] = useState<any>({
     headersTable: headers_tables.spvs,
     queryType: 'spv',
@@ -20,28 +24,6 @@ export default function Dashboard() {
     type: 'spv'
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const { user } = useAuthContext();
-
-  const items = [
-    {
-      title: 'Total raised',
-      key: 'total_assets',
-      value: 100000,
-      type: 'price'
-    },
-    {
-      title: 'Total private funds',
-      key: 'total_private_funds',
-      value: 100000,
-      type: 'number'
-    },
-    {
-      title: 'Total investors',
-      key: 'total_investors',
-      value: 100000,
-      type: 'number'
-    }
-  ];
 
   const tabs = [
     { key: 'SPVs' },
@@ -49,8 +31,42 @@ export default function Dashboard() {
     { key: 'Personal Investments' }
   ];
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const model = [
+        {
+          title: 'Total raised',
+          key: 't_investments_deals_user_email',
+          value: 0,
+          type: 'price'
+        },
+        {
+          title: 'Total deals',
+          key: 't_deals_user_email',
+          value: 0,
+          type: 'number'
+        },
+        {
+          title: 'Total investors',
+          key: 't_investors_per_deal',
+          value: 0,
+          type: 'number'
+        }
+      ];
+      for (const item of model) {
+        const { data: value, error } = await supabase.rpc(item.key);
+        item.value = value || 0;
+      }
+      setItems(model);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    console.log(active);
     if (active === 'SPVs') {
       return setSelectedTab({
         headersTable: headers_tables.spvs,
@@ -76,6 +92,10 @@ export default function Dashboard() {
     }
   }, [active]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Grid container className="home">
       {loading && (
@@ -94,9 +114,10 @@ export default function Dashboard() {
           </header>
           <Card className="w-full card" variant="outlined">
             <div className="flex items-start justify-start w-full gap-24">
-              {items.map((item, index) => (
-                <DataCard key={index} item={item} />
-              ))}
+              {items &&
+                items.map((item: any, index: number) => (
+                  <DataCard key={index} item={item} />
+                ))}
             </div>
           </Card>
           <Card className="w-full" variant="outlined">

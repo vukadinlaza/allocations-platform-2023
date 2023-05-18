@@ -38,7 +38,6 @@ export default function InvestmentSignature({
         .select();
 
       if (data) {
-        console.log(data);
         router.push('/investments');
       }
 
