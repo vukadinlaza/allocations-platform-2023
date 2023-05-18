@@ -1,10 +1,11 @@
 'use client';
+import SupabaseProvider from '@/lib/supabase-provider';
 import { ThemeProvider } from '@mui/material';
+import Script from 'next/script';
 import React from 'react';
 import { AuthContextProvider } from './context';
 import './globals.scss';
 import { lightTheme } from './theme/theme';
-import SupabaseProvider from '@/lib/supabase-provider';
 
 export default function RootLayout({
   children
@@ -20,7 +21,7 @@ export default function RootLayout({
           </SupabaseProvider>
         </body>
       </ThemeProvider>
-      <script async src="https://tally.so/widgets/embed.js"></script>
+      <Script async src="https://tally.so/widgets/embed.js"></Script>
     </html>
   );
 }
