@@ -23,7 +23,7 @@ export const deal_types = ['spv', 'fund'];
 
 export const organizations_status = ['Processing', 'Complete'];
 
-export const investments_status = ['viewed', 'signed', 'wired'];
+export const investments_status = ['invited', 'signed', 'committed', 'completed'];
 
 export const entity_returns_status = ['complete', 'new'];
 

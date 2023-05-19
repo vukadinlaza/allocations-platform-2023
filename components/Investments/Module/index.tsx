@@ -1,3 +1,4 @@
+import KYC from '@/components/Identity/KYC';
 import LoadingModule from '@/components/Loading/Module';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -5,7 +6,6 @@ import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
 import InvestmentsAccreditation from './Accreditation';
 import InvestmentsEntity from './Entity';
-import InvestmentsKYC from './KYC';
 import InvestmentsSign from './Sign';
 
 export default function InvestmentsModule({
@@ -67,7 +67,7 @@ export default function InvestmentsModule({
             <div>
               {currentUser.users_personal_identities.length < 1 && (
                 <div className="p-6 border-t">
-                  <InvestmentsKYC onUpdate={checkPermissions} />
+                  <KYC onUpdate={checkPermissions} />
                 </div>
               )}
               {currentUser.users_personal_identities.length > 0 &&

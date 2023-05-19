@@ -1,8 +1,10 @@
 'use client';
 import AvatarItem from '@/components/Items/Avatar';
+import PageList from '@/components/Page/List';
 import { getFullName } from '@/lib/utils';
 import { Card } from '@mui/material';
 import { useState } from 'react';
+import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
 
 export default function Profile() {
@@ -10,14 +12,47 @@ export default function Profile() {
   const [loading, setLoading] = useState<boolean>(true);
   const [edit, setEdit] = useState<boolean>(false);
 
-  const users_investment_entities_header = {
-    name: 'Investments entities',
-    description: 'Manage your investments entities.'
-  };
-  const users_personal_identities_header = {
-    name: 'Personal identities',
-    description: 'Manage your personal identities.'
-  };
+  const cards = [
+    {
+      header: {
+        name: 'Investments entities',
+        description: 'Manage your investments entities.',
+        buttons: {
+          users_entity: {
+            disabled: false
+          }
+        }
+      },
+      table: {
+        element: 'investment entity',
+        headers: headers_tables.investments_entities,
+        origin: 'users_investment_entities',
+        target: 'users_investment_entities',
+        query: '*'
+      }
+    },
+    {
+      header: {
+        name: 'Personal identities',
+        description: 'Manage your personal identities.',
+        buttons:
+          user && !user.users_personal_identities
+            ? {
+                verify: {
+                  disabled: false,
+                  label: 'Verify my identity'
+                }
+              }
+            : null
+      },
+      table: {
+        element: 'personal entity',
+        headers: headers_tables.personal_identities,
+        origin: 'users_personal_identities',
+        query: '*'
+      }
+    }
+  ];
 
   return (
     <div className="container">
@@ -38,45 +73,32 @@ export default function Profile() {
               </div>
             )}
             {/* {edit && <UserEdit user={user} onUpdate={setEdit(!edit)} />}
-          {!edit && (
-            <div className="absolute top-0 right-0">
-              <Button
-                icon={
-                  <Image
-                    src="/pen.svg"
-                    alt={'Edit'}
-                    className="ml-auto opacity-25 cursor-pointer text-gray"
-                    width={16}
-                    height={16}
-                  />
-                }
-                color="info"
-                onClick={() => setEdit(!edit)}
-                label={'Edit'}
-              ></Button>
-            </div>
-          )} */}
+            {!edit && (
+              <div className="absolute top-0 right-0">
+                <Button
+                  icon={
+                    <Image
+                      src="/pen.svg"
+                      alt={'Edit'}
+                      className="ml-auto opacity-25 cursor-pointer text-gray"
+                      width={16}
+                      height={16}
+                    />
+                  }
+                  color="info"
+                  onClick={() => setEdit(!edit)}
+                  label={'Edit'}
+                ></Button>
+              </div>
+            )} */}
           </header>
         )}
       </Card>
-      {/* <Card className="card" variant="outlined">
-        <PageList
-          header={users_investment_entities_header}
-          headersTable={headers_tables.investments_entities}
-          query={`*`}
-          model={null}
-          table="users_investment_entities"
-        />
-      </Card>
-      <Card className="card" variant="outlined">
-        <PageList
-          header={users_personal_identities_header}
-          headersTable={headers_tables.personal_identities}
-          query={`*`}
-          model={null}
-          table="users_personal_identities"
-        />
-      </Card> */}
+      {cards.map((data, index) => (
+        <Card key={index} className="card" variant="outlined">
+          <PageList data={data} />
+        </Card>
+      ))}
     </div>
   );
 }

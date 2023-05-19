@@ -1,5 +1,7 @@
 'use client';
 import { useAuthContext } from '@/app/context';
+import KYC from '@/components/Identity/KYC';
+import NewUserEntity from '@/components/Investments/Module/Entity/New';
 import LoadingPageList from '@/components/Loading/Page';
 import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -116,6 +118,7 @@ export default function PageList({ data }: { data: any }) {
     setInitialData([]);
     if (table) {
       fetchData();
+      console.log(getTable());
       const organizationsRoles = supabase
         .channel('organizations_roles_subscribers')
         .on(
@@ -129,6 +132,7 @@ export default function PageList({ data }: { data: any }) {
           (payload: any) => {
             const { eventType } = payload;
             const newElement: any = payload.new;
+            console.log(newElement);
             if (eventType === 'INSERT') {
               setInitialData((prevData: any) => [...prevData, newElement]);
             }
@@ -165,7 +169,7 @@ export default function PageList({ data }: { data: any }) {
         <div className="w-full">
           {header && table && (
             <div>
-              {header.buttons && header.buttons.new && (
+              {header.buttons && (
                 <Dialog
                   open={openModal}
                   TransitionComponent={Transition}
@@ -185,10 +189,21 @@ export default function PageList({ data }: { data: any }) {
                       />
                     </header>
                     <div className="p-6">
-                      <NewForm
-                        onCreate={() => setOpenModal(false)}
-                        type={table.target}
-                      />
+                      {header.buttons.new && (
+                        <NewForm
+                          onCreate={() => setOpenModal(false)}
+                          type={table.target}
+                        />
+                      )}
+                      {header.buttons.verify && (
+                        <KYC onUpdate={() => setOpenModal(false)} />
+                      )}
+                      {header.buttons.users_entity && (
+                        <NewUserEntity
+                          hideHeader={true}
+                          onUpdate={() => setOpenModal(false)}
+                        />
+                      )}
                     </div>
                   </Card>
                 </Dialog>
@@ -209,7 +224,7 @@ export default function PageList({ data }: { data: any }) {
                   {header.buttons &&
                     Object.values(header.buttons).map((button: any) => (
                       <Button
-                        label="Create new"
+                        label={button.label || 'Create new'}
                         onClick={() => {
                           setOpenModal(true);
                         }}

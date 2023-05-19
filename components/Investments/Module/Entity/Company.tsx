@@ -124,7 +124,7 @@ export default function NewCompany({
         <Checkbox
           selected={agree}
           onChange={() => setAgree(!agree)}
-          label={`I, X, am an authorized signatory for this entity.`}
+          label={`I am an authorized signatory for this entity.`}
         />
       </div>
       <ul className="my-6 text-xs text-gray-600 list-disc list-inside">

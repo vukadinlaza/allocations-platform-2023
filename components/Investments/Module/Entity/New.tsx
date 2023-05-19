@@ -7,8 +7,10 @@ import NewIndividual from './Individual';
 import NewTrust from './Trust';
 
 export default function NewUserInvestmentEntity({
-  onUpdate
+  onUpdate,
+  hideHeader = false
 }: {
+  hideHeader: boolean;
   onUpdate: () => any;
 }) {
   const [type, setType] = useState<string>('Myself/Individual');
@@ -16,8 +18,12 @@ export default function NewUserInvestmentEntity({
   return (
     <div className="w-full mb-6">
       <div className="grid grid-cols-1 gap-4 pb-4">
-        <h2>Create a new investment entity</h2>
-        <p>Type of entity:</p>
+        {!hideHeader && (
+          <header>
+            <h2>Create a new investment entity</h2>
+            <p>Type of entity:</p>
+          </header>
+        )}
         <Select
           items={users_investiment_entities_types}
           selected={type}

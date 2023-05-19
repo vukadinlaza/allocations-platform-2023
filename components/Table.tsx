@@ -25,8 +25,6 @@ type Props = {
 
 export default function TableComponent({ headers, data = [], table }: Props) {
   const generateCell = (item: any, column: any) => {
-    console.log(item);
-    console.log(column);
     const no_info = null;
     if (!item || !column || !column.key) {
       return no_info;

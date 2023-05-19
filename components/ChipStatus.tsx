@@ -11,11 +11,11 @@ export default function ChipStatus({
     closed: 'bg-green-500',
     processing: 'bg-amber-400',
     build: 'bg-yellow-500',
-    'post-build': 'bg-orange-500',
-    'pre-onboarding': 'bg-amber-400',
+    committed: 'bg-orange-500',
     onboarding: 'bg-amber-400',
     signed: 'bg-amber-400',
     complete: 'bg-green-500',
+    completed: 'bg-green-500',
     null: 'bg-zinc-400',
     wired: 'bg-green-500',
     crypto: 'bg-primary-500'

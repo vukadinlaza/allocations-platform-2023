@@ -9,7 +9,7 @@ type Props = {
   onCreate: () => void;
 };
 
-export default function FormsNew({ type, onCreate }: Props) {
+export default function NewForm({ type, onCreate }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
   const [newElement, setNewElement] = useState<any>(null);
