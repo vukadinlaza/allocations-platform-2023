@@ -25,6 +25,8 @@ type Props = {
 
 export default function TableComponent({ headers, data = [], table }: Props) {
   const generateCell = (item: any, column: any) => {
+    console.log(item);
+    console.log(column);
     const no_info = null;
     if (!item || !column || !column.key) {
       return no_info;
@@ -49,26 +51,6 @@ export default function TableComponent({ headers, data = [], table }: Props) {
     if (column.type === 'price') return <Price price={item[column.key]} />;
     if (column.type === 'string' || column.type === 'number')
       return <span>{item[column.key] ? item[column.key] : no_info}</span>;
-    // if (
-    //   column.key === 'subscription_amount' ||
-    //   column.key === 'capital_wired_amount' ||
-    //   column.key === 'total_raised_amount'
-    // ) {
-    //   if (!item[column.key]) return `$0`;
-    //   return <Price price={item[column.key]} />;
-    // }
-    // if (
-    //   column.key === 'status' ||
-    //   column.key === 'tax_status' ||
-    //   column.key === 'deal_status'
-    // )
-    //   return <ChipStatus status={item[column.key]} />;
-    // if (
-    //   column.key === 'sign_deadline' ||
-    //   column.key === 'created_at' ||
-    //   column.key === 'started_at'
-    // )
-    //   return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 

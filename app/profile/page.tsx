@@ -1,11 +1,9 @@
 'use client';
-import { headers_tables } from '@/app/config';
 import AvatarItem from '@/components/Items/Avatar';
-import PageList from '@/components/Page/List';
+import { getFullName } from '@/lib/utils';
 import { Card } from '@mui/material';
 import { useState } from 'react';
 import { useAuthContext } from '../context';
-import { getFullName } from '@/lib/utils';
 
 export default function Profile() {
   const { user } = useAuthContext();
@@ -61,7 +59,7 @@ export default function Profile() {
           </header>
         )}
       </Card>
-      <Card className="card" variant="outlined">
+      {/* <Card className="card" variant="outlined">
         <PageList
           header={users_investment_entities_header}
           headersTable={headers_tables.investments_entities}
@@ -78,7 +76,7 @@ export default function Profile() {
           model={null}
           table="users_personal_identities"
         />
-      </Card>
+      </Card> */}
     </div>
   );
 }

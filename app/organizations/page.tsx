@@ -72,7 +72,8 @@ export default function Funds() {
       headers: headers_tables.organizations,
       origin: 'organizations_roles',
       query: '*, organizations (*)',
-      target: 'organizations'
+      target: 'organizations',
+      to_display: 'organizations'
     }
   };
 

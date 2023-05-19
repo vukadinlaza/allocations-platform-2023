@@ -46,7 +46,7 @@ export default function PageList({ data }: { data: any }) {
 
   const fetchData = async () => {
     if (!table) return;
-    const { origin, query, query_type, target } = table;
+    const { origin, query, query_type, is_migration } = table;
     if (!user || !origin) return;
     try {
       setLoading(true);
@@ -58,6 +58,10 @@ export default function PageList({ data }: { data: any }) {
 
       if (query_type) {
         request = request.eq('type', query_type);
+      }
+
+      if (is_migration) {
+        request = request.eq('is_migration', true);
       }
 
       // if (isMigration) {
@@ -73,7 +77,11 @@ export default function PageList({ data }: { data: any }) {
           // @ts-ignore
           return dateB - dateA;
         });
-        setInitialData(target ? sorted : sorted.map((d: any) => d[target]));
+        setInitialData(
+          table.to_display
+            ? sorted.map((d: any) => d[table.to_display])
+            : sorted
+        );
       }
     } catch (err) {
       console.log(err);

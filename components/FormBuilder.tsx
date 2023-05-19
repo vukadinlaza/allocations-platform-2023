@@ -59,6 +59,7 @@ export default function FormBuilder({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
                             ...prevData,
+                            // @ts-ignore
                             [field.key]: e.target.value
                           }))
                         }
@@ -72,6 +73,7 @@ export default function FormBuilder({
                         onChange={(e) => {
                           setData((prevData: any) => ({
                             ...prevData,
+                            // @ts-ignore
                             [field.key]: e
                           }));
                         }}
@@ -88,6 +90,7 @@ export default function FormBuilder({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
                             ...prevData,
+                            // @ts-ignore
                             [field.key]: e.target.value
                           }))
                         }
@@ -109,15 +112,17 @@ export default function FormBuilder({
                           if (!isNaN(numericValue)) {
                             setData((prevData: any) => ({
                               ...prevData,
+                              // @ts-ignore
                               [field.key]: numericValue
                             }));
                           }
                         }}
                       />
                     )}
-                    {field.copy && (
+                    {/* {field.copy && (
+                      // @ts-ignore
                       <CopyToClipboard toCopy={_data[field.key]} />
-                    )}
+                    )} */}
                   </div>
                 </Grid>
               );

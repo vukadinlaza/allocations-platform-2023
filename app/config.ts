@@ -293,11 +293,13 @@ export const headers_tables = {
     },
     {
       label: 'Tax status',
-      key: 'tax_status'
+      key: 'tax_status',
+      type: 'chip'
     },
     {
       label: 'Updated date',
-      key: 'created_at'
+      key: 'created_at',
+      type: 'date'
     },
     {
       label: 'EIN',
@@ -307,46 +309,39 @@ export const headers_tables = {
   funds: [
     {
       label: 'Name',
-      key: 'name'
+      key: 'name',
+      type: 'string'
     },
     {
       label: 'Total raised',
-      key: 'total_raised_amount'
+      key: 'total_raised_amount',
+      type: 'price'
     },
     {
       label: 'Status',
-      key: 'status'
-    },
-    {
-      label: 'Entity name',
-      key: 'entity_name' // just for migration
+      key: 'status',
+      type: 'chip'
     },
     {
       label: '',
-      key: 'edit',
       manage: true
     }
   ],
   investments: [
     {
       label: 'Deal name',
-      key: 'deal_name'
+      key: 'deal_name',
+      type: 'string'
     },
     {
       label: 'Investment amount',
-      key: 'subscription_amount'
+      key: 'subscription_amount',
+      type: 'price'
     },
     {
       label: 'Deal status',
-      key: 'status'
-    },
-    {
-      label: '',
-      key: 'manage'
-    },
-    {
-      label: '',
-      key: 'edit'
+      key: 'status',
+      type: 'chip'
     }
   ],
   investments_entities: [
@@ -379,6 +374,18 @@ export const headers_tables = {
       key: 'tax_id'
     }
   ],
+  migrations: [
+    {
+      label: 'Name',
+      key: 'name',
+      type: 'string'
+    },
+    {
+      label: 'Status',
+      key: 'status',
+      type: 'chip'
+    }
+  ],
   organizations: [
     {
       label: 'Name',
@@ -386,15 +393,13 @@ export const headers_tables = {
     },
     {
       label: 'Status',
-      key: 'status'
+      key: 'status',
+      type: 'chip'
     },
     {
       label: 'Total deals',
-      key: 'total_raised_amount'
-    },
-    {
-      label: '',
-      key: 'edit'
+      key: 'total_raised_amount',
+      type: 'price'
     }
   ],
   personal_identities: [
@@ -445,7 +450,7 @@ export const headers_tables = {
     },
     {
       label: 'Entity name',
-      key: 'entity_name', // just for migration
+      key: 'entity_name',
       type: 'string'
     },
     {
@@ -457,10 +462,9 @@ export const headers_tables = {
 
 export const navigation = [
   { name: 'Home', href: '/' },
-  // { name: 'Investments', href: '/investments' },
+  { name: 'Investments', href: '/investments' },
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
-  { name: 'Organizations', href: '/organizations' }
-  // { name: 'Migrations', href: '/migrations' }
-  // { name: 'AI (bêta)', href: '/ai' }
+  { name: 'Organizations', href: '/organizations' },
+  { name: 'Migrations', href: '/migrations' }
 ];

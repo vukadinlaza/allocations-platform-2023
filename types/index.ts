@@ -30,7 +30,9 @@ export interface PageListData {
     origin?: string;
     query?: string;
     query_type?: string;
+    is_migration?: boolean;
     target?: string;
+    to_display?: string;
     type?: string;
   };
 }
