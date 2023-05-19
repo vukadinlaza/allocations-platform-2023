@@ -8,8 +8,8 @@ import {
   TableRow
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import dayjs from 'dayjs';
 import ChipStatus from './ChipStatus';
+import DateComponent from './DateComponent';
 import None from './None';
 import Price from './Price';
 
@@ -41,7 +41,7 @@ export default function TableComponent({ headers, data = [], table }: Props) {
     }
     if (column.type === 'chip') return <ChipStatus status={item[column.key]} />;
     if (column.type === 'date')
-      return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
+      return <DateComponent date={item[column.key]} />;
     if (column.key === 'entities') {
       if (item[column.key] && column.sub_key) {
         return item.entities[column.sub_key];

@@ -2,7 +2,6 @@ import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import CopyToClipboard from './Copy';
 import None from './None';
 import Select from './Select';
 
@@ -119,10 +118,6 @@ export default function FormBuilder({
                         }}
                       />
                     )}
-                    {/* {field.copy && (
-                      // @ts-ignore
-                      <CopyToClipboard toCopy={_data[field.key]} />
-                    )} */}
                   </div>
                 </Grid>
               );

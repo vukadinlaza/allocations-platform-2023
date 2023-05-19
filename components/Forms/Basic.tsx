@@ -4,7 +4,6 @@ import { Field } from '@/types';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import ChipStatus from '../ChipStatus';
-import DangerZone from '../DangerZone';
 import FormBuilder from '../FormBuilder';
 
 type Props = {
@@ -107,9 +106,6 @@ export default function FormBasic({
               buttonLabel={'Save'}
             />
           </main>
-          {existing.name && (
-            <DangerZone toCheck={existing.name} onClick={() => {}} />
-          )}
         </div>
       )}
     </>
