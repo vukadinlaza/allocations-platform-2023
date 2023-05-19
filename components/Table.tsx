@@ -34,7 +34,6 @@ export default function TableComponent({
   model,
   table
 }: Props) {
-  const { setSlideOver } = useAuthContext();
 
   const generateCell = (item: any, column: any) => {
     const no_info = null;
@@ -120,26 +119,6 @@ export default function TableComponent({
                                 View
                               </button>
                             )}
-                            <div
-                              onClick={() => {
-                                if (type && item && model && data)
-                                  setSlideOver({
-                                    isOpen: true,
-                                    data: item,
-                                    type,
-                                    model,
-                                    table
-                                  });
-                              }}
-                            >
-                              <Image
-                                src="/pen.svg"
-                                alt={'Edit'}
-                                className="ml-auto opacity-25 cursor-pointer text-gray"
-                                width={24}
-                                height={24}
-                              />
-                            </div>
                           </TableCell>
                         ) : (
                           <TableCell size="medium" key={i}>

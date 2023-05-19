@@ -23,3 +23,21 @@ export type Field = {
   value?: any;
   copy?: boolean | false;
 };
+
+export interface PageListData {
+  header: {
+    name: string;
+    description: string;
+    buttons: any;
+  };
+  model: Field[];
+  table: {
+    element?: string;
+    headers?: any[];
+    origin?: string;
+    query?: string;
+    query_type?: string;
+    target?: string;
+    type?: string;
+  };
+}

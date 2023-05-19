@@ -247,12 +247,12 @@ export const countries = [
 ];
 
 export const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Investments', href: '/investments', showCount: true },
+  // { name: 'Home', href: '/' },
+  // { name: 'Investments', href: '/investments', showCount: true },
   { name: 'SPVs', href: '/spvs', showCount: true },
-  { name: 'Funds', href: '/funds', showCount: true },
-  { name: 'Organizations', href: '/organizations', showCount: true },
-  { name: 'Migrations', href: '/migrations', showCount: true }
+  { name: 'Funds', href: '/funds', showCount: true }
+  // { name: 'Organizations', href: '/organizations', showCount: true },
+  // { name: 'Migrations', href: '/migrations', showCount: true }
 ];
 
 export const headers_tables = {
