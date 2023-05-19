@@ -100,13 +100,13 @@ export default function NewCompany({
     const modelKeys = model.map((model) => model.key);
     const newCompanyKeys = Object.keys(newCompany);
 
-    const isAllKeysPresent = modelKeys.every((key) =>
-      newCompanyKeys.includes(key)
-    );
+    const isAllKeysPresent = modelKeys.every((key) => {
+      if (key) return newCompanyKeys.includes(key);
+    });
 
-    const hasAllValues = modelKeys.every(
-      (key) => newCompany[key] && newCompany[key].length > 1
-    );
+    const hasAllValues = modelKeys.every((key) => {
+      if (key) return newCompany[key] && newCompany[key].length > 1;
+    });
 
     if (isAllKeysPresent && hasAllValues && agree) return setDisabled(false);
 

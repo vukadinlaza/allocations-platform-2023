@@ -1,82 +1,68 @@
+import { form_models } from '@/app/config';
 import { useAuthContext } from '@/app/context';
 import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Field } from '@/types';
-import CloseIcon from '@mui/icons-material/Close';
-import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 type Props = {
-  element: string;
-  model?: Field[] | any;
-  table: string;
-  setOpenModal: any;
   type?: string;
+  onCreate: () => void;
 };
 
-export default function FormsNew({
-  element,
-  model,
-  table,
-  setOpenModal,
-  type
-}: Props) {
+export default function FormsNew({ type, onCreate }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
   const [newElement, setNewElement] = useState<any>(null);
+  const [formModel, setFormModel] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const createNew = async (form: any) => {
+    const { element, table } = formModel;
     if (!form && !table && !newElement) return;
     try {
       setLoading(true);
       const { data, error } = await supabase.from(table).insert(form);
+
+      setNewElement(null);
 
       if (error) {
         notify(`Sorry, could not create new ${element}.`, false);
         return;
       }
       notify('Successfully created !', true);
-      setNewElement(null);
+      onCreate();
     } catch (error) {
       console.log(error);
       notify(`Sorry, could not create new ${element}.`, false);
     } finally {
       setLoading(false);
-      setOpenModal(false);
     }
   };
 
+  // useEffect(() => {
+  //   if (formModel) {
+  //     let initialElement: any = {};
+  //     formModel.forEach((field: Field) => {
+  //       initialElement[formModel.key] = field.value ?? undefined;
+  //     });
+  //     if (type) initialElement = { ...initialElement, type };
+  //     setNewElement(initialElement);
+  //   }
+  // }, [formModel]);
+
   useEffect(() => {
-    if (model) {
-      let initialElement: any = {};
-      model.forEach((field: Field) => {
-        initialElement[field.key] = field.value ?? undefined;
-      });
-      if (type) initialElement = { ...initialElement, type };
-      setNewElement(initialElement);
-    }
-  }, [model]);
+    if (!type) return;
+    // @ts-ignore
+    if (form_models[type]) setFormModel(form_models[type]);
+  }, []);
 
   return (
-    <Card className="mb-0 overflow-auto card--popup" variant="outlined">
-      <header className="sticky">
-        {table && <h2>Create a new {element}</h2>}
-        <CloseIcon
-          fontSize="inherit"
-          className="text-2xl cursor-pointer text-gray"
-          onClick={() => setOpenModal(false)}
-        />
-      </header>
-      <main className="overflow-auto w-96">
-        <FormBuilder
-          data={newElement}
-          model={model}
-          loading={loading}
-          buttonLabel={'Create'}
-          onSubmit={(form: any) => createNew(form)}
-        />
-      </main>
-    </Card>
+    <FormBuilder
+      data={newElement}
+      model={formModel?.model}
+      loading={loading}
+      buttonLabel={'Create'}
+      onSubmit={(form: any) => createNew(form)}
+    />
   );
 }

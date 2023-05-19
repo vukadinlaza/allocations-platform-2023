@@ -129,14 +129,14 @@ export default function Dashboard() {
               />
             </div>
             <div className="card">
-              <PageList
+              {/* <PageList
                 hideHeader={true}
                 headersTable={selectedTab.headersTable}
                 query={`*`}
                 queryType={selectedTab.queryType}
                 table={selectedTab.table}
                 type={selectedTab.type}
-              />
+              /> */}
             </div>
           </Card>
         </div>

@@ -2,7 +2,6 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import { useSupabase } from '@/lib/supabase-provider';
 import { Chip } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +18,6 @@ export default function Header({
   expand: boolean;
   setExpand: any;
 }) {
-  const { supabase } = useSupabase();
   const pathname = usePathname();
   const { user, setCurrentOrganization } = useAuthContext();
 

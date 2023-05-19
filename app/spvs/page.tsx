@@ -1,51 +1,34 @@
 'use client';
 import PageList from '@/components/Page/List';
-import { Field } from '@/types';
+import { PageListData } from '@/types';
 import { Card } from '@mui/material';
 import { headers_tables } from '../config';
-import { useAuthContext } from '../context';
 
 export default function SPVS() {
-  const { user } = useAuthContext();
-
-  const header = {
-    name: 'SPVs',
-    description: 'Manage your spvs.',
-    buttons: [
-      {
-        title: 'Create new',
-        action: 'modal'
+  const data: PageListData = {
+    header: {
+      name: 'SPVs',
+      description: 'Manage your spvs.',
+      buttons: {
+        new: {
+          disabled: false
+        }
       }
-    ]
-  };
-
-  const model: Field[] = [
-    {
-      key: 'name',
-      label: 'Name',
-      type: 'string',
-      show: true
+    },
+    table: {
+      element: 'spv',
+      headers: headers_tables.spvs,
+      origin: 'limited_deals',
+      query: '*',
+      query_type: 'spv',
+      target: 'deals',
+      type: 'spv'
     }
-  ];
-
-  const dialog = {
-    element: 'SPV',
-    table: 'deals',
-    type: 'FormsNew'
   };
 
   return (
     <Card className="card" variant="outlined">
-      <PageList
-        dialog={dialog}
-        header={header}
-        headersTable={headers_tables.spvs}
-        model={model}
-        query={`*`}
-        queryType="spv"
-        table="limited_deals"
-        type="spv"
-      />
+      <PageList data={data} />
     </Card>
   );
 }

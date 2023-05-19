@@ -4,7 +4,6 @@ import AlertsMigration from '@/components/Alerts/Migration';
 import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
-import SlideOver from '@/components/SlideOver';
 import { useSupabase } from '@/lib/supabase-provider';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,7 +19,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(false);
   const [expand, setExpand] = useState(false);
-  const [slideOverData, setSlideOverData] = useState({});
 
   const signOut = async () => {
     try {
@@ -32,24 +30,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const setSlideOver = ({
-    isOpen,
-    data,
-    type,
-    model,
-    table
-  }: {
-    isOpen: boolean;
-    data: any;
-    type: string;
-    model: any;
-    table: string;
-  }) => {
-    if (!type && !data) return;
-    setOpen(isOpen);
-    setSlideOverData({ data, type, model, table });
   };
 
   const onAuthStateChange = async () => {
@@ -90,11 +70,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const value = useMemo(() => {
     return {
       user,
-      open,
       notify,
       setCurrentOrganization: (orgId: string) =>
         setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
-      setSlideOver,
       signOut
     };
   }, [user]);
@@ -121,11 +99,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
             )}
             {children}
           </div>
-          <SlideOver
-            open={open}
-            setOpen={setOpen}
-            slideOverData={slideOverData}
-          />
           <ToastContainer />
         </main>
       )}
@@ -134,19 +107,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const {
-    user,
-    open,
-    notify,
-    setSlideOver,
-    setCurrentOrganization,
-    signOut
-  }: any = useContext(AuthContext);
+  const { user, notify, setCurrentOrganization, signOut }: any =
+    useContext(AuthContext);
   return {
     user,
-    open,
     notify,
-    setSlideOver,
     setCurrentOrganization,
     signOut
   };
