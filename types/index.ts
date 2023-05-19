@@ -6,18 +6,12 @@ export * from './user';
 
 type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
 
-export interface TabData {
-  title: string;
-  component?: React.ComponentType;
-  disabled?: boolean;
-}
-
 export type Field = {
   disabled?: boolean | false;
   items?: any[] | null | undefined;
-  label: string;
+  label?: string;
   placeholder?: string;
-  key: string;
+  key?: string;
   show?: boolean | true;
   type: FieldType; // add more types as needed
   value?: any;
@@ -30,7 +24,6 @@ export interface PageListData {
     description: string;
     buttons: any;
   };
-  model: Field[];
   table: {
     element?: string;
     headers?: any[];

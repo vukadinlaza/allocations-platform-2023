@@ -246,39 +246,46 @@ export const countries = [
   'Zimbabwe'
 ];
 
-export const navigation = [
-  // { name: 'Home', href: '/' },
-  // { name: 'Investments', href: '/investments', showCount: true },
-  { name: 'SPVs', href: '/spvs', showCount: true },
-  { name: 'Funds', href: '/funds', showCount: true }
-  // { name: 'Organizations', href: '/organizations', showCount: true },
-  // { name: 'Migrations', href: '/migrations', showCount: true }
-];
+export const form_models = {
+  fund: {
+    element: 'fund',
+    table: 'deals',
+    model: [
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        show: true
+      }
+    ]
+  },
+  organizations: {
+    element: 'organization',
+    table: 'organizations',
+    model: [
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        show: true
+      }
+    ]
+  },
+  spv: {
+    element: 'spv',
+    table: 'deals',
+    model: [
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        show: true
+      }
+    ]
+  }
+};
 
 export const headers_tables = {
-  deals: [
-    {
-      label: 'Name',
-      key: 'name'
-    },
-    {
-      label: 'Entity name',
-      key: 'entity_name' // just for migration
-    },
-    {
-      label: 'Status',
-      key: 'status'
-    },
-    {
-      label: 'Total raised',
-      key: 'total_raised_amount'
-    },
-    {
-      label: 'EIN',
-      key: 'entities',
-      sub_key: 'ein'
-    }
-  ],
   entities: [
     {
       label: 'Name',
@@ -423,24 +430,37 @@ export const headers_tables = {
   spvs: [
     {
       label: 'Name',
-      key: 'name'
+      key: 'name',
+      type: 'string'
     },
     {
       label: 'Total raised',
-      key: 'total_raised_amount'
+      key: 'total_raised_amount',
+      type: 'price'
     },
     {
       label: 'Status',
-      key: 'status'
+      key: 'status',
+      type: 'chip'
     },
     {
       label: 'Entity name',
-      key: 'entity_name' // just for migration
+      key: 'entity_name', // just for migration
+      type: 'string'
     },
     {
       label: '',
-      key: 'edit',
       manage: true
     }
   ]
 };
+
+export const navigation = [
+  { name: 'Home', href: '/' },
+  // { name: 'Investments', href: '/investments' },
+  { name: 'SPVs', href: '/spvs' },
+  { name: 'Funds', href: '/funds' },
+  { name: 'Organizations', href: '/organizations' }
+  // { name: 'Migrations', href: '/migrations' }
+  // { name: 'AI (bêta)', href: '/ai' }
+];

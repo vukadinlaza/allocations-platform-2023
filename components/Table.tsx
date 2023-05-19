@@ -1,5 +1,4 @@
 'use client';
-import { useAuthContext } from '@/app/context';
 import {
   Table,
   TableBody,
@@ -10,7 +9,6 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
-import Image from 'next/image';
 import ChipStatus from './ChipStatus';
 import None from './None';
 import Price from './Price';
@@ -21,20 +19,11 @@ export const openURL = (url: string) => {
 
 type Props = {
   headers?: any;
-  type?: any;
   data?: any;
-  model?: any;
   table?: string;
 };
 
-export default function TableComponent({
-  headers,
-  type,
-  data = [],
-  model,
-  table
-}: Props) {
-
+export default function TableComponent({ headers, data = [], table }: Props) {
   const generateCell = (item: any, column: any) => {
     const no_info = null;
     if (!item || !column || !column.key) {
@@ -48,25 +37,8 @@ export default function TableComponent({
       }
       return item[column.key];
     }
-    if (
-      column.key === 'subscription_amount' ||
-      column.key === 'capital_wired_amount' ||
-      column.key === 'total_raised_amount'
-    ) {
-      if (!item[column.key]) return `$0`;
-      return <Price price={item[column.key]} />;
-    }
-    if (
-      column.key === 'status' ||
-      column.key === 'tax_status' ||
-      column.key === 'deal_status'
-    )
-      return <ChipStatus status={item[column.key]} />;
-    if (
-      column.key === 'sign_deadline' ||
-      column.key === 'created_at' ||
-      column.key === 'started_at'
-    )
+    if (column.type === 'chip') return <ChipStatus status={item[column.key]} />;
+    if (column.type === 'date')
       return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
     if (column.key === 'entities') {
       if (item[column.key] && column.sub_key) {
@@ -74,6 +46,29 @@ export default function TableComponent({
       }
       return item[column.key] ? item[column.key].length : 0;
     }
+    if (column.type === 'price') return <Price price={item[column.key]} />;
+    if (column.type === 'string' || column.type === 'number')
+      return <span>{item[column.key] ? item[column.key] : no_info}</span>;
+    // if (
+    //   column.key === 'subscription_amount' ||
+    //   column.key === 'capital_wired_amount' ||
+    //   column.key === 'total_raised_amount'
+    // ) {
+    //   if (!item[column.key]) return `$0`;
+    //   return <Price price={item[column.key]} />;
+    // }
+    // if (
+    //   column.key === 'status' ||
+    //   column.key === 'tax_status' ||
+    //   column.key === 'deal_status'
+    // )
+    //   return <ChipStatus status={item[column.key]} />;
+    // if (
+    //   column.key === 'sign_deadline' ||
+    //   column.key === 'created_at' ||
+    //   column.key === 'started_at'
+    // )
+    //   return dayjs(item[column.key]).format('DD/MM/YYYY') || no_info;
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 
@@ -103,7 +98,7 @@ export default function TableComponent({
                   >
                     {headers &&
                       headers.map((column: any, i: any) => {
-                        return column.key === 'edit' ? (
+                        return column.manage ? (
                           <TableCell
                             sx={{
                               display: 'flex',
@@ -111,14 +106,12 @@ export default function TableComponent({
                               justifyContent: 'end'
                             }}
                           >
-                            {column.manage && (
-                              <button
-                                onClick={() => openURL(`${table}/${item.id}`)}
-                                className="mr-2 btn primary"
-                              >
-                                View
-                              </button>
-                            )}
+                            <button
+                              onClick={() => openURL(`${table}/${item.id}`)}
+                              className="mr-2 btn primary"
+                            >
+                              View
+                            </button>
                           </TableCell>
                         ) : (
                           <TableCell size="medium" key={i}>

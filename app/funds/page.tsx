@@ -1,51 +1,34 @@
 'use client';
 import PageList from '@/components/Page/List';
-import { Field } from '@/types';
 import { Card } from '@mui/material';
 import { headers_tables } from '../config';
-import { useAuthContext } from '../context';
+
+import { PageListData } from '@/types';
 
 export default function Funds() {
-  const { user } = useAuthContext();
-
-  const header = {
-    name: 'Funds',
-    description: 'Manage your funds.',
-    buttons: [
-      {
-        title: 'Create new',
-        action: 'modal'
+  const data: PageListData = {
+    header: {
+      name: 'Funds',
+      description: 'Manage your funds.',
+      buttons: {
+        new: {
+          disabled: false
+        }
       }
-    ]
-  };
-
-  const model: Field[] = [
-    {
-      key: 'name',
-      label: 'Name',
-      type: 'string',
-      show: true
+    },
+    table: {
+      element: 'fund',
+      headers: headers_tables.funds,
+      origin: 'limited_deals',
+      query: '*',
+      query_type: 'fund',
+      target: 'deals'
     }
-  ];
-
-  const dialog = {
-    element: 'fund',
-    table: 'deals',
-    type: 'FormsNew'
   };
 
   return (
     <Card className="card" variant="outlined">
-      <PageList
-        dialog={dialog}
-        header={header}
-        headersTable={headers_tables.funds}
-        model={model}
-        query={`*`}
-        queryType="fund"
-        table="limited_deals"
-        type="fund"
-      />
+      <PageList data={data} />
     </Card>
   );
 }

@@ -1,14 +1,10 @@
 'use client';
-import PageListNew from '@/components/Page/ListNew';
+import PageList from '@/components/Page/List';
+import { PageListData } from '@/types';
 import { Card } from '@mui/material';
 import { headers_tables } from '../config';
-import { useAuthContext } from '../context';
-
-import { PageListData } from '@/types';
 
 export default function SPVS() {
-  const { user } = useAuthContext();
-
   const data: PageListData = {
     header: {
       name: 'SPVs',
@@ -24,21 +20,15 @@ export default function SPVS() {
       headers: headers_tables.spvs,
       origin: 'limited_deals',
       query: '*',
-      query_type: 'spv'
-    },
-    model: [
-      {
-        key: 'name',
-        label: 'Name',
-        type: 'string',
-        show: true
-      }
-    ]
+      query_type: 'spv',
+      target: 'deals',
+      type: 'spv'
+    }
   };
 
   return (
     <Card className="card" variant="outlined">
-      <PageListNew data={data} />
+      <PageList data={data} />
     </Card>
   );
 }
