@@ -5,11 +5,12 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
 
 type Props = {
-  type?: string;
+  target?: string;
+  queryType?: string;
   onCreate: () => void;
 };
 
-export default function NewForm({ type, onCreate }: Props) {
+export default function NewForm({ target, onCreate, queryType }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
   const [newElement, setNewElement] = useState<any>(null);
@@ -21,7 +22,13 @@ export default function NewForm({ type, onCreate }: Props) {
     if (!form && !table && !newElement) return;
     try {
       setLoading(true);
-      const { data, error } = await supabase.from(table).insert(form);
+      let newForm = form;
+
+      if (queryType) {
+        newForm = { ...form, type: queryType };
+      }
+
+      const { data, error } = await supabase.from(table).insert(newForm);
 
       setNewElement(null);
 
@@ -39,21 +46,10 @@ export default function NewForm({ type, onCreate }: Props) {
     }
   };
 
-  // useEffect(() => {
-  //   if (formModel) {
-  //     let initialElement: any = {};
-  //     formModel.forEach((field: Field) => {
-  //       initialElement[formModel.key] = field.value ?? undefined;
-  //     });
-  //     if (type) initialElement = { ...initialElement, type };
-  //     setNewElement(initialElement);
-  //   }
-  // }, [formModel]);
-
   useEffect(() => {
-    if (!type) return;
+    if (!target) return;
     // @ts-ignore
-    if (form_models[type]) setFormModel(form_models[type]);
+    if (form_models[target]) setFormModel(form_models[target]);
   }, []);
 
   return (

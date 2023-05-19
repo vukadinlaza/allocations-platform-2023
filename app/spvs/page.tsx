@@ -9,11 +9,11 @@ export default function SPVS() {
     header: {
       name: 'SPVs',
       description: 'Manage your spvs.',
-      buttons: {
-        new: {
-          disabled: false
+      buttons: [
+        {
+          type: 'deal'
         }
-      }
+      ]
     },
     table: {
       element: 'spv',

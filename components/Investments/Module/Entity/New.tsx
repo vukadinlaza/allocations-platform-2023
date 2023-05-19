@@ -10,7 +10,7 @@ export default function NewUserInvestmentEntity({
   onUpdate,
   hideHeader = false
 }: {
-  hideHeader: boolean;
+  hideHeader?: boolean;
   onUpdate: () => any;
 }) {
   const [type, setType] = useState<string>('Myself/Individual');

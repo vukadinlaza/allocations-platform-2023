@@ -25,7 +25,6 @@ export default function FormBuilder({
   const [_data, setData] = useState<any>({});
 
   useEffect(() => {
-    // TODO
     if (emit) {
       onSubmit(_data);
     }

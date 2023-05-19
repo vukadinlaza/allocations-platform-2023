@@ -1,7 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/context';
-import KYC from '@/components/Identity/KYC';
-import NewUserEntity from '@/components/Investments/Module/Entity/New';
+import NewDeal from '@/components/Deals/New';
 import LoadingPageList from '@/components/Loading/Page';
 import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -10,7 +9,6 @@ import { Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
 import Button from '../Button';
-import NewForm from '../Forms/New';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -118,7 +116,6 @@ export default function PageList({ data }: { data: any }) {
     setInitialData([]);
     if (table) {
       fetchData();
-      console.log(getTable());
       const organizationsRoles = supabase
         .channel('organizations_roles_subscribers')
         .on(
@@ -189,10 +186,22 @@ export default function PageList({ data }: { data: any }) {
                       />
                     </header>
                     <div className="p-6">
-                      {header.buttons.new && (
+                      {header.buttons &&
+                        header.buttons.map((button: any, index: any) => {
+                          if (button.type === 'deal')
+                            return (
+                              <NewDeal
+                                key={index}
+                                type={table.type}
+                                onCreate={() => setOpenModal(false)}
+                              />
+                            );
+                        })}
+                      {/* {header.buttons.new && (
                         <NewForm
                           onCreate={() => setOpenModal(false)}
-                          type={table.target}
+                          target={table.target}
+                          queryType={table.query_type}
                         />
                       )}
                       {header.buttons.verify && (
@@ -203,7 +212,7 @@ export default function PageList({ data }: { data: any }) {
                           hideHeader={true}
                           onUpdate={() => setOpenModal(false)}
                         />
-                      )}
+                      )} */}
                     </div>
                   </Card>
                 </Dialog>

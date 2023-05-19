@@ -247,8 +247,8 @@ export const countries = [
 ];
 
 export const form_models = {
-  fund: {
-    element: 'fund',
+  deals: {
+    element: 'deal',
     table: 'deals',
     model: [
       {
@@ -262,18 +262,6 @@ export const form_models = {
   organizations: {
     element: 'organization',
     table: 'organizations',
-    model: [
-      {
-        key: 'name',
-        label: 'Name',
-        type: 'string',
-        show: true
-      }
-    ]
-  },
-  spv: {
-    element: 'spv',
-    table: 'deals',
     model: [
       {
         key: 'name',

@@ -1,20 +1,19 @@
 'use client';
 import PageList from '@/components/Page/List';
+import { PageListData } from '@/types';
 import { Card } from '@mui/material';
 import { headers_tables } from '../config';
-
-import { PageListData } from '@/types';
 
 export default function Funds() {
   const data: PageListData = {
     header: {
       name: 'Funds',
       description: 'Manage your funds.',
-      buttons: {
-        new: {
-          disabled: false
+      buttons: [
+        {
+          type: 'deal'
         }
-      }
+      ]
     },
     table: {
       element: 'fund',
@@ -22,7 +21,8 @@ export default function Funds() {
       origin: 'limited_deals',
       query: '*',
       query_type: 'fund',
-      target: 'deals'
+      target: 'deals',
+      type: 'fund'
     }
   };
 
