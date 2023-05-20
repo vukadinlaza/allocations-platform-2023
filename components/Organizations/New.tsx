@@ -8,7 +8,7 @@ type Props = {
   onCreate: () => void;
 };
 
-export default function newOrganization({ onCreate }: Props) {
+export default function NewOrganization({ onCreate }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
   const [newOrganization, setNewOrganization] = useState<Organization>({});

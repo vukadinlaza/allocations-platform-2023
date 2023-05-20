@@ -27,7 +27,6 @@ const Transition = React.forwardRef(function Transition(
 
 export default function PageList({ data }: { data: any }) {
   const { header, table } = data;
-
   const { supabase } = useSupabase();
   const [initialData, setInitialData] = useState<Array<any>>([]);
   const [search, setSearch] = useState<string | null>(null);
@@ -215,12 +214,18 @@ export default function PageList({ data }: { data: any }) {
                             return (
                               <NewUserInvestmentEntity
                                 hideHeader={true}
+                                key={index}
                                 onUpdate={() => setOpenModal(false)}
                               />
                             );
                           }
                           if (button.type === 'verify') {
-                            return <KYC onUpdate={() => setOpenModal(false)} />;
+                            return (
+                              <KYC
+                                key={index}
+                                onUpdate={() => setOpenModal(false)}
+                              />
+                            );
                           }
                         })}
                     </div>
