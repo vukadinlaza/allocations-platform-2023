@@ -58,7 +58,7 @@ export default function SelectOrganization({ deal }: { deal: Deal }) {
   return (
     <div className="flex items-start border rounded card">
       <header className="flex flex-col items-start mb-6">
-        <h2 className="text-xl">Link an organization</h2>
+        <h2 className="text-xl">Select an organization</h2>
         <p>List of your current organizations</p>
       </header>
       {loading && <div className="w-full h-12 loading" />}
