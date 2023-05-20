@@ -1,18 +1,17 @@
 'use client';
 
 import Button from '@/components/Button';
+import DealAdminBanking from '@/components/Deals/Admin/Banking';
+import DealAdminDocuments from '@/components/Deals/Admin/Documents';
+import DealAdminInvestors from '@/components/Deals/Admin/Investors';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
+import Nav from '@/components/Nav';
+import None from '@/components/None';
+import Price from '@/components/Price';
 import { Deal } from '@/types';
 import Image from 'next/image';
 import { useState } from 'react';
-import Nav from '../Nav';
-import None from '../None';
-import Price from '../Price';
-import DealAdminBanking from './Admin/Banking';
-import DealAdminDocuments from './Admin/Documents';
-import DealEdit from './Admin/Edit';
-import DealAdminInvestors from './Admin/Investors';
 import Client from './Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
@@ -86,11 +85,10 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             />
           </div>
           <div>
-            {active === 'Edit deal' && <DealEdit deal={deal} />}
+            {active === 'View page' && <Client deal={deal} demo edit />}
             {active === 'Investors' && <DealAdminInvestors deal={deal} />}
             {active === 'Banking' && <DealAdminBanking deal={deal} />}
             {active === 'Documents' && <DealAdminDocuments deal={deal} />}
-            {active === 'View page' && <Client deal={deal} demo />}
           </div>
         </div>
       )}
