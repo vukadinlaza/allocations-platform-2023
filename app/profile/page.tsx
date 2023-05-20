@@ -17,11 +17,11 @@ export default function Profile() {
       header: {
         name: 'Investments entities',
         description: 'Manage your investments entities.',
-        buttons: {
-          users_entity: {
-            disabled: false
+        buttons: [
+          {
+            type: 'users_entity'
           }
-        }
+        ]
       },
       table: {
         element: 'investment entity',
@@ -35,15 +35,13 @@ export default function Profile() {
       header: {
         name: 'Personal identities',
         description: 'Manage your personal identities.',
-        buttons:
-          user && !user.users_personal_identities
-            ? {
-                verify: {
-                  disabled: false,
-                  label: 'Verify my identity'
-                }
-              }
-            : null
+        buttons: [
+          {
+            type: 'verify',
+            label: 'Verify my identity',
+            show: user && !user.users_personal_identities
+          }
+        ]
       },
       table: {
         element: 'personal entity',

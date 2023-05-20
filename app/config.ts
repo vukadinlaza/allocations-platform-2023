@@ -377,7 +377,8 @@ export const headers_tables = {
   organizations: [
     {
       label: 'Name',
-      key: 'name'
+      key: 'name',
+      type: 'string'
     },
     {
       label: 'Status',

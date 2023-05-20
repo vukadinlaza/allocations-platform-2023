@@ -1,14 +1,20 @@
 'use client';
+// libs
 import { useAuthContext } from '@/app/context';
-import NewDeal from '@/components/Deals/New';
-import LoadingPageList from '@/components/Loading/Page';
-import Table from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
 import CloseIcon from '@mui/icons-material/Close';
 import { Card, Dialog, Grid, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
-import Button from '../Button';
+
+// components
+import Button from '@/components/Button';
+import NewDeal from '@/components/Deals/New';
+import KYC from '@/components/Identity/KYC';
+import NewUserInvestmentEntity from '@/components/Investments/Module/Entity/New';
+import LoadingPageList from '@/components/Loading/Page';
+import NewOrganization from '@/components/Organizations/New';
+import Table from '@/components/Table';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -188,7 +194,7 @@ export default function PageList({ data }: { data: any }) {
                     <div className="p-6">
                       {header.buttons &&
                         header.buttons.map((button: any, index: any) => {
-                          if (button.type === 'deal')
+                          if (button.type === 'deal') {
                             return (
                               <NewDeal
                                 key={index}
@@ -196,23 +202,27 @@ export default function PageList({ data }: { data: any }) {
                                 onCreate={() => setOpenModal(false)}
                               />
                             );
+                          }
+                          if (button.type === 'organization') {
+                            return (
+                              <NewOrganization
+                                key={index}
+                                onCreate={() => setOpenModal(false)}
+                              />
+                            );
+                          }
+                          if (button.type === 'users_entity') {
+                            return (
+                              <NewUserInvestmentEntity
+                                hideHeader={true}
+                                onUpdate={() => setOpenModal(false)}
+                              />
+                            );
+                          }
+                          if (button.type === 'verify') {
+                            return <KYC onUpdate={() => setOpenModal(false)} />;
+                          }
                         })}
-                      {/* {header.buttons.new && (
-                        <NewForm
-                          onCreate={() => setOpenModal(false)}
-                          target={table.target}
-                          queryType={table.query_type}
-                        />
-                      )}
-                      {header.buttons.verify && (
-                        <KYC onUpdate={() => setOpenModal(false)} />
-                      )}
-                      {header.buttons.users_entity && (
-                        <NewUserEntity
-                          hideHeader={true}
-                          onUpdate={() => setOpenModal(false)}
-                        />
-                      )} */}
                     </div>
                   </Card>
                 </Dialog>
@@ -264,7 +274,11 @@ export default function PageList({ data }: { data: any }) {
               />
             )}
             {search && (
-              <Table data={results} headers={header} table={getTable()} />
+              <Table
+                data={results}
+                headers={table.headers}
+                table={getTable()}
+              />
             )}
           </Grid>
         </div>

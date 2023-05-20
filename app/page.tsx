@@ -5,7 +5,6 @@ import DataCard from '@/components/Data/Card';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
 import Nav from '@/components/Nav';
-import PageList from '@/components/Page/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
 import { Card, Grid } from '@mui/material';
@@ -25,11 +24,7 @@ export default function Dashboard() {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const tabs = [
-    { key: 'SPVs' },
-    { key: 'Funds' },
-    { key: 'Personal Investments' }
-  ];
+  const tabs = [{ key: 'SPVs' }, { key: 'Funds' }, { key: 'Investments' }];
 
   const fetchData = async () => {
     try {
@@ -83,7 +78,7 @@ export default function Dashboard() {
         type: 'fund'
       });
     }
-    if (active === 'Personal Investments') {
+    if (active === 'Investments') {
       return setSelectedTab({
         headersTable: headers_tables.investments,
         table: 'hydrated_investments',
