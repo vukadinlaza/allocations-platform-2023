@@ -21,7 +21,7 @@ export const accreditations_values = [
 
 export const deal_types = ['spv', 'fund'];
 
-export const organizations_status = ['Processing', 'Complete'];
+export const organizations_status = ['processing', 'complete'];
 
 export const investments_status = ['invited', 'signed', 'committed', 'completed'];
 
