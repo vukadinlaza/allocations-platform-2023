@@ -2,7 +2,7 @@
 import AlertEdit from '@/components/Alerts/EditDealPage';
 import Button from '@/components/Button';
 import DealAdminEdit from '@/components/Deals/Admin/Edit';
-import InvestmentCard from '@/components/Investments/Sidebar';
+import InvestmentSidebar from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
 import { Deal } from '@/types';
 import Image from 'next/image';
@@ -17,11 +17,11 @@ export default function DealClient({
   deal: Deal;
   demo?: boolean;
 }) {
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(true); // TODO: false
   return (
     <div className="w-full deal">
       {edit && <AlertEdit edit={isEdit} onClick={() => setIsEdit(!isEdit)} />}
-      {isEdit && edit && <DealAdminEdit />}
+      {isEdit && edit && <DealAdminEdit deal={deal} />}
       {!isEdit && (
         <div className="container grid grid-cols-6 gap-8 mt-8">
           <div className="col-span-4">
@@ -91,7 +91,7 @@ export default function DealClient({
             </main>
           </div>
           <div className="col-span-2">
-            <InvestmentCard deal={deal} demo={demo} />
+            <InvestmentSidebar deal={deal} demo={demo} />
           </div>
         </div>
       )}

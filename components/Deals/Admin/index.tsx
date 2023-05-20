@@ -12,7 +12,7 @@ import Price from '@/components/Price';
 import { Deal } from '@/types';
 import Image from 'next/image';
 import { useState } from 'react';
-import Client from './Client';
+import Client from '../Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
   const [active, setActive] = useState('View page');

@@ -127,6 +127,9 @@ $primary: #3db278;
   }
 
   .deal {
+    .card {
+      @apply p-5;
+    }
     .stat {
       @apply border border-primary-500/25 rounded-lg flex flex-col items-center justify-center;
     }

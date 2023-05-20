@@ -22,7 +22,7 @@ function Select<T>({
       onChange={handleSelectChange}
       className="capitalize"
     >
-      <option selected>{selected}</option>
+      {selected && <option selected>{selected}</option>}
       {items &&
         items
           .filter((x) => x !== selected)
