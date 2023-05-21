@@ -31,7 +31,7 @@ export default function FormBuilder({
   }, [_data]);
 
   useEffect(() => {
-    if (Object.keys(_data).length === 0) {
+    if (data && Object.keys(_data).length === 0) {
       setData(data);
     }
   }, [data]);

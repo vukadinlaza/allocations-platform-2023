@@ -1,9 +1,11 @@
+import { Asset } from './index.d';
+
 export interface Deal {
   id?: string;
   created_at?: string;
   updated_at?: string;
+  assets?: Asset[];
   accept_crypto?: boolean;
-  asset_type?: string;
   carry_fee?: string;
   closing_date?: string;
   closed?: boolean;

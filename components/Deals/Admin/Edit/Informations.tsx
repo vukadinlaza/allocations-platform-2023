@@ -4,7 +4,6 @@ import FormBuilder from '@/components/FormBuilder';
 import Upload from '@/components/Upload';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
-import { asset_type, asset_security_type } from '@/types/values';
 import { useState } from 'react';
 
 export default function DealInformations({
@@ -29,26 +28,6 @@ export default function DealInformations({
       key: 'name',
       type: 'string',
       show: true
-    },
-    {
-      label: 'Legal name',
-      key: 'legal_name',
-      type: 'string',
-      show: true
-    },
-    {
-      label: 'Asset type',
-      key: 'asset_type',
-      type: 'select',
-      show: true,
-      items: asset_type
-    },
-    {
-      label: 'Security type',
-      key: 'security_type',
-      type: 'select',
-      show: true,
-      items: asset_security_type
     },
     {
       label: 'Estimated closing date',
@@ -92,7 +71,7 @@ export default function DealInformations({
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-6">
-        <h2 className="text-xl">Complete deal information</h2>
+        <h2 className="text-xl">Deal information</h2>
       </header>
       <main>
         <div className="w-full mb-6">
@@ -128,7 +107,9 @@ export default function DealInformations({
         </div>
         <div className="mb-6">
           <div className="mb-4">
-            <h2 className="text-xl">Upload portfolio company wire instructions</h2>
+            <h2 className="text-xl">
+              Upload portfolio company wire instructions
+            </h2>
             <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
           </div>
           <Upload />

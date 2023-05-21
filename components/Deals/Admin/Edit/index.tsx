@@ -2,6 +2,7 @@
 import { useAuthContext } from '@/app/context';
 import Checkbox from '@/components/Checkbox';
 
+import NewAsset from '@/components/Assets/New';
 import SelectBank from '@/components/Bank/Select';
 import Button from '@/components/Button';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
@@ -12,13 +13,13 @@ import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Deal } from '@/types';
+import { Asset, Deal } from '@/types';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
-  const [newDeal, setNewDeal] = useState<Deal>({});
+  const [newDeal, setNewDeal] = useState<any>();
   const [hasIdentity, setHasIdentity] = useState(true);
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,6 +33,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
       // TODO: prevent here
       delete newDeal.total_raised_amount;
+      delete newDeal.assets;
 
       const { data, error } = await supabase
         .from('deals')
@@ -71,16 +73,23 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
-      {hasIdentity && deal && (
+      {hasIdentity && deal && newDeal && (
         <div>
           <Step
-            selected={newDeal.organization_id}
+            selected={
+              newDeal && newDeal.organization_id
+                ? newDeal.organization_id
+                : null
+            }
             component={
               <SelectOrganization
                 loading={loading}
                 onSave={saveDeal}
                 onChange={(org: any) => {
-                  setNewDeal((prev) => ({ ...prev, organization_id: org?.id }));
+                  setNewDeal((prev: any) => ({
+                    ...prev,
+                    organization_id: org?.id
+                  }));
                 }}
               />
             }
@@ -93,9 +102,30 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 deal={newDeal}
                 onSave={saveDeal}
                 onChange={(_deal: any) => {
-                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
+            }
+          />
+          <Step
+            selected={newDeal.assets && newDeal.assets[0]}
+            component={
+              <div>
+                <header className="flex flex-col items-start mb-4">
+                  <h2 className="text-xl">Create a new asset</h2>
+                </header>
+                <NewAsset
+                  asset={newDeal.assets ? newDeal.assets[0] : null}
+                  dealId={deal.id}
+                  onCreate={(asset: Asset) => {
+                    setNewDeal((prev: any) => ({
+                      ...prev,
+                      assets: [...prev.assets, asset]
+                    }));
+                    console.log(newDeal.assets);
+                  }}
+                />
+              </div>
             }
           />
           <Step
@@ -106,7 +136,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 deal={newDeal}
                 onSave={saveDeal}
                 onChange={(_deal: any) => {
-                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
             }
@@ -119,7 +149,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 deal={newDeal}
                 onSave={saveDeal}
                 onChange={(_deal: any) => {
-                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
             }
@@ -132,7 +162,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 deal={newDeal}
                 onSave={saveDeal}
                 onChange={(_deal: any) => {
-                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
             }
@@ -144,7 +174,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 loading={loading}
                 onSave={saveDeal}
                 onChange={(bank_account_id: any) => {
-                  setNewDeal((prev) => ({ ...prev, bank_account_id }));
+                  setNewDeal((prev: any) => ({ ...prev, bank_account_id }));
                 }}
               />
             }

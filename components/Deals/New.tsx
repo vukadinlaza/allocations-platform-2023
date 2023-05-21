@@ -26,14 +26,14 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
       setNewDeal({ type });
 
       if (error) {
-        notify(`Sorry, could not create new ${type}.`, false);
+        notify(`Sorry, could not create new deal.`, false);
         return;
       }
       notify('Successfully created !', true);
       onCreate();
     } catch (error) {
       console.log(error);
-      notify(`Sorry, could not create new ${type}.`, false);
+      notify(`Sorry, could not create new deal.`, false);
     } finally {
       setLoading(false);
     }

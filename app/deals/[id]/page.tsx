@@ -25,8 +25,8 @@ export default function DealID() {
         setLoading(true);
         // isDealOwner? private_deals : public_deals
         const { data: _deal, error } = await supabase
-          .from('limited_deals')
-          .select('*')
+          .from('deals')
+          .select('*,assets(*)')
           .eq('id', params.id)
           .single();
 
@@ -35,6 +35,7 @@ export default function DealID() {
         }
 
         if (_deal) {
+          console.log(_deal);
           setDeal(_deal);
         }
       } catch (error) {
