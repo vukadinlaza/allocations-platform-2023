@@ -31,7 +31,9 @@ export default function FormBuilder({
   }, [_data]);
 
   useEffect(() => {
-    setData(data);
+    if (Object.keys(_data).length === 0) {
+      setData(data);
+    }
   }, [data]);
 
   return (
@@ -100,9 +102,7 @@ export default function FormBuilder({
                         placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
-                        value={
-                          _data && _data[field.key] ? _data[field.key] : 0
-                        }
+                        value={_data && _data[field.key] ? _data[field.key] : 0}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           const inputValue = e.target.value;
                           const numericValue = parseFloat(inputValue);

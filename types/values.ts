@@ -21,11 +21,13 @@ export const accreditations_values = [
 
 export const deal_types = ['spv', 'fund'];
 
-export const organizations_status = ['processing', 'complete'];
+export const deal_offering_types = ['506b', '506c'];
+
+export const entity_returns_status = ['complete', 'new'];
 
 export const investments_status = ['invited', 'signed', 'committed', 'completed'];
 
-export const entity_returns_status = ['complete', 'new'];
+export const organizations_status = ['processing', 'complete'];
 
 export const users_investiment_entities_types = [
   'Myself/Individual',

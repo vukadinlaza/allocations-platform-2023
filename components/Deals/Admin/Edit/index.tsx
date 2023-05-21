@@ -1,6 +1,9 @@
 'use client';
 import { useAuthContext } from '@/app/context';
+import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
+import DealEntity from '@/components/Deals/Admin/Edit/Entity';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
+import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
@@ -90,9 +93,45 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          <Step selected={false} component={<h1>Select a deal entity</h1>} />
-          <Step selected={false} component={<h1>Add legal documents</h1>} />
-          <Step selected={false} component={<h1>Compliance</h1>} />
+          <Step
+            selected={false}
+            component={
+              <DealEntity
+                loading={loading}
+                deal={newDeal}
+                onSave={saveDeal}
+                onChange={(_deal: any) => {
+                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                }}
+              />
+            }
+          />
+          <Step
+            selected={false}
+            component={
+              <DealLegalDocuments
+                loading={loading}
+                deal={newDeal}
+                onSave={saveDeal}
+                onChange={(_deal: any) => {
+                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                }}
+              />
+            }
+          />
+          <Step
+            selected={false}
+            component={
+              <DealCompliance
+                loading={loading}
+                deal={newDeal}
+                onSave={saveDeal}
+                onChange={(_deal: any) => {
+                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                }}
+              />
+            }
+          />
           <Step selected={false} component={<h1>Select a bank account</h1>} />
           <Step selected={false} component={<h1>E-sign & submit</h1>} />
         </div>

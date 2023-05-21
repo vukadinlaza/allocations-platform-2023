@@ -24,6 +24,12 @@ export default function DealInformations({
 
   const model: Field[] = [
     {
+      label: 'Deal name',
+      key: 'name',
+      type: 'string',
+      show: true
+    },
+    {
       label: 'Asset type',
       key: 'asset_type',
       type: 'select',
@@ -84,8 +90,9 @@ export default function DealInformations({
       <main>
         <div className="w-full mb-6">
           <FormBuilder
-            model={model}
+            data={deal}
             emit={true}
+            model={model}
             onSubmit={(v: any) => {
               onChange(v);
             }}

@@ -9,7 +9,7 @@ export default function Step({
 }) {
   return (
     <div
-      className={`flex items-start w-full p-6 mb-6 border rounded ${
+      className={`flex items-start w-full pt-5 pb-6 px-6 mb-6 border rounded ${
         selected ? 'border-primary-500 ' : ''
       }`}
     >
