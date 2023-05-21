@@ -14,7 +14,7 @@ import None from './None';
 import Price from './Price';
 
 export const openURL = (url: string) => {
-  window.open(url, '_blank');
+  window.open(url);
 };
 
 type Props = {

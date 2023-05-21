@@ -1,8 +1,9 @@
-import Image from 'next/image';
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import { deal_banking_providers } from '@/types/values';
 
 export default function SelectBank({
   onSave,
@@ -15,50 +16,52 @@ export default function SelectBank({
 }) {
   const [bankAccounts, setBankAccounts] = useState<any>([]);
   const [selectedBankAccount, setSelectedBankAccount] = useState<any>(null);
-  const [_loading, setLoading] = useState<boolean>(true);
+  const [_loading, setLoading] = useState<boolean>(false);
 
   const {} = useSupabase();
 
-  const getBankAccounts = async () => {
-    try {
-      setLoading(true);
-      // let { data, error } = await fetchOrganizations();
+  // key banking_provider
 
-      // if (data) {
-      //   setOrganizations(data);
-      // }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getBankAccounts = async () => {
+  //   try {
+  //     setLoading(true);
+  //     // let { data, error } = await fetchOrganizations();
 
-  useEffect(() => {
-    getBankAccounts();
-  }, []);
+  //     // if (data) {
+  //     //   setOrganizations(data);
+  //     // }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    const found = bankAccounts?.find(
-      (b: any) => b.name === selectedBankAccount
-    );
-    onChange(found);
-  }, [selectedBankAccount]);
+  // useEffect(() => {
+  //   getBankAccounts();
+  // }, []);
+
+  // useEffect(() => {
+  //   const found = bankAccounts?.find(
+  //     (b: any) => b.name === selectedBankAccount
+  //   );
+  //   onChange(found);
+  // }, [selectedBankAccount]);
 
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-4">
-        <h2 className="text-xl">Select a bank account</h2>
-        <p>List of your current bank accounts</p>
+        <h2 className="text-xl">Create a bank account</h2>
+        <p>Choose a banking provider for your deal.</p>
       </header>
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
         <Select
-          items={bankAccounts}
+          items={deal_banking_providers}
           onChange={(str: string) => {
             selectedBankAccount(str);
           }}
-          displayLabel={(x) => x.name}
+          displayLabel={(x) => x}
         />
       )}
       <div className="flex items-center gap-4 mt-4">
@@ -66,21 +69,6 @@ export default function SelectBank({
           loading={loading || _loading}
           onClick={() => onSave()}
           label="Save"
-        />
-        <Button
-          icon={
-            <Image
-              src={'/plus.svg'}
-              alt="plus"
-              className="opacity-50"
-              width={18}
-              height={18}
-            />
-          }
-          color="info"
-          loading={loading || _loading}
-          onClick={() => {}}
-          label="New bank account"
         />
       </div>
     </div>

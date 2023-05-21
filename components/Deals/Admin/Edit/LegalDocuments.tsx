@@ -16,10 +16,10 @@ export default function DealLegalDocuments({
   const model: Field[] = [
     {
       label: 'Legal templates',
-      key: 'legal_templates',
+      key: 'legal_template_option',
       type: 'select',
       show: true,
-      items: []
+      items: ['Allocations (default)', 'other']
     }
   ];
   return (

@@ -38,19 +38,20 @@ export default function Dashboard() {
         },
         {
           title: 'Total deals',
-          key: '',
+          key: 'total_deals',
           value: 0,
           type: 'number'
         },
         {
           title: 'Total investors',
-          key: '',
+          key: 'total_investors',
           value: 0,
           type: 'number'
         }
       ];
       for (const item of model) {
-        const { data: value, error } = await supabase.rpc(item.key);
+        const { data: value, error } = await supabase
+          .rpc(item.key);
         item.value = value || 0;
       }
       setItems(model);

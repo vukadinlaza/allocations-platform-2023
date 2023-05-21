@@ -2,8 +2,10 @@ import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Organization } from '@/types';
+import { Card } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import NewOrganization from './New';
 
 export default function SelectOrganization({
   onSave,
@@ -18,6 +20,7 @@ export default function SelectOrganization({
   const [selectedOrganization, setSelectedOrganization] = useState<
     string | null
   >(null);
+  const [create, setCreate] = useState<boolean>(false);
   const [_loading, setLoading] = useState<boolean>(true);
 
   const { fetchOrganizations } = useSupabase();
@@ -62,6 +65,16 @@ export default function SelectOrganization({
           displayLabel={(x) => x.name}
         />
       )}
+      {create && (
+        <Card variant="outlined" className="items-start my-4 card">
+          <NewOrganization
+            onCreate={() => {
+              getOrganizations();
+              setCreate(false);
+            }}
+          />
+        </Card>
+      )}
       <div className="flex items-center gap-4 mt-4">
         <Button
           loading={loading || _loading}
@@ -73,15 +86,15 @@ export default function SelectOrganization({
             <Image
               src={'/plus.svg'}
               alt="plus"
-              className='opacity-50'
+              className="opacity-50"
               width={18}
               height={18}
             />
           }
           color="info"
           loading={loading || _loading}
-          onClick={() => {}}
           label="New organization"
+          onClick={() => setCreate(!create)}
         />
       </div>
     </div>

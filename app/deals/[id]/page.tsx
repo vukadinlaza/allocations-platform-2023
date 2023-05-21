@@ -23,6 +23,7 @@ export default function DealID() {
       if (!params || !params.id) return;
       try {
         setLoading(true);
+        // isDealOwner? private_deals : public_deals
         const { data: _deal, error } = await supabase
           .from('limited_deals')
           .select('*')

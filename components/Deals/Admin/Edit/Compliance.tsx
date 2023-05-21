@@ -28,7 +28,7 @@ export default function DealCompliance({
       key: 'advisor',
       type: 'select',
       show: true,
-      items: ['Allocations Advisers LLC (default)', 'Custom']
+      items: ['Allocations Advisers LLC (default)', 'Other']
     }
   ];
   return (
