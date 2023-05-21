@@ -101,7 +101,7 @@ export default function FormBuilder({
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={
-                          _data && _data[field.key] ? _data[field.key] : ''
+                          _data && _data[field.key] ? _data[field.key] : 0
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           const inputValue = e.target.value;

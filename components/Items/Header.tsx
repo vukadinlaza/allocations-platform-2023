@@ -3,7 +3,6 @@
 import ChipStatus from '@/components/ChipStatus';
 
 export default function ItemHeader({ data }: { data: any }) {
-  console.log(data.accept_crypto);
   return (
     <div>
       <header className="flex items-start justify-start mb-8">

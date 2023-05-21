@@ -43,7 +43,7 @@ export interface Deal {
   total_raised_amount?: number;
   target?: string;
   target_raise_goal?: number;
-  total_carry?: string;
+  total_carry?: number;
   total_round_size?: string;
   type?: string;
   wire_deadline?: string;
