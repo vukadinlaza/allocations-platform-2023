@@ -20,7 +20,16 @@ export default function SelectOrganization({ deal }: { deal: Deal }) {
 
       if (data) {
         setOrganizations(data);
-        setSelected(data[0].name);
+        // assign existing organization
+        if (deal.organization_id) {
+          const found = data.find(
+            (x: Organization) => x.id === deal.organization_id
+          );
+          setSelected(found);
+        } else {
+          // assign first organization
+          setSelected(data[0]);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -31,7 +40,6 @@ export default function SelectOrganization({ deal }: { deal: Deal }) {
 
   const saveDeal = async () => {
     if (!deal) return;
-    console.log(selected.id);
     try {
       setLoading(true);
 
@@ -54,6 +62,12 @@ export default function SelectOrganization({ deal }: { deal: Deal }) {
   useEffect(() => {
     getOrganizations();
   }, []);
+
+  useEffect(() => {
+    if (deal.organization_id) {
+      console.log(deal.organization_id);
+    }
+  }, [deal]);
 
   return (
     <div className="flex items-start border rounded card">

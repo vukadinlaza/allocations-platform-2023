@@ -30,6 +30,7 @@ export interface Deal {
   mongo_id?: string;
   mongo_organization_id?: string;
   name?: string;
+  organization_id?: string;
   offering_type?: string;
   onboarding_link?: string;
   owner_mongo_id?: string;

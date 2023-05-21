@@ -24,7 +24,7 @@ export default function DealID() {
       try {
         setLoading(true);
         const { data: _deal, error } = await supabase
-          .from('hydrated_deals')
+          .from('limited_deals')
           .select('*')
           .eq('id', params.id)
           .single();
