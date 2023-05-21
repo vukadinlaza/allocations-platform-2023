@@ -13,7 +13,7 @@ export default function Step({
         selected ? 'border-primary-500 ' : ''
       }`}
     >
-      <div className="w-12 mr-4">
+      <div className="w-12">
         <Image
           src={selected ? '/checked_rounded.svg' : '/checked_rounded_empty.svg'}
           alt="checked"

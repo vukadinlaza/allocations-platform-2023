@@ -83,7 +83,7 @@ export default function DealInformations({
   ];
 
   return (
-    <div>
+    <div className="w-full">
       <header className="flex flex-col items-start mb-6">
         <h2 className="text-xl">Complete deal informations</h2>
       </header>
@@ -101,7 +101,7 @@ export default function DealInformations({
             <Button
               loading={loading || _loading}
               onClick={onSave}
-              label="Save informations"
+              label="Save"
             />
           </div>
         </div>

@@ -42,7 +42,7 @@ export default function DealEntity({
         }}
       />
       <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Save entity" />
+        <Button loading={loading} onClick={onSave} label="Save" />
       </div>
     </div>
   );

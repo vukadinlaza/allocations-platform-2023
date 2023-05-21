@@ -1,35 +1,32 @@
+import Image from 'next/image';
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Organization } from '@/types';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export default function SelectOrganization({
+export default function SelectBank({
   onSave,
   onChange,
   loading
 }: {
   loading: boolean;
   onSave: () => any;
-  onChange: (o: Organization | undefined) => any;
+  onChange: (o: any | undefined) => any;
 }) {
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [selectedOrganization, setSelectedOrganization] = useState<
-    string | null
-  >(null);
+  const [bankAccounts, setBankAccounts] = useState<any>([]);
+  const [selectedBankAccount, setSelectedBankAccount] = useState<any>(null);
   const [_loading, setLoading] = useState<boolean>(true);
 
-  const { fetchOrganizations } = useSupabase();
+  const {} = useSupabase();
 
-  const getOrganizations = async () => {
+  const getBankAccounts = async () => {
     try {
       setLoading(true);
-      let { data, error } = await fetchOrganizations();
+      // let { data, error } = await fetchOrganizations();
 
-      if (data) {
-        setOrganizations(data);
-      }
+      // if (data) {
+      //   setOrganizations(data);
+      // }
     } catch (err) {
       console.log(err);
     } finally {
@@ -38,26 +35,28 @@ export default function SelectOrganization({
   };
 
   useEffect(() => {
-    getOrganizations();
+    getBankAccounts();
   }, []);
 
   useEffect(() => {
-    const found = organizations?.find((o) => o.name === selectedOrganization);
+    const found = bankAccounts?.find(
+      (b: any) => b.name === selectedBankAccount
+    );
     onChange(found);
-  }, [selectedOrganization]);
+  }, [selectedBankAccount]);
 
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-4">
-        <h2 className="text-xl">Select an organization</h2>
-        <p>List of your current organizations</p>
+        <h2 className="text-xl">Select a bank account</h2>
+        <p>List of your current bank accounts</p>
       </header>
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
         <Select
-          items={organizations}
+          items={bankAccounts}
           onChange={(str: string) => {
-            setSelectedOrganization(str);
+            selectedBankAccount(str);
           }}
           displayLabel={(x) => x.name}
         />
@@ -73,7 +72,7 @@ export default function SelectOrganization({
             <Image
               src={'/plus.svg'}
               alt="plus"
-              className='opacity-50'
+              className="opacity-50"
               width={18}
               height={18}
             />
@@ -81,7 +80,7 @@ export default function SelectOrganization({
           color="info"
           loading={loading || _loading}
           onClick={() => {}}
-          label="New organization"
+          label="New bank account"
         />
       </div>
     </div>

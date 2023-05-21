@@ -1,9 +1,9 @@
 'use client';
 
 import Button from '@/components/Button';
-import DealAdminBanking from '@/components/Deals/Admin/Banking';
-import DealAdminDocuments from '@/components/Deals/Admin/Documents';
-import DealAdminInvestors from '@/components/Deals/Admin/Investors';
+import DealAdminBanking from '@/components/Deals/Admin/Tabs/Banking';
+import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
+import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
 import Nav from '@/components/Nav';

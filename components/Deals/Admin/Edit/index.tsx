@@ -1,5 +1,9 @@
 'use client';
 import { useAuthContext } from '@/app/context';
+import Checkbox from '@/components/Checkbox';
+
+import SelectBank from '@/components/Bank/Select';
+import Button from '@/components/Button';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
@@ -16,6 +20,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
   const [newDeal, setNewDeal] = useState<Deal>({});
   const [hasIdentity, setHasIdentity] = useState(true);
+  const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
@@ -132,8 +137,45 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          <Step selected={false} component={<h1>Select a bank account</h1>} />
-          <Step selected={false} component={<h1>E-sign & submit</h1>} />
+          <Step
+            selected={false}
+            component={
+              <SelectBank
+                loading={loading}
+                onSave={saveDeal}
+                onChange={(bank_account_id: any) => {
+                  setNewDeal((prev) => ({ ...prev, bank_account_id }));
+                }}
+              />
+            }
+          />
+          <Step
+            selected={false}
+            component={
+              <div>
+                <h1>E-sign & submit</h1>
+                <Checkbox
+                  selected={agree}
+                  onChange={() => setAgree(!agree)}
+                  label={`I agree to the Master Services agreement.`}
+                />
+                <span className="cta">Download Master Services Agreement</span>
+              </div>
+            }
+          />
+          <div className="flex items-center justify-end gap-4">
+            <p className="text-sm">
+              To submit your deal for review, please fill in all the required
+              fields before submitting the form. Thank you.
+            </p>
+            {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
+            <Button
+              disabled={!agree}
+              loading={loading}
+              label="Submit my deal"
+              onClick={() => {}}
+            />
+          </div>
         </div>
       )}
     </Card>
