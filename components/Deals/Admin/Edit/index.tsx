@@ -1,5 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/context';
+import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
@@ -12,7 +13,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
   const [newDeal, setNewDeal] = useState<Deal>({});
   const [hasIdentity, setHasIdentity] = useState(true);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
 
@@ -20,6 +21,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     if (!deal) return;
     try {
       setLoading(true);
+
+      // TODO: prevent here
+      delete newDeal.total_raised_amount;
 
       const { data, error } = await supabase
         .from('deals')
@@ -65,6 +69,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             selected={newDeal.organization_id}
             component={
               <SelectOrganization
+                loading={loading}
                 onSave={saveDeal}
                 onChange={(org: any) => {
                   setNewDeal((prev) => ({ ...prev, organization_id: org?.id }));
@@ -72,23 +77,24 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          {/* <SelectOrganization deal={deal} />
-          <DealInformations deal={deal} />
-          <Card className="flex items-start card" variant="outlined">
-            <h1>Select a deal entity</h1>
-          </Card>
-          <Card className="flex items-start card" variant="outlined">
-            <h1>Add legal documents</h1>
-          </Card>
-          <Card className="flex items-start card" variant="outlined">
-            <h1>Compliance</h1>
-          </Card>
-          <Card className="flex items-start card" variant="outlined">
-            <h1>Select a bank account</h1>
-          </Card>
-          <Card className="flex items-start card" variant="outlined">
-            <h1>E-sign & submit</h1>
-          </Card> */}
+          <Step
+            selected={false}
+            component={
+              <DealInformations
+                loading={loading}
+                deal={newDeal}
+                onSave={saveDeal}
+                onChange={(_deal: any) => {
+                  setNewDeal((prev) => ({ ...prev, ..._deal }));
+                }}
+              />
+            }
+          />
+          <Step selected={false} component={<h1>Select a deal entity</h1>} />
+          <Step selected={false} component={<h1>Add legal documents</h1>} />
+          <Step selected={false} component={<h1>Compliance</h1>} />
+          <Step selected={false} component={<h1>Select a bank account</h1>} />
+          <Step selected={false} component={<h1>E-sign & submit</h1>} />
         </div>
       )}
     </Card>

@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react';
 
 export default function SelectOrganization({
   onSave,
-  onChange
+  onChange,
+  loading
 }: {
+  loading: boolean;
   onSave: () => any;
   onChange: (o: Organization | undefined) => any;
 }) {
@@ -15,7 +17,7 @@ export default function SelectOrganization({
   const [selectedOrganization, setSelectedOrganization] = useState<
     string | null
   >(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [_loading, setLoading] = useState<boolean>(true);
 
   const { fetchOrganizations } = useSupabase();
 
@@ -40,7 +42,7 @@ export default function SelectOrganization({
 
   useEffect(() => {
     const found = organizations?.find((o) => o.name === selectedOrganization);
-    onChange(found)
+    onChange(found);
   }, [selectedOrganization]);
 
   return (
@@ -49,8 +51,8 @@ export default function SelectOrganization({
         <h2 className="text-xl">Select an organization</h2>
         <p>List of your current organizations</p>
       </header>
-      {loading && <div className="w-full h-12 loading" />}
-      {!loading && (
+      {_loading && <div className="w-full h-12 loading" />}
+      {!_loading && (
         <Select
           items={organizations}
           onChange={(str: string) => {
@@ -60,7 +62,11 @@ export default function SelectOrganization({
         />
       )}
       <div className="mt-4">
-        <Button loading={loading} onClick={() => onSave()} label="Save" />
+        <Button
+          loading={loading || _loading}
+          onClick={() => onSave()}
+          label="Save"
+        />
       </div>
     </div>
   );

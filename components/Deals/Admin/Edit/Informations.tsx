@@ -6,11 +6,21 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
 import { useState } from 'react';
 
-export default function DealInformations({ deal }: { deal: Deal }) {
+export default function DealInformations({
+  deal,
+  onSave,
+  onChange,
+  loading
+}: {
+  deal: Deal;
+  onSave: () => any;
+  onChange: (v: any) => any;
+  loading: boolean;
+}) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [_loading, setLoading] = useState<boolean>(false);
 
   const model: Field[] = [
     {
@@ -66,39 +76,24 @@ export default function DealInformations({ deal }: { deal: Deal }) {
     }
   ];
 
-  const saveDeal = async () => {
-    if (!deal) return;
-    try {
-      setLoading(true);
-
-      // const { data, error } = await supabase
-      //   .from('deals')
-      //   .upsert();
-
-      // if (error) {
-      //   notify(`Sorry, could not save organization.`, false);
-      //   return;
-      // }
-      notify('Organization saved.', true);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="flex items-start border rounded card">
+    <div>
       <header className="flex flex-col items-start mb-6">
         <h2 className="text-xl">Complete deal informations</h2>
       </header>
       <main>
         <div className="w-full mb-6">
-          <FormBuilder model={model} onSubmit={() => {}} />
+          <FormBuilder
+            model={model}
+            emit={true}
+            onSubmit={(v: any) => {
+              onChange(v);
+            }}
+          />
           <div className="my-6">
             <Button
-              loading={loading}
-              onClick={saveDeal}
+              loading={loading || _loading}
+              onClick={onSave}
               label="Save informations"
             />
           </div>
