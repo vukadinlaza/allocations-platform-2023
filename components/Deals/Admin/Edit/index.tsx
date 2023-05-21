@@ -3,7 +3,7 @@ import { useAuthContext } from '@/app/context';
 import Checkbox from '@/components/Checkbox';
 
 import NewAsset from '@/components/Assets/New';
-import SelectBank from '@/components/Bank/Select';
+import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import Button from '@/components/Button';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
@@ -129,7 +129,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             }
           />
           <Step
-            selected={false}
+            selected={newDeal.master_series && newDeal.series_name}
             component={
               <DealEntity
                 loading={loading}
@@ -168,13 +168,14 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             }
           />
           <Step
-            selected={false}
+            selected={newDeal.banking_provider}
             component={
-              <SelectBank
+              <DealBanking
+                deal={newDeal}
                 loading={loading}
                 onSave={saveDeal}
-                onChange={(bank_account_id: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, bank_account_id }));
+                onChange={(_deal: any) => {
+                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
             }

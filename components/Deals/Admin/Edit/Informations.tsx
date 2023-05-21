@@ -4,6 +4,7 @@ import FormBuilder from '@/components/FormBuilder';
 import Upload from '@/components/Upload';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
+import { deal_management_frequency_fee } from '@/types/values';
 import { useState } from 'react';
 
 export default function DealInformations({
@@ -58,7 +59,7 @@ export default function DealInformations({
       key: 'management_fee_frequency',
       type: 'select',
       show: true,
-      items: []
+      items: deal_management_frequency_fee
     },
     {
       label: 'Total carry',

@@ -38,7 +38,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             <ItemsHeader data={deal} />
             <Button
               loading={false}
-              disabled={false}
+              disabled={true}
               label={'Invite'}
               onClick={() => {}}
               icon={

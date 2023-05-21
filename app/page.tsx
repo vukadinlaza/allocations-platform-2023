@@ -33,26 +33,26 @@ export default function Dashboard() {
       setLoading(true);
       const model = [
         {
-          title: 'Investments',
-          key: 'total_investments_count',
-          value: 0,
-          type: 'price'
-        },
-        {
-          title: 'SPVs',
-          key: 'total_spvs_count',
+          title: 'Portfolio value',
+          key: '',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Funds',
-          key: 'total_funds_count',
+          title: 'Total invested',
+          key: '',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Investors',
-          key: 'total_investors_count',
+          title: 'Est multiple',
+          key: '',
+          value: 0,
+          type: 'number'
+        },
+        {
+          title: 'Total investments',
+          key: '',
           value: 0,
           type: 'number'
         }

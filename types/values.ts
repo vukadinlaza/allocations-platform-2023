@@ -48,6 +48,8 @@ export const deal_master_series = ['Allocations', 'Custom — (+$2k)'];
 
 export const deal_offering_types = ['506b', '506c'];
 
+export const deal_management_frequency_fee = ['once', 'annual'];
+
 export const deal_types = ['spv', 'fund'];
 
 export const entity_returns_status = ['complete', 'new'];
