@@ -16,7 +16,7 @@ export default function DealID() {
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
 
-  const isDealOwner = () => deal && user && deal.user_email === user.email;
+  const isDealOwner = () => deal && user && deal.user_email === user.email; // fund manager deal.user_email === user.email
 
   useEffect(() => {
     async function fetchDeal() {

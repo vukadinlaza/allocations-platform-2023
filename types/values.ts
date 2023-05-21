@@ -40,11 +40,15 @@ export const asset_security_type = [
   'other'
 ];
 
+export const deal_advisors_type = ['Allocations Advisers LLC', 'Other'];
+
 export const deal_banking_providers = ['Mercury', 'Custom'];
 
-export const deal_types = ['spv', 'fund'];
+export const deal_master_series = ['Allocations', 'Custom — (+$2k)'];
 
 export const deal_offering_types = ['506b', '506c'];
+
+export const deal_types = ['spv', 'fund'];
 
 export const entity_returns_status = ['complete', 'new'];
 

@@ -19,7 +19,7 @@ export default function DealLegalDocuments({
       key: 'legal_template_option',
       type: 'select',
       show: true,
-      items: ['Allocations (default)', 'other']
+      items: ['Allocations', 'other']
     }
   ];
   return (
@@ -32,7 +32,7 @@ export default function DealLegalDocuments({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          // onChange(v);
+          onChange(v);
         }}
       />
       <div className="mt-6">

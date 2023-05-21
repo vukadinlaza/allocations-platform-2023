@@ -2,7 +2,7 @@ import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 
-import { deal_offering_types } from '@/types/values';
+import { deal_advisors_type, deal_offering_types } from '@/types/values';
 
 export default function DealCompliance({
   deal,
@@ -25,10 +25,10 @@ export default function DealCompliance({
     },
     {
       label: 'Advisor',
-      key: 'advisor',
+      key: 'advisor_type',
       type: 'select',
       show: true,
-      items: ['Allocations Advisers LLC (default)', 'Other']
+      items: deal_advisors_type
     }
   ];
   return (
@@ -41,7 +41,7 @@ export default function DealCompliance({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          // onChange(v);
+          onChange(v);
         }}
       />
       <div className="mt-6">

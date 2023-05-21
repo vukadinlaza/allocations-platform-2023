@@ -9,11 +9,11 @@ export default function Step({
 }) {
   return (
     <div
-      className={`flex items-start w-full pt-5 pb-6 px-6 mb-6 border rounded ${
-        selected ? 'border-primary-500 ' : ''
+      className={`flex items-start w-full pt-5 pb-6 pl-4 pr-5 mb-6 border border-l-8 rounded-lg ${
+        selected ? ' border-l-primary-400 border-primary-400' : ''
       }`}
     >
-      <div className="w-12">
+      <div className="w-10">
         <Image
           src={selected ? '/checked_rounded.svg' : '/checked_rounded_empty.svg'}
           alt="checked"

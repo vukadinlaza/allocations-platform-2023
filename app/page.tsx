@@ -24,34 +24,41 @@ export default function Dashboard() {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const tabs = [{ key: 'SPVs' }, { key: 'Funds' }, { key: 'Investments' }];
+  // investments, spvs, funds, investors
+
+  const tabs = [{ key: 'Investments' }, { key: 'SPVs' }, { key: 'Funds' }];
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const model = [
         {
-          title: 'Total raised',
-          key: 'total_investments_raised',
+          title: 'Investments',
+          key: 'total_investments_count',
           value: 0,
           type: 'price'
         },
         {
-          title: 'Total deals',
-          key: 'total_deals',
+          title: 'SPVs',
+          key: 'total_spvs_count',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Total investors',
-          key: 'total_investors',
+          title: 'Funds',
+          key: 'total_funds_count',
+          value: 0,
+          type: 'number'
+        },
+        {
+          title: 'Investors',
+          key: 'total_investors_count',
           value: 0,
           type: 'number'
         }
       ];
       for (const item of model) {
-        const { data: value, error } = await supabase
-          .rpc(item.key);
+        const { data: value, error } = await supabase.rpc(item.key);
         item.value = value || 0;
       }
       setItems(model);

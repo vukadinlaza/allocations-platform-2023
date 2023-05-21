@@ -5,6 +5,7 @@ export interface Deal {
   created_at?: string;
   updated_at?: string;
   assets?: Asset[];
+  advisor_type?: string;
   accept_crypto?: boolean;
   carry_fee?: string;
   closing_date?: string;

@@ -26,6 +26,13 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
       show: true
     },
     {
+      label: 'Company website url',
+      key: 'company_website',
+      type: 'string',
+      placeholder: 'https://www.website.com',
+      show: true
+    },
+    {
       label: 'Asset type',
       key: 'type',
       type: 'select',
@@ -86,7 +93,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
 
   useEffect(() => {
     if (asset) setNewAsset(asset);
-    console.log(asset)
+    console.log(asset);
   }, [asset]);
 
   return (

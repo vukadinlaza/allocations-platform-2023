@@ -110,7 +110,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <Step
             selected={newDeal.assets && newDeal.assets[0]}
             component={
-              <div>
+              <div className="w-full">
                 <header className="flex flex-col items-start mb-4">
                   <h2 className="text-xl">Create a new asset</h2>
                 </header>
@@ -142,7 +142,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             }
           />
           <Step
-            selected={false}
+            selected={newDeal.legal_template_option}
             component={
               <DealLegalDocuments
                 loading={loading}
@@ -155,7 +155,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             }
           />
           <Step
-            selected={false}
+            selected={newDeal.offering_type && newDeal.advisor_type}
             component={
               <DealCompliance
                 loading={loading}
