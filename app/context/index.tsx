@@ -17,7 +17,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [betaAlert, showBetaAlert] = useState(false);
+  const [betaAlert, showBetaAlert] = useState(true);
   const [expand, setExpand] = useState(false);
 
   const signOut = async () => {
