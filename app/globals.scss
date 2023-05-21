@@ -4,7 +4,17 @@
 
 $primary: #3db278;
 
+body,
+.MuiPaper-root {
+  @apply font-sans;
+}
+
 @layer base {
+  body,
+  .MuiPaper-root {
+    @apply font-sans;
+  }
+
   h1 {
     @apply text-xl font-medium mt-0 mb-1;
   }

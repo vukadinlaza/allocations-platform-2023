@@ -1,6 +1,7 @@
 'use client';
 
 import { headers_tables } from '@/app/config';
+import Button from '@/components/Button';
 import DataCard from '@/components/Data/Card';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
@@ -8,13 +9,14 @@ import Nav from '@/components/Nav';
 import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
 import { Card, Grid } from '@mui/material';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from './context';
 
 export default function Dashboard() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
-  const [active, setActive] = useState('SPVs');
+  const [active, setActive] = useState('Investor dashboard');
   const [items, setItems] = useState<any>([]);
   const [selectedTab, setSelectedTab] = useState<any>({
     headersTable: headers_tables.spvs,
@@ -26,33 +28,36 @@ export default function Dashboard() {
 
   // investments, spvs, funds, investors
 
-  const tabs = [{ key: 'Investments' }, { key: 'SPVs' }, { key: 'Funds' }];
+  const tabs = [
+    { key: 'Investor dashboard' },
+    { key: 'Fund manager dashboard' }
+  ];
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const model = [
         {
-          title: 'Portfolio value',
-          key: '',
+          title: 'Investments',
+          key: 'total_investments',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Total invested',
-          key: '',
+          title: 'SPVs',
+          key: 'total_spvs',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Est multiple',
-          key: '',
+          title: 'Funds',
+          key: 'total_funds',
           value: 0,
           type: 'number'
         },
         {
-          title: 'Total investments',
-          key: '',
+          title: 'Total investors',
+          key: 'total_investors',
           value: 0,
           type: 'number'
         }
@@ -70,29 +75,29 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (active === 'SPVs') {
-      return setSelectedTab({
-        headersTable: headers_tables.spvs,
-        queryType: 'spv',
-        table: 'limited_deals',
-        type: 'spv'
-      });
-    }
-    if (active === 'Funds') {
-      return setSelectedTab({
-        headersTable: headers_tables.funds,
-        queryType: 'fund',
-        table: 'limited_deals',
-        type: 'fund'
-      });
-    }
-    if (active === 'Investments') {
-      return setSelectedTab({
-        headersTable: headers_tables.investments,
-        table: 'hydrated_investments',
-        type: 'investment'
-      });
-    }
+    // if (active === 'SPVs') {
+    //   return setSelectedTab({
+    //     headersTable: headers_tables.spvs,
+    //     queryType: 'spv',
+    //     table: 'limited_deals',
+    //     type: 'spv'
+    //   });
+    // }
+    // if (active === 'Funds') {
+    //   return setSelectedTab({
+    //     headersTable: headers_tables.funds,
+    //     queryType: 'fund',
+    //     table: 'limited_deals',
+    //     type: 'fund'
+    //   });
+    // }
+    // if (active === 'Investments') {
+    //   return setSelectedTab({
+    //     headersTable: headers_tables.investments,
+    //     table: 'hydrated_investments',
+    //     type: 'investment'
+    //   });
+    // }
   }, [active]);
 
   useEffect(() => {
@@ -109,11 +114,26 @@ export default function Dashboard() {
       )}
       {!loading && (
         <div className="w-full">
-          <header className="mt-4 mb-8">
+          <header className="flex items-center justify-between mt-4 mb-8">
             <h1 className="mb-4">
               Welcome back{' '}
               <span className="ml-2 text-primary-500">{getFullName(user)}</span>
             </h1>
+            <Button
+              disabled={true}
+              icon={
+                <Image
+                  src="/analytics.svg"
+                  alt={'analytics'}
+                  className="ml-auto opacity-50 invert"
+                  width={16}
+                  height={16}
+                />
+              }
+              loading={loading}
+              label="View analytics"
+              onClick={() => {}}
+            />
           </header>
           <Card className="w-full card" variant="outlined">
             <div className="flex items-start justify-start w-full gap-24">

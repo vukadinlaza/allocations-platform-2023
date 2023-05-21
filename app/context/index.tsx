@@ -1,5 +1,4 @@
 'use client';
-import AlertsBeta from '@/components/Alerts/Beta';
 import AlertsMigration from '@/components/Alerts/Migration';
 import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
@@ -91,7 +90,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           >
             {betaAlert && (
               <div>
-                <AlertsBeta showBetaAlert={showBetaAlert} />
+                {/* <AlertsBeta showBetaAlert={showBetaAlert} /> */}
                 <AlertsMigration
                   showBetaAlert={showBetaAlert}
                 ></AlertsMigration>
