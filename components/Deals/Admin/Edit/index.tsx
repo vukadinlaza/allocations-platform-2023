@@ -150,7 +150,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             }
           />
           <Step
-            selected={false}
+            selected={agree}
             component={
               <div>
                 <h1>E-sign & submit</h1>
