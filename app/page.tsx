@@ -1,7 +1,7 @@
 'use client';
-
-import { headers_tables } from '@/app/config';
 import Button from '@/components/Button';
+import DashboardFundManager from '@/components/Dashboards/FundManager';
+import DashboardInvestor from '@/components/Dashboards/Investor';
 import DataCard from '@/components/Data/Card';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
@@ -18,15 +18,7 @@ export default function Dashboard() {
   const { user } = useAuthContext();
   const [active, setActive] = useState('Investor dashboard');
   const [items, setItems] = useState<any>([]);
-  const [selectedTab, setSelectedTab] = useState<any>({
-    headersTable: headers_tables.spvs,
-    queryType: 'spv',
-    table: 'limited_deals',
-    type: 'spv'
-  });
   const [loading, setLoading] = useState<boolean>(false);
-
-  // investments, spvs, funds, investors
 
   const tabs = [
     { key: 'Investor dashboard' },
@@ -73,32 +65,6 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    // if (active === 'SPVs') {
-    //   return setSelectedTab({
-    //     headersTable: headers_tables.spvs,
-    //     queryType: 'spv',
-    //     table: 'limited_deals',
-    //     type: 'spv'
-    //   });
-    // }
-    // if (active === 'Funds') {
-    //   return setSelectedTab({
-    //     headersTable: headers_tables.funds,
-    //     queryType: 'fund',
-    //     table: 'limited_deals',
-    //     type: 'fund'
-    //   });
-    // }
-    // if (active === 'Investments') {
-    //   return setSelectedTab({
-    //     headersTable: headers_tables.investments,
-    //     table: 'hydrated_investments',
-    //     type: 'investment'
-    //   });
-    // }
-  }, [active]);
 
   useEffect(() => {
     fetchData();
@@ -151,7 +117,10 @@ export default function Dashboard() {
                 setActive={setActive}
               />
             </div>
-            <div className="card"></div>
+            <div className="card">
+              {active === 'Investor dashboard' && <DashboardInvestor />}
+              {active === 'Fund manager dashboard' && <DashboardFundManager />}
+            </div>
           </Card>
         </div>
       )}
