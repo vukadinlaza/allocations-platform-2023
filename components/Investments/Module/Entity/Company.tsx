@@ -95,7 +95,6 @@ export default function NewCompany({
   };
 
   useEffect(() => {
-    console.log(newCompany);
     if (!newCompany) return;
     const modelKeys = model.map((model) => model.key);
     const newCompanyKeys = Object.keys(newCompany);

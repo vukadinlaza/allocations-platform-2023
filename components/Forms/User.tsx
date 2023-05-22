@@ -23,7 +23,6 @@ export default function UserForm({
       const response = await updateUser(user.email, newUser);
 
       if (response) {
-        console.log(response);
         onUpdate();
       }
     } catch (error) {

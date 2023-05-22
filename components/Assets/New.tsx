@@ -93,7 +93,6 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
 
   useEffect(() => {
     if (asset) setNewAsset(asset);
-    console.log(asset);
   }, [asset]);
 
   return (

@@ -134,7 +134,6 @@ export default function PageList({ data }: { data: any }) {
           (payload: any) => {
             const { eventType } = payload;
             const newElement: any = payload.new;
-            console.log(newElement);
             if (eventType === 'INSERT') {
               setInitialData((prevData: any) => [...prevData, newElement]);
             }

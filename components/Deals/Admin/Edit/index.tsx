@@ -61,10 +61,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     setNewDeal(deal);
   }, [deal]);
 
-  useEffect(() => {
-    console.log(newDeal);
-  }, [newDeal]);
-
   return (
     <Card className="container grid gap-8 p-6 mt-8">
       <h1 className="pb-0 mb-0 text-2xl font-medium">Edit my deal</h1>
@@ -122,7 +118,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       ...prev,
                       assets: [...prev.assets, asset]
                     }));
-                    console.log(newDeal.assets);
                   }}
                 />
               </div>
