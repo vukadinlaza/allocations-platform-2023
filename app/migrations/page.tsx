@@ -17,7 +17,6 @@ export default function Migrations() {
       origin: 'limited_deals',
       query: '*',
       target: 'deals',
-      type: 'deal',
       is_migration: true
     }
   };
