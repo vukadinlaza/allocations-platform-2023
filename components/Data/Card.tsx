@@ -1,5 +1,4 @@
 import numeral from 'numeral';
-import Price from '../Price';
 
 interface ItemProps {
   title?: string;
@@ -14,7 +13,7 @@ export default function DataCard({ item }: { item: ItemProps }) {
       <p className="mb-2 text-xl font-medium">{item.title}</p>
       <div className="flex items-center gap-2">
         {item.unit && <span className="text-xl">{item.unit}</span>}
-        {item.value && (
+        {item.value > 0 && (
           <div className="text-3xl font-bold">
             {item.type === 'number' && (
               <span className="text-3xl font-bold">
@@ -23,6 +22,7 @@ export default function DataCard({ item }: { item: ItemProps }) {
             )}
           </div>
         )}
+        {!item.value && <div className="text-3xl font-bold">-</div>}
       </div>
     </div>
   );

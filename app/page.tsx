@@ -39,25 +39,25 @@ export default function Dashboard() {
       const model = [
         {
           title: 'Investments',
-          key: 'total_investments',
+          key: 'total_investments_count',
           value: 0,
           type: 'number'
         },
         {
           title: 'SPVs',
-          key: 'total_spvs',
+          key: 'total_spvs_count',
           value: 0,
           type: 'number'
         },
         {
           title: 'Funds',
-          key: 'total_funds',
+          key: 'total_funds_count',
           value: 0,
           type: 'number'
         },
         {
           title: 'Total investors',
-          key: 'total_investors',
+          key: 'total_investors_count',
           value: 0,
           type: 'number'
         }
@@ -151,16 +151,7 @@ export default function Dashboard() {
                 setActive={setActive}
               />
             </div>
-            <div className="card">
-              {/* <PageList
-                hideHeader={true}
-                headersTable={selectedTab.headersTable}
-                query={`*`}
-                queryType={selectedTab.queryType}
-                table={selectedTab.table}
-                type={selectedTab.type}
-              /> */}
-            </div>
+            <div className="card"></div>
           </Card>
         </div>
       )}
