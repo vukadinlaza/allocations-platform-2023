@@ -114,7 +114,7 @@ export default function Dashboard() {
       )}
       {!loading && (
         <div className="w-full">
-          <header className="flex items-center justify-between mt-4 mb-8">
+          <header className="flex items-center justify-between p-2">
             <h1 className="mb-4">
               Welcome back{' '}
               <span className="ml-2 text-primary-500">{getFullName(user)}</span>

@@ -5,9 +5,10 @@ import { Alert, IconButton } from '@mui/material';
 export default function Beta({ showBetaAlert }: { showBetaAlert: any }) {
   return (
     <Alert
-      className="mb-6 border border-primary-300"
+      className="border border-primary-300"
       icon={<SpaceDashboardOutlined className=" text-primary" />}
       severity="success"
+      sx={{ marginBottom: '12px' }}
       action={
         <IconButton
           aria-label="showBetaAlert"
