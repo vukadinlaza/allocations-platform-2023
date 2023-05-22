@@ -21,8 +21,8 @@ export default function DealID() {
     if (!params || !params.id) return;
     setIsAdmin(deal && user && deal.user_email === user.email);
 
-    const queryFrom = isAdmin ? 'private_deals' : 'public_deals';
-    const querySelect = isAdmin ? `*, assets(*)` : '*';
+    const queryFrom = isAdmin ? 'deals' : 'private_deals'; // private_deals : total_raised_
+    const querySelect = isAdmin ? `*, deals_informations(*), assets(*)` : '*';
 
     try {
       setLoading(true);

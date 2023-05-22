@@ -18,7 +18,7 @@ export default function SPVS() {
     table: {
       element: 'spv',
       headers: headers_tables.spvs,
-      origin: 'limited_deals',
+      origin: 'deals', // RLS POLicy to fetch deals that I own or my organization own
       query: '*',
       query_type: 'spv',
       target: 'deals',

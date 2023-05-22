@@ -68,7 +68,7 @@ export default function SupabaseProvider({
   const fetchDeals = async (type: string | null = null) => {
     if (type) {
       return await supabase
-        .from('deals')
+        .from('private_deals')
         .select(`*`, { count: 'exact' })
         .eq('type', type);
     }

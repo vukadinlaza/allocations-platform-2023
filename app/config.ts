@@ -452,8 +452,8 @@ export const headers_tables = {
 export const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Investments', href: '/investments' },
-  // { name: 'SPVs', href: '/spvs' },
-  // { name: 'Funds', href: '/funds' },
-  // { name: 'Organizations', href: '/organizations' },
-  // { name: 'Migrations', href: '/migrations' }
+  { name: 'SPVs', href: '/spvs' },
+  { name: 'Funds', href: '/funds' },
+  { name: 'Organizations', href: '/organizations' },
+  { name: 'Migrations', href: '/migrations' }
 ];
