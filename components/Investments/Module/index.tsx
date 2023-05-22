@@ -58,7 +58,9 @@ export default function InvestmentsModule({
           <div className="p-6 border-t">
             <InvestmentsEntity
               entities={currentUser.users_investment_entities}
-              onChange={(v) => setEntity(v)}
+              onChange={(v) => {
+                setEntity(v);
+              }}
               onUpdate={checkPermissions}
               selected={entity?.id}
             />
@@ -75,7 +77,13 @@ export default function InvestmentsModule({
                   <div className="p-6 border-t">
                     <InvestmentsAccreditation
                       entity={entity}
-                      onUpdate={checkPermissions}
+                      onUpdate={(accreditation: any) => {
+                        setEntity((prev: any) => ({
+                          ...prev,
+                          accreditations: [accreditation]
+                        }));
+                        checkPermissions();
+                      }}
                     />
                   </div>
                 )}

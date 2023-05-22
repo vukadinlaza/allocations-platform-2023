@@ -75,7 +75,7 @@ export default function InvestmentSidebar({
           <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
           <input
             type="number"
-            className="w-full outline-none"
+            className="w-full outline-0 ring-0"
             placeholder="0"
             onChange={(e: any) => setAmount(parseInt(e.target.value))}
           />

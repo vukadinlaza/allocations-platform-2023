@@ -8,7 +8,7 @@ export default function Accreditation({
   onUpdate
 }: {
   entity: any;
-  onUpdate: () => void;
+  onUpdate: (a: any) => void;
 }) {
   const [accreditationType, setAccreditationType] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -54,7 +54,9 @@ export default function Accreditation({
         })
         .select();
 
-      onUpdate();
+      if (data && data.length > 0) {
+        onUpdate(data[0]);
+      }
     } catch (error) {
       console.log(error);
     } finally {

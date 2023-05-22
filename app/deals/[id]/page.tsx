@@ -19,12 +19,14 @@ export default function DealID() {
 
   async function fetchDeal() {
     if (!params || !params.id) return;
+    setIsAdmin(deal && user && deal.user_email === user.email);
+    const querySelect = isAdmin ? `*, assets(*)` : '*';
     try {
       setLoading(true);
       // isAdmin? private_deals : public_deals
       const { data: _deal, error } = await supabase
         .from('deals')
-        .select('*')
+        .select(querySelect)
         .eq('id', params.id)
         .single();
 
@@ -45,7 +47,6 @@ export default function DealID() {
 
   useEffect(() => {
     fetchDeal();
-    setIsAdmin(deal && user && deal.user_email === user.email);
   }, []);
 
   return (
