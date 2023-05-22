@@ -44,7 +44,7 @@ export default function Investments() {
     table: {
       element: 'spv',
       headers: headers_tables.investments,
-      origin: 'investments',
+      origin: 'limited_investments',
       query: '*',
       target: 'investments',
       type: 'investment'

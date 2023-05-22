@@ -18,10 +18,16 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
   const createNew = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.from('deals').insert({
-        ...newDeal,
-        type
-      });
+      const { data, error } = await supabase
+        .from('deals')
+        .insert({
+          ...newDeal,
+          type
+        })
+        .select()
+        .single();
+
+      console.log(data);
 
       setNewDeal({ type });
 

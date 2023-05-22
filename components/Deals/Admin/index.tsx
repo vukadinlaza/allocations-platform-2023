@@ -4,6 +4,7 @@ import Button from '@/components/Button';
 import DealAdminBanking from '@/components/Deals/Admin/Tabs/Banking';
 import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
 import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
+import DealAdminEdit from '@/components/Deals/Admin/Edit';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
 import Nav from '@/components/Nav';
@@ -17,6 +18,7 @@ import Client from '../Client';
 export default function DealAdmin({ deal }: { deal?: Deal }) {
   const [active, setActive] = useState('View page');
   const items = [
+    { key: 'Edit page' },
     { key: 'View page' },
     { key: 'Investors' },
     { key: 'Banking' },
@@ -85,7 +87,8 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             />
           </div>
           <div>
-            {active === 'View page' && <Client deal={deal} demo edit />}
+            {active === 'Edit page' && <DealAdminEdit deal={deal} />}
+            {active === 'View page' && <Client deal={deal} demo />}
             {active === 'Investors' && <DealAdminInvestors deal={deal} />}
             {active === 'Banking' && <DealAdminBanking deal={deal} />}
             {active === 'Documents' && <DealAdminDocuments deal={deal} />}

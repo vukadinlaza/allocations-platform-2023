@@ -73,7 +73,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         <div>
           <Step
             selected={
-              newDeal && newDeal.organization_id
+              newDeal.organization_id
                 ? newDeal.organization_id
                 : null
             }
@@ -116,7 +116,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   onCreate={(asset: Asset) => {
                     setNewDeal((prev: any) => ({
                       ...prev,
-                      assets: [...prev.assets, asset]
+                      assets: prev.assets ? [...prev.assets, asset] : [asset]
                     }));
                   }}
                 />
@@ -196,7 +196,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             </p>
             {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
             <Button
-              disabled={!agree}
+              disabled={true} // !agree
               loading={loading}
               label="Submit my deal"
               onClick={() => {}}

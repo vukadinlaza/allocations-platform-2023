@@ -130,7 +130,7 @@ export default function InvestmentSignature({
       <main>
         <div className="flex items-center justify-between gap-4 px-4 py-3 mb-8 border rounded-lg">
           <div>
-            <p className="font-bold">Draft closing documents</p>
+            <p className="font-bold">Deal agreement</p>
             <p className="mb-6 text-sm">
               Finalized documents will be emailed when the deal has closed
             </p>

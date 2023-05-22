@@ -13,16 +13,17 @@ export default function DealID() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
   const [deal, setDeal] = useState<any>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
 
+  const isAdmin = () =>
+    deal && user && deal.user_email === user.email ? true : false;
+
   async function fetchDeal() {
     if (!params || !params.id) return;
-    setIsAdmin(deal && user && deal.user_email === user.email);
 
-    const queryFrom = isAdmin ? 'deals' : 'limited_deals';
-    const querySelect = isAdmin ? `*, assets(*)` : '*';
+    const queryFrom = 'deals';
+    const querySelect = isAdmin() ? `*, assets(*)` : '*';
 
     try {
       setLoading(true);
@@ -31,6 +32,8 @@ export default function DealID() {
         .select(querySelect)
         .eq('id', params.id)
         .single();
+
+      console.log(_deal);
 
       if (error) {
         throw error;
@@ -57,8 +60,8 @@ export default function DealID() {
       {!loading && !deal && <None text="No deal found." />}
       {!loading && deal && (
         <div>
-          {isAdmin && <AdminDeal deal={deal} />}
-          {!isAdmin && <ClientDeal deal={deal} />}
+          {isAdmin() && <AdminDeal deal={deal} />}
+          {!isAdmin() && <ClientDeal deal={deal} />}
         </div>
       )}
     </div>

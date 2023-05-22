@@ -11,7 +11,8 @@ export const deals_status = [
   'archived'
 ];
 
-export const accreditations_values = [ // investorAccreditationStatus
+export const accreditations_values = [
+  // investorAccreditationStatus
   'individual_net_worth',
   'individual_annual_income',
   'entity_no_specific_purpose',
@@ -44,7 +45,7 @@ export const deal_advisors_type = ['Allocations Advisers LLC', 'Other'];
 
 export const deal_banking_providers = ['Mercury', 'Custom'];
 
-export const deal_master_series = ['Allocations', 'Custom — (+$2k)'];
+export const deal_master_series = ['Allocations', 'Custom'];
 
 export const deal_offering_types = ['506b', '506c'];
 

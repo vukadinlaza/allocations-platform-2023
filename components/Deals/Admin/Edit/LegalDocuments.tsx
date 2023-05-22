@@ -36,7 +36,7 @@ export default function DealLegalDocuments({
         }}
       />
       <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Create" />
+        <Button loading={loading} onClick={onSave} label="Save" />
       </div>
     </div>
   );
