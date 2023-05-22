@@ -1,4 +1,7 @@
+// TODO: accreditation type
+
 export interface Entity {
+  accreditations?: any;
   id?: string;
   created_at?: string;
   name?: string;

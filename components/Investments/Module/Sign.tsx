@@ -1,3 +1,5 @@
+'use client';
+import { useAuthContext } from '@/app/context';
 import Checkbox from '@/components/Checkbox';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Entity } from '@/types';
@@ -7,11 +9,13 @@ import { useState } from 'react';
 import Button from '../../Button';
 
 export default function InvestmentSignature({
+  currentUser,
   deal,
   entity,
   amount,
   onUpdate
 }: {
+  currentUser: any;
   deal: Deal;
   entity: Entity;
   amount: number;
@@ -21,6 +25,70 @@ export default function InvestmentSignature({
   const [loading, setLoading] = useState<boolean>(false);
   const [signed, setSigned] = useState<boolean>(false);
   const router = useRouter();
+  const { notify } = useAuthContext();
+
+  const getSubscriptionAgreementDocument = async (
+    investmentId: string,
+    preview = false
+  ) => {
+    if (!currentUser && !entity && !investmentId) return;
+
+    const { users_personal_identities } = currentUser;
+    const { accreditations } = entity;
+
+    if (!users_personal_identities && !accreditations) return;
+
+    const currentIdentity = users_personal_identities[0];
+    const currentAccreditation = accreditations ? accreditations[0] : null;
+
+    if (!currentIdentity && !currentAccreditation) return;
+
+    //tpl_GrQEGyCarkFX7dcjCn
+    const body = {
+      investorType:
+        entity.type === 'Myself/Individual' ? 'Individual' : 'Entity',
+      legalName: entity.name,
+      investmentAmount: amount.toString(),
+      investorIsUsBased: true, // TODO: always true?
+      investorState: currentIdentity.region,
+      investorCountry: currentIdentity.country,
+      investorAccreditationStatus: currentAccreditation.value,
+      investorEmail: currentUser.email,
+      investorTitle: 'Director', // TODO: update
+      investorFullName: currentUser.first_name + ' ' + currentUser.last_name
+    };
+
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://api.allocations.com/documents/subscription-agreement/${investmentId}?preview=${preview}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      if (!response.ok) {
+        // router.push('/investments');
+
+        notify('Successfully created !', true);
+        throw new Error('Failed to fetch subscription agreement document');
+      }
+
+      const document = await response.blob();
+      console.log(document);
+      return document;
+    } catch (error) {
+      notify(`Sorry, could not create new asset.`, false);
+      return;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const saveInvestment = async () => {
     if (!deal || !deal.minimum_investment) return;
@@ -35,10 +103,13 @@ export default function InvestmentSignature({
           deal_id: deal.id,
           subscription_amount: amount
         })
-        .select();
+        .select()
+        .single();
 
       if (data) {
-        router.push('/investments');
+        console.log(data);
+        await getSubscriptionAgreementDocument(data.id);
+        // router.push('/investments');
       }
 
       // if (data) {

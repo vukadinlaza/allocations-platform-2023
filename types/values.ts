@@ -11,7 +11,7 @@ export const deals_status = [
   'archived'
 ];
 
-export const accreditations_values = [
+export const accreditations_values = [ // investorAccreditationStatus
   'individual_net_worth',
   'individual_annual_income',
   'entity_no_specific_purpose',

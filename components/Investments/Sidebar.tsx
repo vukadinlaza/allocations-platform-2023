@@ -59,7 +59,7 @@ export default function InvestmentSidebar({
     }
   ];
 
-  const isDatePassed = dayjs().isAfter(deal.closing_date);
+  const isInvest = dayjs().isAfter(deal.closing_date); // TODO: or deal.isDraft
 
   return (
     <div className="sticky self-start w-full bg-white rounded-md shadow top-8">
@@ -97,7 +97,7 @@ export default function InvestmentSidebar({
                 {deal.closing_date && (
                   <Button
                     loading={false}
-                    disabled={isDatePassed}
+                    disabled={isInvest}
                     label={'Invest'}
                     onClick={() => setInvesting(true)}
                   />

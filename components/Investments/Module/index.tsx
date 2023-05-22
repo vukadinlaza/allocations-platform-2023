@@ -91,6 +91,7 @@ export default function InvestmentsModule({
                 entity.accreditations.length > 0 && (
                   <div className="p-6 border-t">
                     <InvestmentsSign
+                      currentUser={currentUser}
                       deal={deal}
                       entity={entity}
                       amount={amount}
