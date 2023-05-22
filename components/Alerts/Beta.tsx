@@ -1,6 +1,7 @@
 import { SpaceDashboardOutlined } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, IconButton } from '@mui/material';
+import { openURL } from '../Table';
 
 export default function Beta({ showBetaAlert }: { showBetaAlert: any }) {
   return (
@@ -22,7 +23,17 @@ export default function Beta({ showBetaAlert }: { showBetaAlert: any }) {
     >
       <h2 className="mt-0">New platform</h2>
       <span>
-        Welcome to our new fund administration platform built for scalability.
+        Welcome to the new platform! Core features will be released between the
+        dates of 22 May 2023 and 26 May 2023. Please email
+        support@allocations.com for urgent support requests. We appreciate your
+        patience. The legacy platform is available here (view only mode with
+        data until 20 May 2023):{' '}
+        <span
+          className="underline"
+          onClick={() => openURL('https://legacy.allocations.com')}
+        >
+          https://legacy.allocations.com
+        </span>
       </span>
     </Alert>
   );
