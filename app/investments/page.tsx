@@ -44,7 +44,7 @@ export default function Investments() {
     table: {
       element: 'spv',
       headers: headers_tables.investments,
-      origin: 'hydrated_investments',
+      origin: 'investments',
       query: '*',
       target: 'investments',
       type: 'investment'
@@ -57,4 +57,3 @@ export default function Investments() {
     </Card>
   );
 }
-

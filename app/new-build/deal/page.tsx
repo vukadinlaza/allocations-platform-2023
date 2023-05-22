@@ -1,18 +1,15 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-export default function RedirectDeal() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const params = useParams();
+export default function RedirectDeal({ searchParams }: { searchParams: any }) {
   const router = useRouter();
 
   const redirect = () => {
-    if (!params.id) {
-      // return router.push(`deals/${params.id}`);
-      // query
+    if (searchParams.id) {
+      return router.replace(`deals/${searchParams.id}`);
     }
+
     return '/';
   };
 
