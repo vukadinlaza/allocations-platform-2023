@@ -13,7 +13,7 @@ export default function DealID() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
   const [deal, setDeal] = useState<any>(null);
-  const [isAdmin, setIsAdmin] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
 

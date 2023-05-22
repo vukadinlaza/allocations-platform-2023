@@ -61,20 +61,20 @@ export default function InvestorDashboard() {
       {loading && <LoadingDashboard />}
       {!loading && (
         <div className="w-full">
-          <div className="flex items-start w-full gap-24 mb-16">
+          <div className="flex items-start w-full gap-24">
             {items &&
               items.map((item: any, index: number) =>
                 item.value > 0 ? <DataCard key={index} item={item} /> : null
               )}
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <div>
               <h1>Portfolio Overview</h1>
             </div>
             <div>
               <h1>Portfolio Value</h1>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

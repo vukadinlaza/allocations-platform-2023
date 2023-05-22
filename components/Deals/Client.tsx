@@ -17,7 +17,7 @@ export default function DealClient({
   deal: Deal;
   demo?: boolean;
 }) {
-  const [isEdit, setIsEdit] = useState(true); // TODO: false
+  const [isEdit, setIsEdit] = useState(false); // TODO: false
   return (
     <div className="w-full deal">
       {edit && <AlertEdit edit={isEdit} onClick={() => setIsEdit(!isEdit)} />}
