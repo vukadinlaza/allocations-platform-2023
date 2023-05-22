@@ -14,7 +14,7 @@ export default function Migrations() {
     table: {
       element: 'deal',
       headers: headers_tables.migrations,
-      origin: 'deals',
+      origin: 'limited_deals',
       query: '*',
       target: 'deals',
       type: 'deal',
