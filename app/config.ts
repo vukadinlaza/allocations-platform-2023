@@ -327,7 +327,7 @@ export const headers_tables = {
       type: 'price'
     },
     {
-      label: 'Deal status',
+      label: 'Status',
       key: 'status',
       type: 'chip'
     }

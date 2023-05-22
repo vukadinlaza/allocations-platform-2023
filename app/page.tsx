@@ -1,7 +1,7 @@
 'use client';
-import Button from '@/components/Button';
-import DashboardFundManager from '@/components/Dashboards/FundManager';
+import DashboardFunds from '@/components/Dashboards/Funds';
 import DashboardInvestor from '@/components/Dashboards/Investor';
+import DashboardSPV from '@/components/Dashboards/SPVs';
 import DataCard from '@/components/Data/Card';
 import LoadingButtons from '@/components/Loading/Buttons';
 import LoadingList from '@/components/Loading/List';
@@ -9,7 +9,6 @@ import Nav from '@/components/Nav';
 import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
 import { Card, Grid } from '@mui/material';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from './context';
 
@@ -22,7 +21,8 @@ export default function Dashboard() {
 
   const tabs = [
     { key: 'Investor dashboard' },
-    { key: 'Fund manager dashboard' }
+    { key: 'SPV dashboard' },
+    { key: 'Fund dashboard' }
   ];
 
   const fetchData = async () => {
@@ -82,46 +82,34 @@ export default function Dashboard() {
       )}
       {!loading && (
         <div className="w-full">
-          <header className="flex items-center justify-between p-2">
-            <h1 className="mb-4">
-              Welcome back{' '}
-              <span className="ml-2 text-primary-500">{getFullName(user)}</span>
-            </h1>
-            <Button
-              disabled={true}
-              icon={
-                <Image
-                  src="/analytics.svg"
-                  alt={'analytics'}
-                  className="ml-auto opacity-50 invert"
-                  width={16}
-                  height={16}
-                />
-              }
-              loading={loading}
-              label="View analytics"
-              onClick={() => {}}
-            />
-          </header>
-          <Card className="w-full card" variant="outlined">
-            <div className="flex items-start justify-start w-full gap-24">
-              {items &&
-                items.map((item: any, index: number) => (
-                  <DataCard key={index} item={item} />
-                ))}
-            </div>
-          </Card>
           <Card className="w-full" variant="outlined">
-            <div className="px-4 py-4 border-b">
+            <header className="flex items-center justify-between px-6 pt-6">
+              <h1 className="mb-4 ">
+                Welcome back{' '}
+                <span className="ml-2 text-primary-500">
+                  {getFullName(user)}
+                </span>
+              </h1>
+            </header>
+            <div className="p-6 border-0">
+              <div className="flex items-start justify-start w-full gap-24">
+                {items &&
+                  items.map((item: any, index: number) => (
+                    <DataCard key={index} item={item} />
+                  ))}
+              </div>
+            </div>
+            <div className="w-full px-4 py-4 border-t border-b">
               <Nav
                 items={tabs.map((item) => item.key)}
                 active={active}
                 setActive={setActive}
               />
             </div>
-            <div className="card">
+            <div className="w-full card">
               {active === 'Investor dashboard' && <DashboardInvestor />}
-              {active === 'Fund manager dashboard' && <DashboardFundManager />}
+              {active === 'SPV dashboard' && <DashboardSPV />}
+              {active === 'Fund dashboard' && <DashboardFunds />}
             </div>
           </Card>
         </div>
