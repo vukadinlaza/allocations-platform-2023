@@ -17,18 +17,19 @@ export default function InvestorDashboard() {
           title: 'Portfolio value',
           key: 'investments_portfolio_value',
           value: 0,
-          type: 'number'
+          type: 'price'
         },
         {
           title: 'Total invested',
           key: 'investments_total_invested',
           value: 0,
-          type: 'number'
+          type: 'price'
         },
         {
           title: 'Est. multiple',
           key: 'investments_estimated_multiple',
           value: 0,
+          unit: 'x',
           type: 'number'
         },
         {
@@ -38,10 +39,12 @@ export default function InvestorDashboard() {
           type: 'number'
         }
       ];
-      for (const item of model) {
-        const { data: value, error } = await supabase.rpc(item.key);
-        item.value = value || 0;
-      }
+      await Promise.all(
+        model.map(async (item) => {
+          const { data: value, error } = await supabase.rpc(item.key);
+          item.value = value || 0;
+        })
+      );
       setItems(model);
     } catch (error) {
       console.log(error);
@@ -60,9 +63,9 @@ export default function InvestorDashboard() {
         <div className="w-full">
           <div className="flex items-start w-full gap-24 mb-16">
             {items &&
-              items.map((item: any, index: number) => (
-                <DataCard key={index} item={item} />
-              ))}
+              items.map((item: any, index: number) =>
+                item.value > 0 ? <DataCard key={index} item={item} /> : null
+              )}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>

@@ -54,10 +54,12 @@ export default function Dashboard() {
           type: 'number'
         }
       ];
-      for (const item of model) {
-        const { data: value, error } = await supabase.rpc(item.key);
-        item.value = value || 0;
-      }
+      await Promise.all(
+        model.map(async (item) => {
+          const { data: value, error } = await supabase.rpc(item.key);
+          item.value = value || 0;
+        })
+      );
       setItems(model);
     } catch (error) {
       console.log(error);

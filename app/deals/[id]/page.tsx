@@ -26,7 +26,7 @@ export default function DealID() {
         // isDealOwner? private_deals : public_deals
         const { data: _deal, error } = await supabase
           .from('deals')
-          .select('*,assets(*)')
+          .select('*')
           .eq('id', params.id)
           .single();
 

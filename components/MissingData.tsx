@@ -24,7 +24,7 @@ export default function MissingData() {
           width={16}
           height={16}
         />
-        <span>Mising data</span>
+        <span>Missing data</span>
       </div>
     </div>
   );
