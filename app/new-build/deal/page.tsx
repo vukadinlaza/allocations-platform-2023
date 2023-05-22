@@ -1,5 +1,6 @@
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+'use client';
+
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function RedirectDeal() {
@@ -9,7 +10,8 @@ export default function RedirectDeal() {
 
   const redirect = () => {
     if (!params.id) {
-      return router.push(`deals/${params.id}`);
+      // return router.push(`deals/${params.id}`);
+      // query
     }
     return '/';
   };
