@@ -14,6 +14,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>
+          Allocations - The Fastest Growing Private Markets Platform
+        </title>
+        <meta
+          name="description"
+          content="Allocations is the fastest growing private markets platform that helps you close more deals. Discover our exclusive solution to optimize your transaction efficiency and maximize your success. Please note that this page is not intended to be indexed by browsers."
+        />
+        <meta name="robots" content="noindex" />
+      </head>
       <ThemeProvider theme={lightTheme}>
         <body className="relative min-h-screen bg-gray-50">
           <SupabaseProvider>
