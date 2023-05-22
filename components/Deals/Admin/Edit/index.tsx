@@ -63,7 +63,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   return (
     <Card className="container grid gap-8 p-6 mt-8">
-      <h1 className="pb-0 mb-0 text-2xl font-medium">Edit my deal</h1>
+      <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
       {!hasIdentity && (
         <Card className="flex items-start card" variant="outlined">
           <KYC onUpdate={() => setHasIdentity(true)} />

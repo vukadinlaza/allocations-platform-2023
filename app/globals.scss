@@ -171,8 +171,9 @@ body,
   //custom
 
   .bg-1 {
-    background-image: url("../public/backgrounds/bg-1.png");
-    background-size: cover;
+    @apply p-32;
+    background-image: url("../public/backgrounds/bg-2.gif");
+    background-size: contain;
     background-position: center center;
   }
 

@@ -33,14 +33,11 @@ export default function DealID() {
         .eq('id', params.id)
         .single();
 
-      console.log(_deal);
-
       if (error) {
         throw error;
       }
 
       if (_deal) {
-        console.log(_deal);
         setDeal(_deal);
       }
     } catch (error) {

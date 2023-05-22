@@ -1,5 +1,6 @@
 'use client';
 import SupabaseProvider from '@/lib/supabase-provider';
+import Hotjar from '@hotjar/browser';
 import { ThemeProvider } from '@mui/material';
 import Script from 'next/script';
 import React from 'react';
@@ -12,6 +13,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const siteId = 3502247;
+  const hotjarVersion = 6;
+  Hotjar.init(siteId, hotjarVersion);
   return (
     <html lang="en">
       <head>

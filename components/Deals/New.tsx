@@ -27,8 +27,6 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
         .select()
         .single();
 
-      console.log(data);
-
       setNewDeal({ type });
 
       if (error) {

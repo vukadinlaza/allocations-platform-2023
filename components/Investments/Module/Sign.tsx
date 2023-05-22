@@ -80,7 +80,6 @@ export default function InvestmentSignature({
       }
 
       const document = await response.blob();
-      console.log(document);
       return document;
     } catch (error) {
       notify(`Sorry, could not create new asset.`, false);

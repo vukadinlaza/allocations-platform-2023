@@ -115,7 +115,7 @@ export default function Login() {
         <div style={{ maxWidth: 400 }}>
           <h2
             className="mb-4 text-xl md:text-2xl lg:text-4xl"
-            style={{ lineHeight: 1.45 }}
+            style={{ lineHeight: 1.25 }}
           >
             Discover What's New in Allocations 2.0
           </h2>
