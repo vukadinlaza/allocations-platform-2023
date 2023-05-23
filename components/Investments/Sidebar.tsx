@@ -61,11 +61,12 @@ export default function InvestmentSidebar({
 
   const canInvest = () => {
     const conditions = [
-        ()=>deal?.documents_template_id,
-        ()=>['onboarding','closing'].includes(String(deal.status).toLowerCase()),
-        ()=>dayjs().isAfter(deal.closing_date)
+      () => deal?.documents_template_id,
+      () =>
+        ['onboarding', 'closing'].includes(String(deal.status).toLowerCase()),
+      () => dayjs().isAfter(deal.closing_date)
     ];
-    return conditions.every(condition => condition());
+    return conditions.every((condition) => condition());
   };
 
   return (
