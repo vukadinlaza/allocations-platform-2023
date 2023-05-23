@@ -18,7 +18,7 @@ export default function Funds() {
     table: {
       element: 'fund',
       headers: headers_tables.funds,
-      origin: 'limited_deals',
+      origin: 'private_deals',
       query: '*',
       query_type: 'fund',
       target: 'deals',

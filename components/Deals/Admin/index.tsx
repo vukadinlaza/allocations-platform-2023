@@ -16,7 +16,7 @@ import { useState } from 'react';
 import Client from '../Client';
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
-  const [active, setActive] = useState('View page');
+  const [active, setActive] = useState('Edit page');
   const items = [
     { key: 'Edit page' },
     { key: 'View page' },
@@ -32,7 +32,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
     return 0;
   };
   return (
-    <div className="container my-6 deal-admin">
+    <div className="container mt-6 mb-24 deal-admin">
       {!deal && <None text="No deal found." />}
       {deal && (
         <div>

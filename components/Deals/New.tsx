@@ -2,6 +2,7 @@ import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type Props = {
@@ -11,9 +12,10 @@ type Props = {
 
 export default function NewDeal({ onCreate, type = 'spv' }: Props) {
   const { supabase } = useSupabase();
-  const { notify } = useAuthContext();
+  const { notify, user } = useAuthContext();
   const [newDeal, setNewDeal] = useState<Deal>({ type });
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const createNew = async () => {
     try {
@@ -22,21 +24,24 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
         .from('deals')
         .insert({
           ...newDeal,
-          type
+          user_email: user.email,
+          type,
+          is_migration: false
         })
         .select()
         .single();
-
-      setNewDeal({ type });
 
       if (error) {
         notify(`Sorry, could not create new deal.`, false);
         return;
       }
-      notify('Successfully created !', true);
-      onCreate();
+      if (data) {
+        setNewDeal({ type });
+        notify('Successfully created !', true);
+        onCreate();
+        router.push(`/deals/${data.id}`);
+      }
     } catch (error) {
-      console.log(error);
       notify(`Sorry, could not create new deal.`, false);
     } finally {
       setLoading(false);
