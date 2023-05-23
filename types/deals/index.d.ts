@@ -22,6 +22,7 @@ import { Asset } from './index.d';
 //   sub_type: string | null;
 //   target_raise_goal: number | null;
 //   total_carry: number | null;
+//   slug: string | null;
 // }
 
 export interface Deal {
@@ -54,6 +55,7 @@ export interface Deal {
   manager_email?: string;
   manager_type?: string;
   master_series?: string;
+  memo?: string;
   minimum_investment?: number;
   mongo_id?: string;
   mongo_organization_id?: string;

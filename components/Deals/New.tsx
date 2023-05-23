@@ -13,7 +13,7 @@ type Props = {
 export default function NewDeal({ onCreate, type = 'spv' }: Props) {
   const { supabase } = useSupabase();
   const { notify, user } = useAuthContext();
-  const [newDeal, setNewDeal] = useState<Deal>({ type });
+  const [newDeal, setNewDeal] = useState<Deal | any>({});
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
         return;
       }
       if (data) {
-        setNewDeal({ type });
+        setNewDeal({});
         notify('Successfully created !', true);
         onCreate();
         router.push(`/deals/${data.id}`);
@@ -49,29 +49,33 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
   };
 
   return (
-    <div>
-      <div className="mb-6 w-96">
-        <p className="mb-2">Enter your deal name:</p>
-        <input
-          type="text"
-          placeholder={'Your deal name'}
-          disabled={loading}
-          className={`${loading ? 'disabled' : ''}`}
-          value={newDeal.name}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setNewDeal((prevData: any) => ({
-              ...prevData,
-              name: e.target.value
-            }))
-          }
-        />
-      </div>
-      <Button
-        loading={loading}
-        disabled={loading}
-        label={'Create'}
-        onClick={createNew}
-      />
-    </div>
+    <>
+      {newDeal && (
+        <div>
+          <div className="mb-6 w-96">
+            <p className="mb-2">Enter your deal name:</p>
+            <input
+              type="text"
+              placeholder={'Your deal name'}
+              disabled={loading}
+              className={`${loading ? 'disabled' : ''}`}
+              value={newDeal.name}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewDeal((prevData: any) => ({
+                  ...prevData,
+                  name: e.target.value
+                }))
+              }
+            />
+          </div>
+          <Button
+            loading={loading}
+            disabled={loading}
+            label={'Create'}
+            onClick={createNew}
+          />
+        </div>
+      )}
+    </>
   );
 }

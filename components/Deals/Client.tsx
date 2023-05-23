@@ -49,8 +49,8 @@ export default function DealClient({
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
               <div className="deal--description">
-                {deal.description}
-                {!deal.description && <span>No description yet.</span>}
+                {deal.memo}
+                {!deal.memo && <span>No memo yet yet.</span>}
               </div>
             </div>
             <div>
