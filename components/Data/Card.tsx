@@ -17,7 +17,7 @@ export default function DataCard({ item }: { item: ItemProps }) {
           <div className="text-3xl font-medium">
             {item.type === 'number' && (
               <span className="text-3xl font-medium">
-                {numeral(item.value).format('0,0')}
+                {numeral(item.value).format(item.format || '0,0')}
               </span>
             )}
             {item.type === 'price' && <Price price={item.value} />}
