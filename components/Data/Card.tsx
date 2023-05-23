@@ -6,6 +6,7 @@ interface ItemProps {
   value?: any;
   unit?: string;
   type?: string;
+  format?: string;
 }
 
 export default function DataCard({ item }: { item: ItemProps }) {
