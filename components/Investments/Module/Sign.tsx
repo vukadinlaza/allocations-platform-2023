@@ -106,14 +106,9 @@ export default function InvestmentSignature({
         .single();
 
       if (data) {
-        console.log(data);
         await getSubscriptionAgreementDocument(data.id);
-        // router.push('/investments');
+        router.push(`/investments/${data.id}`);
       }
-
-      // if (data) {
-      //   onUpdate();
-      // }
     } catch (error) {
       console.log(error);
     } finally {
