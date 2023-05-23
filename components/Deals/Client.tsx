@@ -4,6 +4,12 @@ import InvestmentSidebar from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
 import { Deal } from '@/types';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+
+const copyCurrentUrl = async () => {
+  await navigator.clipboard.writeText(window.location.href);
+  toast.success('Link copied to clipboard');
+}
 
 export default function DealClient({
   deal,
@@ -24,7 +30,7 @@ export default function DealClient({
                   loading={false}
                   disabled={false}
                   label={'Copy link'}
-                  onClick={() => {}}
+                  onClick={copyCurrentUrl}
                   icon={
                     <Image
                       src={'/copy.svg'}
