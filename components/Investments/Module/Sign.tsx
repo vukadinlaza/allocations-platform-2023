@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '../../Button';
+import { AllocationsAPI } from '@/lib/allocations-api';
+import { downloadFile } from '@/lib/utils';
 
 export default function InvestmentSignature({
   currentUser,
@@ -31,36 +33,10 @@ export default function InvestmentSignature({
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `https://api.allocations.com/documents/subscription-agreement/preview/${deal.id}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
-          }
-        }
-      );
+      const response = await AllocationsAPI.getSPVAgreementPreview(deal.id as string);
 
       if (response.ok) {
-        (async () => {
-          try {
-            const url = await response.text();
-
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `document-preview.pdf`;
-            link.target = '_blank';
-
-            document.body.appendChild(link);
-            link.click();
-
-            URL.revokeObjectURL(url);
-            link.remove();
-          } catch (error) {
-            console.error('Failed to download the document:', error);
-          }
-        })();
+        await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
       } else {
         console.error('Failed to download the document');
       }

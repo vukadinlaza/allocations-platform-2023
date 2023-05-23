@@ -11,6 +11,8 @@ import { Card } from '@mui/material';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { downloadFile } from '@/lib/utils';
+import { AllocationsAPI } from '@/lib/allocations-api';
 
 export default function InvestmentId() {
   const { supabase } = useSupabase();
@@ -30,33 +32,9 @@ export default function InvestmentId() {
 
       const found = target.find((x: any) => x.files.type === type);
       if (found) {
-        const response = await fetch(
-          `https://api.allocations.com/files/download/${
-            found?.file_id ?? found?.files_id
-          }`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
-            }
-          }
-        );
-
+        const response = await AllocationsAPI.downloadFile(found?.file_id ?? found?.files_id);
         if (response.ok) {
-          const blob = await response.blob();
-
-          const url = URL.createObjectURL(blob);
-
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = `${type}.pdf`;
-
-          document.body.appendChild(link);
-          link.click();
-
-          URL.revokeObjectURL(url);
-          link.remove();
+          await downloadFile(await response.blob(), 'spv-agreement.pdf');
         } else {
           console.error('Failed to download the document');
         }
