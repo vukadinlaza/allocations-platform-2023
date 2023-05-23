@@ -49,6 +49,8 @@ export const deal_master_series = ['Allocations', 'Custom'];
 
 export const deal_offering_types = ['506b', '506c'];
 
+export const deal_product_types = ['Micro SPV', 'Standard SPV', 'Custom SPV'];
+
 export const deal_management_frequency_fee = ['once', 'annual'];
 
 export const deal_types = ['spv', 'fund'];

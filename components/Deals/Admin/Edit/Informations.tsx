@@ -37,7 +37,7 @@ export default function DealInformations({
       show: true
     },
     {
-      label: 'Target raise amount',
+      label: 'Target raise amount', // no
       key: 'target_raise_goal',
       type: 'number',
       show: true
@@ -63,7 +63,7 @@ export default function DealInformations({
     },
     {
       label: 'Total carry',
-      key: 'total_carry',
+      key: 'total_carry', // no
       type: 'number',
       show: true
     }

@@ -9,6 +9,7 @@ import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
+import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
@@ -87,6 +88,24 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
+          {deal.type === 'spv' && (
+            <Step
+              selected={newDeal.sub_type}
+              component={
+                <DealProductType
+                  loading={loading}
+                  deal={newDeal}
+                  onSave={saveDeal}
+                  onChange={(sub_type: string) => {
+                    setNewDeal((prev: any) => ({
+                      ...prev,
+                      sub_type
+                    }));
+                  }}
+                />
+              }
+            />
+          )}
           <Step
             selected={false}
             component={
