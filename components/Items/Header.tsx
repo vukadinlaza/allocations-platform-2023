@@ -2,7 +2,13 @@
 
 import ChipStatus from '@/components/ChipStatus';
 
-export default function ItemHeader({ data }: { data: any }) {
+export default function ItemHeader({
+  data,
+  button
+}: {
+  data: any;
+  button?: any;
+}) {
   return (
     <div>
       <header className="flex items-start justify-start mb-8">
@@ -23,6 +29,7 @@ export default function ItemHeader({ data }: { data: any }) {
             </p> */}
           </div>
         </div>
+        {button && <div>{button}</div>}
       </header>
     </div>
   );

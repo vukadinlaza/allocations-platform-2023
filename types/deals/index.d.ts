@@ -39,6 +39,7 @@ export interface Deal {
   deal_term?: string;
   description?: string;
   documents?: string;
+  documents_template_id?: string;
   elevated_returns?: boolean;
   entity_id?: string;
   entity_name?: string;

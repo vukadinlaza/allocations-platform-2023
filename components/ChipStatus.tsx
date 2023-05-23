@@ -10,7 +10,6 @@ export default function ChipStatus({
     draft: 'bg-gray-300',
     closed: 'bg-green-500',
     processing: 'bg-amber-400',
-    build: 'bg-yellow-500',
     committed: 'bg-orange-500',
     onboarding: 'bg-amber-400',
     signed: 'bg-amber-400',

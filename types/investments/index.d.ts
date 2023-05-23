@@ -1,4 +1,6 @@
 export interface Investment {
+  deals?: Deal;
+  investments_files?: any;
   mongo_investment_id?: string;
   mongo_deal_id?: string;
   mongo_user_id?: string;
@@ -17,5 +19,5 @@ export interface Investment {
   invited_at?: string;
   status?: string;
   updated_at?: string;
+  created_at?: string;
 }
-
