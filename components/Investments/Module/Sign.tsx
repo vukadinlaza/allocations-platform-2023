@@ -73,7 +73,7 @@ export default function InvestmentSignature({
 
   const getSubscriptionAgreementDocument = async (
     investmentId: string,
-    preview = true
+    preview = false
   ) => {
     if (!currentUser && !entity && !investmentId) return;
 
