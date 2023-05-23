@@ -17,7 +17,7 @@ export default function Dashboard() {
   const { user } = useAuthContext();
   const [active, setActive] = useState('Investor dashboard');
   const [items, setItems] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const tabs = [
     { key: 'Investor dashboard' },
