@@ -1,5 +1,29 @@
 import { Asset } from './index.d';
 
+// export interface Deal {
+//   id: string;
+//   created_at: Date | null;
+//   updated_at: Date | null;
+//   name: string | null;
+//   type: string | null;
+//   status: string | null;
+//   minimum_investment: number | null;
+//   closing_date: Date | null;
+//   offering_type: string | null;
+//   management_fee_frequency: string | null;
+//   management_fee_percent: number | null;
+//   carry_fee: number | null;
+//   organization_id: string | null;
+//   entity_id: string | null;
+//   user_email: string | null;
+//   mongo_deal_id: string | null;
+//   mongo_organization_id: string | null;
+//   is_migration: boolean | null;
+//   sub_type: string | null;
+//   target_raise_goal: number | null;
+//   total_carry: number | null;
+// }
+
 export interface Deal {
   id?: string;
   created_at?: string;
@@ -52,4 +76,5 @@ export interface Deal {
   type?: string;
   wire_deadline?: string;
   user_email?: string;
+  sub_type: string | null;
 }

@@ -22,7 +22,7 @@ export default function DealID() {
   async function fetchDeal() {
     if (!params || !params.id) return;
 
-    const queryFrom = 'deals';
+    const queryFrom = isAdmin() ? 'private_deals' : 'deals';
     const querySelect = isAdmin() ? `*, assets(*)` : '*';
 
     try {

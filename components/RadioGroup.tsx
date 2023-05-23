@@ -1,12 +1,24 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const RadioGroup = ({ options, onChange }: { options: any; onChange: any }) => {
+const RadioGroup = ({
+  selected,
+  options,
+  onChange
+}: {
+  selected?: string;
+  options: any;
+  onChange: any;
+}) => {
   const [selectedOption, setSelectedOption] = useState<any>(null);
 
   useEffect(() => {
     onChange(selectedOption);
   }, [selectedOption]);
+
+  useEffect(() => {
+    setSelectedOption(selected);
+  }, [selected]);
 
   return (
     <div>

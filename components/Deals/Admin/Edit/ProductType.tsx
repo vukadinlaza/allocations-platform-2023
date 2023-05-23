@@ -1,5 +1,6 @@
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
+import { openURL } from '@/components/Table';
 import { Deal } from '@/types';
 import { deal_product_types } from '@/types/values';
 import { useEffect, useState } from 'react';
@@ -30,7 +31,12 @@ export default function DealProductType({
         onChange={(v: string) => setProductType(v)}
       ></RadioGroup>
       <div>
-        <span className="cta">Download Master Services Agreement</span>
+        <span
+          className="cta"
+          onClick={() => openURL('https://allocations.com/fees')}
+        >
+          View pricing
+        </span>
       </div>
       <div className="flex items-center gap-4 mt-4">
         <Button loading={loading} onClick={() => onSave()} label="Save" />

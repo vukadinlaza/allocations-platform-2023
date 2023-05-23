@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
+import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
@@ -88,7 +89,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          {deal.type === 'spv' && (
+          {newDeal.type === 'spv' && (
             <Step
               selected={newDeal.sub_type}
               component={
@@ -190,6 +191,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }}
               />
             }
+          />
+          <Step
+            selected={true}
+            component={<DealEstimatedCosts deal={newDeal} />}
           />
           <Step
             selected={agree}

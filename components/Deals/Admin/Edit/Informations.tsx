@@ -37,7 +37,7 @@ export default function DealInformations({
       show: true
     },
     {
-      label: 'Target raise amount', // no
+      label: 'Target raise amount',
       key: 'target_raise_goal',
       type: 'number',
       show: true
@@ -49,9 +49,11 @@ export default function DealInformations({
       show: true
     },
     {
-      label: 'Management fee percent',
+      label: 'Management fee percent (max. 100%)',
       key: 'management_fee_percent',
       type: 'number',
+      min: 0,
+      max: 100,
       show: true
     },
     {
@@ -62,9 +64,11 @@ export default function DealInformations({
       items: deal_management_frequency_fee
     },
     {
-      label: 'Total carry',
-      key: 'total_carry', // no
+      label: 'Total carry percent (max. 100%)',
+      key: 'total_carry',
       type: 'number',
+      min: 0,
+      max: 100,
       show: true
     }
   ];

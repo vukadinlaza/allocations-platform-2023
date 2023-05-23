@@ -100,6 +100,8 @@ export default function FormBuilder({
                       <input
                         type="number"
                         placeholder={field.placeholder || undefined}
+                        min={field.min}
+                        max={field.max}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={_data && _data[field.key] ? _data[field.key] : 0}

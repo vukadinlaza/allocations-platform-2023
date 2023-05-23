@@ -13,6 +13,8 @@ export type Field = {
   label?: string;
   placeholder?: string;
   key?: string;
+  min?: number;
+  max?: number;
   show?: boolean | true;
   type: FieldType; // add more types as needed
   value?: any;
