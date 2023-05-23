@@ -3,7 +3,6 @@ import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
 import { Alert } from '@mui/material';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useState } from 'react';
 import InvestmentsModule from './Module';
@@ -63,8 +62,7 @@ export default function InvestmentSidebar({
     const conditions = [
       () => deal?.documents_template_id,
       () =>
-        ['onboarding', 'closing'].includes(String(deal.status).toLowerCase()),
-      () => dayjs().isAfter(deal.closing_date)
+        ['onboarding', 'closing'].includes(String(deal.status).toLowerCase())
     ];
     return conditions.every((condition) => condition());
   };

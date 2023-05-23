@@ -49,7 +49,7 @@ export default function DealClient({
                 {deal.memo && (
                   <div dangerouslySetInnerHTML={{ __html: deal.memo }} />
                 )}
-                {!deal.memo && <span>No memo yet yet.</span>}
+                {!deal.memo && <span>No memo yet.</span>}
               </div>
             </div>
             <div>

@@ -27,9 +27,53 @@ export default function InvestmentSignature({
   const router = useRouter();
   const { notify } = useAuthContext();
 
+  const downloadDocumentPreview = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `https://api.allocations.com/documents/subscription-agreement/preview/${deal.id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        (async () => {
+          try {
+            const url = await response.text();
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `document-preview.pdf`;
+            link.target = '_blank';
+
+            document.body.appendChild(link);
+            link.click();
+
+            URL.revokeObjectURL(url);
+            link.remove();
+          } catch (error) {
+            console.error('Failed to download the document:', error);
+          }
+        })();
+      } else {
+        console.error('Failed to download the document');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getSubscriptionAgreementDocument = async (
     investmentId: string,
-    preview = false
+    preview = true
   ) => {
     if (!currentUser && !entity && !investmentId) return;
 
@@ -43,7 +87,6 @@ export default function InvestmentSignature({
 
     if (!currentIdentity && !currentAccreditation) return;
 
-    //tpl_GrQEGyCarkFX7dcjCn
     const body = {
       investorType:
         entity.type === 'Myself/Individual' ? 'Individual' : 'Entity',
@@ -128,16 +171,20 @@ export default function InvestmentSignature({
             <p className="mb-6 text-sm">
               Finalized documents will be emailed when the deal has closed
             </p>
-            <button className="btn info">
-              <Image
-                src={'/download.svg'}
-                alt="download"
-                className="mr-2 opacity-50 "
-                width={18}
-                height={18}
-              />
-              <span>Download</span>
-            </button>
+            <Button
+              label="Download"
+              loading={loading}
+              icon={
+                <Image
+                  src={'/download.svg'}
+                  alt="download"
+                  className="mr-2 opacity-50 invert "
+                  width={18}
+                  height={18}
+                />
+              }
+              onClick={downloadDocumentPreview}
+            />
           </div>
         </div>
         <div className="mb-6">
