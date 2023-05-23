@@ -41,15 +41,14 @@ export default function DealClient({
           <main className="deal--main">
             <div>
               <h1 className="mb-8 text-2xl">Pitch deck</h1>
-              <div className="deal--description">
-                {/* TODO: delete deal.description */}
-                No pitch deck.
-              </div>
+              <div className="deal--description">No pitch deck.</div>
             </div>
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
               <div className="deal--description">
-                {deal.memo}
+                {deal.memo && (
+                  <div dangerouslySetInnerHTML={{ __html: deal.memo }} />
+                )}
                 {!deal.memo && <span>No memo yet yet.</span>}
               </div>
             </div>

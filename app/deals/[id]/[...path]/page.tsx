@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useCallback, useEffect, useState } from 'react';
 import { Deal } from '@/types';
+
 export default function Page({ params }: { params: { id: string, path: string[] } }) {
   const router = useRouter();
   const {id: orgSlugOrId, path} = params;
