@@ -13,7 +13,7 @@ export const revalidate = 0;
 
 const getPlaidClient = async () => {
   const configuration = new Configuration({
-    basePath: PlaidEnvironments.sandbox,
+    basePath: process.env.PLAID_BASE_URL ?? PlaidEnvironments.sandbox,
     baseOptions: {
       headers: {
         'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
