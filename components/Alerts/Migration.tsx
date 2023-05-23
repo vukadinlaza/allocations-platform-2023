@@ -19,7 +19,9 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
         </IconButton>
       }
     >
-      <h2 className="mt-0">New platform migration update</h2>
+      <h2 className="mt-0">
+        New platform migration update — last update: today at 06:15 EST
+      </h2>
       <span>
         Welcome to the new platform! Core features will be released between the
         dates of 22 May 2023 and 26 May 2023. Please email
