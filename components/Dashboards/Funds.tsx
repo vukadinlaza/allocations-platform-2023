@@ -30,7 +30,8 @@ export default function FundManagerDashboard() {
           key: 'funds_estimated_multiple',
           value: 0,
           unit: 'x',
-          type: 'number'
+          type: 'number',
+          format: '0,0.00'
         },
         {
           title: 'Total Private Funds',

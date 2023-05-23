@@ -30,7 +30,8 @@ export default function FundManagerDashboard() {
           key: 'spvs_estimated_multiple',
           value: 0,
           unit: 'x',
-          type: 'number'
+          type: 'number',
+          format: '0,0.00'
         },
         {
           title: 'Total SPVs',
