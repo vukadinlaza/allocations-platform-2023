@@ -3,8 +3,8 @@ import { useAuthContext } from '@/app/context';
 import Checkbox from '@/components/Checkbox';
 
 import NewAsset from '@/components/Assets/New';
-import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import Button from '@/components/Button';
+import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
@@ -58,6 +58,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [user]);
 
   useEffect(() => {
+    console.log(deal);
     setNewDeal(deal);
   }, [deal]);
 
@@ -72,11 +73,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       {hasIdentity && deal && newDeal && (
         <div>
           <Step
-            selected={
-              newDeal.organization_id
-                ? newDeal.organization_id
-                : null
-            }
+            selected={newDeal.organization_id || false}
             component={
               <SelectOrganization
                 loading={loading}

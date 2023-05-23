@@ -47,7 +47,7 @@ export default function SelectOrganization({
   useEffect(() => {
     const found = organizations?.find((o) => o.name === selectedOrganization);
     onChange(found);
-  }, [selectedOrganization]);
+  }, [organizations, selectedOrganization]);
 
   return (
     <div className="w-full">
