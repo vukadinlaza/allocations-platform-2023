@@ -49,7 +49,7 @@ export default function DealInformations({
       show: true
     },
     {
-      label: 'Management fee percent (max. 100%)',
+      label: 'Management fee percent',
       key: 'management_fee_percent',
       type: 'number',
       min: 0,
@@ -64,7 +64,7 @@ export default function DealInformations({
       items: deal_management_frequency_fee
     },
     {
-      label: 'Total carry percent (max. 100%)',
+      label: 'Total carry percent',
       key: 'total_carry',
       type: 'number',
       min: 0,

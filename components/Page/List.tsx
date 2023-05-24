@@ -258,7 +258,7 @@ export default function PageList({ data }: { data: any }) {
               </header>
             </div>
           )}
-          <Grid container xs={12} className="mb-6">
+          {/* <Grid container xs={12} className="mb-6">
             <Grid item xs={8}>
               <input
                 style={{ maxWidth: '400px' }}
@@ -268,7 +268,7 @@ export default function PageList({ data }: { data: any }) {
                 onInput={(e: any) => setSearch(e.target.value)}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid container>
             {!search && initialData && (
               <Table
