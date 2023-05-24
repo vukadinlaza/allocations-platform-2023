@@ -87,7 +87,12 @@ export default function TableComponent({ headers, data = [], table }: Props) {
                             }}
                           >
                             <button
-                              onClick={() => openURL(`${table}/${item.id}`)}
+                              onClick={() =>
+                                openURL(
+                                  `${table}/${item.id}`,
+                                  column.target
+                                )
+                              }
                               className="mr-2 btn primary"
                             >
                               View

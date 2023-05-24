@@ -330,6 +330,11 @@ export const headers_tables = {
       label: 'Status',
       key: 'status',
       type: 'chip'
+    },
+    {
+      label: '',
+      target: '_blank',
+      manage: true
     }
   ],
   investments_entities: [
