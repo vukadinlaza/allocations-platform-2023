@@ -48,7 +48,8 @@ export default function InvestmentSidebar({
     },
     {
       label: 'Management fee',
-      value: Number(deal.management_fee_percent) * 100 || 0,
+      // @ts-ignore
+      value: (deal.management_fee_percent * 100).toFixed(0),
       type: 'percent'
     },
     {
