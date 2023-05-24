@@ -207,10 +207,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          <Step
+          {/* <Step
             selected={true}
             component={<DealEstimatedCosts deal={newDeal} />}
-          />
+          /> */}
           <Step
             selected={agreeDeal && agreeInformations}
             component={
