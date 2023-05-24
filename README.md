@@ -17,3 +17,4 @@ Stack:
 Please check @/components/slideover folder for more informations.
 
 Slideover is trigger from @/context, you'll need to inject data (model SlideOverContentData) immediately from source.
+ 
