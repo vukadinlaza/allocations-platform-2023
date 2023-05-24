@@ -1,14 +1,14 @@
 'use client';
 import { useAuthContext } from '@/app/context';
 import Checkbox from '@/components/Checkbox';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
+import { downloadFile } from '@/lib/utils';
 import { Deal, Entity } from '@/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '../../Button';
-import { AllocationsAPI } from '@/lib/allocations-api';
-import { downloadFile } from '@/lib/utils';
 
 export default function InvestmentSignature({
   currentUser,
@@ -33,7 +33,9 @@ export default function InvestmentSignature({
     try {
       setLoading(true);
 
-      const response = await AllocationsAPI.getSPVAgreementPreview(deal.id as string);
+      const response = await AllocationsAPI.getSPVAgreementPreview(
+        deal.id as string
+      );
 
       if (response.ok) {
         await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
@@ -42,6 +44,7 @@ export default function InvestmentSignature({
       }
     } catch (error) {
       console.log(error);
+      notify(`Sorry, could not download document preview.`, false);
     } finally {
       setLoading(false);
     }
@@ -94,14 +97,16 @@ export default function InvestmentSignature({
       if (!response.ok) {
         // router.push('/investments');
 
-        notify('Successfully created !', true);
+        notify('Failed to fetch subscription agreement document', false);
+
         throw new Error('Failed to fetch subscription agreement document');
       }
+      notify('Successfully downloaded.', true);
 
       const document = await response.blob();
       return document;
     } catch (error) {
-      notify(`Sorry, could not create new asset.`, false);
+      notify('Failed to fetch subscription agreement document', false);
       return;
     } finally {
       setLoading(false);
@@ -130,6 +135,7 @@ export default function InvestmentSignature({
       }
     } catch (error) {
       console.log(error);
+      notify(`Sorry, could not create new investment.`, false);
     } finally {
       setLoading(false);
     }

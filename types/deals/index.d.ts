@@ -32,7 +32,7 @@ export interface Deal {
   assets?: Asset[];
   advisor_type?: string;
   accept_crypto?: boolean;
-  carry_fee?: string;
+  total_carry?: number;
   closing_date?: string;
   closed?: boolean;
   company_name?: string;

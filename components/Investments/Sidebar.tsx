@@ -52,8 +52,8 @@ export default function InvestmentSidebar({
       type: 'percent'
     },
     {
-      label: 'Carry fee',
-      value: deal.carry_fee || 0,
+      label: 'Total carry fee',
+      value: deal.total_carry || 0,
       type: 'percent'
     }
   ];
