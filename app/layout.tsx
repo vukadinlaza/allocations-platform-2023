@@ -20,11 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>
-          Allocations - Scale your fund to $100m+ AUM with Allocation’s next generation AI powered fund administration platform. Designed for speed and efficiency.
+          Allocations - Build SPVs and Funds instantly
         </title>
         <meta
           name="description"
-          content="Scale your fund to $100m+ AUM with Allocation’s next generation AI powered fund administration platform. Designed for speed and efficiency. Please note that this page is not intended to be indexed by browsers."
+          content="Scale your fund to $100m+ AUM with Allocation’s next generation AI powered fund administration platform. Designed for speed and efficiency."
         />
         <meta name="robots" content="noindex" />
       </head>
