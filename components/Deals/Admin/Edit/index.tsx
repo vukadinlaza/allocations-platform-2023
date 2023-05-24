@@ -44,6 +44,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
       const { series_name, master_series, legal_template_option, ...dealData } = newDeal;
 
+      dealData.total_carry = dealData.total_carry? parseFloat(String(dealData.total_carry)) / 100 : 0;
+      dealData.management_fee_percent = dealData.management_fee_percent? parseFloat(String(dealData.management_fee_percent)) / 100 : 0;
+
       const { data: dealObject, error: dealError } = await supabase
         .from('deals')
         .upsert({ id: deal.id, ...dealData });
