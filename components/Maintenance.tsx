@@ -19,8 +19,7 @@ export default function Maintenance() {
             </div>
             <h1 className="mb-6 text-2xl">Platform maintenance</h1>
             <p>
-              We would like to inform you that our platform is under maintenance
-              work.
+              We would like to inform you that our platform is undergoing maintenance.
             </p>
             <p>
               During this period, the dashboard and its related services is
