@@ -116,10 +116,11 @@ export default function InvestmentSignature({
   const saveInvestment = async () => {
     if (!deal) return;
     if (!signed) return alert('You have to sign to complete your investment.');
-    if (amount < (deal.minimum_investment || 1000))
-      return alert(
-        `Minimum investment amount is $${deal.minimum_investment || 1000}.`
-      );
+    // Removed for now, display only
+    // if (amount < (deal.minimum_investment || 1000))
+    //   return alert(
+    //     `Minimum investment amount is $${deal.minimum_investment || 1000}.`
+    //   );
     try {
       setLoading(true);
       const { data } = await supabase
