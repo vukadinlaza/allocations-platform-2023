@@ -48,12 +48,12 @@ export default function InvestmentSidebar({
     },
     {
       label: 'Management fee',
-      value: deal.management_fee_percent || 0,
+      value: Number(deal.management_fee_percent) * 100 || 0,
       type: 'percent'
     },
     {
       label: 'Total carry fee',
-      value: deal.total_carry || 0,
+      value: Number(deal.total_carry) * 100 || 0,
       type: 'percent'
     }
   ];
