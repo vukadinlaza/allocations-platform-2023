@@ -48,7 +48,7 @@ export default function InvestmentSidebar({
     },
     {
       label: 'Management fee',
-      value: deal.management_fee || 0,
+      value: deal.management_fee_percent || 0,
       type: 'percent'
     },
     {
