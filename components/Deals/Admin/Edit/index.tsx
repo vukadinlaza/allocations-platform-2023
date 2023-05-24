@@ -21,9 +21,13 @@ import { useEffect, useState } from 'react';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
-  const [newDeal, setNewDeal] = useState<any>();
+  const [newDeal, setNewDeal] = useState<any>({
+    organization_id: null
+  });
   const [hasIdentity, setHasIdentity] = useState(true);
   const [agree, setAgree] = useState<boolean>(false);
+  const [agreeDeal, setAgreeDeal] = useState<boolean>(false);
+  const [agreeInformations, setAgreeInformations] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
@@ -60,7 +64,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [user]);
 
   useEffect(() => {
-    console.log(deal);
     setNewDeal(deal);
   }, [deal]);
 
@@ -72,26 +75,38 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
-      {hasIdentity && deal && newDeal && (
+      {hasIdentity && deal && (
         <div>
           <Step
-            selected={newDeal.organization_id || false}
+            selected={
+              agree && (newDeal.organization_id || deal.organization_id)
+            }
             component={
-              <SelectOrganization
-                loading={loading}
-                onSave={saveDeal}
-                onChange={(org: any) => {
-                  setNewDeal((prev: any) => ({
-                    ...prev,
-                    organization_id: org?.id
-                  }));
-                }}
-              />
+              <div className="w-full">
+                <div className="w-full mb-4">
+                  <SelectOrganization
+                    loading={loading}
+                    onSave={saveDeal}
+                    onChange={(org: any) => {
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        organization_id: org?.id
+                      }));
+                    }}
+                  />
+                </div>
+                <Checkbox
+                  selected={agree}
+                  onChange={() => setAgree(!agree)}
+                  label={`I agree to the Master Services agreement.`}
+                />
+                <span className="cta">Download Master Services Agreement</span>
+              </div>
             }
           />
           {newDeal.type === 'spv' && (
             <Step
-              selected={newDeal.sub_type}
+              selected={newDeal.sub_type || deal.sub_type}
               component={
                 <DealProductType
                   loading={loading}
@@ -192,21 +207,29 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          {/* <Step
+          <Step
             selected={true}
             component={<DealEstimatedCosts deal={newDeal} />}
-          /> */}
+          />
           <Step
-            selected={agree}
+            selected={agreeDeal && agreeInformations}
             component={
               <div>
                 <h1>E-sign & submit</h1>
-                <Checkbox
-                  selected={agree}
-                  onChange={() => setAgree(!agree)}
-                  label={`I agree to the Master Services agreement.`}
-                />
-                <span className="cta">Download Master Services Agreement</span>
+                <div>
+                  <Checkbox
+                    selected={agreeDeal}
+                    onChange={() => setAgreeDeal(!agreeDeal)}
+                    label={`I agree to the Deal Setup Form and I certify that the provided deal information above is accurate`}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    selected={agreeInformations}
+                    onChange={() => setAgreeInformations(!agreeInformations)}
+                    label={`I understand there may be costs associated if I change the deal information above`}
+                  />
+                </div>
               </div>
             }
           />
@@ -217,7 +240,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             </p>
             {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
             <Button
-              disabled={true} // !agree
+              disabled={true} // !agree && !agreeDeal
               loading={loading}
               label="Submit my deal"
               onClick={() => {}}
