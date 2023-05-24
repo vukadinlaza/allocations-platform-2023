@@ -20,11 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>
-          Allocations - The Fastest Growing Private Markets Platform
+          Allocations - Build SPVs and Funds instantly
         </title>
         <meta
           name="description"
-          content="Allocations is the fastest growing private markets platform that helps you close more deals. Discover our exclusive solution to optimize your transaction efficiency and maximize your success. Please note that this page is not intended to be indexed by browsers."
+          content="Scale your fund to $100m+ AUM with Allocation’s next generation AI powered fund administration platform. Designed for speed and efficiency."
         />
         <meta name="robots" content="noindex" />
       </head>

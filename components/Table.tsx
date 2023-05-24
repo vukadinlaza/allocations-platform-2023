@@ -13,8 +13,8 @@ import DateComponent from './DateComponent';
 import None from './None';
 import Price from './Price';
 
-export const openURL = (url: string) => {
-  window.open(url, '_self');
+export const openURL = (url: string, target = '_self') => {
+  window.open(url, target);
 };
 
 type Props = {

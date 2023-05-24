@@ -4,6 +4,12 @@ import InvestmentSidebar from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
 import { Deal } from '@/types';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+
+const copyCurrentUrl = async () => {
+  await navigator.clipboard.writeText(window.location.href);
+  toast.success('Link copied to clipboard');
+}
 
 export default function DealClient({
   deal,
@@ -24,7 +30,7 @@ export default function DealClient({
                   loading={false}
                   disabled={false}
                   label={'Copy link'}
-                  onClick={() => {}}
+                  onClick={copyCurrentUrl}
                   icon={
                     <Image
                       src={'/copy.svg'}
@@ -41,16 +47,15 @@ export default function DealClient({
           <main className="deal--main">
             <div>
               <h1 className="mb-8 text-2xl">Pitch deck</h1>
-              <div className="deal--description">
-                {/* TODO: delete deal.description */}
-                No pitch deck.
-              </div>
+              <div className="deal--description">No pitch deck.</div>
             </div>
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
               <div className="deal--description">
-                {deal.description}
-                {!deal.description && <span>No description yet.</span>}
+                {deal.memo && (
+                  <div dangerouslySetInnerHTML={{ __html: deal.memo }} />
+                )}
+                {!deal.memo && <span>No memo yet.</span>}
               </div>
             </div>
             <div>

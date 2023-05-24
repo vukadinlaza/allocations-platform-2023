@@ -26,7 +26,11 @@ const Button: FunctionComponent<ButtonProps> = ({
       } ${disabled ? 'disabled' : ''}`}
       disabled={disabled || loading}
     >
-      {loading && <CircularProgress color="inherit" size={12} />}
+      {loading && (
+        <div className="p-2">
+          <CircularProgress color="inherit" size={16} />
+        </div>
+      )}
       {!loading && (
         <div className="flex items-center justify-center w-full text-center">
           {icon && <span className="mr-1">{icon}</span>}
