@@ -101,7 +101,7 @@ export default function InvestmentSignature({
 
         throw new Error('Failed to fetch subscription agreement document');
       }
-      notify('Successfully downloaded.', true);
+      notify('Investment successful !', true);
 
       const document = await response.blob();
       return document;
