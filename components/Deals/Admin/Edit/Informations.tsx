@@ -91,29 +91,29 @@ export default function DealInformations({
             />
           </div>
         </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">Upload pitch deck</h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">Upload term sheet / purchase agreement</h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">
-              Upload portfolio company wire instructions
-            </h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">Upload pitch deck</h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">Upload term sheet / purchase agreement</h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">*/}
+        {/*      Upload portfolio company wire instructions*/}
+        {/*    </h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
       </main>
     </div>
   );
