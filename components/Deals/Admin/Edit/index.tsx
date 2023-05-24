@@ -7,7 +7,6 @@ import Button from '@/components/Button';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
-import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
@@ -18,6 +17,8 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Asset, Deal } from '@/types';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { AllocationsAPI } from '@/lib/allocations-api';
+import { downloadFile } from '@/lib/utils';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
@@ -41,17 +42,42 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       delete newDeal.total_raised_amount;
       delete newDeal.assets;
 
-      const { data, error } = await supabase
-        .from('deals')
-        .upsert({ id: deal.id, ...newDeal });
+      const { series_name, master_series, legal_template_option, ...dealData } = newDeal;
 
-      if (error) {
+      const { data: dealObject, error: dealError } = await supabase
+        .from('deals')
+        .upsert({ id: deal.id, ...dealData });
+
+      const { data: dealDetailsObject, error: dealDetailsError } = await supabase
+        .from('deal_details')
+        .upsert({ deal_id: deal.id, series_name, master_series, legal_template_option });
+
+      if (dealError || dealDetailsError) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
       notify('Deal saved.', true);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downloadMSA = async () => {
+    try {
+      setLoading(true);
+
+      const response = await AllocationsAPI.getMSADocument();
+
+      if (response.ok) {
+        await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
+      } else {
+        throw new Error('Can\'t download file');
+      }
+    } catch (error) {
+      console.log(error);
+      notify(`Sorry, could not download document`, false);
     } finally {
       setLoading(false);
     }
@@ -68,10 +94,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [deal]);
 
   return (
-    <Card className="container grid gap-8 p-6 mt-8">
-      <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
+    <Card className='container grid gap-8 p-6 mt-8'>
+      <h1 className='pb-0 mb-0 text-2xl font-medium'>Deal Setup Form</h1>
       {!hasIdentity && (
-        <Card className="flex items-start card" variant="outlined">
+        <Card className='flex items-start card' variant='outlined'>
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
@@ -82,8 +108,8 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               agree && (newDeal.organization_id || deal.organization_id)
             }
             component={
-              <div className="w-full">
-                <div className="w-full mb-4">
+              <div className='w-full'>
+                <div className='w-full mb-4'>
                   <SelectOrganization
                     loading={loading}
                     onSave={saveDeal}
@@ -100,7 +126,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   onChange={() => setAgree(!agree)}
                   label={`I agree to the Master Services agreement.`}
                 />
-                <span className="cta">Download Master Services Agreement</span>
+                <Button onClick={downloadMSA} label={'Download Master Services Agreement'}/>
               </div>
             }
           />
@@ -138,9 +164,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <Step
             selected={newDeal.assets && newDeal.assets[0]}
             component={
-              <div className="w-full">
-                <header className="flex flex-col items-start mb-4">
-                  <h2 className="text-xl">Create a new asset</h2>
+              <div className='w-full'>
+                <header className='flex flex-col items-start mb-4'>
+                  <h2 className='text-xl'>Create a new asset</h2>
                 </header>
                 <NewAsset
                   asset={newDeal.assets ? newDeal.assets[0] : null}
@@ -233,17 +259,20 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               </div>
             }
           />
-          <div className="flex items-center justify-end gap-4">
-            <p className="text-sm">
+          <div className='flex items-center justify-end gap-4'>
+            <p className='text-sm'>
               To submit your deal for review, please fill in all the required
               fields before submitting the form. Thank you.
             </p>
             {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
             <Button
-              disabled={true} // !agree && !agreeDeal
+              disabled={!agree && !agreeDeal} // !agree && !agreeDeal
               loading={loading}
-              label="Submit my deal"
-              onClick={() => {}}
+              label='Submit my deal'
+              onClick={async () => {
+                setNewDeal({...newDeal, status: 'submitted'});
+                await saveDeal()
+              }}
             />
           </div>
         </div>
