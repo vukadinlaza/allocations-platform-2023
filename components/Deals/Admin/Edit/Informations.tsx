@@ -1,8 +1,6 @@
-import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import Upload from '@/components/Upload';
-import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
 import { deal_management_frequency_fee } from '@/types/values';
 import { useState } from 'react';
@@ -18,9 +16,6 @@ export default function DealInformations({
   onChange: (v: any) => any;
   loading: boolean;
 }) {
-  const { supabase } = useSupabase();
-  const { notify } = useAuthContext();
-
   const [_loading, setLoading] = useState<boolean>(false);
 
   const model: Field[] = [

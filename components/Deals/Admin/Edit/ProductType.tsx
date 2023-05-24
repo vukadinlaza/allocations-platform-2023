@@ -27,6 +27,7 @@ export default function DealProductType({
         <h2 className="text-xl">Product type</h2>
       </header>
       <RadioGroup
+        selected={productType}
         options={deal_product_types.map((x) => ({ value: x, label: x }))}
         onChange={(v: string) => setProductType(v)}
       ></RadioGroup>

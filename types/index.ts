@@ -5,7 +5,14 @@ export * from './investments';
 export * from './organizations';
 export * from './user';
 
-type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
+type FieldType =
+  | 'string'
+  | 'number'
+  | 'boolean'
+  | 'select'
+  | 'copy'
+  | 'date'
+  | 'slider';
 
 export type Field = {
   disabled?: boolean | false;
