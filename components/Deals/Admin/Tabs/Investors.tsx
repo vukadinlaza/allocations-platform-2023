@@ -21,15 +21,18 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
     },
     {
       label: 'Amount commited',
-      key: 'subscription_amount'
+      key: 'subscription_amount',
+      type: 'price'
     },
     {
       label: 'Wired amount',
-      key: 'capital_wired_amount'
+      key: 'capital_wired_amount',
+      type: 'price'
     },
     {
       label: 'Status',
-      key: 'status'
+      key: 'status',
+      type: 'chip'
     },
     {
       label: 'Documents',

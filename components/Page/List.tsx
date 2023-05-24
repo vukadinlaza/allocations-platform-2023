@@ -82,11 +82,12 @@ export default function PageList({ data }: { data: any }) {
           // @ts-ignore
           return dateB - dateA;
         });
-        setInitialData(
-          table.to_display
-            ? sorted.map((d: any) => d[table.to_display])
-            : sorted
-        );
+
+        const dataToSet = table.to_display
+          ? sorted.map((d: any) => d[table.to_display])
+          : sorted;
+        // TODO temporary archived
+        setInitialData(dataToSet.filter((x: any) => x.status !== 'archived'));
       }
     } catch (err) {
       console.log(err);

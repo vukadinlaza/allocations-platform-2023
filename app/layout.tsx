@@ -14,10 +14,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const maintenance = true;
-  const siteId = 3502247;
-  const hotjarVersion = 6;
-  Hotjar.init(siteId, hotjarVersion);
+  const maintenance = false;
+  // const siteId = 3502247;
+  // const hotjarVersion = 6;
+  // Hotjar.init(siteId, hotjarVersion);
   return (
     <html lang="en">
       <head>

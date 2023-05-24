@@ -103,7 +103,7 @@ export default function InvestmentSidebar({
               <div className="grid w-full px-6 py-3">
                 {deal.closing_date && (
                   <Button
-                    loading={true}
+                    loading={false}
                     disabled={!canInvest()}
                     label={'Invest'}
                     onClick={() => setInvesting(true)}
