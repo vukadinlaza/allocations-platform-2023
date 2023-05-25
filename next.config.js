@@ -31,7 +31,7 @@ module.exports = withSentryConfig(
     silent: true,
 
     org: "allocations",
-    project: "javascript-nextjs",
+    project: "platform-2023",
   },
   {
     // For all available options, see:
