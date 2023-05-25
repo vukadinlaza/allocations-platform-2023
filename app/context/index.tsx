@@ -7,6 +7,8 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as Sentry from '@sentry/nextjs';
+
 
 const AuthContext = createContext({});
 
@@ -47,6 +49,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           is_super_admin: users_infos?.is_super_admin,
           currentOrganization: null
         });
+        Sentry.setUser({
+          email: session.user.email,
+          id: session.user.id,
+          name: `${users_infos.first_name} ${users_infos.last_name}`,
+        })
       }
     } catch (error) {
       console.log(error);
