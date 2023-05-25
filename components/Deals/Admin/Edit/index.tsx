@@ -7,14 +7,15 @@ import Button from '@/components/Button';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
-import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
+import { downloadFile } from '@/lib/utils';
 import { Asset, Deal } from '@/types';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -23,31 +24,81 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
   const [newDeal, setNewDeal] = useState<any>();
   const [hasIdentity, setHasIdentity] = useState(true);
-  const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
+
+  const updatePercent = (deal: Deal, divide = true) => {
+    return {
+      ...deal,
+      total_carry: divide
+        ? parseFloat(String(deal.total_carry)) / 100
+        : parseFloat(String(deal.total_carry)) * 100,
+      management_fee_percent: divide
+        ? parseFloat(String(deal.management_fee_percent)) / 100
+        : parseFloat(String(deal.management_fee_percent)) * 100
+    };
+  };
 
   const saveDeal = async () => {
     if (!deal) return;
     try {
       setLoading(true);
 
-      // TODO: prevent here
-      delete newDeal.total_raised_amount;
-      delete newDeal.assets;
+      const {
+        assets,
+        total_raised_amount,
+        series_name,
+        master_series,
+        legal_template_option,
+        agree_msa,
+        agree_setup,
+        agree_costs,
+        ...dealData
+      } = newDeal;
 
-      const { data, error } = await supabase
+      const { data: _deal, error: _dealError } = await supabase
         .from('deals')
-        .upsert({ id: deal.id, ...newDeal });
+        .upsert({ id: deal.id, ...updatePercent(dealData) });
 
-      if (error) {
+      const { data: _dealDetails, error: _dealDetailsError } = await supabase
+        .from('deal_details')
+        .upsert({
+          deal_id: deal.id,
+          series_name,
+          master_series,
+          legal_template_option,
+          agree_msa,
+          agree_setup,
+          agree_costs
+        });
+
+      if (_dealError || _dealDetailsError) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
       notify('Deal saved.', true);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downloadMSA = async () => {
+    try {
+      setLoading(true);
+
+      const response = await AllocationsAPI.getMSADocument();
+
+      if (response.ok) {
+        await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
+      } else {
+        throw new Error("Can't download file");
+      }
+    } catch (error) {
+      console.log(error);
+      notify(`Sorry, could not download document`, false);
     } finally {
       setLoading(false);
     }
@@ -60,8 +111,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [user]);
 
   useEffect(() => {
-    console.log(deal);
-    setNewDeal(deal);
+    setNewDeal(updatePercent(deal, false));
   }, [deal]);
 
   return (
@@ -72,26 +122,45 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
-      {hasIdentity && deal && newDeal && (
+      {hasIdentity && newDeal && deal && (
         <div>
+          <p>{newDeal.organization_id && newDeal.agree_msa}</p>
           <Step
-            selected={newDeal.organization_id || false}
+            selected={newDeal.organization_id && newDeal.agree_msa}
             component={
-              <SelectOrganization
-                loading={loading}
-                onSave={saveDeal}
-                onChange={(org: any) => {
-                  setNewDeal((prev: any) => ({
-                    ...prev,
-                    organization_id: org?.id
-                  }));
-                }}
-              />
+              <div className="w-full">
+                <div className="w-full mb-4">
+                  <SelectOrganization
+                    loading={loading}
+                    onSave={saveDeal}
+                    onChange={(org: any) => {
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        organization_id: org?.id
+                      }));
+                    }}
+                  />
+                </div>
+                <Checkbox
+                  selected={newDeal.agree_msa}
+                  onChange={() =>
+                    setNewDeal((prev: any) => ({
+                      ...prev,
+                      agree_msa: true
+                    }))
+                  }
+                  label={`I agree to the Master Services agreement.`}
+                />
+                <Button
+                  onClick={downloadMSA}
+                  label={'Download Master Services Agreement'}
+                />
+              </div>
             }
           />
           {newDeal.type === 'spv' && (
             <Step
-              selected={newDeal.sub_type}
+              selected={newDeal.sub_type || deal.sub_type}
               component={
                 <DealProductType
                   loading={loading}
@@ -197,16 +266,34 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             component={<DealEstimatedCosts deal={newDeal} />}
           /> */}
           <Step
-            selected={agree}
+            selected={newDeal.agree_setup && newDeal.agree_costs}
             component={
               <div>
                 <h1>E-sign & submit</h1>
-                <Checkbox
-                  selected={agree}
-                  onChange={() => setAgree(!agree)}
-                  label={`I agree to the Master Services agreement.`}
-                />
-                <span className="cta">Download Master Services Agreement</span>
+                <div>
+                  <Checkbox
+                    selected={newDeal.agree_setup}
+                    onChange={() =>
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        agree_setup: true
+                      }))
+                    }
+                    label={`I agree to the Deal Setup Form and I certify that the provided deal information above is accurate`}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    selected={newDeal.agree_costs}
+                    onChange={() =>
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        agree_costs: true
+                      }))
+                    }
+                    label={`I understand there may be costs associated if I change the deal information above`}
+                  />
+                </div>
               </div>
             }
           />
@@ -217,10 +304,17 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             </p>
             {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
             <Button
-              disabled={true} // !agree
+              disabled={
+                !newDeal.agree_msa &&
+                !newDeal.agree_setup &&
+                !newDeal.agree_costs
+              }
               loading={loading}
               label="Submit my deal"
-              onClick={() => {}}
+              onClick={async () => {
+                setNewDeal({ ...newDeal, status: 'submitted' });
+                await saveDeal();
+              }}
             />
           </div>
         </div>

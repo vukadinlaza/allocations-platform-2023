@@ -17,7 +17,7 @@ const RadioGroup = ({
   }, [selectedOption]);
 
   useEffect(() => {
-    setSelectedOption(selected);
+    if (!selectedOption) setSelectedOption(selected);
   }, [selected]);
 
   return (

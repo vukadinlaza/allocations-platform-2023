@@ -82,11 +82,12 @@ export default function PageList({ data }: { data: any }) {
           // @ts-ignore
           return dateB - dateA;
         });
-        setInitialData(
-          table.to_display
-            ? sorted.map((d: any) => d[table.to_display])
-            : sorted
-        );
+
+        const dataToSet = table.to_display
+          ? sorted.map((d: any) => d[table.to_display])
+          : sorted;
+        // TODO temporary archived
+        setInitialData(dataToSet.filter((x: any) => x.status !== 'archived'));
       }
     } catch (err) {
       console.log(err);
@@ -258,7 +259,7 @@ export default function PageList({ data }: { data: any }) {
               </header>
             </div>
           )}
-          <Grid container xs={12} className="mb-6">
+          {/* <Grid container xs={12} className="mb-6">
             <Grid item xs={8}>
               <input
                 style={{ maxWidth: '400px' }}
@@ -268,7 +269,7 @@ export default function PageList({ data }: { data: any }) {
                 onInput={(e: any) => setSearch(e.target.value)}
               />
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid container>
             {!search && initialData && (
               <Table

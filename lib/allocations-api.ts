@@ -15,6 +15,9 @@ export const AllocationsAPI = {
   getSPVAgreementPreview: async (dealId: string)=>{
     return AllocationsAPI.makeCall(`documents/subscription-agreement/preview/${dealId}`, 'POST');
   },
+  getMSADocument: async ()=>{
+    return AllocationsAPI.makeCall(`documents/master-service-agreement?preview=true`, 'POST');
+  },
   downloadFile: async (fileId: string)=>{
     return AllocationsAPI.makeCall(`files/download/${fileId}`);
   }

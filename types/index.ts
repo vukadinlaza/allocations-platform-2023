@@ -5,7 +5,14 @@ export * from './investments';
 export * from './organizations';
 export * from './user';
 
-type FieldType = 'string' | 'number' | 'boolean' | 'select' | 'copy' | 'date';
+type FieldType =
+  | 'string'
+  | 'number'
+  | 'boolean'
+  | 'select'
+  | 'copy'
+  | 'date'
+  | 'slider';
 
 export type Field = {
   disabled?: boolean | false;
@@ -13,8 +20,10 @@ export type Field = {
   label?: string;
   placeholder?: string;
   key?: string;
+  unit?: string;
   min?: number;
   max?: number;
+  step?: number;
   show?: boolean | true;
   type: FieldType; // add more types as needed
   value?: any;

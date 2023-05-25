@@ -5,14 +5,14 @@ import DateComponent from '@/components/DateComponent';
 import None from '@/components/None';
 import Price from '@/components/Price';
 import { openURL } from '@/components/Table';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
+import { downloadFile } from '@/lib/utils';
 import { Investment } from '@/types';
 import { Card } from '@mui/material';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { downloadFile } from '@/lib/utils';
-import { AllocationsAPI } from '@/lib/allocations-api';
 
 export default function InvestmentId() {
   const { supabase } = useSupabase();
@@ -32,9 +32,11 @@ export default function InvestmentId() {
 
       const found = target.find((x: any) => x.files.type === type);
       if (found) {
-        const response = await AllocationsAPI.downloadFile(found?.file_id ?? found?.files_id);
+        const response = await AllocationsAPI.downloadFile(
+          found?.file_id ?? found?.files_id
+        );
         if (response.ok) {
-          await downloadFile(await response.blob(), 'spv-agreement.pdf');
+          await downloadFile(await response.blob(), `${type}.pdf`);
         } else {
           console.error('Failed to download the document');
         }
@@ -108,8 +110,8 @@ export default function InvestmentId() {
         <div>
           {!investment && <None text="No investment found." />}
           {investment && (
-            <Card className="mx-auto rounded-lg card" sx={{ maxWidth: 500 }}>
-              <div className="flex items-center justify-center p-6 mb-6 rounded-full bg-primary-500/10">
+            <Card className="mx-auto rounded-lg card" sx={{ maxWidth: 575 }}>
+              <div className="flex items-center justify-center p-4 mb-6 rounded-full bg-primary-500/10">
                 <Image
                   src="/checked_rounded.svg"
                   alt={'confirm'}
@@ -122,7 +124,9 @@ export default function InvestmentId() {
                 className="flex items-center justify-between w-full p-4 mb-8"
                 variant="outlined"
               >
-                {investment.deals.name && <h2>{investment.deals.name}</h2>}
+                <p>
+                  {investment.deals.name}
+                </p>
                 <Button
                   label="Open Deal"
                   onClick={() =>
@@ -155,20 +159,24 @@ export default function InvestmentId() {
                 String(investment.status).toLowerCase() === 'signed' && (
                   <div className="flex items-center justify-center gap-4 my-8">
                     <Button
-                      disabled={buttonLoading}
+                      small={true}
+                      disabled={
+                        !investment.investments_files?.length || buttonLoading
+                      }
                       label="Download SPV Agreement"
                       icon={
                         <Image
                           src="/download.svg"
                           alt={'Download'}
                           className="opacity-75 invert"
-                          width={32}
-                          height={32}
+                          width={24}
+                          height={24}
                         />
                       }
                       onClick={() => downloadAgreement()}
                     />
                     <Button
+                      small={true}
                       disabled={buttonLoading}
                       label="Download Wire Instructions"
                       icon={
@@ -176,8 +184,8 @@ export default function InvestmentId() {
                           src="/download.svg"
                           alt={'Download'}
                           className="opacity-75 invert"
-                          width={32}
-                          height={32}
+                          width={24}
+                          height={24}
                         />
                       }
                       onClick={() => downloadAgreement('wire-instructions')}

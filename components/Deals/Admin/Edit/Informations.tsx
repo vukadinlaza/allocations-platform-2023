@@ -1,8 +1,5 @@
-import { useAuthContext } from '@/app/context';
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
-import Upload from '@/components/Upload';
-import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
 import { deal_management_frequency_fee } from '@/types/values';
 import { useState } from 'react';
@@ -18,9 +15,6 @@ export default function DealInformations({
   onChange: (v: any) => any;
   loading: boolean;
 }) {
-  const { supabase } = useSupabase();
-  const { notify } = useAuthContext();
-
   const [_loading, setLoading] = useState<boolean>(false);
 
   const model: Field[] = [
@@ -49,9 +43,11 @@ export default function DealInformations({
       show: true
     },
     {
-      label: 'Management fee percent (max. 100%)',
+      label: 'Management fee percent',
       key: 'management_fee_percent',
-      type: 'number',
+      type: 'slider',
+      unit: '%',
+      step: 0.5,
       min: 0,
       max: 100,
       show: true
@@ -64,9 +60,11 @@ export default function DealInformations({
       items: deal_management_frequency_fee
     },
     {
-      label: 'Total carry percent (max. 100%)',
+      label: 'Total carry percent',
       key: 'total_carry',
-      type: 'number',
+      type: 'slider',
+      unit: '%',
+      step: 0.5,
       min: 0,
       max: 100,
       show: true
@@ -96,29 +94,29 @@ export default function DealInformations({
             />
           </div>
         </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">Upload pitch deck</h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">Upload term sheet / purchase agreement</h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
-        <div className="mb-6">
-          <div className="mb-4">
-            <h2 className="text-xl">
-              Upload portfolio company wire instructions
-            </h2>
-            <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>
-          </div>
-          <Upload />
-        </div>
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">Upload pitch deck</h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">Upload term sheet / purchase agreement</h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
+        {/*<div className="mb-6">*/}
+        {/*  <div className="mb-4">*/}
+        {/*    <h2 className="text-xl">*/}
+        {/*      Upload portfolio company wire instructions*/}
+        {/*    </h2>*/}
+        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
+        {/*  </div>*/}
+        {/*  <Upload />*/}
+        {/*</div>*/}
       </main>
     </div>
   );
