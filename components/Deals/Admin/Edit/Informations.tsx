@@ -49,7 +49,7 @@ export default function DealInformations({
       unit: '%',
       step: 0.5,
       min: 0,
-      max: 100,
+      max: 20,
       show: true
     },
     {
@@ -66,7 +66,7 @@ export default function DealInformations({
       unit: '%',
       step: 0.5,
       min: 0,
-      max: 100,
+      max: 40,
       show: true
     }
   ];
