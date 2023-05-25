@@ -28,6 +28,18 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   const { notify } = useAuthContext();
 
+  const updatePercent = (deal: Deal, divide = true) => {
+    return {
+      ...deal,
+      total_carry: divide
+        ? parseFloat(String(deal.total_carry)) / 100
+        : parseFloat(String(deal.total_carry)) * 100,
+      management_fee_percent: divide
+        ? parseFloat(String(deal.management_fee_percent)) / 100
+        : parseFloat(String(deal.management_fee_percent)) * 100
+    };
+  };
+
   const saveDeal = async () => {
     if (!deal) return;
     try {
@@ -45,16 +57,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         ...dealData
       } = newDeal;
 
-      dealData.total_carry = dealData.total_carry
-        ? parseFloat(String(dealData.total_carry)) / 100
-        : 0;
-      dealData.management_fee_percent = dealData.management_fee_percent
-        ? parseFloat(String(dealData.management_fee_percent)) / 100
-        : 0;
-
       const { data: _deal, error: _dealError } = await supabase
         .from('deals')
-        .upsert({ id: deal.id, ...dealData });
+        .upsert({ id: deal.id, ...updatePercent(dealData) });
 
       const { data: _dealDetails, error: _dealDetailsError } = await supabase
         .from('deal_details')
@@ -106,7 +111,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [user]);
 
   useEffect(() => {
-    setNewDeal(deal);
+    setNewDeal(updatePercent(deal, false));
   }, [deal]);
 
   return (

@@ -5,7 +5,7 @@ import { openURL } from '../Table';
 export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
   return (
     <Alert
-      className="mb-6 border border-primary-400"
+      className="mb-6 border border-amber-400"
       icon={<WarningAmberOutlined fontSize="inherit" className="text-amber" />}
       severity="warning"
       action={
@@ -15,7 +15,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
           size="small"
           onClick={() => showBetaAlert(false)}
         >
-          <Close fontSize="inherit" className="text-primary-500" />
+          <Close fontSize="inherit" className="text-amber-500" />
         </IconButton>
       }
     >
