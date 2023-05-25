@@ -29,9 +29,7 @@ export default function InvestmentsModule({
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        console.log(session.user);
         const user = await fetchUser(session.user.email);
-        console.log(user);
         setCurrentUser(user);
       }
     } catch (error) {
