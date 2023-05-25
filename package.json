@@ -19,6 +19,7 @@
     "@mui/lab": "^5.0.0-alpha.126",
     "@mui/material": "^5.12.1",
     "@mui/x-data-grid": "^6.2.1",
+    "@sentry/nextjs": "^7.53.1",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/supabase-js": "^2.20.0",
     "@tremor/react": "^2.7.0",
