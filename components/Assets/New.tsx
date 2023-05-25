@@ -15,7 +15,7 @@ type Props = {
 export default function NewAsset({ asset, onCreate, dealId }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
-  const [newAsset, setNewAsset] = useState<Asset>();
+  const [newAsset, setNewAsset] = useState<Asset>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const model: Field[] = [
@@ -54,13 +54,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
       setLoading(true);
       const { data, error } = await supabase
         .from('assets')
-        .upsert({
-          ...newAsset,
-          id: newAsset?.id,
-          deal_id: dealId
-        })
-        .select()
-        .single();
+        .upsert({ ...newAsset, id: newAsset?.id }, { onConflict: 'id' });
 
       if (data) {
         onCreate(data);
@@ -109,7 +103,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
         <Button
           loading={loading}
           disabled={loading}
-          label={`${asset ? 'Update' : 'Create'}`}
+          label={`${asset ? 'Update' : 'Save'}`}
           onClick={createNew}
         />
       </div>
