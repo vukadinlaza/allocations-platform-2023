@@ -77,7 +77,10 @@ export default function Login() {
               />
             </div>
             <h2 className="mb-2 text-xl">Welcome back.</h2>
-            <p>Sign in to your account.</p>
+            <p>
+              Sign in to your account. If you are not yet registered, it will
+              create an account for you.
+            </p>
           </header>
           <form
             onSubmit={async (e) => {
@@ -103,7 +106,7 @@ export default function Login() {
                   color="primary btn--big"
                   onClick={login}
                   loading={loading}
-                  label="Sign in"
+                  label="Login"
                 />
               </div>
             )}

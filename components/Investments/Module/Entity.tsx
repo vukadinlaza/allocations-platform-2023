@@ -1,13 +1,13 @@
 import Checkbox from '@/components/Checkbox';
 import { getFirstLetter } from '@/lib/utils';
 import { UserInvestmentEntity } from '@/types';
-import { Avatar } from '@mui/material';
+import { Alert, Avatar } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
 import NewUserInvestmentsEntity from './Entity/New';
 
 export default function InvestmentEntity({
-  entities,
+  entities = [],
   onChange,
   selected,
   onUpdate
@@ -29,6 +29,11 @@ export default function InvestmentEntity({
         <div>
           {entities && (
             <div>
+              <Alert severity="info" className="mb-4">
+                We are asking all investors to verify all their data by
+                submitting it again even if they provided on previous
+                investments.
+              </Alert>
               {entities.map((entity: UserInvestmentEntity, index: number) => (
                 <div
                   key={index}

@@ -30,10 +30,10 @@ export default function NewIndividual({ onUpdate }: { onUpdate: () => void }) {
 
   const model: Field[] = [
     {
-      label: 'Entity name',
+      label: 'Investor name',
       key: 'name',
       type: 'string',
-      placeholder: 'Your entity name',
+      placeholder: 'Your Investor name',
       show: true
     }
   ];

@@ -29,7 +29,9 @@ export default function InvestmentsModule({
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
+        console.log(session.user);
         const user = await fetchUser(session.user.email);
+        console.log(user);
         setCurrentUser(user);
       }
     } catch (error) {
@@ -51,7 +53,7 @@ export default function InvestmentsModule({
         </div>
       )}
       {!loading && !currentUser && (
-        <None text="Sorry no user data found. Please refresh." />
+        <None text="Sorry no user data found. Please report in Missing Data." />
       )}
       {!loading && currentUser && (
         <div>
