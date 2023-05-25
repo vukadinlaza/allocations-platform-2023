@@ -7,11 +7,11 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
     <Alert
       className="mb-6 border border-primary-400"
       icon={<WarningAmberOutlined fontSize="inherit" className="text-amber" />}
-      severity="success"
+      severity="warning"
       action={
         <IconButton
           aria-label="showBetaAlert"
-          color="success"
+          color="warning"
           size="small"
           onClick={() => showBetaAlert(false)}
         >
@@ -20,7 +20,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
       }
     >
       <h2 className="mt-0">
-        New platform migration update — last update: today at 3:50 EST
+        New platform migration update — last update: today at 6:30 EST
       </h2>
       <span>
         Welcome to the new platform! Core features will be released between the
