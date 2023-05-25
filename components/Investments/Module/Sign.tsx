@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '../../Button';
+import * as Sentry from '@sentry/nextjs';
 
 export default function InvestmentSignature({
   currentUser,
@@ -32,11 +33,9 @@ export default function InvestmentSignature({
   const downloadDocumentPreview = async () => {
     try {
       setLoading(true);
-
       const response = await AllocationsAPI.getSPVAgreementPreview(
         deal.id as string
       );
-
       if (response.ok) {
         await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
       } else {
@@ -54,6 +53,12 @@ export default function InvestmentSignature({
     investmentId: string,
     preview = false
   ) => {
+    const transaction = Sentry.startTransaction({
+      name: "SPV Agreement Signing",
+    });
+    Sentry.configureScope((scope) => {
+      scope.setSpan(transaction);
+    });
     if (!currentUser && !entity && !investmentId) return;
 
     const { users_personal_identities } = currentUser;
@@ -71,12 +76,12 @@ export default function InvestmentSignature({
         entity.type === 'Myself/Individual' ? 'Individual' : 'Entity',
       legalName: entity.name,
       investmentAmount: amount.toString(),
-      investorIsUsBased: true, // TODO: always true?
+      investorIsUsBased: currentIdentity.country.includes('United States'),
       investorState: currentIdentity.region,
       investorCountry: currentIdentity.country,
       investorAccreditationStatus: currentAccreditation.value,
       investorEmail: currentUser.email,
-      investorTitle: 'Director', // TODO: update
+      investorTitle: '', // TODO: update
       investorFullName: currentUser.first_name + ' ' + currentUser.last_name
     };
 
@@ -95,20 +100,17 @@ export default function InvestmentSignature({
       );
 
       if (!response.ok) {
-        // router.push('/investments');
-
         notify('Failed to fetch subscription agreement document', false);
-
         throw new Error('Failed to fetch subscription agreement document');
       }
       notify('Investment successful !', true);
-
       const document = await response.blob();
       return document;
     } catch (error) {
       notify('Failed to fetch subscription agreement document', false);
       return;
     } finally {
+      transaction.finish();
       setLoading(false);
     }
   };
