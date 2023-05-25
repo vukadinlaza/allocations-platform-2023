@@ -5,11 +5,11 @@ import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Deal, Entity } from '@/types';
+import * as Sentry from '@sentry/nextjs';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '../../Button';
-import * as Sentry from '@sentry/nextjs';
 
 export default function InvestmentSignature({
   currentUser,
@@ -55,7 +55,7 @@ export default function InvestmentSignature({
     preview = false
   ) => {
     const transaction = Sentry.startTransaction({
-      name: "SPV Agreement Signing",
+      name: 'SPV Agreement Signing'
     });
     Sentry.configureScope((scope) => {
       scope.setSpan(transaction);
@@ -104,10 +104,11 @@ export default function InvestmentSignature({
         notify('Failed to fetch subscription agreement document', false);
         Sentry.addBreadcrumb({
           category: 'Error',
-          message: 'Failed to fetch subscription agreement document, bad response',
+          message:
+            'Failed to fetch subscription agreement document, bad response',
           level: 'error',
           data: response
-        })
+        });
         throw new Error('Failed to fetch subscription agreement document');
       }
       notify('Investment successful !', true);
@@ -130,12 +131,13 @@ export default function InvestmentSignature({
     if (!deal) return;
     if (!signed) return alert('You have to sign to complete your investment.');
     // Removed for now, display only
-    // if (amount < (deal.minimum_investment || 1000))
-    //   return alert(
-    //     `Minimum investment amount is $${deal.minimum_investment || 1000}.`
-    //   );
+    if (amount < (deal.minimum_investment || 1))
+      return alert(
+        `Minimum investment amount is $${1 || deal.minimum_investment}.`
+      );
     try {
       setLoading(true);
+
       const { data } = await supabase
         .from('investments')
         .insert({

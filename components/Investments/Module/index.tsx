@@ -51,7 +51,7 @@ export default function InvestmentsModule({
         </div>
       )}
       {!loading && !currentUser && (
-        <None text="Sorry no user data found. Please refresh." />
+        <None text="Sorry no user data found. Please report in Missing Data." />
       )}
       {!loading && currentUser && (
         <div>
