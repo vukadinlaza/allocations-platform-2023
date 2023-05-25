@@ -33,7 +33,7 @@ export default function DealID() {
       setLoading(true);
       const { data: _deal, error } = await supabase
         .from(queryFrom)
-        .select(querySelect)
+        .select(querySelect as "*, assets(*)")
         .eq('id', params.id)
         .single();
 
