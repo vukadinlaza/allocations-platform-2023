@@ -19,7 +19,7 @@ export default function DealID() {
 
   const isAdmin = useCallback( () => {
     return !!(deal && user && deal.user_email === user.email || hasRole);
-  }, [user, deal, supabase]);
+  }, [user, deal, hasRole]);
 
 
   async function fetchDeal() {
