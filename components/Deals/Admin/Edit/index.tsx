@@ -1,9 +1,8 @@
 'use client';
 import { useAuthContext } from '@/app/context';
-import Checkbox from '@/components/Checkbox';
-
 import NewAsset from '@/components/Assets/New';
 import Button from '@/components/Button';
+import Checkbox from '@/components/Checkbox';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
@@ -28,7 +27,34 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   const { notify } = useAuthContext();
 
-  const updatePercent = (deal: Deal, divide = true) => {
+  const fetchDealAssets = async () => {
+    // can't get assets from private_deals, so fetch & merge here
+    if (!deal) return;
+    try {
+      setLoading(true);
+
+      const { data: assets, error } = await supabase
+        .from('assets')
+        .select('*')
+        .eq('deal_id', deal.id);
+
+      if (assets) {
+        setNewDeal((prev: any) => ({ ...prev, assets }));
+      }
+
+      // if (assets || error) {
+      //   notify(`Sorry, could not get your existing assets.`, false);
+      //   return;
+      // }
+      // notify('Deal saved.', true);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDeal = (deal: Deal, divide = true) => {
     return {
       ...deal,
       total_carry: divide
@@ -59,7 +85,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
       const { data: _deal, error: _dealError } = await supabase
         .from('deals')
-        .upsert({ id: deal.id, ...updatePercent(dealData) });
+        .upsert({ id: deal.id, ...formatDeal(dealData) });
 
       const { data: _dealDetails, error: _dealDetailsError } = await supabase
         .from('deal_details')
@@ -78,6 +104,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         return;
       }
       notify('Deal saved.', true);
+      await fetchDealAssets();
     } catch (err) {
       console.log(err);
     } finally {
@@ -105,13 +132,18 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   };
 
   useEffect(() => {
+    console.log(newDeal);
+  }, [newDeal]);
+
+  useEffect(() => {
     if (user && user.users_personal_identities) {
       setHasIdentity(user.users_personal_identities.length > 0);
     }
   }, [user]);
 
   useEffect(() => {
-    setNewDeal(updatePercent(deal, false));
+    setNewDeal(formatDeal(deal, false));
+    fetchDealAssets();
   }, [deal]);
 
   return (
@@ -124,7 +156,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       )}
       {hasIdentity && newDeal && deal && (
         <div>
-          <p>{newDeal.organization_id && newDeal.agree_msa}</p>
           <Step
             selected={newDeal.organization_id && newDeal.agree_msa}
             component={
@@ -177,7 +208,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             />
           )}
           <Step
-            selected={false}
+            selected={newDeal.name}
             component={
               <DealInformations
                 loading={loading}
@@ -189,26 +220,28 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
             }
           />
-          <Step
-            selected={newDeal.assets && newDeal.assets[0]}
-            component={
-              <div className="w-full">
-                <header className="flex flex-col items-start mb-4">
-                  <h2 className="text-xl">Create a new asset</h2>
-                </header>
-                <NewAsset
-                  asset={newDeal.assets ? newDeal.assets[0] : null}
-                  dealId={deal.id}
-                  onCreate={(asset: Asset) => {
-                    setNewDeal((prev: any) => ({
-                      ...prev,
-                      assets: prev.assets ? [...prev.assets, asset] : [asset]
-                    }));
-                  }}
-                />
-              </div>
-            }
-          />
+          {newDeal && newDeal.assets && (
+            <Step
+              selected={newDeal.assets && newDeal.assets[0]}
+              component={
+                <div className="w-full">
+                  <header className="flex flex-col items-start mb-4">
+                    <h2 className="text-xl">Asset informations</h2>
+                  </header>
+                  <NewAsset
+                    asset={newDeal.assets ? newDeal.assets[0] : null}
+                    dealId={deal.id}
+                    onCreate={(asset: Asset) => {
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        assets: prev.assets ? [...prev.assets, asset] : [asset]
+                      }));
+                    }}
+                  />
+                </div>
+              }
+            />
+          )}
           <Step
             selected={newDeal.master_series && newDeal.series_name}
             component={

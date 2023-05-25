@@ -29,7 +29,6 @@ export default function FormBuilder({
     if (emit) {
       onSubmit(_data);
     }
-    console.log(_data);
   }, [_data]);
 
   useEffect(() => {
