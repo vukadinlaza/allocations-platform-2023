@@ -7,23 +7,27 @@ import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function DealID() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
   const [deal, setDeal] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasRole, setHasRole] = useState<boolean>(false);
   const params = useParams();
 
-  const isAdmin = () =>
-    deal && user && deal.user_email === user.email ? true : false;
+  const isAdmin = useCallback( () => {
+    return !!(deal && user && deal.user_email === user.email || hasRole);
+  }, [user, deal, supabase]);
+
 
   async function fetchDeal() {
     if (!params || !params.id) return;
 
     const queryFrom = isAdmin() ? 'private_deals' : 'deals';
-    const querySelect = isAdmin() ? `*, assets(*)` : '*';
+    const querySelect =  isAdmin() ? `*, assets(*)` : '*';
+
 
     try {
       setLoading(true);
@@ -40,6 +44,18 @@ export default function DealID() {
       if (_deal) {
         setDeal(_deal);
       }
+
+      const { data: role } = await supabase
+        .from('organizations_roles')
+        .select('*')
+        .eq('organization_id', _deal.organization_id)
+        .eq('user_email', user.email)
+        .single();
+      if(role){
+        setHasRole(true);
+      }
+
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,9 +68,9 @@ export default function DealID() {
   }, []);
 
   return (
-    <div className="w-full deal">
+    <div className='w-full deal'>
       {loading && <LoadingDeal />}
-      {!loading && !deal && <None text="No deal found." />}
+      {!loading && !deal && <None text='No deal found.' />}
       {!loading && deal && (
         <div>
           {isAdmin() && <AdminDeal deal={deal} />}
