@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
+import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
 import None from './None';
 import Select from './Select';
@@ -28,6 +29,7 @@ export default function FormBuilder({
     if (emit) {
       onSubmit(_data);
     }
+    console.log(_data);
   }, [_data]);
 
   useEffect(() => {
@@ -95,6 +97,38 @@ export default function FormBuilder({
                           }))
                         }
                       />
+                    )}
+                    {field.type === 'slider' && field.key && (
+                      <div className="flex items-center justify-between w-80">
+                        <Slider
+                          defaultValue={
+                            _data && _data[field.key] ? _data[field.key] : 0
+                          }
+                          step={field.step}
+                          placeholder={field.placeholder || undefined}
+                          min={field.min}
+                          max={field.max}
+                          disabled={loading || field.disabled}
+                          className={`${loading ? 'disabled' : ''}`}
+                          onChange={(
+                            e: Event,
+                            newValue: number | number[],
+                            activeThumb: number
+                          ) =>
+                            setData((prevData: any) => ({
+                              ...prevData,
+                              // @ts-ignore
+                              [field.key]: e.target.value
+                            }))
+                          }
+                        />
+                        <div className="flex w-12 ml-6">
+                          <p className="w-8">
+                            {_data && _data[field.key] ? _data[field.key] : 0}
+                          </p>
+                          <p className="w-4 ml-1">{field.unit}</p>
+                        </div>
+                      </div>
                     )}
                     {field.type === 'number' && field.key && (
                       <input

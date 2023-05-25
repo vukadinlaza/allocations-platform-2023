@@ -13,22 +13,17 @@ import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
+import { downloadFile } from '@/lib/utils';
 import { Asset, Deal } from '@/types';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { AllocationsAPI } from '@/lib/allocations-api';
-import { downloadFile } from '@/lib/utils';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
-  const [newDeal, setNewDeal] = useState<any>({
-    organization_id: null
-  });
+  const [newDeal, setNewDeal] = useState<any>();
   const [hasIdentity, setHasIdentity] = useState(true);
-  const [agree, setAgree] = useState<boolean>(false);
-  const [agreeDeal, setAgreeDeal] = useState<boolean>(false);
-  const [agreeInformations, setAgreeInformations] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
@@ -38,24 +33,42 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     try {
       setLoading(true);
 
-      // TODO: prevent here
-      delete newDeal.total_raised_amount;
-      delete newDeal.assets;
+      const {
+        assets,
+        total_raised_amount,
+        series_name,
+        master_series,
+        legal_template_option,
+        agree_msa,
+        agree_setup,
+        agree_costs,
+        ...dealData
+      } = newDeal;
 
-      const { series_name, master_series, legal_template_option, ...dealData } = newDeal;
+      dealData.total_carry = dealData.total_carry
+        ? parseFloat(String(dealData.total_carry)) / 100
+        : 0;
+      dealData.management_fee_percent = dealData.management_fee_percent
+        ? parseFloat(String(dealData.management_fee_percent)) / 100
+        : 0;
 
-      dealData.total_carry = dealData.total_carry? parseFloat(String(dealData.total_carry)) / 100 : 0;
-      dealData.management_fee_percent = dealData.management_fee_percent? parseFloat(String(dealData.management_fee_percent)) / 100 : 0;
-
-      const { data: dealObject, error: dealError } = await supabase
+      const { data: _deal, error: _dealError } = await supabase
         .from('deals')
         .upsert({ id: deal.id, ...dealData });
 
-      const { data: dealDetailsObject, error: dealDetailsError } = await supabase
+      const { data: _dealDetails, error: _dealDetailsError } = await supabase
         .from('deal_details')
-        .upsert({ deal_id: deal.id, series_name, master_series, legal_template_option });
+        .upsert({
+          deal_id: deal.id,
+          series_name,
+          master_series,
+          legal_template_option,
+          agree_msa,
+          agree_setup,
+          agree_costs
+        });
 
-      if (dealError || dealDetailsError) {
+      if (_dealError || _dealDetailsError) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
@@ -76,7 +89,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       if (response.ok) {
         await downloadFile(await response.blob(), 'spv-agreement-preview.pdf');
       } else {
-        throw new Error('Can\'t download file');
+        throw new Error("Can't download file");
       }
     } catch (error) {
       console.log(error);
@@ -97,22 +110,21 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   }, [deal]);
 
   return (
-    <Card className='container grid gap-8 p-6 mt-8'>
-      <h1 className='pb-0 mb-0 text-2xl font-medium'>Deal Setup Form</h1>
+    <Card className="container grid gap-8 p-6 mt-8">
+      <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
       {!hasIdentity && (
-        <Card className='flex items-start card' variant='outlined'>
+        <Card className="flex items-start card" variant="outlined">
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
-      {hasIdentity && deal && (
+      {hasIdentity && newDeal && deal && (
         <div>
+          <p>{newDeal.organization_id && newDeal.agree_msa}</p>
           <Step
-            selected={
-              agree && (newDeal.organization_id || deal.organization_id)
-            }
+            selected={newDeal.organization_id && newDeal.agree_msa}
             component={
-              <div className='w-full'>
-                <div className='w-full mb-4'>
+              <div className="w-full">
+                <div className="w-full mb-4">
                   <SelectOrganization
                     loading={loading}
                     onSave={saveDeal}
@@ -125,11 +137,19 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   />
                 </div>
                 <Checkbox
-                  selected={agree}
-                  onChange={() => setAgree(!agree)}
+                  selected={newDeal.agree_msa}
+                  onChange={() =>
+                    setNewDeal((prev: any) => ({
+                      ...prev,
+                      agree_msa: true
+                    }))
+                  }
                   label={`I agree to the Master Services agreement.`}
                 />
-                <Button onClick={downloadMSA} label={'Download Master Services Agreement'}/>
+                <Button
+                  onClick={downloadMSA}
+                  label={'Download Master Services Agreement'}
+                />
               </div>
             }
           />
@@ -167,9 +187,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <Step
             selected={newDeal.assets && newDeal.assets[0]}
             component={
-              <div className='w-full'>
-                <header className='flex flex-col items-start mb-4'>
-                  <h2 className='text-xl'>Create a new asset</h2>
+              <div className="w-full">
+                <header className="flex flex-col items-start mb-4">
+                  <h2 className="text-xl">Create a new asset</h2>
                 </header>
                 <NewAsset
                   asset={newDeal.assets ? newDeal.assets[0] : null}
@@ -241,40 +261,54 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             component={<DealEstimatedCosts deal={newDeal} />}
           /> */}
           <Step
-            selected={agreeDeal && agreeInformations}
+            selected={newDeal.agree_setup && newDeal.agree_costs}
             component={
               <div>
                 <h1>E-sign & submit</h1>
                 <div>
                   <Checkbox
-                    selected={agreeDeal}
-                    onChange={() => setAgreeDeal(!agreeDeal)}
+                    selected={newDeal.agree_setup}
+                    onChange={() =>
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        agree_setup: true
+                      }))
+                    }
                     label={`I agree to the Deal Setup Form and I certify that the provided deal information above is accurate`}
                   />
                 </div>
                 <div>
                   <Checkbox
-                    selected={agreeInformations}
-                    onChange={() => setAgreeInformations(!agreeInformations)}
+                    selected={newDeal.agree_costs}
+                    onChange={() =>
+                      setNewDeal((prev: any) => ({
+                        ...prev,
+                        agree_costs: true
+                      }))
+                    }
                     label={`I understand there may be costs associated if I change the deal information above`}
                   />
                 </div>
               </div>
             }
           />
-          <div className='flex items-center justify-end gap-4'>
-            <p className='text-sm'>
+          <div className="flex items-center justify-end gap-4">
+            <p className="text-sm">
               To submit your deal for review, please fill in all the required
               fields before submitting the form. Thank you.
             </p>
             {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
             <Button
-              disabled={!agree && !agreeDeal} // !agree && !agreeDeal
+              disabled={
+                !newDeal.agree_msa &&
+                !newDeal.agree_setup &&
+                !newDeal.agree_costs
+              }
               loading={loading}
-              label='Submit my deal'
+              label="Submit my deal"
               onClick={async () => {
-                setNewDeal({...newDeal, status: 'submitted'});
-                await saveDeal()
+                setNewDeal({ ...newDeal, status: 'submitted' });
+                await saveDeal();
               }}
             />
           </div>

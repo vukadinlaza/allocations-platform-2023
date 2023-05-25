@@ -20,8 +20,10 @@ export type Field = {
   label?: string;
   placeholder?: string;
   key?: string;
+  unit?: string;
   min?: number;
   max?: number;
+  step?: number;
   show?: boolean | true;
   type: FieldType; // add more types as needed
   value?: any;

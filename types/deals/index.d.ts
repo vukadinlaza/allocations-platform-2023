@@ -32,6 +32,9 @@ export interface Deal {
   assets?: Asset[];
   advisor_type?: string;
   accept_crypto?: boolean;
+  agree_costs?: boolean;
+  agree_msa?: boolean;
+  agree_setup?: boolean;
   total_carry?: number;
   closing_date?: string;
   closed?: boolean;

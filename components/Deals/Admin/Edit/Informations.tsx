@@ -1,6 +1,5 @@
 import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
-import Upload from '@/components/Upload';
 import { Deal, Field } from '@/types';
 import { deal_management_frequency_fee } from '@/types/values';
 import { useState } from 'react';
@@ -46,7 +45,9 @@ export default function DealInformations({
     {
       label: 'Management fee percent',
       key: 'management_fee_percent',
-      type: 'number',
+      type: 'slider',
+      unit: '%',
+      step: 0.5,
       min: 0,
       max: 100,
       show: true
@@ -61,7 +62,9 @@ export default function DealInformations({
     {
       label: 'Total carry percent',
       key: 'total_carry',
-      type: 'number',
+      type: 'slider',
+      unit: '%',
+      step: 0.5,
       min: 0,
       max: 100,
       show: true
