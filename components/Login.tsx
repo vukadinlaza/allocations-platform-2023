@@ -39,8 +39,7 @@ export default function Login() {
       let { data } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          // Always redirect to current application
-          emailRedirectTo: window.location.origin
+          emailRedirectTo: window.location.href
         }
       });
 
