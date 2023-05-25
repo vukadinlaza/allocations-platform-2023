@@ -43,6 +43,7 @@ export default function InvestmentSignature({
       }
     } catch (error) {
       console.log(error);
+      Sentry.captureException(error);
       notify(`Sorry, could not download document preview.`, false);
     } finally {
       setLoading(false);
@@ -101,12 +102,22 @@ export default function InvestmentSignature({
 
       if (!response.ok) {
         notify('Failed to fetch subscription agreement document', false);
+        Sentry.addBreadcrumb({
+          category: 'Error',
+          message: 'Failed to fetch subscription agreement document, bad response',
+          level: 'error',
+          data: response
+        })
         throw new Error('Failed to fetch subscription agreement document');
       }
       notify('Investment successful !', true);
-      const document = await response.blob();
-      return document;
+      return await response.blob();
     } catch (error) {
+      Sentry.captureException(error, {
+        extra: {
+          investmentId
+        }
+      });
       notify('Failed to fetch subscription agreement document', false);
       return;
     } finally {
@@ -140,6 +151,7 @@ export default function InvestmentSignature({
       }
     } catch (error) {
       console.log(error);
+      Sentry.captureException(error);
       notify(`Sorry, could not create new investment.`, false);
     } finally {
       setLoading(false);
