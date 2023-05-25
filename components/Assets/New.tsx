@@ -50,7 +50,6 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
 
   const createNew = async () => {
     if (!dealId) return;
-    console.log(newAsset);
     try {
       setLoading(true);
       const { data, error } = await supabase

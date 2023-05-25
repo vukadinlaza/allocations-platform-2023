@@ -41,12 +41,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       if (assets) {
         setNewDeal((prev: any) => ({ ...prev, assets }));
       }
-
-      // if (assets || error) {
-      //   notify(`Sorry, could not get your existing assets.`, false);
-      //   return;
-      // }
-      // notify('Deal saved.', true);
     } catch (err) {
       console.log(err);
     } finally {
@@ -130,10 +124,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log(newDeal);
-  }, [newDeal]);
 
   useEffect(() => {
     if (user && user.users_personal_identities) {
