@@ -5,6 +5,9 @@ import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
 import { useEffect, useState } from 'react';
+import { IdentityList } from '@/components/Identity/List';
+import * as Sentry from '@sentry/nextjs';
+import Alert from '@mui/material/Alert';
 
 export default function NewCompany({
   type,
@@ -19,18 +22,19 @@ export default function NewCompany({
   const [agree, setAgree] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<string|undefined>();
 
   const model: Field[] = [
     {
       label: 'Entity name',
-      key: 'name',
+      key: 'legal_name',
       type: 'string',
       placeholder: 'Your entity name',
       show: true
     },
     {
       label: 'Date of formation',
-      key: 'created_date',
+      key: 'date_of_entity_formation',
       type: 'date',
       show: true
     },
@@ -44,16 +48,16 @@ export default function NewCompany({
     },
     {
       label: 'State of formation',
-      key: 'state',
+      key: 'region',
       type: 'string',
       placeholder: 'Enter a state',
       show: true
     },
     {
-      label: 'Principal place of business (Address Line 1)',
+      label: 'Principal place of business (Address)',
       key: 'address_line_1',
       type: 'string',
-      placeholder: '500 Madison Ave., New York',
+      placeholder: '500 Madison Ave',
       show: true
     },
     {
@@ -64,29 +68,15 @@ export default function NewCompany({
       show: true
     },
     {
-      label: 'State / Region',
-      key: 'region',
-      type: 'string',
-      placeholder: 'NY',
-      show: true
-    },
-    {
-      label: 'Country',
-      key: 'country',
-      type: 'string',
-      placeholder: 'US',
-      show: true
-    },
-    {
       label: 'Zip / Postal Code',
-      key: 'country',
+      key: 'postal_code',
       type: 'string',
       placeholder: '888888',
       show: true
     },
     {
       label: 'Phone number',
-      key: 'phone',
+      key: 'phone_number',
       type: 'string',
       show: true
     },
@@ -102,20 +92,38 @@ export default function NewCompany({
   const { supabase } = useSupabase();
 
   const saveNewEntity = async () => {
-    if (!newCompany.name) return alert('Please enter a name');
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+    if(!session){
+      throw new Error('Not Logged in');
+    }
+    if (!newCompany.legal_name) return alert('Please enter a name');
     if (!newCompany.country)
       setNewCompany((prev: any) => ({ ...prev, country: 'United States' }));
     try {
       setLoading(true);
       const { data } = await supabase
         .from('identities')
-        .insert({ ...newCompany, type: 'entity', entity_type: type === 'Partnership' ? 'LP' : type })
-        .select();
+        .insert({
+          ...newCompany,
+          type: 'Entity',
+          entity_type: type === 'Partnership' ? 'LP' : type,
+          user_email: session.user.email,
+        })
+        .select().single();
+      if(!data) {
+        throw new Error('Failed to create identity');
+      }
+      await supabase.from('identities').update({
+        parent_identity_id: data.id
+      }).eq('id',selectedIndividualIdentity);
 
       if (data) {
         onUpdate();
       }
     } catch (error) {
+      Sentry.captureException(error);
       console.log(error);
     } finally {
       setLoading(false);
@@ -135,18 +143,13 @@ export default function NewCompany({
       if (key) return newCompany[key] && newCompany[key].length > 1;
     });
 
-    if (isAllKeysPresent && hasAllValues && agree) return setDisabled(false);
+    if (isAllKeysPresent && hasAllValues && agree && selectedIndividualIdentity) return setDisabled(false);
 
     setDisabled(true);
   }, [agree, newCompany]);
 
   return (
     <div className="new--company">
-      <FormBuilder
-        emit={true}
-        model={model}
-        onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
-      />
       <div>
         <Checkbox
           selected={agree}
@@ -154,6 +157,18 @@ export default function NewCompany({
           label={`I am an authorized signatory for this entity.`}
         />
       </div>
+      <div>
+        <div className={'mb-2'}>
+          Select a signatory identity to use with this entity.
+          <Alert severity={'info'}>If no identities are listed, create an individual identity first.</Alert>
+        </div>
+        <IdentityList type={"Individual"} selectedId={selectedIndividualIdentity} onSelect={setSelectedIndividualIdentity}/>
+      </div>
+      <FormBuilder
+        emit={true}
+        model={model}
+        onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
+      />
       <ul className="my-6 text-xs text-gray-600 list-disc list-inside">
         <li className="mb-2">
           The first time you invest with the multiple-owner entity, you will be

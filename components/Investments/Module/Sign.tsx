@@ -66,6 +66,17 @@ export default function InvestmentSignature({
 
     if (!currentIdentity && !currentAccreditation) return;
 
+    let signerName = identity.legal_name;
+    if(identity.type === 'Entity'){
+      // Find a single signer for now
+      const {data: signer} = await supabase.from('identities').select('*').eq('parent_identity_id', identity.id).single();
+      if(!signer){
+        notify(`Sorry, could not find a signer for this identity. Please contact support`, false);
+        return;
+      }
+      signerName = signer.legal_name;
+    }
+
     const body = {
       investorType: identity.type,
       legalName: identity.legal_name,
@@ -76,7 +87,7 @@ export default function InvestmentSignature({
       investorAccreditationStatus: currentAccreditation?.value,
       investorEmail: identity.user_email,
       investorTitle: identity?.title ?? '',
-      investorFullName: identity.type === 'Individual' ? identity.legal_name : currentUser.first_name + ' ' + currentUser.last_name
+      investorFullName: signerName
     };
 
     try {
@@ -114,7 +125,7 @@ export default function InvestmentSignature({
         }
       });
       notify('Failed to fetch subscription agreement document', false);
-      return;
+      throw new Error('Failed to fetch subscription agreement document');
     } finally {
       setLoading(false);
     }
