@@ -5,7 +5,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Chip
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import ChipStatus from './ChipStatus';
@@ -49,6 +50,8 @@ export default function TableComponent({ headers, data = [], table }: Props) {
     if (column.type === 'price') return <Price price={item[column.key]} />;
     if (column.type === 'string' || column.type === 'number')
       return <span>{item[column.key] ? item[column.key] : no_info}</span>;
+    if (column.type === 'email')
+      return item[column.key] && <Chip label={item[column.key] ? item[column.key] : no_info} size="small" component="a" href={'mailto: ' + item[column.key]} clickable />;
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 

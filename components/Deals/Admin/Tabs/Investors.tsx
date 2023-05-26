@@ -17,7 +17,8 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
     },
     {
       label: 'E-mail',
-      key: 'email'
+      key: 'email',
+      type: 'email'
     },
     {
       label: 'Amount commited',
