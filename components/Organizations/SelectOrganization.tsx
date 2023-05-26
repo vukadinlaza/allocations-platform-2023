@@ -49,7 +49,6 @@ export default function SelectOrganization({
   useEffect(() => {
     if (deal.organization_id) {
       const found = organizations?.find((o) => o.id === deal.organization_id);
-      console.log(found?.name);
       setSelectedOrganization(found?.name || '');
     }
   }, [deal, organizations]);
