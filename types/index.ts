@@ -12,7 +12,8 @@ type FieldType =
   | 'select'
   | 'copy'
   | 'date'
-  | 'slider';
+  | 'slider'
+  | 'money';
 
 export type Field = {
   disabled?: boolean | false;
@@ -25,6 +26,7 @@ export type Field = {
   max?: number;
   step?: number;
   show?: boolean | true;
+  limit?: number;
   type: FieldType; // add more types as needed
   value?: any;
   copy?: boolean | false;

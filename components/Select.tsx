@@ -22,10 +22,10 @@ function Select<T>({
       onChange={handleSelectChange}
       className="capitalize bg-white"
     >
-      {!selected && <option>Select an option</option>}
+      {!selected && <option value="">Select an option</option>}
       {items &&
         items.map((item: any, index: number) => (
-          <option key={index} value={item}>
+          <option key={index}>
             {displayLabel ? displayLabel(item) : item}
           </option>
         ))}

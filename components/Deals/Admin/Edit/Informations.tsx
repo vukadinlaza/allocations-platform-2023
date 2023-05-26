@@ -30,13 +30,13 @@ export default function DealInformations({
     {
       label: 'Target raise amount',
       key: 'target_raise_goal',
-      type: 'number',
+      type: 'money',
       show: true
     },
     {
       label: 'Minimum investment',
       key: 'minimum_investment',
-      type: 'number',
+      type: 'money',
       show: true
     },
     {

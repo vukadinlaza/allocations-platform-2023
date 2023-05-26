@@ -50,9 +50,6 @@ export default function SelectOrganization({
     if (deal.organization_id) {
       const found = organizations?.find((o) => o.id === deal.organization_id);
       setSelectedOrganization(found?.name || '');
-
-      console.log(deal);
-      console.log(found);
     }
   }, [deal, organizations]);
 
@@ -71,11 +68,10 @@ export default function SelectOrganization({
       {!_loading && (
         <Select
           selected={selectedOrganization}
-          items={organizations}
+          items={organizations.map((o) => o.name)}
           onChange={(str: string) => {
             setSelectedOrganization(str);
           }}
-          displayLabel={(x) => x.name}
         />
       )}
       {create && (

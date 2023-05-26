@@ -27,7 +27,7 @@ export default function DealProductType({
       setProductType(deal.sub_type);
       return;
     }
-    setProductType(deal_product_types[0]);
+    setProductType(deal_product_types[1]);
   }, [deal]);
 
   return (
@@ -43,7 +43,7 @@ export default function DealProductType({
       <div>
         <span
           className="cta"
-          onClick={() => openURL('https://allocations.com/fees')}
+          onClick={() => openURL('https://allocations.com/fees', '_blank')}
         >
           View pricing
         </span>

@@ -52,6 +52,7 @@ export default function FormBuilder({
                     {field.type === 'string' && (
                       <input
                         type="text"
+                        max={field.limit}
                         placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
@@ -89,7 +90,7 @@ export default function FormBuilder({
                         className={`${loading ? 'disabled' : ''}`}
                         value={
                           _data && _data[field.key]
-                            ? dayjs(_data[field.key]).format('YYYY/MM/DD')
+                            ? dayjs(_data[field.key]).format('YYYY-MM-DD')
                             : ''
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -151,6 +152,38 @@ export default function FormBuilder({
                           }
                         }}
                       />
+                    )}
+                    {field.type === 'money' && field.key && (
+                      <div className="flex items-center w-full p-0 mr-2 input">
+                        <div className="px-3 py-2 mr-2 font-medium bg-gray-100">
+                          $
+                        </div>
+                        <input
+                          type="number"
+                          placeholder={field.placeholder || undefined}
+                          disabled={loading || field.disabled}
+                          className={`${
+                            loading ? 'disabled' : ''
+                          } border-0 w-full outline-none focus:outline-none ring-0`}
+                          value={
+                            _data && _data[field.key] ? _data[field.key] : 0
+                          }
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            const inputValue = e.target.value;
+                            const numericValue = parseFloat(inputValue);
+
+                            if (!isNaN(numericValue)) {
+                              setData((prevData: any) => ({
+                                ...prevData,
+                                // @ts-ignore
+                                [field.key]: numericValue
+                              }));
+                            }
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 </Grid>

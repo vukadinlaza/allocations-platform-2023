@@ -22,6 +22,7 @@ import {
   deal_banking_providers,
   deal_master_series,
   deal_offering_types,
+  deal_product_types,
   deals_status
 } from '@/types/values';
 import { Card } from '@mui/material';
@@ -34,6 +35,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   });
   const [newDealDetails, setNewDealDetails] = useState<any>({
     agree_msa: true,
+    sub_type: deal_product_types[1],
     master_series: deal_master_series[0],
     advisor_type: deal_advisors_type[0],
     banking_provider: deal_banking_providers[0]
@@ -195,6 +197,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     init();
   }, [deal]);
 
+  useEffect(() => {
+    console.log(newDeal);
+  }, [newDeal]);
+
   return (
     <>
       {pageLoading && <LoadingForm />}
@@ -221,6 +227,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                           saveDealDetails();
                         }}
                         onChange={(org: any) => {
+                          console.log(org);
                           setNewDeal((prev: any) => ({
                             ...prev,
                             organization_id: org?.id
@@ -247,14 +254,14 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
               {newDeal.type === 'spv' && (
                 <Step
-                  selected={newDeal.sub_type || deal.sub_type}
+                  selected={newDealDetails.sub_type}
                   component={
                     <DealProductType
                       loading={loading}
-                      deal={newDeal}
-                      onSave={saveDeal}
+                      deal={newDealDetails}
+                      onSave={saveDealDetails}
                       onChange={(sub_type: string) => {
-                        setNewDeal((prev: any) => ({
+                        setNewDealDetails((prev: any) => ({
                           ...prev,
                           sub_type
                         }));
@@ -278,7 +285,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
               {newDeal && newDeal.assets && (
                 <Step
-                  selected={newDeal.assets && newDeal.assets[0]}
+                  selected={newDeal.assets && newDeal.assets.length > 0}
                   component={
                     <div className="w-full">
                       <header className="flex flex-col items-start mb-4">
@@ -288,11 +295,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         asset={newDeal.assets ? newDeal.assets[0] : null}
                         dealId={deal.id}
                         onCreate={(asset: Asset) => {
+                          console.log(asset);
                           setNewDeal((prev: any) => ({
                             ...prev,
-                            assets: prev.assets
-                              ? [...prev.assets, asset]
-                              : [asset]
+                            assets: [asset]
                           }));
                         }}
                       />
@@ -302,7 +308,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               )}
               <Step
                 selected={
-                  newDealDetails?.master_series && newDealDetails?.series_name
+                  newDealDetails.master_series && newDealDetails.series_name
                 }
                 component={
                   <DealEntity
@@ -423,11 +429,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   </p>
                   {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
                   <Button
-                    disabled={
-                      !newDeal.agree_msa &&
-                      !newDeal.agree_setup &&
-                      !newDeal.agree_costs
-                    }
+                    disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
                     loading={loading}
                     label={
                       newDeal.status === 'draft'
@@ -435,7 +437,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         : 'Update my submission'
                     }
                     onClick={async () => {
-                      setNewDeal({ ...newDeal, status: deals_status[1] });
+                      setNewDeal({ ...newDeal, status: 'submitted' });
                       await saveDeal();
                       await saveDealDetails();
                     }}
