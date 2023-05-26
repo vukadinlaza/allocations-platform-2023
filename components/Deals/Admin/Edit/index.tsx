@@ -216,7 +216,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       <SelectOrganization
                         deal={deal}
                         loading={loading}
-                        onSave={saveDeal}
+                        onSave={() => {
+                          saveDeal();
+                          saveDealDetails();
+                        }}
                         onChange={(org: any) => {
                           setNewDeal((prev: any) => ({
                             ...prev,
