@@ -3,7 +3,7 @@ import { Alert, IconButton } from '@mui/material';
 import { openURL } from '../Table';
 
 export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
-  return (
+  return (<>
     <Alert
       className="mb-6 border border-amber-400"
       icon={<WarningAmberOutlined fontSize="inherit" className="text-amber" />}
@@ -36,5 +36,27 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
         </span>
       </span>
     </Alert>
-  );
+    <Alert
+      className="mb-6 border border-amber-400"
+      icon={<WarningAmberOutlined fontSize="inherit" className="text-amber" />}
+      severity="warning"
+      action={
+        <IconButton
+          aria-label="showBetaAlert"
+          color="warning"
+          size="small"
+          onClick={() => showBetaAlert(false)}
+        >
+          <Close fontSize="inherit" className="text-amber-500" />
+        </IconButton>
+      }
+    >
+      <h2 className="mt-0">
+        Allocations Closed 29 May 2023
+      </h2>
+      <span>
+          In observance of Memorial Day, Allocations will be closed Monday May 29th. We will resume normal operations on May 30th and appreciate your patience and understanding.
+        </span>
+    </Alert>
+  </>);
 }
