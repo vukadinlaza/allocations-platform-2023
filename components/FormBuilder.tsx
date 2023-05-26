@@ -2,6 +2,7 @@ import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
 import Slider from '@mui/material/Slider';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import None from './None';
 import Select from './Select';
@@ -34,15 +35,12 @@ export default function FormBuilder({
   useEffect(() => {
     if (data && Object.keys(_data).length === 0) {
       setData(data);
-      console.log(data)
     }
   }, [data]);
 
   return (
     <>
-      {!model && !_data && (
-        <None text="Sorry this content is not yet available." />
-      )}
+      {!model && !_data && <None text="Sorry this content is not available." />}
       {model && (
         <Grid container spacing={2} className="FormBuilder">
           {model.map((field) => {
@@ -51,13 +49,16 @@ export default function FormBuilder({
                 <Grid item xs={12} key={field.key}>
                   <p className="mb-2">{field.label || 'No label'}</p>
                   <div className="flex items-end">
-                    {field.type === 'string' && field.key && (
+                    {field.type === 'string' && (
                       <input
                         type="text"
                         placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
-                        value={_data && [field.key] ? _data[field.key] : ''}
+                        value={
+                          // @ts-ignore
+                          _data && _data[field.key] ? _data[field.key] : ''
+                        }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
                             ...prevData,
@@ -87,7 +88,9 @@ export default function FormBuilder({
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={
-                          _data && _data[field.key] ? _data[field.key] : ''
+                          _data && _data[field.key]
+                            ? dayjs(_data[field.key]).format('YYYY/MM/DD')
+                            : ''
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({

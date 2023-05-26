@@ -1,17 +1,19 @@
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Organization } from '@/types';
+import { Deal, Organization } from '@/types';
 import { Card } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewOrganization from './New';
 
 export default function SelectOrganization({
+  deal,
   onSave,
   onChange,
   loading
 }: {
+  deal: Deal;
   loading: boolean;
   onSave: () => any;
   onChange: (o: Organization | undefined) => any;
@@ -19,7 +21,7 @@ export default function SelectOrganization({
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [selectedOrganization, setSelectedOrganization] = useState<
     string | null
-  >(null);
+  >('');
   const [create, setCreate] = useState<boolean>(false);
   const [_loading, setLoading] = useState<boolean>(true);
 
@@ -45,9 +47,17 @@ export default function SelectOrganization({
   }, []);
 
   useEffect(() => {
+    if (deal.organization_id) {
+      const found = organizations?.find((o) => o.id === deal.organization_id);
+      console.log(found?.name);
+      setSelectedOrganization(found?.name || '');
+    }
+  }, [deal, organizations]);
+
+  useEffect(() => {
     const found = organizations?.find((o) => o.name === selectedOrganization);
     onChange(found);
-  }, [organizations, selectedOrganization]);
+  }, [selectedOrganization]);
 
   return (
     <div className="w-full">
@@ -58,6 +68,7 @@ export default function SelectOrganization({
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
         <Select
+          selected={selectedOrganization}
           items={organizations}
           onChange={(str: string) => {
             setSelectedOrganization(str);
