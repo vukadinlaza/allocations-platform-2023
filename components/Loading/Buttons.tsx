@@ -1,5 +1,5 @@
 'use client';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Line from './Line';
 
 export default function Buttons() {

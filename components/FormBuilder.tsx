@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import { Field } from '@/types';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';

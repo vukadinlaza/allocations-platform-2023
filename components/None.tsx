@@ -1,6 +1,6 @@
 'use client';
 
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import Image from 'next/image';
 
 export default function None({ text }: { text: string }) {

@@ -1,5 +1,7 @@
 'use client';
-import { Avatar, MenuItem, MenuList } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuthContext } from '../app/context';

@@ -340,32 +340,36 @@ export const headers_tables = {
   investments_entities: [
     {
       label: 'Name',
-      key: 'name'
+      key: 'legal_name'
     },
     {
       label: 'Type',
       key: 'type'
     },
     {
+      label: 'Entity Type',
+      key: 'entity_type'
+    },
+    {
       label: 'Address',
-      key: 'address'
+      key: 'address_line_1'
+    },
+    {
+      label: '',
+      key: 'address_line_2'
     },
     {
       label: 'State',
-      key: 'state'
+      key: 'region'
     },
     {
       label: 'Country',
       key: 'country'
     },
     {
-      label: 'Phone',
-      key: 'phone'
+      label: 'Postal Code',
+      key: 'postal_code'
     },
-    {
-      label: 'Tax ID',
-      key: 'tax_id'
-    }
   ],
   migrations: [
     {

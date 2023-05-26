@@ -2,7 +2,7 @@
 import AvatarItem from '@/components/Items/Avatar';
 import PageList from '@/components/Page/List';
 import { getFullName } from '@/lib/utils';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import { useState } from 'react';
 import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
@@ -15,8 +15,8 @@ export default function Profile() {
   const cards = [
     {
       header: {
-        name: 'Investments entities',
-        description: 'Manage your investments entities.',
+        name: 'Investment Identities',
+        description: 'Manage your investment identities.',
         buttons: [
           {
             type: 'users_entity'
@@ -26,30 +26,11 @@ export default function Profile() {
       table: {
         element: 'investment entity',
         headers: headers_tables.investments_entities,
-        origin: 'users_investment_entities',
-        target: 'users_investment_entities',
+        origin: 'identities',
+        target: 'identities',
         query: '*'
       }
     },
-    {
-      header: {
-        name: 'Personal identities',
-        description: 'Manage your personal identities.',
-        buttons: [
-          {
-            type: 'verify',
-            label: 'Verify my identity',
-            show: user && !user.users_personal_identities
-          }
-        ]
-      },
-      table: {
-        element: 'personal entity',
-        headers: headers_tables.personal_identities,
-        origin: 'users_personal_identities',
-        query: '*'
-      }
-    }
   ];
 
   return (

@@ -1,36 +1,36 @@
 import NewCompany from '@/components/Investments/Module/Entity/Company';
 import Select from '@/components/Select';
-import { users_investiment_entities_types } from '@/types/values';
+import { investment_identity_types } from '@/types/values';
 import { useState } from 'react';
 import NewIRA from './IRA';
 import NewIndividual from './Individual';
 import NewTrust from './Trust';
 
-export default function NewUserInvestmentEntity({
+export default function NewUserInvestmentEntityIdentity({
   onUpdate,
   hideHeader = false
 }: {
   hideHeader?: boolean;
   onUpdate: () => any;
 }) {
-  const [type, setType] = useState<string>('Myself/Individual');
+  const [type, setType] = useState<string>('Myself / Individual');
 
   return (
     <div className="w-full mb-6">
       <div className="grid grid-cols-1 gap-4 pb-4">
         {!hideHeader && (
           <header>
-            <h2>Create a new investment entity</h2>
-            <p>Type of entity:</p>
+            <h2>Create a new investment identity</h2>
+            <p>Type of identity:</p>
           </header>
         )}
         <Select
-          items={users_investiment_entities_types}
+          items={investment_identity_types}
           selected={type}
           onChange={(type: string) => setType(type)}
         />
       </div>
-      {type === 'Myself/Individual' && <NewIndividual onUpdate={onUpdate} />}
+      {type === 'Myself / Individual' && <NewIndividual onUpdate={onUpdate} />}
       {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'Corporation' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'Partnership' && <NewCompany type={type} onUpdate={onUpdate} />}

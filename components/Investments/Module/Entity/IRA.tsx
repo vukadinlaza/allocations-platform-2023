@@ -14,8 +14,8 @@ export default function NewIRA({ onUpdate }: { onUpdate: () => void }) {
     try {
       setLoading(true);
       const { data } = await supabase
-        .from('users_investment_entities')
-        .insert({ ...newCompany, type: 'IRA' })
+        .from('identities')
+        .insert({ ...newCompany, type: 'Entity', entity_type: 'IRA' })
         .select();
 
       if (data) {

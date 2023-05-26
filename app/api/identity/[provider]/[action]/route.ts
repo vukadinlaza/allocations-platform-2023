@@ -105,7 +105,7 @@ export async function POST(
       if (IDVData.status == 'success') {
         console.log('Verified');
         const existingIdentity = await supabase
-          .from('users_personal_identities')
+          .from('identities')
           .select('*')
           .eq('provider_id', IDVData.id)
           .select();
@@ -116,13 +116,13 @@ export async function POST(
         }
         console.log(existingRecordId);
         const data = await supabase
-          .from('users_personal_identities')
+          .from('identities')
           .upsert({
             id: existingRecordId,
             user_email: clientUser?.email,
             provider: 'PLAID',
             provider_id: IDVData.id,
-            status: 'verified',
+            kyc_status: IDVData?.kyc_check?.status,
             legal_name: `${IDVData?.user?.name?.given_name} ${IDVData?.user?.name?.family_name}`,
             address_line_1: IDVData?.user?.address?.street,
             address_line_2: IDVData?.user?.address?.street2,

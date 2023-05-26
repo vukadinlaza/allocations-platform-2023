@@ -26,7 +26,5 @@ Sentry.init({
       maskAllText: true,
       blockAllMedia: true
     })
-  ],
-
-  defaultIntegrations: false
+  ]
 });

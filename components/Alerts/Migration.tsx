@@ -1,5 +1,7 @@
-import { Close, WarningAmberOutlined } from '@mui/icons-material';
-import { Alert, IconButton } from '@mui/material';
+import Close from '@mui/icons-material/Close';
+import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
 import { openURL } from '../Table';
 
 export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {

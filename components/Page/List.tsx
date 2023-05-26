@@ -3,7 +3,10 @@
 import { useAuthContext } from '@/app/context';
 import { useSupabase } from '@/lib/supabase-provider';
 import CloseIcon from '@mui/icons-material/Close';
-import { Card, Dialog, Grid, Slide } from '@mui/material';
+import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import Grid from '@mui/material/Grid';
+import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect, useState } from 'react';
 
@@ -11,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import NewDeal from '@/components/Deals/New';
 import KYC from '@/components/Identity/KYC';
-import NewUserInvestmentEntity from '@/components/Investments/Module/Entity/New';
+import NewUserInvestmentEntityIdentity from '@/components/Investments/Module/Entity/New';
 import LoadingPageList from '@/components/Loading/Page';
 import NewOrganization from '@/components/Organizations/New';
 import Table from '@/components/Table';
@@ -212,7 +215,7 @@ export default function PageList({ data }: { data: any }) {
                           }
                           if (button.type === 'users_entity') {
                             return (
-                              <NewUserInvestmentEntity
+                              <NewUserInvestmentEntityIdentity
                                 hideHeader={true}
                                 key={index}
                                 onUpdate={() => setOpenModal(false)}

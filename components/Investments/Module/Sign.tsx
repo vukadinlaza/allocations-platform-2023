@@ -4,7 +4,7 @@ import Checkbox from '@/components/Checkbox';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
-import { Deal, Entity } from '@/types';
+import { Deal, Entity, Identity } from '@/types';
 import * as Sentry from '@sentry/nextjs';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -14,13 +14,13 @@ import Button from '../../Button';
 export default function InvestmentSignature({
   currentUser,
   deal,
-  entity,
+  identity,
   amount,
   onUpdate
 }: {
   currentUser: any;
   deal: Deal;
-  entity: Entity;
+  identity: Identity;
   amount: number;
   onUpdate?: () => any;
 }) {
@@ -54,16 +54,10 @@ export default function InvestmentSignature({
     investmentId: string,
     preview = false
   ) => {
-    const transaction = Sentry.startTransaction({
-      name: 'SPV Agreement Signing'
-    });
-    Sentry.configureScope((scope) => {
-      scope.setSpan(transaction);
-    });
-    if (!currentUser && !entity && !investmentId) return;
+    if (!currentUser && !identity && !investmentId) return;
 
     const { users_personal_identities } = currentUser;
-    const { accreditations } = entity;
+    const { accreditations } = identity;
 
     if (!users_personal_identities && !accreditations) return;
 
@@ -73,17 +67,16 @@ export default function InvestmentSignature({
     if (!currentIdentity && !currentAccreditation) return;
 
     const body = {
-      investorType:
-        entity.type === 'Myself/Individual' ? 'Individual' : 'Entity',
-      legalName: entity.name,
+      investorType: identity.type,
+      legalName: identity.legal_name,
       investmentAmount: amount.toString(),
-      investorIsUsBased: currentIdentity.country.includes('United States'),
-      investorState: currentIdentity.region,
-      investorCountry: currentIdentity.country,
-      investorAccreditationStatus: currentAccreditation.value,
-      investorEmail: currentUser.email,
-      investorTitle: '', // TODO: update
-      investorFullName: currentUser.first_name + ' ' + currentUser.last_name
+      investorIsUsBased: identity.country === 'US',
+      investorState: identity.region,
+      investorCountry: identity.country,
+      investorAccreditationStatus: currentAccreditation?.value,
+      investorEmail: identity.user_email,
+      investorTitle: identity?.title ?? '',
+      investorFullName: identity.type === 'Individual' ? identity.legal_name : currentUser.first_name + ' ' + currentUser.last_name
     };
 
     try {
@@ -116,13 +109,13 @@ export default function InvestmentSignature({
     } catch (error) {
       Sentry.captureException(error, {
         extra: {
-          investmentId
+          investmentId: investmentId,
+          identity: identity.id,
         }
       });
       notify('Failed to fetch subscription agreement document', false);
       return;
     } finally {
-      transaction.finish();
       setLoading(false);
     }
   };
@@ -142,7 +135,9 @@ export default function InvestmentSignature({
         .from('investments')
         .insert({
           deal_id: deal.id,
-          subscription_amount: amount
+          subscription_amount: amount,
+          identities_id: identity.id,
+          user_email: currentUser.email
         })
         .select()
         .single();

@@ -50,10 +50,38 @@ export default function NewCompany({
       show: true
     },
     {
-      label: 'Principal place of business (full address)',
-      key: 'address',
+      label: 'Principal place of business (Address Line 1)',
+      key: 'address_line_1',
       type: 'string',
       placeholder: '500 Madison Ave., New York',
+      show: true
+    },
+    {
+      label: 'Address Line 2',
+      key: 'address_line_2',
+      type: 'string',
+      placeholder: 'Suite C',
+      show: true
+    },
+    {
+      label: 'State / Region',
+      key: 'region',
+      type: 'string',
+      placeholder: 'NY',
+      show: true
+    },
+    {
+      label: 'Country',
+      key: 'country',
+      type: 'string',
+      placeholder: 'US',
+      show: true
+    },
+    {
+      label: 'Zip / Postal Code',
+      key: 'country',
+      type: 'string',
+      placeholder: '888888',
       show: true
     },
     {
@@ -80,8 +108,8 @@ export default function NewCompany({
     try {
       setLoading(true);
       const { data } = await supabase
-        .from('users_investment_entities')
-        .insert({ ...newCompany, type: type === 'Partnership' ? 'LP' : type })
+        .from('identities')
+        .insert({ ...newCompany, type: 'entity', entity_type: type === 'Partnership' ? 'LP' : type })
         .select();
 
       if (data) {

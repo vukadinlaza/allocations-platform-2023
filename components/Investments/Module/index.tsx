@@ -5,7 +5,7 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
 import InvestmentsAccreditation from './Accreditation';
-import InvestmentsEntity from './Entity';
+import InvestmentIdentity from './Entity';
 import InvestmentsSign from './Sign';
 
 export default function InvestmentsModule({
@@ -16,7 +16,7 @@ export default function InvestmentsModule({
   deal: Deal;
 }) {
   const { supabase, fetchUser } = useSupabase();
-  const [entity, setEntity] = useState<any>(null);
+  const [identity, setIdentity] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -56,29 +56,29 @@ export default function InvestmentsModule({
       {!loading && currentUser && (
         <div>
           <div className="p-6 border-t">
-            <InvestmentsEntity
-              entities={currentUser.users_investment_entities}
+            <InvestmentIdentity
+              identities={currentUser.identities}
               onChange={(v) => {
-                setEntity(v);
+                setIdentity(v);
               }}
               onUpdate={checkPermissions}
-              selected={entity?.id}
+              selected={identity?.id}
             />
           </div>
-          {entity && (
+          {identity && (
             <div>
-              {currentUser.users_personal_identities.length < 1 && (
+              {currentUser.identities.length < 1 && (
                 <div className="p-6 border-t">
                   <KYC onUpdate={checkPermissions} />
                 </div>
               )}
-              {currentUser.users_personal_identities.length > 0 &&
-                entity.accreditations.length < 1 && (
+              {currentUser.identities.length > 0 &&
+                (identity.accreditations?.length ?? 0)< 1 && (
                   <div className="p-6 border-t">
                     <InvestmentsAccreditation
-                      entity={entity}
+                      identity={identity}
                       onUpdate={(accreditation: any) => {
-                        setEntity((prev: any) => ({
+                        setIdentity((prev: any) => ({
                           ...prev,
                           accreditations: [accreditation]
                         }));
@@ -87,13 +87,13 @@ export default function InvestmentsModule({
                     />
                   </div>
                 )}
-              {currentUser.users_personal_identities.length > 0 &&
-                entity.accreditations.length > 0 && (
+              {currentUser.identities.length > 0 &&
+                (identity.accreditations?.length ?? 0) > 0 && (
                   <div className="p-6 border-t">
                     <InvestmentsSign
                       currentUser={currentUser}
                       deal={deal}
-                      entity={entity}
+                      identity={identity}
                       amount={amount}
                     />
                   </div>

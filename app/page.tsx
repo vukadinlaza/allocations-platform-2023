@@ -8,7 +8,8 @@ import LoadingList from '@/components/Loading/List';
 import Nav from '@/components/Nav';
 import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
-import { Card, Grid } from '@mui/material';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from './context';
 

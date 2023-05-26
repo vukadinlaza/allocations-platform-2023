@@ -4,10 +4,10 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { useState } from 'react';
 
 export default function Accreditation({
-  entity,
+  identity,
   onUpdate
 }: {
-  entity: any;
+  identity: any;
   onUpdate: (a: any) => void;
 }) {
   const [accreditationType, setAccreditationType] = useState<any>(null);
@@ -42,14 +42,14 @@ export default function Accreditation({
   ];
 
   const saveAccreditation = async () => {
-    if (!accreditationType && !entity)
+    if (!accreditationType && !identity)
       alert('Please enter an accreditation type.');
     try {
       setLoading(true);
       const { data } = await supabase
         .from('accreditations')
         .insert({
-          user_investment_entity_id: entity.id,
+          identities_id: identity.id,
           value: accreditationType
         })
         .select();

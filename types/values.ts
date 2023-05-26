@@ -66,8 +66,8 @@ export const investments_status = [
 
 export const organizations_status = ['processing', 'complete'];
 
-export const users_investiment_entities_types = [
-  'Myself/Individual',
+export const investment_identity_types = [
+  'Myself / Individual',
   'LLC',
   'Corporation',
   'Partnership',

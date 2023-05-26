@@ -1,18 +1,19 @@
 import Checkbox from '@/components/Checkbox';
 import { getFirstLetter } from '@/lib/utils';
-import { UserInvestmentEntity } from '@/types';
-import { Alert, Avatar } from '@mui/material';
+import { Identity } from '@/types';
+import Alert from '@mui/material/Alert';
+import Avatar from '@mui/material/Avatar';
 import Image from 'next/image';
 import { useState } from 'react';
 import NewUserInvestmentsEntity from './Entity/New';
 
 export default function InvestmentEntity({
-  entities = [],
+  identities = [],
   onChange,
   selected,
   onUpdate
 }: {
-  entities: UserInvestmentEntity[];
+  identities: Identity[];
   onChange: (v: any) => any;
   onUpdate: () => any;
   selected: any;
@@ -22,23 +23,21 @@ export default function InvestmentEntity({
   return (
     <div>
       <header className="mb-6">
+        <Alert severity="info" className="mb-4">
+          We are asking all investors to verify their identity again
+          even if provided on previous investments.
+        </Alert>
         <h2 className="text-lg font-bold">Who is investing?</h2>
-        <p className="text-sm">You have no identity yet.</p>
       </header>
       <main>
         <div>
-          {entities && (
+          {identities && (
             <div>
-              <Alert severity="info" className="mb-4">
-                We are asking all investors to verify all their data by
-                submitting it again even if they provided on previous
-                investments.
-              </Alert>
-              {entities.map((entity: UserInvestmentEntity, index: number) => (
+              {identities.map((identity: Identity, index: number) => (
                 <div
                   key={index}
                   className="flex items-center justify-between p-2 mb-4 border rounded cursor-pointer hover:bg-gray-50"
-                  onClick={() => onChange(entity)}
+                  onClick={() => onChange(identity)}
                 >
                   <Avatar
                     className="mr-2 cursor-pointer"
@@ -49,17 +48,22 @@ export default function InvestmentEntity({
                       textTransform: 'capitalize'
                     }}
                   >
-                    {getFirstLetter(entity.name)}
+                    {getFirstLetter(identity.legal_name)}
                   </Avatar>
                   <div className="flex flex-col grow">
-                    {entity.name && <span className="mb-0">{entity.name}</span>}
-                    {entity.type && (
+                    {identity.legal_name && <span className="mb-0">{identity.legal_name}</span>}
+                    {identity.type === 'Individual' && (
                       <span className="text-xs text-gray-600">
-                        {entity.type}
+                        A {identity.country} {identity.type}
+                      </span>
+                    )}
+                    {identity.entity_type && (
+                      <span className="text-xs text-gray-600">
+                        A {identity.country} {identity.entity_type} Entity
                       </span>
                     )}
                   </div>
-                  <Checkbox selected={selected === entity.id} />
+                  <Checkbox selected={selected === identity.id} />
                 </div>
               ))}
             </div>

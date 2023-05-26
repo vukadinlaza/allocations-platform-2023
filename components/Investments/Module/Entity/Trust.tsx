@@ -14,8 +14,8 @@ export default function NewTrust({ onUpdate }: { onUpdate: () => void }) {
     try {
       setLoading(true);
       const { data } = await supabase
-        .from('users_investment_entities')
-        .insert({ ...newCompany, type: 'Trust' })
+        .from('identities')
+        .insert({ ...newCompany, type: 'Entity', entity_type: 'Trust' })
         .select();
 
       if (data) {

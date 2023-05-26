@@ -25,7 +25,7 @@ import {
   deal_product_types,
   deals_status
 } from '@/types/values';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import { useEffect, useState } from 'react';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {

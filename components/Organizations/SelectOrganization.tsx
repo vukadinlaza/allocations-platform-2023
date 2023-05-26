@@ -2,7 +2,7 @@ import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Organization } from '@/types';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewOrganization from './New';

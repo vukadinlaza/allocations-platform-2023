@@ -1,5 +1,5 @@
 import { getFirstLetter } from '@/lib/utils';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 
 export default function AvatarItem({
   item,

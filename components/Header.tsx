@@ -2,7 +2,7 @@
 
 import { navigation } from '@/app/config';
 import { useAuthContext } from '@/app/context';
-import { Chip } from '@mui/material';
+import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

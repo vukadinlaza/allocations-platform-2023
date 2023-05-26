@@ -2,7 +2,7 @@ import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import Image from 'next/image';
 import { useState } from 'react';
 import InvestmentsModule from './Module';
@@ -73,7 +73,7 @@ export default function InvestmentSidebar({
       <header className="px-6 py-4">
         <h2 className="text-lg font-bold">Invest</h2>
         <p className="flex items-center gap-1 text-sm">
-          Minimum is <Price price={deal.minimum_investment} /> - invest by{' '}
+          Minimum is <Price price={deal.minimum_investment ?? "1"} /> - invest by{' '}
           <DateComponent date={deal.closing_date} />
         </p>
       </header>
@@ -139,7 +139,7 @@ export default function InvestmentSidebar({
                         <Image
                           src="/percent.svg"
                           alt={'Percent'}
-                          className="opacity-50 cursor-pointer text-primary"
+                          className="opacity-50 cursor-poin(ter text-primary"
                           width={18}
                           height={18}
                         />
@@ -149,7 +149,7 @@ export default function InvestmentSidebar({
                 </li>
               ))}
             </ul>
-            <p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>
+            {/*<p className="px-6 py-2 mt-1 text-xs">View Closing Docs</p>*/}
           </div>
         )}
         {investing && (

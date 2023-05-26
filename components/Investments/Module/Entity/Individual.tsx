@@ -3,6 +3,7 @@ import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
 import { useState } from 'react';
+import KYC from '@/components/Identity/KYC';
 
 export default function NewIndividual({ onUpdate }: { onUpdate: () => void }) {
   const [newCompany, setNewCompany] = useState<any>({});
@@ -14,7 +15,7 @@ export default function NewIndividual({ onUpdate }: { onUpdate: () => void }) {
     try {
       setLoading(true);
       const { data } = await supabase
-        .from('users_investment_entities')
+        .from('identities')
         .insert({ name: newCompany.name, type: 'Individual' })
         .select();
 
@@ -28,30 +29,9 @@ export default function NewIndividual({ onUpdate }: { onUpdate: () => void }) {
     }
   };
 
-  const model: Field[] = [
-    {
-      label: 'Investor name',
-      key: 'name',
-      type: 'string',
-      placeholder: 'Your Investor name',
-      show: true
-    }
-  ];
-
   return (
     <div className="new--individual">
-      <FormBuilder
-        emit={true}
-        model={model}
-        onSubmit={(v) => setNewCompany(v)}
-      />
-      <div className="mt-4">
-        <Button
-          loading={loading}
-          label="Save investment entity"
-          onClick={() => saveNewEntity()}
-        />
-      </div>
+      <KYC onUpdate={onUpdate} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Investment } from '@/types';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

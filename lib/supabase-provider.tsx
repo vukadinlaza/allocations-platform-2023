@@ -3,7 +3,7 @@
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 type SupabaseContext = {
   supabase: SupabaseClient<any>;
@@ -13,8 +13,8 @@ type SupabaseContext = {
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
 export default function SupabaseProvider({
-  children
-}: {
+                                           children
+                                         }: {
   children: React.ReactNode;
 }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
@@ -47,6 +47,9 @@ export default function SupabaseProvider({
         users_personal_identities (
           *
         ),
+        identities (
+          *
+        ),
         organizations_roles (
           *
         )
@@ -58,28 +61,28 @@ export default function SupabaseProvider({
   };
 
   const fetchOrganizations = async () => {
-    return await supabase
+    return supabase
       .from('organizations')
       .select(`*`)
       .order('created_at', { ascending: false });
   };
 
   const fetchEntities = async () => {
-    return await supabase.from('entities').select(`*`, { count: 'exact' });
+    return supabase.from('entities').select(`*`, { count: 'exact' });
   };
 
   const fetchDeals = async (type: string | null = null) => {
     if (type) {
-      return await supabase
+      return supabase
         .from('private_deals')
         .select(`*`, { count: 'exact' })
         .eq('type', type);
     }
-    return await supabase.from('deals').select(`*`, { count: 'exact' });
+    return supabase.from('deals').select(`*`, { count: 'exact' });
   };
 
   const fetchInvestments = async () => {
-    return await supabase.from('investments').select(`*`, { count: 'exact' });
+    return supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
   const updateUser = async (email: string | undefined, newUser: any) => {
@@ -92,18 +95,19 @@ export default function SupabaseProvider({
 
     return data || null;
   };
+  const supabaseContext = useMemo(()=>({
+    supabase,
+    fetchUser,
+    fetchOrganizations,
+    fetchEntities,
+    fetchDeals,
+    fetchInvestments,
+    updateUser
+  }), [supabase]);
 
   return (
     <Context.Provider
-      value={{
-        supabase,
-        fetchUser,
-        fetchOrganizations,
-        fetchEntities,
-        fetchDeals,
-        fetchInvestments,
-        updateUser
-      }}
+      value={supabaseContext}
     >
       <>{children}</>
     </Context.Provider>

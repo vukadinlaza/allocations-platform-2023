@@ -31,7 +31,7 @@
 'use client';
 import PageList from '@/components/Page/List';
 import { PageListData } from '@/types';
-import { Card } from '@mui/material';
+import Card from '@mui/material/Card';
 import { headers_tables } from '../config';
 
 export default function Investments() {
