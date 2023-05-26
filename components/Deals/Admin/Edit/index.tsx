@@ -294,12 +294,8 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       <NewAsset
                         asset={newDeal.assets ? newDeal.assets[0] : null}
                         dealId={deal.id}
-                        onCreate={(asset: Asset) => {
-                          console.log(asset);
-                          setNewDeal((prev: any) => ({
-                            ...prev,
-                            assets: [asset]
-                          }));
+                        onCreate={async (asset: Asset) => {
+                          await fetchDealAssets();
                         }}
                       />
                     </div>
