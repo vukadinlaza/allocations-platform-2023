@@ -18,7 +18,7 @@ function Select<T>({
 
   return (
     <select
-      value={selected}
+      value={selected || ''}
       onChange={handleSelectChange}
       className="capitalize bg-white"
     >

@@ -56,7 +56,7 @@ export default function FormBuilder({
                         placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
-                        value={_data && [field.key] ? _data[field.key] : null}
+                        value={_data && [field.key] ? _data[field.key] : ''}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
                             ...prevData,
@@ -68,7 +68,7 @@ export default function FormBuilder({
                     )}
                     {field.type === 'select' && field.items && field.key && (
                       <Select
-                        selected={field.value || null}
+                        selected={field.value || ''}
                         displayLabel={(v) => v}
                         items={field.items}
                         onChange={(e) => {
@@ -100,7 +100,7 @@ export default function FormBuilder({
                     {field.type === 'slider' && field.key && (
                       <div className="flex items-center justify-between w-80">
                         <Slider
-                          defaultValue={
+                          value={
                             _data && _data[field.key] ? _data[field.key] : 0
                           }
                           step={field.step}

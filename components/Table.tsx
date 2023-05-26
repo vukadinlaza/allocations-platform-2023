@@ -80,6 +80,7 @@ export default function TableComponent({ headers, data = [], table }: Props) {
                       headers.map((column: any, i: any) => {
                         return column.manage ? (
                           <TableCell
+                            key={i}
                             sx={{
                               display: 'flex',
                               alignItems: 'center',
@@ -88,10 +89,7 @@ export default function TableComponent({ headers, data = [], table }: Props) {
                           >
                             <button
                               onClick={() =>
-                                openURL(
-                                  `${table}/${item.id}`,
-                                  column.target
-                                )
+                                openURL(`${table}/${item.id}`, column.target)
                               }
                               className="mr-2 btn primary"
                             >

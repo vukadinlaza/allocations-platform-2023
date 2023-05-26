@@ -11,7 +11,9 @@ type Props = {
 export default function NewOrganization({ onCreate }: Props) {
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
-  const [newOrganization, setNewOrganization] = useState<Organization>({});
+  const [newOrganization, setNewOrganization] = useState<Organization>({
+    name: ''
+  });
   const [loading, setLoading] = useState<boolean>(false);
 
   const createNew = async () => {
@@ -43,10 +45,11 @@ export default function NewOrganization({ onCreate }: Props) {
         <p className="mb-2">Enter your organization name:</p>
         <input
           type="text"
+          value={newOrganization?.name || ''}
           placeholder={'Your organization name'}
           disabled={loading}
           className={`${loading ? 'disabled' : ''}`}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange={(e: any) =>
             setNewOrganization((prevData: any) => ({
               ...prevData,
               name: e.target.value

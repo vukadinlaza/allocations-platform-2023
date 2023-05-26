@@ -54,7 +54,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
       setLoading(true);
       const { data, error } = await supabase
         .from('assets')
-        .upsert({ ...newAsset, id: newAsset?.id }, { onConflict: 'id' });
+        .upsert({ id: newAsset?.id, ...newAsset });
 
       if (data) {
         onCreate(data);

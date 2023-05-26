@@ -84,6 +84,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
       const { data: _dealDetails, error: _dealDetailsError } = await supabase
         .from('deal_details')
         .upsert({
+          // id: deal_details.id,
           deal_id: deal.id,
           series_name,
           master_series,
@@ -91,7 +92,8 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           agree_msa,
           agree_setup,
           agree_costs
-        });
+        })
+        .eq('deal_id', deal.id);
 
       if (_dealError || _dealDetailsError) {
         notify(`Sorry, could not save deal.`, false);
