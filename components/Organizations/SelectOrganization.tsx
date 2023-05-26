@@ -50,6 +50,9 @@ export default function SelectOrganization({
     if (deal.organization_id) {
       const found = organizations?.find((o) => o.id === deal.organization_id);
       setSelectedOrganization(found?.name || '');
+
+      console.log(deal);
+      console.log(found);
     }
   }, [deal, organizations]);
 
@@ -87,6 +90,7 @@ export default function SelectOrganization({
       )}
       <div className="flex items-center gap-4 mt-4">
         <Button
+          disabled={!selectedOrganization}
           loading={loading || _loading}
           onClick={() => onSave()}
           label="Save"
