@@ -53,7 +53,7 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
         setInvestors(
           investments.map((invest) => ({
             ...invest.users,
-            name: `${invest.users.first_name} ${invest.users.last_name}`,
+            name: invest.users ? `${invest.users.first_name ?? ''} ${invest.users.last_name ?? ''}`.trim() : null,
             status: invest.status,
             subscription_amount: invest.subscription_amount,
             documents: 'None'
