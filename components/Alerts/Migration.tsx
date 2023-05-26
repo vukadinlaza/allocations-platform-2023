@@ -20,7 +20,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
       }
     >
       <h2 className="mt-0">
-        New platform migration update — last update: today at 11:45 EST
+        New platform migration update — last update: today at 06:25 EST
       </h2>
       <span>
         Welcome to the new platform! We are in the process of migrating your

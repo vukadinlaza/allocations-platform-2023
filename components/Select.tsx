@@ -17,11 +17,7 @@ function Select<T>({
   };
 
   return (
-    <select
-      value={selected || ''}
-      onChange={handleSelectChange}
-      className="capitalize bg-white"
-    >
+    <select onChange={handleSelectChange} className="capitalize bg-white">
       {selected && <option selected>{selected}</option>}
       {items &&
         items

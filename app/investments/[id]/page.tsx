@@ -77,7 +77,6 @@ export default function InvestmentId() {
       }
 
       if (_investment) {
-        console.log(_investment);
         setInvestment(_investment);
       }
     } catch (error) {
@@ -124,9 +123,7 @@ export default function InvestmentId() {
                 className="flex items-center justify-between w-full p-4 mb-8"
                 variant="outlined"
               >
-                <p>
-                  {investment.deals.name}
-                </p>
+                <p>{investment.deals.name}</p>
                 <Button
                   label="Open Deal"
                   onClick={() =>

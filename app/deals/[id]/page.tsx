@@ -7,7 +7,7 @@ import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function DealID() {
   const { supabase } = useSupabase();
@@ -17,27 +17,17 @@ export default function DealID() {
   const [hasRole, setHasRole] = useState<boolean>(false);
   const params = useParams();
 
-  const checkRole = useCallback(() => {
-    if (deal && user) {
-      console.log(deal.user_email === user.email);
-      return deal.user_email === user.email || hasRole;
-    }
-    return false;
-  }, [user, deal, hasRole]);
-
   async function fetchDeal() {
     if (!params || !params.id) return;
 
-    const queryFrom = checkRole() ? 'private_deals' : 'deals';
-    const querySelect = checkRole() ? `*, assets(*)` : '*';
-
     try {
       setLoading(true);
-      console.log('queryFrom');
-      console.log(checkRole());
+
+      // you can't use private_deals view here
+
       const { data: _deal, error } = await supabase
-        .from(queryFrom)
-        .select(querySelect as '*, assets(*)')
+        .from('deals')
+        .select('*')
         .eq('id', params.id)
         .single();
 
@@ -45,21 +35,17 @@ export default function DealID() {
         throw error;
       }
 
+      const isOwner =
+        user.organizations_roles
+          .map((org: any) => org.organization_id)
+          .includes(_deal.organization_id) || _deal.user_email === user.email;
+
       if (_deal) {
+        setHasRole(isOwner);
         setDeal(_deal);
       }
-
-      const { data: role } = await supabase
-        .from('organizations_roles')
-        .select('*')
-        .eq('organization_id', _deal.organization_id)
-        .eq('user_email', user.email)
-        .single();
-      if (role) {
-        setHasRole(true);
-      }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }

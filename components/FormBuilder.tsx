@@ -34,6 +34,7 @@ export default function FormBuilder({
   useEffect(() => {
     if (data && Object.keys(_data).length === 0) {
       setData(data);
+      console.log(data)
     }
   }, [data]);
 
@@ -68,7 +69,7 @@ export default function FormBuilder({
                     )}
                     {field.type === 'select' && field.items && field.key && (
                       <Select
-                        selected={field.value || ''}
+                        selected={_data && [field.key] ? _data[field.key] : ''}
                         displayLabel={(v) => v}
                         items={field.items}
                         onChange={(e) => {
@@ -109,11 +110,7 @@ export default function FormBuilder({
                           max={field.max}
                           disabled={loading || field.disabled}
                           className={`${loading ? 'disabled' : ''}`}
-                          onChange={(
-                            e: Event,
-                            newValue: number | number[],
-                            activeThumb: number
-                          ) =>
+                          onChange={(e: Event) =>
                             setData((prevData: any) => ({
                               ...prevData,
                               // @ts-ignore

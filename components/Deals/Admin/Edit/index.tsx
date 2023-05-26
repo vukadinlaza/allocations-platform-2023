@@ -16,12 +16,26 @@ import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Asset, Deal } from '@/types';
+import {
+  deal_advisors_type,
+  deal_banking_providers,
+  deal_master_series,
+  deal_offering_types,
+  deals_status
+} from '@/types/values';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
-  const [newDeal, setNewDeal] = useState<any>();
+  const [newDeal, setNewDeal] = useState<any>({
+    offering_type: deal_offering_types[0]
+  });
+  const [newDealDetails, setNewDealDetails] = useState<any>({
+    master_series: deal_master_series[0],
+    advisor_type: deal_advisors_type[0],
+    banking_provider: deal_banking_providers[0]
+  });
   const [hasIdentity, setHasIdentity] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -48,6 +62,27 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     }
   };
 
+  const fetchDealDetails = async () => {
+    if (!deal) return;
+    try {
+      setLoading(true);
+
+      const { data: dealDetails, error } = await supabase
+        .from('deal_details')
+        .select('*')
+        .eq('deal_id', deal.id)
+        .single();
+
+      if (dealDetails) {
+        setNewDealDetails(dealDetails);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formatDeal = (deal: Deal, divide = true) => {
     return {
       ...deal,
@@ -65,6 +100,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     try {
       setLoading(true);
 
+      // TODO: to clean, deal_details are up here
       const {
         assets,
         total_raised_amount,
@@ -81,26 +117,32 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         .from('deals')
         .upsert({ id: deal.id, ...formatDeal(dealData) });
 
-      const { data: _dealDetails, error: _dealDetailsError } = await supabase
-        .from('deal_details')
-        .upsert({
-          // id: deal_details.id,
-          deal_id: deal.id,
-          series_name,
-          master_series,
-          legal_template_option,
-          agree_msa,
-          agree_setup,
-          agree_costs
-        })
-        .eq('deal_id', deal.id);
-
-      if (_dealError || _dealDetailsError) {
+      if (_dealError) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
       notify('Deal saved.', true);
       await fetchDealAssets();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveDealDetails = async () => {
+    try {
+      setLoading(true);
+
+      const { data: _dealDetails, error: _dealDetailsError } = await supabase
+        .from('deal_details')
+        .upsert({ id: newDealDetails.id, ...newDealDetails });
+
+      if (_dealDetailsError) {
+        notify(`Sorry, could not save deal.`, false);
+        return;
+      }
+      notify('Deal saved.', true);
     } catch (err) {
       console.log(err);
     } finally {
@@ -136,6 +178,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   useEffect(() => {
     setNewDeal(formatDeal(deal, false));
     fetchDealAssets();
+    fetchDealDetails();
   }, [deal]);
 
   return (
@@ -146,7 +189,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           <KYC onUpdate={() => setHasIdentity(true)} />
         </Card>
       )}
-      {hasIdentity && newDeal && deal && (
+      {hasIdentity && deal && newDeal && newDealDetails && (
         <div>
           <Step
             selected={newDeal.organization_id && newDeal.agree_msa}
@@ -235,53 +278,66 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             />
           )}
           <Step
-            selected={newDeal.master_series && newDeal.series_name}
+            selected={
+              newDealDetails?.master_series && newDealDetails?.series_name
+            }
             component={
               <DealEntity
                 loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                deal={newDealDetails}
+                onSave={saveDealDetails}
+                onChange={(_dealDetails: any) => {
+                  setNewDealDetails((prev: any) => ({
+                    ...prev,
+                    ..._dealDetails
+                  }));
                 }}
               />
             }
           />
           <Step
-            selected={newDeal.legal_template_option}
+            selected={newDealDetails?.legal_template_option}
             component={
               <DealLegalDocuments
                 loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                deal={newDealDetails}
+                onSave={saveDealDetails}
+                onChange={(_dealDetails: any) => {
+                  setNewDealDetails((prev: any) => ({
+                    ...prev,
+                    ..._dealDetails
+                  }));
                 }}
               />
             }
           />
           <Step
-            selected={newDeal.offering_type && newDeal.advisor_type}
+            selected={newDeal.offering_type && newDealDetails?.advisor_type}
             component={
               <DealCompliance
                 loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                deal={{ ...newDeal, ...newDealDetails }}
+                onSave={() => {
+                  saveDeal();
+                  saveDealDetails();
+                }}
+                onChange={(_mergedDeal: any) => {
+                  const { offering_type, advisor_type } = _mergedDeal;
+                  setNewDeal((prev: any) => ({ ...prev, offering_type }));
+                  setNewDealDetails((prev: any) => ({ ...prev, advisor_type }));
                 }}
               />
             }
           />
           <Step
-            selected={newDeal.banking_provider}
+            selected={newDealDetails.banking_provider}
             component={
               <DealBanking
-                deal={newDeal}
+                deal={newDealDetails}
                 loading={loading}
-                onSave={saveDeal}
+                onSave={saveDealDetails}
                 onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                  setNewDealDetails((prev: any) => ({ ...prev, ..._deal }));
                 }}
               />
             }
@@ -322,26 +378,52 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               </div>
             }
           />
-          <div className="flex items-center justify-end gap-4">
-            <p className="text-sm">
-              To submit your deal for review, please fill in all the required
-              fields before submitting the form. Thank you.
-            </p>
-            {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
-            <Button
-              disabled={
-                !newDeal.agree_msa &&
-                !newDeal.agree_setup &&
-                !newDeal.agree_costs
-              }
-              loading={loading}
-              label="Submit my deal"
-              onClick={async () => {
-                setNewDeal({ ...newDeal, status: 'submitted' });
-                await saveDeal();
-              }}
-            />
-          </div>
+          {(newDeal.status === 'draft' || newDeal.status === 'submitted') && (
+            <div className="flex items-center justify-end gap-4">
+              <p className="text-sm">
+                {newDeal.status === deals_status[0] && (
+                  <span>
+                    To submit your deal for review, please fill in all the
+                    required fields before submitting the form. Thank you.
+                  </span>
+                )}
+                {newDeal.status === deals_status[1] && (
+                  <span>
+                    Congratulations ! Your deal has been submitted but you can
+                    still update it.
+                  </span>
+                )}
+              </p>
+              {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
+              <Button
+                disabled={
+                  !newDeal.agree_msa &&
+                  !newDeal.agree_setup &&
+                  !newDeal.agree_costs
+                }
+                loading={loading}
+                label={
+                  newDeal.status === 'draft'
+                    ? 'Submit my deal'
+                    : 'Update my submission'
+                }
+                onClick={async () => {
+                  setNewDeal({ ...newDeal, status: deals_status[1] });
+                  await saveDeal();
+                  await saveDealDetails();
+                }}
+              />
+            </div>
+          )}
+          {/* {deal.status === deals_status[4] && (
+            <Alert severity="success">
+              Congratulations, your deal is onboarded. If you require any
+              assistance, please contact{' '}
+              <span className="underline cursor-pointer">
+                support@allocations.com
+              </span>
+            </Alert>
+          )} */}
         </div>
       )}
     </Card>
