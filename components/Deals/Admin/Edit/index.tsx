@@ -10,20 +10,37 @@ import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
+import LoadingForm from '@/components/Loading/Form';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Asset, Deal } from '@/types';
+import {
+  deal_advisors_type,
+  deal_banking_providers,
+  deal_master_series,
+  deal_offering_types,
+  deals_status
+} from '@/types/values';
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
-  const [newDeal, setNewDeal] = useState<any>();
+  const [newDeal, setNewDeal] = useState<any>({
+    offering_type: deal_offering_types[0]
+  });
+  const [newDealDetails, setNewDealDetails] = useState<any>({
+    agree_msa: true,
+    master_series: deal_master_series[0],
+    advisor_type: deal_advisors_type[0],
+    banking_provider: deal_banking_providers[0]
+  });
   const [hasIdentity, setHasIdentity] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
 
@@ -40,6 +57,27 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
       if (assets) {
         setNewDeal((prev: any) => ({ ...prev, assets }));
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDealDetails = async () => {
+    if (!deal) return;
+    try {
+      setLoading(true);
+
+      const { data: dealDetails, error } = await supabase
+        .from('deal_details')
+        .select('*')
+        .eq('deal_id', deal.id)
+        .single();
+
+      if (dealDetails) {
+        setNewDealDetails(dealDetails);
       }
     } catch (err) {
       console.log(err);
@@ -65,6 +103,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     try {
       setLoading(true);
 
+      // TODO: to clean, deal_details are up here
       const {
         assets,
         total_raised_amount,
@@ -81,24 +120,32 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         .from('deals')
         .upsert({ id: deal.id, ...formatDeal(dealData) });
 
-      const { data: _dealDetails, error: _dealDetailsError } = await supabase
-        .from('deal_details')
-        .upsert({
-          deal_id: deal.id,
-          series_name,
-          master_series,
-          legal_template_option,
-          agree_msa,
-          agree_setup,
-          agree_costs
-        });
-
-      if (_dealError || _dealDetailsError) {
+      if (_dealError) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
       notify('Deal saved.', true);
       await fetchDealAssets();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveDealDetails = async () => {
+    try {
+      setLoading(true);
+
+      const { data: _dealDetails, error: _dealDetailsError } = await supabase
+        .from('deal_details')
+        .upsert({ id: newDealDetails.id, ...newDealDetails });
+
+      if (_dealDetailsError) {
+        notify(`Sorry, could not save deal.`, false);
+        return;
+      }
+      notify('Deal saved.', true);
     } catch (err) {
       console.log(err);
     } finally {
@@ -125,6 +172,18 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     }
   };
 
+  const init = async () => {
+    try {
+      setPageLoading(true);
+      const promises = [fetchDealAssets(), fetchDealDetails()];
+      await Promise.all(promises);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPageLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user && user.users_personal_identities) {
       setHasIdentity(user.users_personal_identities.length > 0);
@@ -133,215 +192,266 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   useEffect(() => {
     setNewDeal(formatDeal(deal, false));
-    fetchDealAssets();
+    init();
   }, [deal]);
 
   return (
-    <Card className="container grid gap-8 p-6 mt-8">
-      <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
-      {!hasIdentity && (
-        <Card className="flex items-start card" variant="outlined">
-          <KYC onUpdate={() => setHasIdentity(true)} />
-        </Card>
-      )}
-      {hasIdentity && newDeal && deal && (
-        <div>
-          <Step
-            selected={newDeal.organization_id && newDeal.agree_msa}
-            component={
-              <div className="w-full">
-                <div className="w-full mb-4">
-                  <SelectOrganization
-                    loading={loading}
-                    onSave={saveDeal}
-                    onChange={(org: any) => {
-                      setNewDeal((prev: any) => ({
-                        ...prev,
-                        organization_id: org?.id
-                      }));
-                    }}
-                  />
-                </div>
-                <Checkbox
-                  selected={newDeal.agree_msa}
-                  onChange={() =>
-                    setNewDeal((prev: any) => ({
-                      ...prev,
-                      agree_msa: true
-                    }))
+    <>
+      {pageLoading && <LoadingForm />}
+      {!pageLoading && (
+        <Card className="container grid gap-8 p-6 mt-8">
+          <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
+          {!hasIdentity && (
+            <Card className="flex items-start card" variant="outlined">
+              <KYC onUpdate={() => setHasIdentity(true)} />
+            </Card>
+          )}
+          {hasIdentity && deal && newDeal && newDealDetails && (
+            <div>
+              <Step
+                selected={newDeal.organization_id && newDealDetails.agree_msa}
+                component={
+                  <div className="w-full">
+                    <div className="w-full mb-4">
+                      <SelectOrganization
+                        deal={deal}
+                        loading={loading}
+                        onSave={saveDeal}
+                        onChange={(org: any) => {
+                          setNewDeal((prev: any) => ({
+                            ...prev,
+                            organization_id: org?.id
+                          }));
+                        }}
+                      />
+                    </div>
+                    <Checkbox
+                      selected={newDealDetails.agree_msa}
+                      onChange={() =>
+                        setNewDealDetails((prev: any) => ({
+                          ...prev,
+                          agree_msa: true
+                        }))
+                      }
+                      label={`I agree to the Master Services agreement.`}
+                    />
+                    <Button
+                      onClick={downloadMSA}
+                      label={'Download Master Services Agreement'}
+                    />
+                  </div>
+                }
+              />
+              {newDeal.type === 'spv' && (
+                <Step
+                  selected={newDeal.sub_type || deal.sub_type}
+                  component={
+                    <DealProductType
+                      loading={loading}
+                      deal={newDeal}
+                      onSave={saveDeal}
+                      onChange={(sub_type: string) => {
+                        setNewDeal((prev: any) => ({
+                          ...prev,
+                          sub_type
+                        }));
+                      }}
+                    />
                   }
-                  label={`I agree to the Master Services agreement.`}
                 />
-                <Button
-                  onClick={downloadMSA}
-                  label={'Download Master Services Agreement'}
-                />
-              </div>
-            }
-          />
-          {newDeal.type === 'spv' && (
-            <Step
-              selected={newDeal.sub_type || deal.sub_type}
-              component={
-                <DealProductType
-                  loading={loading}
-                  deal={newDeal}
-                  onSave={saveDeal}
-                  onChange={(sub_type: string) => {
-                    setNewDeal((prev: any) => ({
-                      ...prev,
-                      sub_type
-                    }));
-                  }}
-                />
-              }
-            />
-          )}
-          <Step
-            selected={newDeal.name}
-            component={
-              <DealInformations
-                loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
-                }}
+              )}
+              <Step
+                selected={newDeal.name}
+                component={
+                  <DealInformations
+                    loading={loading}
+                    deal={newDeal}
+                    onSave={saveDeal}
+                    onChange={(_deal: any) => {
+                      setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                    }}
+                  />
+                }
               />
-            }
-          />
-          {newDeal && newDeal.assets && (
-            <Step
-              selected={newDeal.assets && newDeal.assets[0]}
-              component={
-                <div className="w-full">
-                  <header className="flex flex-col items-start mb-4">
-                    <h2 className="text-xl">Asset informations</h2>
-                  </header>
-                  <NewAsset
-                    asset={newDeal.assets ? newDeal.assets[0] : null}
-                    dealId={deal.id}
-                    onCreate={(asset: Asset) => {
-                      setNewDeal((prev: any) => ({
+              {newDeal && newDeal.assets && (
+                <Step
+                  selected={newDeal.assets && newDeal.assets[0]}
+                  component={
+                    <div className="w-full">
+                      <header className="flex flex-col items-start mb-4">
+                        <h2 className="text-xl">Asset informations</h2>
+                      </header>
+                      <NewAsset
+                        asset={newDeal.assets ? newDeal.assets[0] : null}
+                        dealId={deal.id}
+                        onCreate={(asset: Asset) => {
+                          setNewDeal((prev: any) => ({
+                            ...prev,
+                            assets: prev.assets
+                              ? [...prev.assets, asset]
+                              : [asset]
+                          }));
+                        }}
+                      />
+                    </div>
+                  }
+                />
+              )}
+              <Step
+                selected={
+                  newDealDetails?.master_series && newDealDetails?.series_name
+                }
+                component={
+                  <DealEntity
+                    loading={loading}
+                    deal={newDealDetails}
+                    onSave={saveDealDetails}
+                    onChange={(_dealDetails: any) => {
+                      setNewDealDetails((prev: any) => ({
                         ...prev,
-                        assets: prev.assets ? [...prev.assets, asset] : [asset]
+                        ..._dealDetails
                       }));
                     }}
                   />
-                </div>
-              }
-            />
-          )}
-          <Step
-            selected={newDeal.master_series && newDeal.series_name}
-            component={
-              <DealEntity
-                loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
-                }}
+                }
               />
-            }
-          />
-          <Step
-            selected={newDeal.legal_template_option}
-            component={
-              <DealLegalDocuments
-                loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
-                }}
+              <Step
+                selected={newDealDetails?.legal_template_option}
+                component={
+                  <DealLegalDocuments
+                    loading={loading}
+                    deal={newDealDetails}
+                    onSave={saveDealDetails}
+                    onChange={(_dealDetails: any) => {
+                      setNewDealDetails((prev: any) => ({
+                        ...prev,
+                        ..._dealDetails
+                      }));
+                    }}
+                  />
+                }
               />
-            }
-          />
-          <Step
-            selected={newDeal.offering_type && newDeal.advisor_type}
-            component={
-              <DealCompliance
-                loading={loading}
-                deal={newDeal}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
-                }}
+              <Step
+                selected={newDeal.offering_type && newDealDetails?.advisor_type}
+                component={
+                  <DealCompliance
+                    loading={loading}
+                    deal={{ ...newDeal, ...newDealDetails }}
+                    onSave={() => {
+                      saveDeal();
+                      saveDealDetails();
+                    }}
+                    onChange={(_mergedDeal: any) => {
+                      const { offering_type, advisor_type } = _mergedDeal;
+                      setNewDeal((prev: any) => ({ ...prev, offering_type }));
+                      setNewDealDetails((prev: any) => ({
+                        ...prev,
+                        advisor_type
+                      }));
+                    }}
+                  />
+                }
               />
-            }
-          />
-          <Step
-            selected={newDeal.banking_provider}
-            component={
-              <DealBanking
-                deal={newDeal}
-                loading={loading}
-                onSave={saveDeal}
-                onChange={(_deal: any) => {
-                  setNewDeal((prev: any) => ({ ...prev, ..._deal }));
-                }}
+              <Step
+                selected={newDealDetails.banking_provider}
+                component={
+                  <DealBanking
+                    deal={newDealDetails}
+                    loading={loading}
+                    onSave={saveDealDetails}
+                    onChange={(_deal: any) => {
+                      setNewDealDetails((prev: any) => ({ ...prev, ..._deal }));
+                    }}
+                  />
+                }
               />
-            }
-          />
-          {/* <Step
+              {/* <Step
             selected={true}
             component={<DealEstimatedCosts deal={newDeal} />}
           /> */}
-          <Step
-            selected={newDeal.agree_setup && newDeal.agree_costs}
-            component={
-              <div>
-                <h1>E-sign & submit</h1>
-                <div>
-                  <Checkbox
-                    selected={newDeal.agree_setup}
-                    onChange={() =>
-                      setNewDeal((prev: any) => ({
-                        ...prev,
-                        agree_setup: true
-                      }))
+              <Step
+                selected={newDeal.agree_setup && newDeal.agree_costs}
+                component={
+                  <div>
+                    <h1>E-sign & submit</h1>
+                    <div>
+                      <Checkbox
+                        selected={newDeal.agree_setup}
+                        onChange={() =>
+                          setNewDeal((prev: any) => ({
+                            ...prev,
+                            agree_setup: true
+                          }))
+                        }
+                        label={`I agree to the Deal Setup Form and I certify that the provided deal information above is accurate`}
+                      />
+                    </div>
+                    <div>
+                      <Checkbox
+                        selected={newDeal.agree_costs}
+                        onChange={() =>
+                          setNewDeal((prev: any) => ({
+                            ...prev,
+                            agree_costs: true
+                          }))
+                        }
+                        label={`I understand there may be costs associated if I change the deal information above`}
+                      />
+                    </div>
+                  </div>
+                }
+              />
+              {(newDeal.status === 'draft' ||
+                newDeal.status === 'submitted') && (
+                <div className="flex items-center justify-end gap-4">
+                  <p className="text-sm">
+                    {newDeal.status === deals_status[0] && (
+                      <span>
+                        To submit your deal for review, please fill in all the
+                        required fields before submitting the form. Thank you.
+                      </span>
+                    )}
+                    {newDeal.status === deals_status[1] && (
+                      <span>
+                        Congratulations ! Your deal has been submitted but you
+                        can still update it.
+                      </span>
+                    )}
+                  </p>
+                  {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
+                  <Button
+                    disabled={
+                      !newDeal.agree_msa &&
+                      !newDeal.agree_setup &&
+                      !newDeal.agree_costs
                     }
-                    label={`I agree to the Deal Setup Form and I certify that the provided deal information above is accurate`}
+                    loading={loading}
+                    label={
+                      newDeal.status === 'draft'
+                        ? 'Submit my deal'
+                        : 'Update my submission'
+                    }
+                    onClick={async () => {
+                      setNewDeal({ ...newDeal, status: deals_status[1] });
+                      await saveDeal();
+                      await saveDealDetails();
+                    }}
                   />
                 </div>
-                <div>
-                  <Checkbox
-                    selected={newDeal.agree_costs}
-                    onChange={() =>
-                      setNewDeal((prev: any) => ({
-                        ...prev,
-                        agree_costs: true
-                      }))
-                    }
-                    label={`I understand there may be costs associated if I change the deal information above`}
-                  />
-                </div>
-              </div>
-            }
-          />
-          <div className="flex items-center justify-end gap-4">
-            <p className="text-sm">
-              To submit your deal for review, please fill in all the required
-              fields before submitting the form. Thank you.
-            </p>
-            {/* <Button loading={loading} label="Save my deal" onClick={saveDeal} /> */}
-            <Button
-              disabled={
-                !newDeal.agree_msa &&
-                !newDeal.agree_setup &&
-                !newDeal.agree_costs
-              }
-              loading={loading}
-              label="Submit my deal"
-              onClick={async () => {
-                setNewDeal({ ...newDeal, status: 'submitted' });
-                await saveDeal();
-              }}
-            />
-          </div>
-        </div>
+              )}
+              {/* {deal.status === deals_status[4] && (
+            <Alert severity="success">
+              Congratulations, your deal is onboarded. If you require any
+              assistance, please contact{' '}
+              <span className="underline cursor-pointer">
+                support@allocations.com
+              </span>
+            </Alert>
+          )} */}
+            </div>
+          )}
+        </Card>
       )}
-    </Card>
+    </>
   );
 }

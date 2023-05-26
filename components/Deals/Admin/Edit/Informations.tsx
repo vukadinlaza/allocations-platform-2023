@@ -2,7 +2,6 @@ import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 import { deal_management_frequency_fee } from '@/types/values';
-import { useState } from 'react';
 
 export default function DealInformations({
   deal,
@@ -15,8 +14,6 @@ export default function DealInformations({
   onChange: (v: any) => any;
   loading: boolean;
 }) {
-  const [_loading, setLoading] = useState<boolean>(false);
-
   const model: Field[] = [
     {
       label: 'Deal name',
@@ -77,23 +74,21 @@ export default function DealInformations({
         <h2 className="text-xl">Deal information</h2>
       </header>
       <main>
-        <div className="w-full mb-6">
-          <FormBuilder
-            data={deal}
-            emit={true}
-            model={model}
-            onSubmit={(v: any) => {
-              onChange(v);
-            }}
-          />
-          <div className="my-6">
-            <Button
-              loading={loading || _loading}
-              onClick={onSave}
-              label="Save"
+        {deal && (
+          <div className="w-full mb-6">
+            <FormBuilder
+              data={deal}
+              emit={true}
+              model={model}
+              onSubmit={(v: any) => {
+                onChange(v);
+              }}
             />
+            <div className="my-6">
+              <Button loading={loading} onClick={onSave} label="Save" />
+            </div>
           </div>
-        </div>
+        )}
         {/*<div className="mb-6">*/}
         {/*  <div className="mb-4">*/}
         {/*    <h2 className="text-xl">Upload pitch deck</h2>*/}

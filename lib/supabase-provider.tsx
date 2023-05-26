@@ -46,6 +46,9 @@ export default function SupabaseProvider({
         ),
         users_personal_identities (
           *
+        ),
+        organizations_roles (
+          *
         )
       `
       )

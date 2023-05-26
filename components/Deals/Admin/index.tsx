@@ -1,10 +1,10 @@
 'use client';
 
 import Button from '@/components/Button';
+import DealAdminEdit from '@/components/Deals/Admin/Edit';
 import DealAdminBanking from '@/components/Deals/Admin/Tabs/Banking';
 import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
 import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
-import DealAdminEdit from '@/components/Deals/Admin/Edit';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
 import Nav from '@/components/Nav';
@@ -55,7 +55,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             />
           </div>
           <Progress
-            value={getProgress()}
+            value={getProgress() || ''}
             footer={
               <div className="flex items-start justify-between w-full mt-4">
                 <div>

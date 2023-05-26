@@ -2,6 +2,7 @@ import Button from '@/components/Button';
 import { Field } from '@/types';
 import { Grid } from '@mui/material';
 import Slider from '@mui/material/Slider';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import None from './None';
 import Select from './Select';
@@ -39,9 +40,7 @@ export default function FormBuilder({
 
   return (
     <>
-      {!model && !_data && (
-        <None text="Sorry this content is not yet available." />
-      )}
+      {!model && !_data && <None text="Sorry this content is not available." />}
       {model && (
         <Grid container spacing={2} className="FormBuilder">
           {model.map((field) => {
@@ -50,13 +49,16 @@ export default function FormBuilder({
                 <Grid item xs={12} key={field.key}>
                   <p className="mb-2">{field.label || 'No label'}</p>
                   <div className="flex items-end">
-                    {field.type === 'string' && field.key && (
+                    {field.type === 'string' && (
                       <input
                         type="text"
                         placeholder={field.placeholder || undefined}
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
-                        value={_data && [field.key] ? _data[field.key] : null}
+                        value={
+                          // @ts-ignore
+                          _data && _data[field.key] ? _data[field.key] : ''
+                        }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
                             ...prevData,
@@ -68,7 +70,7 @@ export default function FormBuilder({
                     )}
                     {field.type === 'select' && field.items && field.key && (
                       <Select
-                        selected={field.value || null}
+                        selected={_data && [field.key] ? _data[field.key] : ''}
                         displayLabel={(v) => v}
                         items={field.items}
                         onChange={(e) => {
@@ -86,7 +88,9 @@ export default function FormBuilder({
                         disabled={loading || field.disabled}
                         className={`${loading ? 'disabled' : ''}`}
                         value={
-                          _data && _data[field.key] ? _data[field.key] : ''
+                          _data && _data[field.key]
+                            ? dayjs(_data[field.key]).format('YYYY/MM/DD')
+                            : ''
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setData((prevData: any) => ({
@@ -100,7 +104,7 @@ export default function FormBuilder({
                     {field.type === 'slider' && field.key && (
                       <div className="flex items-center justify-between w-80">
                         <Slider
-                          defaultValue={
+                          value={
                             _data && _data[field.key] ? _data[field.key] : 0
                           }
                           step={field.step}
@@ -109,11 +113,7 @@ export default function FormBuilder({
                           max={field.max}
                           disabled={loading || field.disabled}
                           className={`${loading ? 'disabled' : ''}`}
-                          onChange={(
-                            e: Event,
-                            newValue: number | number[],
-                            activeThumb: number
-                          ) =>
+                          onChange={(e: Event) =>
                             setData((prevData: any) => ({
                               ...prevData,
                               // @ts-ignore

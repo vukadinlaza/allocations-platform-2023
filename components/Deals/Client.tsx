@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 const copyCurrentUrl = async () => {
   await navigator.clipboard.writeText(window.location.href);
   toast.success('Link copied to clipboard');
-}
+};
 
 export default function DealClient({
   deal,
@@ -61,7 +61,7 @@ export default function DealClient({
             <div>
               <h1 className="mb-8 text-2xl">Disclaimer</h1>
               <p>
-                Allocations, Inc., (“Allocations”), does not provide investment,
+                Allocations, Inc., (Allocations), does not provide investment,
                 tax, or legal advice, and no information provided should be
                 construed as such. Therefore, information on this page should
                 not be relied upon as research, investment advice or a

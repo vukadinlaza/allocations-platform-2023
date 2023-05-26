@@ -59,7 +59,7 @@ export default function NewDeal({ onCreate, type = 'spv' }: Props) {
               placeholder={'Your deal name'}
               disabled={loading}
               className={`${loading ? 'disabled' : ''}`}
-              value={newDeal.name}
+              value={newDeal.name || ''}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setNewDeal((prevData: any) => ({
                   ...prevData,

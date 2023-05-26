@@ -22,7 +22,7 @@ export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<EmailStatus | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>('');
 
   const login = async () => {
     if (!email) return;
@@ -44,7 +44,7 @@ export default function Login() {
       });
 
       if (data) {
-        setEmail(null);
+        setEmail('');
         setStatus({
           type: 'success',
           message: 'An email has been successfully sent to your mailbox.'
@@ -91,6 +91,7 @@ export default function Login() {
             {!status && (
               <div>
                 <input
+                  value={email}
                   type="text"
                   id="outlined-basic"
                   placeholder="mail@address.com"

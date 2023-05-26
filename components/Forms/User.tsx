@@ -55,7 +55,7 @@ export default function UserForm({
           <div className="grid grid-cols-1 gap-2 mx-auto text-center w-80">
             <input
               type="text"
-              value={newUser.first_name}
+              value={newUser.first_name || ''}
               placeholder="Your first name"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setNewUser((prevData: any) => ({
@@ -66,7 +66,7 @@ export default function UserForm({
             />
             <input
               type="text"
-              value={newUser.last_name}
+              value={newUser.last_name || ''}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setNewUser((prevData: any) => ({
                   ...prevData,
@@ -77,7 +77,7 @@ export default function UserForm({
             <input
               type="text"
               className="disabled"
-              value={user.email}
+              value={user.email || ''}
               disabled
             />
             <p className="mb-4 text-xs cursor-pointer hover:underline hover:opacity-80">

@@ -16,11 +16,20 @@ export default function DealProductType({
   onChange: (v: any) => any;
   loading?: boolean;
 }) {
-  const [productType, setProductType] = useState(deal_product_types[0]);
+  const [productType, setProductType] = useState('');
 
   useEffect(() => {
     onChange(productType);
   }, [productType]);
+
+  useEffect(() => {
+    if (deal.sub_type && productType.length === 0) {
+      setProductType(deal.sub_type);
+      return;
+    }
+    setProductType(deal_product_types[0]);
+  }, [deal]);
+
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-6">

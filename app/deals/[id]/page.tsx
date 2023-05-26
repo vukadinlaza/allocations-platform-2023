@@ -7,7 +7,7 @@ import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function DealID() {
   const { supabase } = useSupabase();
@@ -17,23 +17,17 @@ export default function DealID() {
   const [hasRole, setHasRole] = useState<boolean>(false);
   const params = useParams();
 
-  const isAdmin = useCallback( () => {
-    return !!(deal && user && deal.user_email === user.email || hasRole);
-  }, [user, deal, hasRole]);
-
-
   async function fetchDeal() {
     if (!params || !params.id) return;
 
-    const queryFrom = isAdmin() ? 'private_deals' : 'deals';
-    const querySelect =  isAdmin() ? `*, assets(*)` : '*';
-
-
     try {
       setLoading(true);
+
+      // you can't use private_deals view here
+
       const { data: _deal, error } = await supabase
-        .from(queryFrom)
-        .select(querySelect as "*, assets(*)")
+        .from('deals')
+        .select('*')
         .eq('id', params.id)
         .single();
 
@@ -41,23 +35,17 @@ export default function DealID() {
         throw error;
       }
 
+      const isOwner =
+        user.organizations_roles
+          .map((org: any) => org.organization_id)
+          .includes(_deal.organization_id) || _deal.user_email === user.email;
+
       if (_deal) {
+        setHasRole(isOwner);
         setDeal(_deal);
       }
-
-      const { data: role } = await supabase
-        .from('organizations_roles')
-        .select('*')
-        .eq('organization_id', _deal.organization_id)
-        .eq('user_email', user.email)
-        .single();
-      if(role){
-        setHasRole(true);
-      }
-
-
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }
@@ -68,13 +56,13 @@ export default function DealID() {
   }, []);
 
   return (
-    <div className='w-full deal'>
+    <div className="w-full deal">
       {loading && <LoadingDeal />}
-      {!loading && !deal && <None text='No deal found.' />}
+      {!loading && !deal && <None text="No deal found." />}
       {!loading && deal && (
         <div>
-          {isAdmin() && <AdminDeal deal={deal} />}
-          {!isAdmin() && <ClientDeal deal={deal} />}
+          {hasRole && <AdminDeal deal={deal} />}
+          {!hasRole && <ClientDeal deal={deal} />}
         </div>
       )}
     </div>
