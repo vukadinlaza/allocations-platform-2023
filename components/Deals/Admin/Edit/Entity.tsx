@@ -39,7 +39,10 @@ export default function DealEntity({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          onChange(v);
+          onChange({
+            master_series: v.master_series,
+            series_name: v.series_name
+          });
         }}
       />
       <div className="mt-6">
