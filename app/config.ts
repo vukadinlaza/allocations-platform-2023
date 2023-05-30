@@ -447,11 +447,6 @@ export const headers_tables = {
       type: 'chip'
     },
     {
-      label: 'Entity name',
-      key: 'entity_name',
-      type: 'string'
-    },
-    {
       label: '',
       manage: true
     }

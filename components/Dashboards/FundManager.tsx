@@ -25,19 +25,19 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
       const model = [
         {
           title: 'Total AUM',
-          key: 'funds_total_aum',
+          key: 'deals_total_aum',
           value: 0,
           type: 'price'
         },
         {
           title: 'Total raised',
-          key: 'funds_total_raised',
+          key: 'deals_total_raised',
           value: 0,
           type: 'price'
         },
         {
           title: 'Est. multiple',
-          key: 'funds_estimated_multiple',
+          key: 'deals_estimated_multiple',
           value: 0,
           unit: 'x',
           type: 'number',
@@ -45,13 +45,13 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
         },
         {
           title: 'Total private funds',
-          key: 'funds_total_funds',
+          key: 'deals_total_funds',
           value: 0,
           type: 'number'
         },
         {
           title: 'Total investors',
-          key: 'funds_total_investors',
+          key: 'deals_total_investors',
           value: 0,
           type: 'number'
         }
