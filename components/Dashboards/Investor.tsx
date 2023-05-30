@@ -1,13 +1,17 @@
-import DataCard from '@/components/Data/Card';
+import DealsFunds from '@/components/Deals/Funds';
+import DealsSPVs from '@/components/Deals/SPVs';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
+import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
+import Nav from '../Nav';
 
 export default function InvestorDashboard() {
   const [loading, setLoading] = useState<boolean>(false);
   const { supabase } = useSupabase();
-  // const { user } = useAuthContext();
   const [items, setItems] = useState<any>([]);
+  const [active, setActive] = useState('SPVs');
+  const list = [{ key: 'SPVs' }, { key: 'Funds' }];
 
   const fetchData = async () => {
     try {
@@ -55,27 +59,31 @@ export default function InvestorDashboard() {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
   return (
     <div className="w-full">
       {loading && <LoadingDashboard />}
       {!loading && (
         <div className="w-full">
+          <header className="mb-12">
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+          </header>
           <div className="flex items-start w-full gap-24">
             {items &&
               items.map((item: any, index: number) =>
                 item.value > 0 ? <DataCard key={index} item={item} /> : null
               )}
           </div>
-          {/* <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h1>Portfolio Overview</h1>
-            </div>
-            <div>
-              <h1>Portfolio Value</h1>
-            </div>
-          </div> */}
+          <div className="mb-8">
+            <Nav
+              items={list.map((item) => item.key)}
+              active={active}
+              setActive={setActive}
+            />
+          </div>
+          {active === 'SPVs' && <DealsSPVs />}
+          {active === 'Funds' && <DealsFunds />}
         </div>
       )}
     </div>
