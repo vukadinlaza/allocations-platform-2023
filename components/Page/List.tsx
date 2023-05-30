@@ -230,6 +230,7 @@ export default function PageList({ data }: { data: any }) {
                               />
                             );
                           }
+                          return <></>;
                         })}
                     </div>
                   </Card>
@@ -255,7 +256,7 @@ export default function PageList({ data }: { data: any }) {
                         onClick={() => {
                           setOpenModal(true);
                         }}
-                        key={button.title}
+                        key={button.label}
                       />
                     ))}
                 </div>

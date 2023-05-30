@@ -123,7 +123,7 @@ export default function InvestmentSidebar({
                     {item.type === 'string' && (
                       <div>
                         {item.value ? (
-                          <p>{item.value}</p>
+                          <>{item.value}</>
                         ) : (
                           <span>{item.defaultValue}</span>
                         )}
