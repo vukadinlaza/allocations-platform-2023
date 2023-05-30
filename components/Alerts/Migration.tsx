@@ -25,7 +25,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
         }
       >
         <h2 className="mt-0">
-          New platform migration update — last update: today at 09:45 EST
+          New platform migration update — last update: today at 05:50 EST
         </h2>
         <span>
           Welcome to the new platform! We are in the process of migrating your
@@ -41,28 +41,6 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
           </span>
         </span>
       </Alert>
-      {/* <Alert
-      className="mb-6 border border-amber-400"
-      icon={<WarningAmberOutlined fontSize="inherit" className="text-amber" />}
-      severity="warning"
-      action={
-        <IconButton
-          aria-label="showBetaAlert"
-          color="warning"
-          size="small"
-          onClick={() => showBetaAlert(false)}
-        >
-          <Close fontSize="inherit" className="text-amber-500" />
-        </IconButton>
-      }
-    >
-      <h2 className="mt-0">
-        Allocations Closed 29 May 2023
-      </h2>
-      <span>
-          In observance of Memorial Day, Allocations will be closed Monday May 29th. We will resume normal operations on May 30th and appreciate your patience and understanding.
-        </span>
-    </Alert> */}
     </>
   );
 }
