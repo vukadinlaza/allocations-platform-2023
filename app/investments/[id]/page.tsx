@@ -32,7 +32,7 @@ export default function InvestmentId() {
 
       const found = target.find((x: any) => x.files.type === type);
       if (found) {
-        const response = await AllocationsAPI.downloadFile(
+        const response = await AllocationsAPI.downloadPDFFile(
           found?.file_id ?? found?.files_id
         );
         if (response.ok) {
