@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AllocationsAPI } from '@/lib/allocations-api';
+import ReactHtmlParser from "react-html-parser";
 const PdfViewer= dynamic(() => import("@/components/PdfViewer"), {
   ssr: false,
 });
@@ -82,6 +83,9 @@ export default function DealClient({
             </div>
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
+              {deal.memo && <div className="deal--description">
+                {ReactHtmlParser(deal.memo)}
+              </div>}
               {/* <div className="deal--description">
                 {deal.memo && (
                   <div dangerouslySetInnerHTML={{ __html: deal.memo }} />
