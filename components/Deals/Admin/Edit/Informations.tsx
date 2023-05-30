@@ -49,13 +49,13 @@ export default function DealInformations({
       max: 10,
       show: true
     },
-    {
-      label: 'Management fee frequency',
-      key: 'management_fee_frequency',
-      type: 'select',
-      show: true,
-      items: deal_management_frequency_fee
-    },
+    // {
+    //   label: 'Management fee frequency',
+    //   key: 'management_fee_frequency',
+    //   type: 'select',
+    //   show: true,
+    //   items: deal_management_frequency_fee
+    // },
     {
       label: 'Total carry percent',
       key: 'total_carry',
