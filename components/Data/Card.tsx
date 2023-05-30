@@ -15,9 +15,9 @@ export default function DataCard({ item }: { item: ItemProps }) {
       <p className="mb-2 text-sm font-medium">{item.title}</p>
       <div className="flex items-center gap-2">
         {item.value > 0 && (
-          <div className="text-3xl font-medium">
+          <div className="text-2xl font-medium">
             {item.type === 'number' && (
-              <span className="text-3xl font-medium">
+              <span className="text-2xl font-medium">
                 {numeral(item.value).format(item.format || '0,0')}
               </span>
             )}

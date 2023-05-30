@@ -1,10 +1,16 @@
 import Investments from '@/components/Investments';
 import { useSupabase } from '@/lib/supabase-provider';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Button from '../Button';
 import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
 
-export default function InvestorDashboard() {
+type Props = {
+  handleSwitch: () => any;
+};
+
+export default function InvestorDashboard({ handleSwitch }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const { supabase } = useSupabase();
   const [items, setItems] = useState<any>([]);
@@ -64,8 +70,22 @@ export default function InvestorDashboard() {
       {!loading && (
         <div className="w-full">
           <header className="mb-8">
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold">Investor Dashboard</h1>
+            <div className="flex items-start justify-between mb-8">
+              <h1 className="text-3xl font-bold">Investor Dashboard</h1>
+              <Button
+                color={'info'}
+                label={'Switch to Fund Manager'}
+                icon={
+                  <Image
+                    src="/switch.svg"
+                    alt={'switch'}
+                    className="opacity-50"
+                    width={20}
+                    height={20}
+                  />
+                }
+                onClick={() => handleSwitch()}
+              />
             </div>
             <div className="grid grid-cols-4 gap-4">
               {items &&

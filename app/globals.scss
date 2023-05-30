@@ -229,12 +229,6 @@ body,
     }
   }
 
-  .home {
-    h1 {
-      @apply text-3xl;
-    }
-  }
-
   .loading {
     @apply bg-gray-200 rounded-lg;
     animation: toggleOpacity 1s infinite;

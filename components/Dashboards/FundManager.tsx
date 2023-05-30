@@ -1,12 +1,18 @@
 import DealsFunds from '@/components/Deals/Funds';
 import DealsSPVs from '@/components/Deals/SPVs';
 import { useSupabase } from '@/lib/supabase-provider';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Button from '../Button';
 import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
 import Nav from '../Nav';
 
-export default function FundManagerDashboard() {
+type Props = {
+  handleSwitch: () => any;
+};
+
+export default function FundManagerDashboard({ handleSwitch }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const { supabase } = useSupabase();
   const [items, setItems] = useState<any>([]);
@@ -18,28 +24,34 @@ export default function FundManagerDashboard() {
       setLoading(true);
       const model = [
         {
-          title: 'Portfolio value',
-          key: 'investments_portfolio_value',
+          title: 'Total AUM',
+          key: 'funds_total_aum',
           value: 0,
           type: 'price'
         },
         {
-          title: 'Total invested',
-          key: 'investments_total_invested',
+          title: 'Total raised',
+          key: 'funds_total_raised',
           value: 0,
           type: 'price'
         },
         {
           title: 'Est. multiple',
-          key: 'investments_estimated_multiple',
+          key: 'funds_estimated_multiple',
           value: 0,
           unit: 'x',
           type: 'number',
           format: '0,0.00'
         },
         {
-          title: 'Total investments',
-          key: 'total_investments_count',
+          title: 'Total private funds',
+          key: 'funds_total_funds',
+          value: 0,
+          type: 'number'
+        },
+        {
+          title: 'Total investors',
+          key: 'funds_total_investors',
           value: 0,
           type: 'number'
         }
@@ -68,10 +80,26 @@ export default function FundManagerDashboard() {
       {!loading && (
         <div className="w-full">
           <header className="mb-8">
-            <div className="mb-8">
-              <h1 className="text-2xl font-bold">Dashboard</h1>
+            <div className="flex items-start justify-between mb-8">
+              <h1 className="mb-2 text-3xl font-bold">
+                Fund Manager Dashboard
+              </h1>
+              <Button
+                color={'info'}
+                label={'Switch to investor'}
+                icon={
+                  <Image
+                    src="/switch.svg"
+                    alt={'switch'}
+                    className="opacity-50"
+                    width={20}
+                    height={20}
+                  />
+                }
+                onClick={() => handleSwitch()}
+              />
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-5 gap-4">
               {items &&
                 items.map((item: any, index: number) =>
                   item.value > 0 ? <DataCard key={index} item={item} /> : null

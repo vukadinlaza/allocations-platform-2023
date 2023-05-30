@@ -8,11 +8,11 @@ import { useAuthContext } from './context';
 export default function Dashboard() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
-  const [active, setActive] = useState('Investor');
+  const [active, setActive] = useState('Fund');
   const [items, setItems] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const tabs = [{ key: 'Investor' }, { key: 'Fund manager' }];
+  const tabs = [{ key: 'Investor' }, { key: 'Fund' }];
 
   const fetchData = async () => {
     try {
@@ -63,8 +63,12 @@ export default function Dashboard() {
 
   return (
     <div className="container home">
-      {active === 'Fund Manager' && <FundManagerDashboard />}
-      {active === 'Investor' && <InvestorDashboard />}
+      {active === 'Fund' && (
+        <FundManagerDashboard handleSwitch={() => setActive('Investor')} />
+      )}
+      {active === 'Investor' && (
+        <InvestorDashboard handleSwitch={() => setActive('Fund')} />
+      )}
     </div>
   );
 }
