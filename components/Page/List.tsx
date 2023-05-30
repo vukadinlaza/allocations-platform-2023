@@ -235,7 +235,7 @@ export default function PageList({ data }: { data: any }) {
                   </Card>
                 </Dialog>
               )}
-              <header>
+              <header className="pb-8">
                 <div>
                   <h1 className="mb-2">
                     <span className="mr-2">{header.name || 'No title'}</span>
