@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from './Button';
+import { openURL } from './Table';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -109,6 +110,28 @@ export default function Login() {
                   loading={loading}
                   label="Login"
                 />
+                <Alert severity="warning" className="my-4">
+                  <div className="mb-1 font-bold">
+                    Authentication issues reported
+                  </div>
+                  <div>
+                    We are currently facing some issues with a third-party
+                    vendor's authentication service. Our team is working on
+                    addressing this problem. For further information, please
+                    visit{' '}
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={() =>
+                        openURL(
+                          'https://github.com/supabase/supabase/issues/14690'
+                        )
+                      }
+                    >
+                      the following link
+                    </span>
+                    .
+                  </div>
+                </Alert>
               </div>
             )}
           </form>
