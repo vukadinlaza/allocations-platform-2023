@@ -11,8 +11,8 @@ interface ItemProps {
 
 export default function DataCard({ item }: { item: ItemProps }) {
   return (
-    <div className="rounded-lg">
-      <p className="mb-2 text-lg font-medium">{item.title}</p>
+    <div className="px-8 py-4 text-left bg-white border rounded-lg card">
+      <p className="mb-2 text-sm font-medium">{item.title}</p>
       <div className="flex items-center gap-2">
         {item.value > 0 && (
           <div className="text-3xl font-medium">

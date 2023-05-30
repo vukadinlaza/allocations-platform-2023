@@ -59,22 +59,25 @@ export default function InvestorDashboard() {
   };
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
+
   return (
-    <div className="w-full">
+    <div className="w-full my-8">
       {loading && <LoadingDashboard />}
       {!loading && (
         <div className="w-full">
-          <header className="mb-12">
-            <h1 className="text-2xl font-bold">Dashboard</h1>
+          <header className="mb-8">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold">Dashboard</h1>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              {items &&
+                items.map((item: any, index: number) =>
+                  item.value > 0 ? <DataCard key={index} item={item} /> : null
+                )}
+            </div>
           </header>
-          <div className="flex items-start w-full gap-24">
-            {items &&
-              items.map((item: any, index: number) =>
-                item.value > 0 ? <DataCard key={index} item={item} /> : null
-              )}
-          </div>
           <div className="mb-8">
             <Nav
               items={list.map((item) => item.key)}
