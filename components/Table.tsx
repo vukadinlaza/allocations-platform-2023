@@ -1,12 +1,12 @@
 'use client';
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Chip from '@mui/material/Chip'
+import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import ChipStatus from './ChipStatus';
 import DateComponent from './DateComponent';
 import None from './None';
@@ -49,7 +49,17 @@ export default function TableComponent({ headers, data = [], table }: Props) {
     if (column.type === 'string' || column.type === 'number')
       return <span>{item[column.key] ? item[column.key] : no_info}</span>;
     if (column.type === 'email')
-      return item[column.key] && <Chip label={item[column.key] ? item[column.key] : no_info} size="small" component="a" href={'mailto: ' + item[column.key]} clickable />;
+      return (
+        item[column.key] && (
+          <Chip
+            label={item[column.key] ? item[column.key] : no_info}
+            size="small"
+            component="a"
+            href={'mailto: ' + item[column.key]}
+            clickable
+          />
+        )
+      );
     return <span>{item[column.key] ? item[column.key] : no_info}</span>;
   };
 
@@ -63,7 +73,7 @@ export default function TableComponent({ headers, data = [], table }: Props) {
               <TableRow>
                 {headers &&
                   headers.map((x: any, i: any) => (
-                    <TableCell align="left" key={i}>
+                    <TableCell align="left" key={x.label}>
                       <span className="text-base text-bold">{x.label}</span>
                     </TableCell>
                   ))}

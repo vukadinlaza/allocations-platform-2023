@@ -41,7 +41,7 @@ export default function InvestmentSidebar({
       type: 'string'
     },
     {
-      label: 'Fee Frequency',
+      label: 'Management fee frequency',
       value: deal.management_fee_frequency,
       defaultValue: 'No fee frequency.',
       type: 'string'
@@ -73,8 +73,8 @@ export default function InvestmentSidebar({
       <header className="px-6 py-4">
         <h2 className="text-lg font-bold">Invest</h2>
         <p className="flex items-center gap-1 text-sm">
-          Minimum is <Price price={deal.minimum_investment ?? "1"} /> - invest by{' '}
-          <DateComponent date={deal.closing_date} />
+          Minimum is <Price price={deal.minimum_investment ?? '1'} /> - invest
+          by <DateComponent date={deal.closing_date} />
         </p>
       </header>
       <div className="relative grid px-6 py-1">
@@ -123,7 +123,7 @@ export default function InvestmentSidebar({
                     {item.type === 'string' && (
                       <div>
                         {item.value ? (
-                          <p>{item.value}</p>
+                          <>{item.value}</>
                         ) : (
                           <span>{item.defaultValue}</span>
                         )}
@@ -135,14 +135,19 @@ export default function InvestmentSidebar({
                     )}
                     {item.type === 'percent' && (
                       <div className="flex">
-                        <span>{item.value || 0}</span>
-                        <Image
-                          src="/percent.svg"
-                          alt={'Percent'}
-                          className="opacity-50 cursor-poin(ter text-primary"
-                          width={18}
-                          height={18}
-                        />
+                        {Number(item.value) > 0 && (
+                          <>
+                            <span>{item.value}</span>
+                            <Image
+                              src="/percent.svg"
+                              alt={'Percent'}
+                              className="opacity-50 cursor-poin(ter text-primary"
+                              width={18}
+                              height={18}
+                            />
+                          </>
+                        )}
+                        {Number(item.value) < 1 && <>N/A</>}
                       </div>
                     )}
                   </p>
