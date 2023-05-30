@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from './Button';
-import { openURL } from './Table';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -110,7 +109,7 @@ export default function Login() {
                   loading={loading}
                   label="Login"
                 />
-                <Alert severity="warning" className="my-4">
+                {/* <Alert severity="warning" className="my-4">
                   <div className="mb-1 font-bold">
                     Authentication issues reported
                   </div>
@@ -131,7 +130,7 @@ export default function Login() {
                     </span>
                     .
                   </div>
-                </Alert>
+                </Alert> */}
               </div>
             )}
           </form>
