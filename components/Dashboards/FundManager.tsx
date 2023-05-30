@@ -1,47 +1,45 @@
-import DataCard from '@/components/Data/Card';
+import DealsFunds from '@/components/Deals/Funds';
+import DealsSPVs from '@/components/Deals/SPVs';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
+import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
+import Nav from '../Nav';
 
 export default function FundManagerDashboard() {
   const [loading, setLoading] = useState<boolean>(false);
   const { supabase } = useSupabase();
-  // const { user } = useAuthContext();
   const [items, setItems] = useState<any>([]);
+  const [active, setActive] = useState('SPVs');
+  const list = [{ key: 'SPVs' }, { key: 'Funds' }];
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const model = [
         {
-          title: 'Total AUM',
-          key: 'funds_total_aum',
+          title: 'Portfolio value',
+          key: 'investments_portfolio_value',
           value: 0,
           type: 'price'
         },
         {
-          title: 'Total raised',
-          key: 'funds_total_raised',
+          title: 'Total invested',
+          key: 'investments_total_invested',
           value: 0,
           type: 'price'
         },
         {
           title: 'Est. multiple',
-          key: 'funds_estimated_multiple',
+          key: 'investments_estimated_multiple',
           value: 0,
           unit: 'x',
           type: 'number',
           format: '0,0.00'
         },
         {
-          title: 'Total Private Funds',
-          key: 'funds_total_funds',
-          value: 0,
-          type: 'number'
-        },
-        {
-          title: 'Total investors',
-          key: 'funds_total_investors',
+          title: 'Total investments',
+          key: 'total_investments_count',
           value: 0,
           type: 'number'
         }
@@ -63,25 +61,32 @@ export default function FundManagerDashboard() {
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
-    <div className="w-full">
+    <div className="w-full my-8">
       {loading && <LoadingDashboard />}
       {!loading && (
         <div className="w-full">
-          <div className="flex items-start w-full gap-24">
-            {items &&
-              items.map((item: any, index: number) => (
-                <DataCard key={index} item={item} />
-              ))}
+          <header className="mb-8">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold">Dashboard</h1>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              {items &&
+                items.map((item: any, index: number) =>
+                  item.value > 0 ? <DataCard key={index} item={item} /> : null
+                )}
+            </div>
+          </header>
+          <div className="mb-8">
+            <Nav
+              items={list.map((item) => item.key)}
+              active={active}
+              setActive={setActive}
+            />
           </div>
-          {/* <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h1>Portfolio Overview</h1>
-            </div>
-            <div>
-              <h1>Portfolio Value</h1>
-            </div>
-          </div> */}
+          {active === 'SPVs' && <DealsSPVs />}
+          {active === 'Funds' && <DealsFunds />}
         </div>
       )}
     </div>

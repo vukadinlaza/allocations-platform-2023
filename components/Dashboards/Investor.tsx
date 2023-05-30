@@ -1,17 +1,13 @@
-import DealsFunds from '@/components/Deals/Funds';
-import DealsSPVs from '@/components/Deals/SPVs';
+import Investments from '@/components/Investments';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
 import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
-import Nav from '../Nav';
 
 export default function InvestorDashboard() {
   const [loading, setLoading] = useState<boolean>(false);
   const { supabase } = useSupabase();
   const [items, setItems] = useState<any>([]);
-  const [active, setActive] = useState('SPVs');
-  const list = [{ key: 'SPVs' }, { key: 'Funds' }];
 
   const fetchData = async () => {
     try {
@@ -69,7 +65,7 @@ export default function InvestorDashboard() {
         <div className="w-full">
           <header className="mb-8">
             <div className="mb-8">
-              <h1 className="text-2xl font-bold">Dashboard</h1>
+              <h1 className="text-2xl font-bold">Investor Dashboard</h1>
             </div>
             <div className="grid grid-cols-4 gap-4">
               {items &&
@@ -79,14 +75,8 @@ export default function InvestorDashboard() {
             </div>
           </header>
           <div className="mb-8">
-            <Nav
-              items={list.map((item) => item.key)}
-              active={active}
-              setActive={setActive}
-            />
+            <Investments />
           </div>
-          {active === 'SPVs' && <DealsSPVs />}
-          {active === 'Funds' && <DealsFunds />}
         </div>
       )}
     </div>

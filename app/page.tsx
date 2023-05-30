@@ -1,4 +1,5 @@
 'use client';
+import FundManagerDashboard from '@/components/Dashboards/FundManager';
 import InvestorDashboard from '@/components/Dashboards/Investor';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
@@ -7,15 +8,11 @@ import { useAuthContext } from './context';
 export default function Dashboard() {
   const { supabase } = useSupabase();
   const { user } = useAuthContext();
-  const [active, setActive] = useState('Investor dashboard');
+  const [active, setActive] = useState('Investor');
   const [items, setItems] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const tabs = [
-    { key: 'Investor dashboard' },
-    { key: 'SPV dashboard' },
-    { key: 'Fund dashboard' }
-  ];
+  const tabs = [{ key: 'Investor' }, { key: 'Fund manager' }];
 
   const fetchData = async () => {
     try {
@@ -66,7 +63,8 @@ export default function Dashboard() {
 
   return (
     <div className="container home">
-      <InvestorDashboard />
+      {active === 'Fund Manager' && <FundManagerDashboard />}
+      {active === 'Investor' && <InvestorDashboard />}
     </div>
   );
 }
