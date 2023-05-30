@@ -8,6 +8,10 @@
     "lint": "next lint",
     "gen-types": "supabase gen types typescript --project-id ${PROJECT_ID} > lib/database.types.ts"
   },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.19.1"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
