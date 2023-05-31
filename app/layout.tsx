@@ -23,6 +23,10 @@ export default function RootLayout({
           content="Scale your fund to $100m+ AUM with Allocation’s next generation AI powered fund administration platform. Designed for speed and efficiency."
         />
         <meta name="robots" content="noindex" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
       </head>
       <ThemeProvider theme={lightTheme}>
         <body className="relative min-h-screen bg-gray-50">
