@@ -6,9 +6,10 @@ import Checkbox from '@/components/Checkbox';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
 import DealEntity from '@/components/Deals/Admin/Edit/Entity';
+import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
-import DealProductType from '@/components/Deals/Admin/Edit/ProductType';
+import SelectProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import LoadingForm from '@/components/Loading/Form';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
@@ -250,7 +251,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 <Step
                   selected={newDealDetails.sub_type}
                   component={
-                    <DealProductType
+                    <SelectProductType
                       deal={newDealDetails}
                       selected={newDealDetails.sub_type}
                       onChange={(sub_type: string) => {
@@ -280,7 +281,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   component={
                     <div className="w-full">
                       <header className="flex flex-col items-start mb-4">
-                        <h2 className="text-xl">Asset informations</h2>
+                        <h2 className="text-xl">Asset information</h2>
                       </header>
                       <NewAsset
                         asset={newDeal.assets ? newDeal.assets[0] : null}
@@ -350,10 +351,14 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   />
                 }
               />
-              {/* <Step
-            selected={true}
-            component={<DealEstimatedCosts deal={newDeal} />}
-          /> */}
+              <Step
+                selected={true}
+                component={
+                  <DealEstimatedCosts
+                    deal={{ ...newDeal, ...newDealDetails }}
+                  />
+                }
+              />
               <Step
                 selected={newDeal.agree_setup && newDeal.agree_costs}
                 component={
