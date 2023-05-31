@@ -26,7 +26,7 @@ export default function DealEntity({
   ];
   return (
     <div className="w-full">
-      <header className="flex flex-col items-start mb-6">
+      <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Select an entity deal</h2>
       </header>
       <FormBuilder

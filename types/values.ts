@@ -10,7 +10,7 @@ export const deals_status = [
   'closed',
   'archived'
 ];
-
+ 
 export const accreditations_values = [
   // investorAccreditationStatus
   'individual_net_worth',
@@ -19,6 +19,8 @@ export const accreditations_values = [
   'finra_licensed_individual',
   'entity_beneficially_owned'
 ];
+
+export const asset_location = ['Domestic (US)', 'International'];
 
 export const asset_type = [
   'startup',
@@ -41,13 +43,27 @@ export const asset_security_type = [
   'other'
 ];
 
-export const deal_advisors_type = ['Allocations Advisers LLC', 'Other'];
+export const deal_advisors_type = [
+  'Allocations Advisers LLC',
+  'Sharding Advisers LLC',
+  'Not applicable',
+  'Other'
+];
 
-export const deal_banking_providers = ['Mercury', 'Custom'];
+export const deal_banking_providers = [
+  'Allocations Banking Provider',
+  'Custom'
+];
 
 export const deal_master_series = ['Allocations', 'Custom'];
 
-export const deal_offering_types = ['506b', '506c'];
+export const deal_offering_types = ['506b', '506c', '3c1', '3c7'];
+
+export const deal_legal_documents = [
+  'Allocations Templates',
+  'Allocation Redlined Template',
+  'New Custom Documents'
+];
 
 export const deal_product_types = ['Micro SPV', 'Standard SPV', 'Custom SPV'];
 

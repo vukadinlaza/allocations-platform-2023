@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import MultiSelect from './Multiselect';
 import None from './None';
 import Select from './Select';
 
@@ -83,6 +84,25 @@ export default function FormBuilder({
                         }}
                       ></Select>
                     )}
+
+                    {field.type === 'multiselect' &&
+                      field.items &&
+                      field.key && (
+                        <MultiSelect
+                          selected={
+                            _data && [field.key] ? _data[field.key] : ''
+                          }
+                          displayLabel={(v) => v}
+                          items={field.items}
+                          onChange={(e) => {
+                            setData((prevData: any) => ({
+                              ...prevData,
+                              // @ts-ignore
+                              [field.key]: e
+                            }));
+                          }}
+                        ></MultiSelect>
+                      )}
                     {field.type === 'date' && field.key && (
                       <input
                         type="date"
