@@ -81,8 +81,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       Hotjar.identify(user.id, {
         email: user.email
       });
-      console.log('Hotjar is ready?');
-      console.log(Hotjar.isReady());
     }
   }, [user]);
 
