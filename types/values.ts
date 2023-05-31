@@ -67,6 +67,29 @@ export const deal_legal_documents = [
 
 export const deal_product_types = ['Micro SPV', 'Standard SPV', 'Custom SPV'];
 
+export const pricing = [
+  {
+    name: 'Micro SPV',
+    description: 'Raise up to $100,000',
+    price: 3500
+  },
+  {
+    name: 'Standard SPV',
+    description: 'The most common SPV',
+    price: 8000
+  },
+  {
+    name: 'Custom SPV',
+    description: 'For more complex deals',
+    price: 14000
+  },
+  {
+    name: 'Traditional Fund',
+    description: 'Our world-class Fund product',
+    price: 19500
+  }
+];
+
 export const deal_management_frequency_fee = ['once', 'annual'];
 
 export const deal_types = ['spv', 'fund'];
