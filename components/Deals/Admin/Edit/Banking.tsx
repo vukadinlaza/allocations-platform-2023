@@ -29,7 +29,9 @@ export default function DealBanking({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          onChange(v);
+          onChange({
+            banking_provider: v.banking_provider
+          });
         }}
       />
     </div>

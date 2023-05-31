@@ -28,7 +28,9 @@ export default function DealLegalDocuments({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          onChange(v);
+          onChange({
+            legal_template_option: v.legal_template_option
+          });
         }}
       />
     </div>

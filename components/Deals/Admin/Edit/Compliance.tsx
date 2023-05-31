@@ -36,7 +36,10 @@ export default function DealCompliance({
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          onChange(v);
+          onChange({
+            offering_type: v.offering_type,
+            advisor_type: v.advisor_type
+          });
         }}
       />
     </div>
