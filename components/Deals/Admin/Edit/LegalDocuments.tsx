@@ -1,17 +1,12 @@
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 
 export default function DealLegalDocuments({
   deal,
-  onSave,
-  onChange,
-  loading
+  onChange
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading: boolean;
 }) {
   const model: Field[] = [
     {
@@ -23,7 +18,7 @@ export default function DealLegalDocuments({
     }
   ];
   return (
-    <div className="w-full">
+    <div className="w-full mb-2">
       <header className="flex flex-col items-start mb-6">
         <h2 className="text-xl">Create legal documents</h2>
       </header>
@@ -35,9 +30,6 @@ export default function DealLegalDocuments({
           onChange(v);
         }}
       />
-      <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Save" />
-      </div>
     </div>
   );
 }

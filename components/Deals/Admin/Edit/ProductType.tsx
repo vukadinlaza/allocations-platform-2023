@@ -1,4 +1,3 @@
-import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import { openURL } from '@/components/Table';
 import { Deal } from '@/types';
@@ -7,28 +6,25 @@ import { useEffect, useState } from 'react';
 
 export default function DealProductType({
   deal,
-  onSave,
   onChange,
-  loading
+  selected
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading?: boolean;
+  selected?: string;
 }) {
-  const [productType, setProductType] = useState('');
+  const [productType, setProductType] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     onChange(productType);
   }, [productType]);
 
   useEffect(() => {
-    if (deal.sub_type && productType.length === 0) {
-      setProductType(deal.sub_type);
-      return;
+    if (!productType) {
+      setProductType(selected);
+      console.log(productType);
     }
-    setProductType(deal_product_types[1]);
-  }, [deal]);
+  }, [selected]);
 
   return (
     <div className="w-full">
@@ -47,9 +43,6 @@ export default function DealProductType({
         >
           View pricing
         </span>
-      </div>
-      <div className="flex items-center gap-4 mt-4">
-        <Button loading={loading} onClick={() => onSave()} label="Save" />
       </div>
     </div>
   );

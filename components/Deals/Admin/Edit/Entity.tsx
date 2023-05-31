@@ -1,18 +1,13 @@
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 import { deal_master_series } from '@/types/values';
 
 export default function DealEntity({
   deal,
-  onSave,
-  onChange,
-  loading
+  onChange
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading: boolean;
 }) {
   const model: Field[] = [
     {
@@ -42,9 +37,6 @@ export default function DealEntity({
           onChange(v);
         }}
       />
-      <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Save" />
-      </div>
     </div>
   );
 }

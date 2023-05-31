@@ -1,18 +1,12 @@
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
-import { deal_management_frequency_fee } from '@/types/values';
 
 export default function DealInformations({
   deal,
-  onSave,
-  onChange,
-  loading
+  onChange
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading: boolean;
 }) {
   const model: Field[] = [
     {
@@ -84,9 +78,6 @@ export default function DealInformations({
                 onChange(v);
               }}
             />
-            <div className="my-6">
-              <Button loading={loading} onClick={onSave} label="Save" />
-            </div>
           </div>
         )}
         {/*<div className="mb-6">*/}

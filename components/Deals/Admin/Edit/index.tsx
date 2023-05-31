@@ -147,7 +147,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         notify(`Sorry, could not save deal.`, false);
         return;
       }
-      notify('Deal saved.', true);
+      notify('Details saved.', true);
     } catch (err) {
       console.log(err);
     } finally {
@@ -197,37 +197,31 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     init();
   }, [deal]);
 
-  useEffect(() => {
-    console.log(newDeal);
-  }, [newDeal]);
+  // useEffect(() => {
+  //   console.log(newDeal);
+  // }, [newDeal]);
 
   return (
     <>
       {pageLoading && <LoadingForm />}
       {!pageLoading && (
-        <Card className="container grid gap-8 p-6 mt-8">
-          <h1 className="pb-0 mb-0 text-2xl font-medium">Deal Setup Form</h1>
+        <Card className="container grid">
           {!hasIdentity && (
             <Card className="flex items-start card" variant="outlined">
               <KYC onUpdate={() => setHasIdentity(true)} />
             </Card>
           )}
           {hasIdentity && deal && newDeal && newDealDetails && (
-            <div>
+            <div className="relative flex flex-col w-full">
               <Step
                 selected={newDeal.organization_id && newDealDetails.agree_msa}
                 component={
                   <div className="w-full">
                     <div className="w-full mb-4">
                       <SelectOrganization
-                        deal={deal}
+                        selected={newDeal.organization_id}
                         loading={loading}
-                        onSave={() => {
-                          saveDeal();
-                          saveDealDetails();
-                        }}
                         onChange={(org: any) => {
-                          console.log(org);
                           setNewDeal((prev: any) => ({
                             ...prev,
                             organization_id: org?.id
@@ -257,9 +251,8 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   selected={newDealDetails.sub_type}
                   component={
                     <DealProductType
-                      loading={loading}
                       deal={newDealDetails}
-                      onSave={saveDealDetails}
+                      selected={newDealDetails.sub_type}
                       onChange={(sub_type: string) => {
                         setNewDealDetails((prev: any) => ({
                           ...prev,
@@ -274,9 +267,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 selected={newDeal.name}
                 component={
                   <DealInformations
-                    loading={loading}
                     deal={newDeal}
-                    onSave={saveDeal}
                     onChange={(_deal: any) => {
                       setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                     }}
@@ -308,9 +299,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
                 component={
                   <DealEntity
-                    loading={loading}
                     deal={newDealDetails}
-                    onSave={saveDealDetails}
                     onChange={(_dealDetails: any) => {
                       setNewDealDetails((prev: any) => ({
                         ...prev,
@@ -324,9 +313,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 selected={newDealDetails?.legal_template_option}
                 component={
                   <DealLegalDocuments
-                    loading={loading}
                     deal={newDealDetails}
-                    onSave={saveDealDetails}
                     onChange={(_dealDetails: any) => {
                       setNewDealDetails((prev: any) => ({
                         ...prev,
@@ -340,12 +327,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 selected={newDeal.offering_type && newDealDetails?.advisor_type}
                 component={
                   <DealCompliance
-                    loading={loading}
                     deal={{ ...newDeal, ...newDealDetails }}
-                    onSave={() => {
-                      saveDeal();
-                      saveDealDetails();
-                    }}
                     onChange={(_mergedDeal: any) => {
                       const { offering_type, advisor_type } = _mergedDeal;
                       setNewDeal((prev: any) => ({ ...prev, offering_type }));
@@ -362,8 +344,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 component={
                   <DealBanking
                     deal={newDealDetails}
-                    loading={loading}
-                    onSave={saveDealDetails}
                     onChange={(_deal: any) => {
                       setNewDealDetails((prev: any) => ({ ...prev, ..._deal }));
                     }}
@@ -408,36 +388,44 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
               {(newDeal.status === 'draft' ||
                 newDeal.status === 'submitted') && (
-                <div className="flex items-center justify-end gap-4">
-                  <p className="text-sm">
-                    {newDeal.status === deals_status[0] && (
-                      <span>
-                        To submit your deal for review, please fill in all the
-                        required fields before submitting the form. Thank you.
-                      </span>
-                    )}
-                    {newDeal.status === deals_status[1] && (
-                      <span>
-                        Congratulations ! Your deal has been submitted but you
-                        can still update it.
-                      </span>
-                    )}
-                  </p>
-                  {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
-                  <Button
-                    disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
-                    loading={loading}
-                    label={
-                      newDeal.status === 'draft'
-                        ? 'Submit my deal'
-                        : 'Update my submission'
-                    }
-                    onClick={async () => {
-                      setNewDeal({ ...newDeal, status: 'submitted' });
-                      await saveDeal();
-                      await saveDealDetails();
-                    }}
-                  />
+                <div className="container fixed bottom-0">
+                  <div className="flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg">
+                    <p className="text-sm">
+                      {newDeal.status === deals_status[0] && (
+                        <span>
+                          To submit your deal for review, please fill in all the
+                          required fields before submitting the form. Thank you.
+                        </span>
+                      )}
+                      {newDeal.status === deals_status[1] && (
+                        <span>
+                          Congratulations ! Your deal has been submitted but you
+                          can still update it.
+                        </span>
+                      )}
+                    </p>
+                    {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
+                    <div className="flex gap-3">
+                      <Button
+                        loading={loading}
+                        label={'Save'}
+                        onClick={async () => {
+                          await saveDeal();
+                          await saveDealDetails();
+                        }}
+                      />
+                      <Button
+                        disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
+                        loading={loading}
+                        label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
+                        onClick={async () => {
+                          setNewDeal({ ...newDeal, status: 'submitted' });
+                          await saveDeal();
+                          await saveDealDetails();
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
               {/* {deal.status === deals_status[4] && (
