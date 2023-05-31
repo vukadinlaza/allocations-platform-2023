@@ -48,7 +48,8 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       let { data: investments, error } = await supabase
         .from('investments')
         .select('*, users(*)')
-        .eq('deal_id', deal.id);
+        .eq('deal_id', deal.id)
+        .neq('status', 'archived');
 
       if (investments) {
         setInvestors(
