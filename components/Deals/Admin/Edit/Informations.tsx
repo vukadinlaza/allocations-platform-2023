@@ -43,6 +43,12 @@ export default function DealInformations({
       max: 10,
       show: true
     },
+    {
+      label: 'Management fee note',
+      key: 'management_fee_notes',
+      type: 'string',
+      show: true
+    },
     // {
     //   label: 'Management fee frequency',
     //   key: 'management_fee_frequency',
@@ -58,6 +64,12 @@ export default function DealInformations({
       step: 0.5,
       min: 0,
       max: 30,
+      show: true
+    },
+    {
+      label: 'Total carry note',
+      key: 'total_carry_notes',
+      type: 'string',
       show: true
     }
   ];

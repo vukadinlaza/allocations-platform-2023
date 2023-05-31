@@ -13,6 +13,7 @@ type FieldType =
   | 'copy'
   | 'date'
   | 'slider'
+  | 'multiselect'
   | 'money';
 
 export type Field = {

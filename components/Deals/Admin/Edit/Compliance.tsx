@@ -28,7 +28,7 @@ export default function DealCompliance({
   ];
   return (
     <div className="w-full mb-4">
-      <header className="flex flex-col items-start mb-6">
+      <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Compliance</h2>
       </header>
       <FormBuilder
