@@ -1,10 +1,9 @@
 'use client';
 import Maintenance from '@/components/Maintenance';
 import SupabaseProvider from '@/lib/supabase-provider';
-import Hotjar from '@hotjar/browser';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import Script from 'next/script';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AuthContextProvider } from './context';
 import './globals.scss';
 import { lightTheme } from './theme/theme';
@@ -15,11 +14,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const maintenance = false;
-  useEffect(() => {
-    const siteId = 3502247;
-    const hotjarVersion = 6;
-    Hotjar.init(siteId, hotjarVersion);
-  }, []);
   return (
     <html lang="en">
       <head>
