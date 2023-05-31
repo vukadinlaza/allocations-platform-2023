@@ -1,4 +1,3 @@
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 
@@ -6,14 +5,10 @@ import { deal_banking_providers } from '@/types/values';
 
 export default function DealBanking({
   deal,
-  onSave,
-  onChange,
-  loading
+  onChange
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading: boolean;
 }) {
   const model: Field[] = [
     {
@@ -25,8 +20,8 @@ export default function DealBanking({
     }
   ];
   return (
-    <div className="w-full">
-      <header className="flex flex-col items-start mb-6">
+    <div className="w-full mb-2">
+      <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Chose a banking provider</h2>
       </header>
       <FormBuilder
@@ -39,9 +34,6 @@ export default function DealBanking({
           });
         }}
       />
-      <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Save" />
-      </div>
     </div>
   );
 }

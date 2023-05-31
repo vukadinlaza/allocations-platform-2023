@@ -1,17 +1,13 @@
-import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
+import { deal_legal_documents } from '@/types/values';
 
 export default function DealLegalDocuments({
   deal,
-  onSave,
-  onChange,
-  loading
+  onChange
 }: {
   deal: Deal;
-  onSave: () => any;
   onChange: (v: any) => any;
-  loading: boolean;
 }) {
   const model: Field[] = [
     {
@@ -19,12 +15,12 @@ export default function DealLegalDocuments({
       key: 'legal_template_option',
       type: 'select',
       show: true,
-      items: ['Allocations', 'other']
+      items: deal_legal_documents
     }
   ];
   return (
-    <div className="w-full">
-      <header className="flex flex-col items-start mb-6">
+    <div className="w-full mb-2">
+      <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Create legal documents</h2>
       </header>
       <FormBuilder
@@ -37,9 +33,6 @@ export default function DealLegalDocuments({
           });
         }}
       />
-      <div className="mt-6">
-        <Button loading={loading} onClick={onSave} label="Save" />
-      </div>
     </div>
   );
 }

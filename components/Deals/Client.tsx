@@ -2,9 +2,17 @@
 import Button from '@/components/Button';
 import InvestmentSidebar from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
+import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { AllocationsAPI } from '@/lib/allocations-api';
+import ReactHtmlParser from "react-html-parser";
+const PdfViewer= dynamic(() => import("@/components/PdfViewer"), {
+  ssr: false,
+});
 
 const copyCurrentUrl = async () => {
   await navigator.clipboard.writeText(window.location.href);
@@ -18,6 +26,25 @@ export default function DealClient({
   deal: Deal;
   demo?: boolean;
 }) {
+  const {supabase} = useSupabase();
+  const [pitchDeckFileId, setPitchDeckFileId] = useState(null);
+  const [pitchDeckFileData, setPitchDeckFileData] = useState<Blob|null>(null);
+  const fetchPitchDeckFile = async (dealId: string) => {
+    const {data, error} = await supabase.rpc('deal_get_file',{
+      dealid: dealId,
+      filetype: 'pitch-deck'
+    });
+    if(data){
+      setPitchDeckFileId(data);
+      const fileData = await AllocationsAPI.downloadPDFFile(data);
+      if(fileData.ok){
+        setPitchDeckFileData(await fileData.blob());
+      }
+    }
+  }
+  useEffect(() => {
+    void fetchPitchDeckFile(deal.id as string);
+  }, []);
   return (
     <div className="w-full deal">
       <div className="container grid grid-cols-6 gap-8 mt-8">
@@ -47,10 +74,18 @@ export default function DealClient({
           <main className="deal--main">
             <div>
               <h1 className="mb-8 text-2xl">Pitch deck</h1>
-              <div className="deal--description">No pitch deck.</div>
+              <div className="deal--description">
+                {!pitchDeckFileId && 'No pitch deck'}
+                {pitchDeckFileData && <div>
+                  <PdfViewer file={pitchDeckFileData as File} />
+                </div>}
+              </div>
             </div>
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
+              {deal.memo && <div className="deal--description">
+                {ReactHtmlParser(deal.memo)}
+              </div>}
               {/* <div className="deal--description">
                 {deal.memo && (
                   <div dangerouslySetInnerHTML={{ __html: deal.memo }} />

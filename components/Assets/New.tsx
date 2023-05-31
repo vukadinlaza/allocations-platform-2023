@@ -3,7 +3,11 @@ import Button from '@/components/Button';
 import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Asset, Field } from '@/types';
-import { asset_security_type, asset_type } from '@/types/values';
+import {
+  asset_location,
+  asset_security_type,
+  asset_type
+} from '@/types/values';
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -33,6 +37,13 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
       show: true
     },
     {
+      label: 'Asset Location',
+      key: 'location',
+      type: 'select',
+      show: true,
+      items: asset_location
+    },
+    {
       label: 'Asset type',
       key: 'type',
       type: 'select',
@@ -42,7 +53,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
     {
       label: 'Security type',
       key: 'security_type',
-      type: 'select',
+      type: 'multiselect',
       show: true,
       items: asset_security_type
     }
@@ -54,7 +65,8 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
       setLoading(true);
       const { data, error } = await supabase
         .from('assets')
-        .upsert({ id: newAsset?.id, ...newAsset }).select();
+        .upsert({ id: newAsset?.id, ...newAsset })
+        .select();
 
       if (data) {
         onCreate(data);
@@ -103,7 +115,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
         <Button
           loading={loading}
           disabled={loading}
-          label={`${asset ? 'Update' : 'Save'}`}
+          label={`${asset ? 'Update' : 'Save new asset'}`}
           onClick={createNew}
         />
       </div>
