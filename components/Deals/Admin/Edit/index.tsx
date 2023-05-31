@@ -298,6 +298,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 selected={newDealDetails.master_series_id}
                 component={
                   <SelectMasterSeries
+                    deal={{ ...newDeal, ...newDealDetails }}
                     selected={newDealDetails.master_series_id}
                     onChange={(ms: any) => {
                       setNewDealDetails((prev: any) => ({

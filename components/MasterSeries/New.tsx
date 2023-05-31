@@ -8,14 +8,14 @@ import FormBuilder from '../FormBuilder';
 
 type Props = {
   onCreate: () => void;
+  organizationId: string | undefined;
 };
 
-export default function NewMasterSeries({ onCreate }: Props) {
+export default function NewMasterSeries({ onCreate, organizationId }: Props) {
   const { supabase } = useSupabase();
   const { user, notify } = useAuthContext();
   const [newMasterSeries, setNewMasterSeries] = useState<any>({
-    name: '',
-    user_email: user.email
+    name: ''
   });
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -36,11 +36,14 @@ export default function NewMasterSeries({ onCreate }: Props) {
   ];
 
   const createNew = async () => {
-    if (!user) return;
+    if (!user && !organizationId) return;
     try {
       setLoading(true);
+
       const { data, error } = await supabase.from('master_series').insert({
-        ...newMasterSeries
+        ...newMasterSeries,
+        user_email: user.email,
+        organization_id: organizationId
       });
 
       setNewMasterSeries({});
@@ -67,7 +70,7 @@ export default function NewMasterSeries({ onCreate }: Props) {
           model={model}
           emit={true}
           onSubmit={(v: any) => {
-            setNewMasterSeries((prev: any) => ({...prev, ...v}))
+            setNewMasterSeries((prev: any) => ({ ...prev, ...v }));
           }}
         />
       </div>

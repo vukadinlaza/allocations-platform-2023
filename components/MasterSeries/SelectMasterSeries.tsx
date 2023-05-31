@@ -1,16 +1,19 @@
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
+import { Deal } from '@/types';
 import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewMasterSeries from './New';
 
 export default function SelectMasterSeries({
+  deal,
   onChange,
   loading,
   selected
 }: {
+  deal: Deal;
   loading?: boolean;
   onChange: (ms: any | undefined) => any;
   selected?: string;
@@ -74,6 +77,7 @@ export default function SelectMasterSeries({
       {create && (
         <Card variant="outlined" className="items-start my-4 card">
           <NewMasterSeries
+            organizationId={deal.organization_id}
             onCreate={() => {
               getMasterSeries();
               setCreate(false);
