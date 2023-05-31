@@ -21,19 +21,24 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       type: 'email'
     },
     {
-      label: 'Amount commited',
+      label: 'Subscription amount',
       key: 'subscription_amount',
+      type: 'price'
+    },
+    {
+      label: 'Capital wired',
+      key: 'capital_wired_amount',
       type: 'price'
     },
     {
       label: 'Status',
       key: 'status',
       type: 'chip'
-    },
-    {
-      label: 'Documents',
-      key: 'documents'
     }
+    // {
+    //   label: 'Documents',
+    //   key: 'documents'
+    // }
   ];
 
   const fetchInvestors = async () => {

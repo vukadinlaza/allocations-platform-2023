@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
+import Hotjar from '@hotjar/browser';
 import * as Sentry from '@sentry/nextjs';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -71,6 +72,17 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   useEffect(() => {
     onAuthStateChange();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      const siteId = 3502247;
+      const hotjarVersion = 6;
+      Hotjar.identify(user.id, {
+        email: user.email
+      });
+      Hotjar.init(siteId, hotjarVersion);
+    }
+  }, [user]);
 
   const value = useMemo(() => {
     return {

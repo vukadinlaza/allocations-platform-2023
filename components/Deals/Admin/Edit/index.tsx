@@ -295,7 +295,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 />
               )}
               <Step
-                selected={newDealDetails.master_series_id}
+                selected={newDealDetails?.master_series_id}
                 component={
                   <SelectMasterSeries
                     deal={{ ...newDeal, ...newDealDetails }}
