@@ -44,7 +44,7 @@ export default function Header({
                       )}
                     </div>
                   )}
-                  <Feedback />
+                  {/*<Feedback />*/}
                   <MissingData />
                   {/* <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
                     <Select
