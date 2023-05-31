@@ -103,7 +103,7 @@ export default function NewAsset({ asset, onCreate, dealId }: Props) {
         <Button
           loading={loading}
           disabled={loading}
-          label={`${asset ? 'Update' : 'Save'}`}
+          label={`${asset ? 'Update' : 'Save new asset'}`}
           onClick={createNew}
         />
       </div>

@@ -1,22 +1,20 @@
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Deal, Organization } from '@/types';
+import { Organization } from '@/types';
 import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewOrganization from './New';
 
 export default function SelectOrganization({
-  deal,
-  onSave,
   onChange,
-  loading
+  loading,
+  selected
 }: {
-  deal: Deal;
   loading: boolean;
-  onSave: () => any;
   onChange: (o: Organization | undefined) => any;
+  selected?: string;
 }) {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [selectedOrganization, setSelectedOrganization] = useState<
@@ -47,11 +45,11 @@ export default function SelectOrganization({
   }, []);
 
   useEffect(() => {
-    if (deal.organization_id) {
-      const found = organizations?.find((o) => o.id === deal.organization_id);
+    if (selected) {
+      const found = organizations?.find((o) => o.id === selected);
       setSelectedOrganization(found?.name || '');
     }
-  }, [deal, organizations]);
+  }, [selected, organizations]);
 
   useEffect(() => {
     const found = organizations?.find((o) => o.name === selectedOrganization);
@@ -85,12 +83,6 @@ export default function SelectOrganization({
         </Card>
       )}
       <div className="flex items-center gap-4 mt-4">
-        <Button
-          disabled={!selectedOrganization}
-          loading={loading || _loading}
-          onClick={() => onSave()}
-          label="Save"
-        />
         <Button
           icon={
             <Image
