@@ -61,14 +61,14 @@ export default function SupabaseProvider({
   };
 
   const fetchOrganizations = async () => {
-    return await supabase
+    return supabase
       .from('organizations')
       .select(`*`)
-      .order('created_at', { ascending: false });
+      .order('name', { ascending: false });
   };
 
   const fetchEntities = async () => {
-    return await supabase.from('entities').select(`*`, { count: 'exact' });
+    return supabase.from('entities').select(`*`, { count: 'exact' });
   };
 
   const fetchDeals = async (type: string | null = null) => {
@@ -82,11 +82,11 @@ export default function SupabaseProvider({
   };
 
   const fetchMasterSeries = async () => {
-    return await supabase.from('master_series').select('*');
+    return supabase.from('master_series').select('*');
   };
 
   const fetchInvestments = async () => {
-    return await supabase.from('investments').select(`*`, { count: 'exact' });
+    return supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
   const updateUser = async (email: string | undefined, newUser: any) => {
