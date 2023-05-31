@@ -13,8 +13,8 @@ type SupabaseContext = {
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
 export default function SupabaseProvider({
-                                           children
-                                         }: {
+  children
+}: {
   children: React.ReactNode;
 }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
@@ -61,14 +61,14 @@ export default function SupabaseProvider({
   };
 
   const fetchOrganizations = async () => {
-    return supabase
+    return await supabase
       .from('organizations')
       .select(`*`)
       .order('created_at', { ascending: false });
   };
 
   const fetchEntities = async () => {
-    return supabase.from('entities').select(`*`, { count: 'exact' });
+    return await supabase.from('entities').select(`*`, { count: 'exact' });
   };
 
   const fetchDeals = async (type: string | null = null) => {
@@ -81,8 +81,12 @@ export default function SupabaseProvider({
     return supabase.from('deals').select(`*`, { count: 'exact' });
   };
 
+  const fetchMasterSeries = async () => {
+    return await supabase.from('master_series').select('*');
+  };
+
   const fetchInvestments = async () => {
-    return supabase.from('investments').select(`*`, { count: 'exact' });
+    return await supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
   const updateUser = async (email: string | undefined, newUser: any) => {
@@ -95,20 +99,22 @@ export default function SupabaseProvider({
 
     return data || null;
   };
-  const supabaseContext = useMemo(()=>({
-    supabase,
-    fetchUser,
-    fetchOrganizations,
-    fetchEntities,
-    fetchDeals,
-    fetchInvestments,
-    updateUser
-  }), [supabase]);
+  const supabaseContext = useMemo(
+    () => ({
+      supabase,
+      fetchUser,
+      fetchOrganizations,
+      fetchEntities,
+      fetchDeals,
+      fetchMasterSeries,
+      fetchInvestments,
+      updateUser
+    }),
+    [supabase]
+  );
 
   return (
-    <Context.Provider
-      value={supabaseContext}
-    >
+    <Context.Provider value={supabaseContext}>
       <>{children}</>
     </Context.Provider>
   );

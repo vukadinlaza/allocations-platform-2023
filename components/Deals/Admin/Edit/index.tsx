@@ -5,13 +5,13 @@ import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import DealBanking from '@/components/Deals/Admin/Edit/Banking';
 import DealCompliance from '@/components/Deals/Admin/Edit/Compliance';
-import DealEntity from '@/components/Deals/Admin/Edit/Entity';
 import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
 import DealInformations from '@/components/Deals/Admin/Edit/Informations';
 import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
 import SelectProductType from '@/components/Deals/Admin/Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import LoadingForm from '@/components/Loading/Form';
+import SelectMasterSeries from '@/components/MasterSeries/SelectMasterSeries';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
 import { AllocationsAPI } from '@/lib/allocations-api';
@@ -295,16 +295,14 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 />
               )}
               <Step
-                selected={
-                  newDealDetails.master_series && newDealDetails.series_name
-                }
+                selected={newDealDetails.master_series_id}
                 component={
-                  <DealEntity
-                    deal={newDealDetails}
-                    onChange={(_dealDetails: any) => {
+                  <SelectMasterSeries
+                    selected={newDealDetails.master_series_id}
+                    onChange={(ms: any) => {
                       setNewDealDetails((prev: any) => ({
                         ...prev,
-                        ..._dealDetails
+                        master_series_id: ms?.id
                       }));
                     }}
                   />
