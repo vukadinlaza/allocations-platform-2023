@@ -77,10 +77,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     if (user) {
       const siteId = 3502247;
       const hotjarVersion = 6;
+      Hotjar.init(siteId, hotjarVersion);
       Hotjar.identify(user.id, {
         email: user.email
       });
-      Hotjar.init(siteId, hotjarVersion);
     }
   }, [user]);
 
