@@ -26,11 +26,6 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       type: 'price'
     },
     {
-      label: 'Wired amount',
-      key: 'capital_wired_amount',
-      type: 'price'
-    },
-    {
       label: 'Status',
       key: 'status',
       type: 'chip'
@@ -54,7 +49,11 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
         setInvestors(
           investments.map((invest) => ({
             ...invest.users,
-            name: invest.users ? `${invest.users.first_name ?? ''} ${invest.users.last_name ?? ''}`.trim() : null,
+            name: invest.users
+              ? `${invest.users.first_name ?? ''} ${
+                  invest.users.last_name ?? ''
+                }`.trim()
+              : null,
             status: invest.status,
             subscription_amount: invest.subscription_amount,
             documents: 'None'

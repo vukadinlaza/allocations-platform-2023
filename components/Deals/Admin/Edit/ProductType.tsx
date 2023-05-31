@@ -22,7 +22,6 @@ export default function DealProductType({
   useEffect(() => {
     if (!productType) {
       setProductType(selected);
-      console.log(productType);
     }
   }, [selected]);
 
