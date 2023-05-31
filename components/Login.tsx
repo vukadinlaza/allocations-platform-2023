@@ -88,18 +88,16 @@ export default function Login() {
               await login();
             }}
           >
-            {!status && (
-              <div>
-                <input
-                  value={email}
-                  type="text"
-                  id="outlined-basic"
-                  placeholder="mail@address.com"
-                  className="w-full mb-4"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            )}
+            <div>
+              <input
+                value={email}
+                type="text"
+                id="outlined-basic"
+                placeholder="mail@address.com"
+                className="w-full mb-4"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
             {status && <Alert severity={status.type}>{status.message}</Alert>}
             {!status && (
               <div className="grid">
