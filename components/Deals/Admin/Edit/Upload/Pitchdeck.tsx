@@ -29,12 +29,14 @@ export default function UploadPitchdeck({
           return notify('Sorry, pitchdeck could not be removed.', false);
 
         if (data) {
-          const { error: errFileRef } = await supabase
-            .from('files')
-            .delete()
-            .eq('key', path);
+          const { data, error: errFiles } = await supabase.rpc(
+            'deals_files_delete',
+            {
+              file_id: file.id
+            }
+          );
 
-          if (errFileRef)
+          if (errFiles)
             return notify('Sorry, pitchdeck could not be removed.', false);
 
           setFile(null);
@@ -61,30 +63,21 @@ export default function UploadPitchdeck({
         if (error) return notify('Sorry, pitchdeck upload failed.', false);
 
         if (data) {
-          const { data: filesRef, error: errFiles } = await supabase
-            .from('files')
-            .insert({
+          const { data: filesRef, error: errFiles } = await supabase.rpc(
+            'deals_files_upload',
+            {
+              key: path,
+              type: 'pitch-deck',
               file_name: 'pitchdeck.pdf',
               content_type: 'application/pdf',
               user_email: user.email,
-              user_id: user.id,
-              key: path,
-              type: 'pitch-deck'
-            })
-            .select()
-            .single();
+              deal_id: dealId
+            }
+          );
 
-          // if (filesRef) {
-          //   const { error: errDealFiles } = await supabase
-          //     .from('deals_files')
-          //     .insert({
-          //       deals_id: dealId,
-          //       files_id: filesRef.id
-          //     });
-
-          //   if (errDealFiles)
-          //     return notify('Sorry, pitchdeck upload failed.', false);
-          // }
+          if (filesRef) {
+            console.log(filesRef);
+          }
 
           if (errFiles) return notify('Sorry, pitchdeck upload failed.', false);
 
