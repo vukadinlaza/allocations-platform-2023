@@ -28,12 +28,12 @@ export default function InvestmentSidebar({
       value: deal.closing_date,
       type: 'date'
     },
-    {
-      label: 'Wiring deadline',
-      value: deal.wire_deadline,
-      defaultValue: 'No wire deadline',
-      type: 'date'
-    },
+    // {
+    //   label: 'Wiring deadline',
+    //   value: deal.wire_deadline,
+    //   defaultValue: 'No wire deadline',
+    //   type: 'date'
+    // },
     {
       label: 'Offering type',
       value: deal.offering_type,
