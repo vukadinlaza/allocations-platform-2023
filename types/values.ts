@@ -10,7 +10,7 @@ export const deals_status = [
   'closed',
   'archived'
 ];
- 
+
 export const accreditations_values = [
   // investorAccreditationStatus
   'individual_net_worth',
@@ -100,7 +100,8 @@ export const investments_status = [
   'invited',
   'signed',
   'committed',
-  'completed'
+  'completed',
+  'archived'
 ];
 
 export const organizations_status = ['processing', 'complete'];

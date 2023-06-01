@@ -1,5 +1,7 @@
 import FormBuilder from '@/components/FormBuilder';
+import Upload from '@/components/Upload';
 import { Deal, Field } from '@/types';
+import UploadPitchdeck from './Upload/Pitchdeck'
 
 export default function DealInformations({
   deal,
@@ -92,13 +94,7 @@ export default function DealInformations({
             />
           </div>
         )}
-        {/*<div className="mb-6">*/}
-        {/*  <div className="mb-4">*/}
-        {/*    <h2 className="text-xl">Upload pitch deck</h2>*/}
-        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
-        {/*  </div>*/}
-        {/*  <Upload />*/}
-        {/*</div>*/}
+        <UploadPitchdeck dealId={deal.id} />
         {/*<div className="mb-6">*/}
         {/*  <div className="mb-4">*/}
         {/*    <h2 className="text-xl">Upload term sheet / purchase agreement</h2>*/}
