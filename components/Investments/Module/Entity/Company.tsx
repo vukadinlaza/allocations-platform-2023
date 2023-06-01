@@ -8,11 +8,12 @@ import { useEffect, useState } from 'react';
 import { IdentityList } from '@/components/Identity/List';
 import * as Sentry from '@sentry/nextjs';
 import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
 
 export default function NewCompany({
-  type,
-  onUpdate
-}: {
+                                     type,
+                                     onUpdate
+                                   }: {
   type: string;
   onUpdate: () => void;
 }) {
@@ -22,7 +23,7 @@ export default function NewCompany({
   const [agree, setAgree] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<string|undefined>();
+  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<string | undefined>();
 
   const model: Field[] = [
     {
@@ -95,7 +96,7 @@ export default function NewCompany({
     const {
       data: { session }
     } = await supabase.auth.getSession();
-    if(!session){
+    if (!session) {
       throw new Error('Not Logged in');
     }
     if (!newCompany.legal_name) return alert('Please enter a name');
@@ -109,15 +110,15 @@ export default function NewCompany({
           ...newCompany,
           type: 'Entity',
           entity_type: type === 'Partnership' ? 'LP' : type,
-          user_email: session.user.email,
+          user_email: session.user.email
         })
         .select().single();
-      if(!data) {
+      if (!data) {
         throw new Error('Failed to create identity');
       }
       await supabase.from('identities').update({
         parent_identity_id: data.id
-      }).eq('id',selectedIndividualIdentity);
+      }).eq('id', selectedIndividualIdentity);
 
       if (data) {
         onUpdate();
@@ -132,7 +133,7 @@ export default function NewCompany({
 
   useEffect(() => {
     if (!newCompany) return;
-    const modelKeys = model.map((model) => model.key);
+    const modelKeys = model.filter(model => !['address_line_2'].includes(model.key as string)).map((model) => model.key);
     const newCompanyKeys = Object.keys(newCompany);
 
     const isAllKeysPresent = modelKeys.every((key) => {
@@ -149,7 +150,7 @@ export default function NewCompany({
   }, [agree, newCompany]);
 
   return (
-    <div className="new--company">
+    <div className='new--company'>
       <div>
         <Checkbox
           selected={agree}
@@ -159,34 +160,38 @@ export default function NewCompany({
       </div>
       <div>
         <div className={'mb-2'}>
-          Select a signatory identity to use with this entity.
-          <Alert severity={'info'}>If no identities are listed, create an individual identity first.</Alert>
+          <Typography fontWeight={'bold'}>Select your signatory identity from below to use with this
+            entity:</Typography>
+          <Alert severity={'info'}>If the identity is not listed, <i>create your individual identity first</i>.</Alert>
         </div>
-        <IdentityList type={"Individual"} selectedId={selectedIndividualIdentity} onSelect={setSelectedIndividualIdentity}/>
+        <IdentityList type={'Individual'} selectedId={selectedIndividualIdentity}
+                      onSelect={setSelectedIndividualIdentity} />
       </div>
-      <FormBuilder
-        emit={true}
-        model={model}
-        onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
-      />
-      <ul className="my-6 text-xs text-gray-600 list-disc list-inside">
-        <li className="mb-2">
-          The first time you invest with the multiple-owner entity, you will be
-          asked to submit additional verifying documents to comply with the U.S.
-          financial laws.
-        </li>
-        <li className="mb-2">
-          The minimum investment for entities with multiple owners is $5,000.
-        </li>
-      </ul>
-      <div>
-        <Button
-          disabled={disabled}
-          loading={loading}
-          label="Save investment entity"
-          onClick={saveNewEntity}
+      {selectedIndividualIdentity && (<>
+        <FormBuilder
+          emit={true}
+          model={model}
+          onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
         />
-      </div>
+        <ul className='my-6 text-xs text-gray-600 list-disc list-inside'>
+          <li className='mb-2'>
+            The first time you invest with the multiple-owner entity, you will be
+            asked to submit additional verifying documents to comply with the U.S.
+            financial laws.
+          </li>
+          <li className='mb-2'>
+            The minimum investment for entities with multiple owners is $5,000.
+          </li>
+        </ul>
+        <div>
+          <Button
+            disabled={disabled}
+            loading={loading}
+            label='Save investment entity'
+            onClick={saveNewEntity}
+          />
+        </div>
+      </>)}
     </div>
   );
 }

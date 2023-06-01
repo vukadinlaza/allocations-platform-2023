@@ -4,6 +4,7 @@ import { getFirstLetter } from '@/lib/utils';
 import Checkbox from '@/components/Checkbox';
 import { useEffect, useState } from 'react';
 import { useSupabase } from '@/lib/supabase-provider';
+import Box from '@mui/material/Box';
 
 export const IdentityList = ({ type, selectedId, onSelect }: {
   type?: 'Individual' | 'Entity',
@@ -26,7 +27,7 @@ export const IdentityList = ({ type, selectedId, onSelect }: {
   useEffect(() => {
     void getIdentities();
   }, []);
-  return (<>
+  return (<Box sx={{maxHeight: 800, overflowY: 'auto'}}>
     {
       identities.map((identity: Identity, index: number) => (
         <div
@@ -62,5 +63,5 @@ export const IdentityList = ({ type, selectedId, onSelect }: {
         </div>
       ))
     }
-  </>);
+  </Box>);
 };
