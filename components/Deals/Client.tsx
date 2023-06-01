@@ -2,16 +2,16 @@
 import Button from '@/components/Button';
 import InvestmentSidebar from '@/components/Investments/Sidebar';
 import ItemsHeader from '@/components/Items/Header';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import { toast } from 'react-toastify';
-import { AllocationsAPI } from '@/lib/allocations-api';
-import ReactHtmlParser from "react-html-parser";
-const PdfViewer= dynamic(() => import("@/components/PdfViewer"), {
-  ssr: false,
+const PdfViewer = dynamic(() => import('@/components/PdfViewer'), {
+  ssr: false
 });
 
 const copyCurrentUrl = async () => {
@@ -26,22 +26,22 @@ export default function DealClient({
   deal: Deal;
   demo?: boolean;
 }) {
-  const {supabase} = useSupabase();
+  const { supabase } = useSupabase();
   const [pitchDeckFileId, setPitchDeckFileId] = useState(null);
-  const [pitchDeckFileData, setPitchDeckFileData] = useState<Blob|null>(null);
+  const [pitchDeckFileData, setPitchDeckFileData] = useState<Blob | null>(null);
   const fetchPitchDeckFile = async (dealId: string) => {
-    const {data, error} = await supabase.rpc('deal_get_file',{
+    const { data, error } = await supabase.rpc('deal_get_file', {
       dealid: dealId,
       filetype: 'pitch-deck'
     });
-    if(data){
+    if (data) {
       setPitchDeckFileId(data);
       const fileData = await AllocationsAPI.downloadPDFFile(data);
-      if(fileData.ok){
+      if (fileData.ok) {
         setPitchDeckFileData(await fileData.blob());
       }
     }
-  }
+  };
   useEffect(() => {
     void fetchPitchDeckFile(deal.id as string);
   }, []);
@@ -74,18 +74,20 @@ export default function DealClient({
           <main className="deal--main">
             <div>
               <h1 className="mb-8 text-2xl">Pitch deck</h1>
-              <div className="deal--description">
-                {!pitchDeckFileId && 'No pitch deck'}
-                {pitchDeckFileData && <div>
+              {!pitchDeckFileId && 'No pitch deck available.'}
+              {pitchDeckFileData && (
+                <div>
                   <PdfViewer file={pitchDeckFileData as File} />
-                </div>}
-              </div>
+                </div>
+              )}
             </div>
             <div>
               <h1 className="mb-8 text-2xl">Deal memo</h1>
-              {deal.memo && <div className="deal--description">
-                {ReactHtmlParser(deal.memo)}
-              </div>}
+              {deal.memo && (
+                <div className="deal--description">
+                  {ReactHtmlParser(deal.memo)}
+                </div>
+              )}
               {/* <div className="deal--description">
                 {deal.memo && (
                   <div dangerouslySetInnerHTML={{ __html: deal.memo }} />
