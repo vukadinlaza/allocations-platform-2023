@@ -1,7 +1,9 @@
 import FormBuilder from '@/components/FormBuilder';
 import Upload from '@/components/Upload';
 import { Deal, Field } from '@/types';
-import UploadPitchdeck from './Upload/Pitchdeck'
+import UploadPitchdeck from './Upload/Pitchdeck';
+import UploadWireInstructions from './Upload/WireInstructions';
+import UploadTermSheets from './Upload/TermSheet';
 
 export default function DealInformations({
   deal,
@@ -95,6 +97,8 @@ export default function DealInformations({
           </div>
         )}
         <UploadPitchdeck dealId={deal.id} />
+        <UploadTermSheets dealId={deal.id} />
+        <UploadWireInstructions dealId={deal.id} />
         {/*<div className="mb-6">*/}
         {/*  <div className="mb-4">*/}
         {/*    <h2 className="text-xl">Upload term sheet / purchase agreement</h2>*/}

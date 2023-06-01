@@ -4,4 +4,4 @@
 gt:
 	git add .
 	git commit -m "commit"
-	git push origin --force
+	git push origin
