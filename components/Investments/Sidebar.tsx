@@ -135,19 +135,16 @@ export default function InvestmentSidebar({
                     )}
                     {item.type === 'percent' && (
                       <div className="flex">
-                        {Number(item.value) > 0 && (
-                          <>
-                            <span>{item.value}</span>
-                            <Image
-                              src="/percent.svg"
-                              alt={'Percent'}
-                              className="opacity-50 cursor-pointer text-primary"
-                              width={18}
-                              height={18}
-                            />
-                          </>
-                        )}
-                        {Number(item.value) < 1 && <>N/A</>}
+                        <>
+                          <span>{item.value}</span>
+                          <Image
+                            src="/percent.svg"
+                            alt={'Percent'}
+                            className="opacity-50 cursor-pointer text-primary"
+                            width={18}
+                            height={18}
+                          />
+                        </>
                       </div>
                     )}
                   </p>
