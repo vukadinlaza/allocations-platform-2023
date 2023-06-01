@@ -8,24 +8,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { downloadFile } from '@/lib/utils';
-
-interface File {
-  id: string;
-  name: string;
-  file_name: string;
-  type: string;
-  created_at: string;
-  content_type: string;
-}
-
-interface InvestmentFileMeta {
-  investmentId: string;
-  investmentName: string;
-}
-
-interface DealFileMeta {
-  dealId: string;
-}
+import { DealFileMeta, File, InvestmentFileMeta } from '@/types/files';
 
 export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();

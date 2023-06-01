@@ -141,7 +141,7 @@ export default function InvestmentSidebar({
                             <Image
                               src="/percent.svg"
                               alt={'Percent'}
-                              className="opacity-50 cursor-poin(ter text-primary"
+                              className="opacity-50 cursor-pointer text-primary"
                               width={18}
                               height={18}
                             />

@@ -4,7 +4,7 @@ import ChipStatus from '@/components/ChipStatus';
 import DateComponent from '@/components/DateComponent';
 import None from '@/components/None';
 import Price from '@/components/Price';
-import { openURL } from '@/components/Table';
+import Table, { openURL } from '@/components/Table';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
@@ -13,6 +13,7 @@ import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { File, InvestmentFileMeta } from '@/types/files';
 
 export default function InvestmentId() {
   const { supabase } = useSupabase();
@@ -20,6 +21,35 @@ export default function InvestmentId() {
   const [loading, setLoading] = useState<boolean>(true);
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const params = useParams();
+
+  let documentsHeaders = [
+    {
+      label: 'Type',
+      key: 'type',
+      type: 'chip-static'
+    },
+    // {
+    //   label: 'Created At',
+    //   key: 'created_at',
+    //   type: 'date'
+    // },
+    {
+      label: 'Download',
+      key: 'download',
+      type: 'button',
+      icon: 'download',
+      action: async (item: File)=>{
+        const response = await AllocationsAPI.downloadPDFFile(
+          item.id
+        );
+        if (response.ok) {
+          await downloadFile(await response.blob(), `${item.file_name}.pdf`);
+        } else {
+          console.error('Failed to download the document');
+        }
+      }
+    }
+  ];
 
   const downloadAgreement = async (type = 'subscription-agreement') => {
     if (!investment) return;
@@ -153,7 +183,7 @@ export default function InvestmentId() {
                 </div>
               </div>
               {investment &&
-                String(investment.status).toLowerCase() === 'signed' && (
+                String(investment.status).toLowerCase() === 'signed' && (<>
                   <div className="flex items-center justify-center gap-4 my-8">
                     <Button
                       small={true}
@@ -188,7 +218,14 @@ export default function InvestmentId() {
                       onClick={() => downloadAgreement('wire-instructions')}
                     />
                   </div>
-                )}
+                  <div>
+                    {investment.investments_files && investment.investments_files.length > 0 && (
+                      <Table data={investment.investments_files.map((f: any)=>({
+                        ...f.files
+                      }))} headers={documentsHeaders} />
+                    )}
+                  </div>
+                </>)}
             </Card>
           )}
         </div>
