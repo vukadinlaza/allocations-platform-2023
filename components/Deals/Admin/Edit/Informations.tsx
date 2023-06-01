@@ -1,7 +1,8 @@
 import FormBuilder from '@/components/FormBuilder';
-import Upload from '@/components/Upload';
 import { Deal, Field } from '@/types';
-import UploadPitchdeck from './Upload/Pitchdeck'
+import UploadPitchdeck from './Upload/Pitchdeck';
+import UploadTermSheets from './Upload/TermSheet';
+import UploadWireInstructions from './Upload/WireInstructions';
 
 export default function DealInformations({
   deal,
@@ -95,22 +96,8 @@ export default function DealInformations({
           </div>
         )}
         <UploadPitchdeck dealId={deal.id} />
-        {/*<div className="mb-6">*/}
-        {/*  <div className="mb-4">*/}
-        {/*    <h2 className="text-xl">Upload term sheet / purchase agreement</h2>*/}
-        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
-        {/*  </div>*/}
-        {/*  <Upload />*/}
-        {/*</div>*/}
-        {/*<div className="mb-6">*/}
-        {/*  <div className="mb-4">*/}
-        {/*    <h2 className="text-xl">*/}
-        {/*      Upload portfolio company wire instructions*/}
-        {/*    </h2>*/}
-        {/*    <p>Formats are jpg, jpeg, pdf & png. Max size: 25mb.</p>*/}
-        {/*  </div>*/}
-        {/*  <Upload />*/}
-        {/*</div>*/}
+        <UploadTermSheets dealId={deal.id} />
+        <UploadWireInstructions dealId={deal.id} />
       </main>
     </div>
   );

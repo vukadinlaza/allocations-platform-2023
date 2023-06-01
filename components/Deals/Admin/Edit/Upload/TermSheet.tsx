@@ -3,7 +3,7 @@ import Upload from '@/components/Upload';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
 
-export default function UploadPitchdeck({
+export default function UploadTermSheet({
   dealId
 }: {
   dealId: string | undefined;
@@ -13,9 +13,9 @@ export default function UploadPitchdeck({
   const [loading, setLoading] = useState<boolean>(true);
   const [file, setFile] = useState<File | any>(null);
 
-  const path = `/Documents/Deals/${dealId}/pitchdeck.pdf`;
+  const path = `/Documents/Deals/${dealId}/termsheet.pdf`;
 
-  const deletePitchdeck = async () => {
+  const deleteTermSheet = async () => {
     if (!dealId) return;
     if (file) {
       try {
@@ -23,10 +23,10 @@ export default function UploadPitchdeck({
 
         const { data, error } = await supabase.storage
           .from('allocations-private')
-          .remove([`Documents/Deals/${dealId}/pitchdeck.pdf`]); // remove / path
+          .remove([`Documents/Deals/${dealId}/termsheet.pdf`]); // remove / path
 
         if (error)
-          return notify('Sorry, pitchdeck could not be removed.', false);
+          return notify('Sorry, termsheet could not be removed.', false);
 
         if (data) {
           const { data, error: errFiles } = await supabase.rpc(
@@ -37,10 +37,10 @@ export default function UploadPitchdeck({
           );
 
           if (errFiles)
-            return notify('Sorry, pitchdeck could not be removed.', false);
+            return notify('Sorry, termsheet could not be removed.', false);
 
           setFile(null);
-          return notify('Pitchdeck successfully removed.', true);
+          return notify('Termsheet successfully removed.', true);
         }
       } catch (error) {
         console.log(error);
@@ -50,7 +50,7 @@ export default function UploadPitchdeck({
     }
   };
 
-  const uploadPitchdeck = async (_file: File) => {
+  const uploadTermSheet = async (_file: File) => {
     if (!dealId && !_file) return;
     if (_file) {
       try {
@@ -60,24 +60,24 @@ export default function UploadPitchdeck({
           .from('allocations-private')
           .upload(path, _file);
 
-        if (error) return notify('Sorry, pitchdeck upload failed.', false);
+        if (error) return notify('Sorry, termsheet upload failed.', false);
 
         if (data) {
           const { data: filesRef, error: errFiles } = await supabase.rpc(
             'deals_files_upload',
             {
               key: path,
-              type: 'pitch-deck',
-              file_name: 'pitchdeck.pdf',
+              type: 'term-sheet',
+              file_name: 'termsheet.pdf',
               content_type: 'application/pdf',
               user_email: user.email,
               deal_id: dealId
             }
           );
 
-          if (errFiles) return notify('Sorry, pitchdeck upload failed.', false);
+          if (errFiles) return notify('Sorry, termsheet upload failed.', false);
 
-          return notify('Pitchdeck successfully uploaded.', true);
+          return notify('Termsheet successfully uploaded.', true);
         }
       } catch (error) {
         console.log(error);
@@ -87,7 +87,7 @@ export default function UploadPitchdeck({
     }
   };
 
-  const getPitchdeck = async () => {
+  const getTermSheet = async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -107,13 +107,13 @@ export default function UploadPitchdeck({
   };
 
   useEffect(() => {
-    getPitchdeck();
+    getTermSheet();
   }, []);
 
   return (
     <div className="mb-6">
       <div className="mb-4">
-        <h2 className="text-xl">Upload pitch deck</h2>
+        <h2 className="text-xl">Upload term sheet / purchase agreement</h2>
         <p>Format allowed is PDF. Max size: 50mb.</p>
       </div>
       <Upload
@@ -122,10 +122,10 @@ export default function UploadPitchdeck({
         disabled={file ? true : false}
         onFileAdd={async (_file: File) => {
           setFile(_file);
-          await uploadPitchdeck(_file);
+          await uploadTermSheet(_file);
         }}
         onFileRemove={() => {
-          deletePitchdeck();
+          deleteTermSheet();
         }}
       />
     </div>
