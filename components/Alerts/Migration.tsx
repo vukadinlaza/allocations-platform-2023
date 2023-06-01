@@ -1,5 +1,3 @@
-import Close from '@mui/icons-material/Close';
-import WarningAmberOutlined from '@mui/icons-material/WarningAmberOutlined';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import { openURL } from '../Table';
@@ -9,23 +7,11 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
     <>
       <Alert
         className="mb-6 border border-amber-400"
-        icon={
-          <WarningAmberOutlined fontSize="inherit" className="text-amber" />
-        }
         severity="warning"
-        action={
-          <IconButton
-            aria-label="showBetaAlert"
-            color="warning"
-            size="small"
-            onClick={() => showBetaAlert(false)}
-          >
-            <Close fontSize="inherit" className="text-amber-500" />
-          </IconButton>
-        }
+        icon={null}
       >
         <h2 className="mt-0">
-          New platform migration update — last update: 05/31 at 15:50 EST
+          New platform migration update — last update: 06/01 at 14:50 EST
         </h2>
         <span>
           Welcome to the new platform! We are in the process of migrating your
