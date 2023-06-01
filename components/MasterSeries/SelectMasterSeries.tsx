@@ -48,10 +48,7 @@ export default function SelectMasterSeries({
 
   useEffect(() => {
     if (selected) {
-      console.log('found');
       const found = masterSeriesList?.find((ms) => ms.id === selected);
-      console.log(masterSeriesList);
-      console.log(found);
       setSelectedMasterSeries(found?.name || '');
     }
   }, [selected, masterSeriesList]);
