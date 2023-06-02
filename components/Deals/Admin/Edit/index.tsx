@@ -390,48 +390,45 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   </div>
                 }
               />
-              {(newDeal.status === 'draft' ||
-                newDeal.status === 'submitted') && (
-                <div className="container fixed bottom-0">
-                  <div className="flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg">
-                    <p className="text-sm">
-                      {newDeal.status === deals_status[0] && (
-                        <span>
-                          To submit your deal for review, please fill in all the
-                          required fields before submitting the form. Thank you.
-                        </span>
-                      )}
-                      {newDeal.status === deals_status[1] && (
-                        <span>
-                          Congratulations ! Your deal has been submitted but you
-                          can still update it.
-                        </span>
-                      )}
-                    </p>
-                    {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
-                    <div className="flex gap-3">
-                      <Button
-                        loading={loading}
-                        label={'Save'}
-                        onClick={async () => {
-                          await saveDeal();
-                          await saveDealDetails();
-                        }}
-                      />
-                      <Button
-                        disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
-                        loading={loading}
-                        label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
-                        onClick={async () => {
-                          setNewDeal({ ...newDeal, status: 'submitted' });
-                          await saveDeal();
-                          await saveDealDetails();
-                        }}
-                      />
-                    </div>
+              <div className="container fixed bottom-0">
+                <div className="flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg">
+                  <p className="text-sm">
+                    {newDeal.status === deals_status[0] && (
+                      <span>
+                        To submit your deal for review, please fill in all the
+                        required fields before submitting the form. Thank you.
+                      </span>
+                    )}
+                    {newDeal.status === deals_status[1] && (
+                      <span>
+                        Congratulations ! Your deal has been submitted but you
+                        can still update it.
+                      </span>
+                    )}
+                  </p>
+                  {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
+                  <div className="flex gap-3">
+                    <Button
+                      loading={loading}
+                      label={'Save'}
+                      onClick={async () => {
+                        await saveDeal();
+                        await saveDealDetails();
+                      }}
+                    />
+                    <Button
+                      disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
+                      loading={loading}
+                      label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
+                      onClick={async () => {
+                        setNewDeal({ ...newDeal, status: 'submitted' });
+                        await saveDeal();
+                        await saveDealDetails();
+                      }}
+                    />
                   </div>
                 </div>
-              )}
+              </div>
               {/* {deal.status === deals_status[4] && (
             <Alert severity="success">
               Congratulations, your deal is onboarded. If you require any
