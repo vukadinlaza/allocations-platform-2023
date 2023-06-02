@@ -3,6 +3,7 @@ export const true_false = [true, false];
 export const deals_status = [
   'draft',
   'submitted',
+  'pending',
   'rejected',
   'cancelled',
   'onboarding',

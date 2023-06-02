@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Checkbox from './Checkbox';
 
 type MultiSelectProps = {
-  items: [] | null | undefined;
+  items: [] | any;
   onChange: (selected: string[]) => any;
   displayLabel?: (item: any) => string;
   selected?: string[];

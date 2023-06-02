@@ -45,7 +45,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const [hasIdentity, setHasIdentity] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const { notify } = useAuthContext();
 
@@ -197,10 +197,11 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   useEffect(() => {
     setNewDeal(formatDeal(deal, false));
-    if (deal.status === deals_status[4]) {
-      // deal is status onboarding
-      setIsDisabled(true);
-      console.log(true);
+    if (deal.status === deals_status[0]) {
+      setIsDisabled(false);
+    }
+    if (deal.status === deals_status[1]) {
+      setIsDisabled(false);
     }
     init();
   }, [deal]);
@@ -414,18 +415,23 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         can still update it.
                       </span>
                     )}
-                    {newDeal.status === deals_status[4] && (
+                    {newDeal.status === deals_status[2] && (
+                      <Alert color="info">
+                        Your deal is currently under review by our team.
+                      </Alert>
+                    )}
+                    {newDeal.status === deals_status[5] && (
                       <Alert>
                         Congratulations ! Your deal has been onboarded.
                       </Alert>
                     )}
-                    {newDeal.status === deals_status[5] && (
+                    {newDeal.status === deals_status[6] && (
                       <Alert>Your deal is closing.</Alert>
                     )}
-                    {newDeal.status === deals_status[6] && (
+                    {newDeal.status === deals_status[7] && (
                       <Alert color="info">Your deal has been closed.</Alert>
                     )}
-                    {newDeal.status === deals_status[7] && (
+                    {newDeal.status === deals_status[8] && (
                       <div className="py-4">Your deal has been archived.</div>
                     )}
                   </p>
