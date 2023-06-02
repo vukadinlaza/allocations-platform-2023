@@ -50,4 +50,5 @@ export interface PageListData {
     to_display?: string;
     type?: string;
   };
+  filters?: string[];
 }
