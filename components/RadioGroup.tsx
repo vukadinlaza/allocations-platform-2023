@@ -1,12 +1,12 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const RadioGroup = ({
   selected,
   options,
   onChange
 }: {
-  selected?: string;
+  selected?: string | null;
   options: any;
   onChange: any;
 }) => {

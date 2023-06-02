@@ -8,8 +8,10 @@ export default function ChipStatus({
   const colors: any = {
     archived: 'bg-gray-600',
     draft: 'bg-gray-300',
+    closing: 'bg-green-500',
     closed: 'bg-green-500',
     invited: 'bg-blue-400',
+    pending: 'bg-blue-400',
     processing: 'bg-amber-400',
     committed: 'bg-orange-500',
     submitted: 'bg-orange-500',

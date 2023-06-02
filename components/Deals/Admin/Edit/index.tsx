@@ -26,6 +26,7 @@ import {
   deal_product_types,
   deals_status
 } from '@/types/values';
+import { Alert } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +45,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const [hasIdentity, setHasIdentity] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const { notify } = useAuthContext();
 
@@ -195,6 +197,12 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   useEffect(() => {
     setNewDeal(formatDeal(deal, false));
+    if (deal.status === deals_status[0]) {
+      setIsDisabled(false);
+    }
+    if (deal.status === deals_status[1]) {
+      setIsDisabled(false);
+    }
     init();
   }, [deal]);
 
@@ -213,7 +221,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             </Card>
           )}
           {hasIdentity && deal && newDeal && newDealDetails && (
-            <div className="relative flex flex-col w-full">
+            <div className={`relative flex flex-col w-full`}>
               <Step
                 selected={newDeal.organization_id && newDealDetails.agree_msa}
                 component={
@@ -390,48 +398,66 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   </div>
                 }
               />
-              {(newDeal.status === 'draft' ||
-                newDeal.status === 'submitted') && (
-                <div className="container fixed bottom-0">
-                  <div className="flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg">
-                    <p className="text-sm">
-                      {newDeal.status === deals_status[0] && (
-                        <span>
-                          To submit your deal for review, please fill in all the
-                          required fields before submitting the form. Thank you.
-                        </span>
-                      )}
-                      {newDeal.status === deals_status[1] && (
-                        <span>
-                          Congratulations ! Your deal has been submitted but you
-                          can still update it.
-                        </span>
-                      )}
-                    </p>
-                    {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
-                    <div className="flex gap-3">
-                      <Button
-                        loading={loading}
-                        label={'Save'}
-                        onClick={async () => {
-                          await saveDeal();
-                          await saveDealDetails();
-                        }}
-                      />
-                      <Button
-                        disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
-                        loading={loading}
-                        label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
-                        onClick={async () => {
-                          setNewDeal({ ...newDeal, status: 'submitted' });
-                          await saveDeal();
-                          await saveDealDetails();
-                        }}
-                      />
-                    </div>
+              <div className="container fixed bottom-0 bg-white">
+                <div
+                  className={` flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
+                >
+                  <p className="text-sm">
+                    {newDeal.status === deals_status[0] && (
+                      <span>
+                        To submit your deal for review, please fill in all the
+                        required fields before submitting the form. Thank you.
+                      </span>
+                    )}
+                    {newDeal.status === deals_status[1] && (
+                      <span>
+                        Congratulations ! Your deal has been submitted but you
+                        can still update it.
+                      </span>
+                    )}
+                    {newDeal.status === deals_status[2] && (
+                      <Alert color="info">
+                        Your deal is currently under review by our team.
+                      </Alert>
+                    )}
+                    {newDeal.status === deals_status[5] && (
+                      <Alert>
+                        Congratulations ! Your deal has been onboarded.
+                      </Alert>
+                    )}
+                    {newDeal.status === deals_status[6] && (
+                      <Alert>Your deal is closing.</Alert>
+                    )}
+                    {newDeal.status === deals_status[7] && (
+                      <Alert color="info">Your deal has been closed.</Alert>
+                    )}
+                    {newDeal.status === deals_status[8] && (
+                      <div className="py-4">Your deal has been archived.</div>
+                    )}
+                  </p>
+                  {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
+                  <div className={`flex gap-3 ${isDisabled ? 'disabled' : ''}`}>
+                    <Button
+                      loading={loading}
+                      label={'Save'}
+                      onClick={async () => {
+                        await saveDeal();
+                        await saveDealDetails();
+                      }}
+                    />
+                    <Button
+                      disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
+                      loading={loading}
+                      label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
+                      onClick={async () => {
+                        setNewDeal({ ...newDeal, status: 'submitted' });
+                        await saveDeal();
+                        await saveDealDetails();
+                      }}
+                    />
                   </div>
                 </div>
-              )}
+              </div>
               {/* {deal.status === deals_status[4] && (
             <Alert severity="success">
               Congratulations, your deal is onboarded. If you require any
