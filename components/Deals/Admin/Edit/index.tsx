@@ -26,6 +26,7 @@ import {
   deal_product_types,
   deals_status
 } from '@/types/values';
+import { Alert } from '@mui/material';
 import Card from '@mui/material/Card';
 import { useEffect, useState } from 'react';
 
@@ -396,11 +397,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   </div>
                 }
               />
-              <div className="container fixed bottom-0">
+              <div className="container fixed bottom-0 bg-white">
                 <div
-                  className={`${
-                    isDisabled ? 'disabled' : ''
-                  } flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
+                  className={` flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
                 >
                   <p className="text-sm">
                     {newDeal.status === deals_status[0] && (
@@ -415,13 +414,23 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         can still update it.
                       </span>
                     )}
-
                     {newDeal.status === deals_status[4] && (
-                      <span>Your deal has been onboarded.</span>
+                      <Alert>
+                        Congratulations ! Your deal has been onboarded.
+                      </Alert>
+                    )}
+                    {newDeal.status === deals_status[5] && (
+                      <Alert>Your deal is closing.</Alert>
+                    )}
+                    {newDeal.status === deals_status[6] && (
+                      <Alert color="info">Your deal has been closed.</Alert>
+                    )}
+                    {newDeal.status === deals_status[7] && (
+                      <div className="py-4">Your deal has been archived.</div>
                     )}
                   </p>
                   {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
-                  <div className="flex gap-3">
+                  <div className={`flex gap-3 ${isDisabled ? 'disabled' : ''}`}>
                     <Button
                       loading={loading}
                       label={'Save'}
