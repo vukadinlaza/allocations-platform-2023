@@ -44,6 +44,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const [hasIdentity, setHasIdentity] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const { notify } = useAuthContext();
 
@@ -195,6 +196,11 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
   useEffect(() => {
     setNewDeal(formatDeal(deal, false));
+    if (deal.status === deals_status[4]) {
+      // deal is status onboarding
+      setIsDisabled(true);
+      console.log(true);
+    }
     init();
   }, [deal]);
 
@@ -213,7 +219,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
             </Card>
           )}
           {hasIdentity && deal && newDeal && newDealDetails && (
-            <div className="relative flex flex-col w-full">
+            <div className={`relative flex flex-col w-full`}>
               <Step
                 selected={newDeal.organization_id && newDealDetails.agree_msa}
                 component={
@@ -391,7 +397,11 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
               />
               <div className="container fixed bottom-0">
-                <div className="flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg">
+                <div
+                  className={`${
+                    isDisabled ? 'disabled' : ''
+                  } flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
+                >
                   <p className="text-sm">
                     {newDeal.status === deals_status[0] && (
                       <span>
@@ -404,6 +414,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         Congratulations ! Your deal has been submitted but you
                         can still update it.
                       </span>
+                    )}
+
+                    {newDeal.status === deals_status[4] && (
+                      <span>Your deal has been onboarded.</span>
                     )}
                   </p>
                   {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}

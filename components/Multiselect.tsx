@@ -2,14 +2,18 @@
 import { useEffect, useRef, useState } from 'react';
 import Checkbox from './Checkbox';
 
-type MultiSelectProps<T> = {
-  items: T[] | null | undefined;
+type MultiSelectProps = {
+  items: [] | null | undefined;
   onChange: (selected: string[]) => any;
   displayLabel?: (item: any) => string;
   selected?: string[];
 };
 
-function MultiSelect<T>({ items, onChange, selected }: MultiSelectProps<T>) {
+export default function MultiSelect({
+  items,
+  onChange,
+  selected
+}: MultiSelectProps) {
   const componentRef = useRef(null);
   const [selectedItems, setSelectedItems] = useState<Array<any>>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -31,25 +35,21 @@ function MultiSelect<T>({ items, onChange, selected }: MultiSelectProps<T>) {
     };
   }, []);
 
-  useEffect(() => {
-    if (selected && selectedItems.length === 0) {
-      let parsedSelected: any[];
+useEffect(() => {
+  if (selected && selectedItems.length === 0) {
+    let parsedSelected: any[];
 
-      try {
-        // @ts-ignore
-        parsedSelected = JSON.parse(selected);
-      } catch (error) {
-        console.error('Error parsing selected:', error);
-        return;
-      }
-
-      if (Array.isArray(parsedSelected)) {
-        setSelectedItems(parsedSelected);
-      } else {
-        console.error('Invalid selected value:', selected);
-      }
+    try {
+      parsedSelected = Array.isArray(selected)
+        ? selected
+        : JSON.parse(selected);
+      setSelectedItems(parsedSelected);
+    } catch (error) {
+      console.error('Error parsing selected:', error);
+      return;
     }
-  }, [selected, selectedItems]);
+  }
+}, [selected, selectedItems]);
 
   useEffect(() => {
     if (selected !== selectedItems) {
@@ -101,5 +101,3 @@ function MultiSelect<T>({ items, onChange, selected }: MultiSelectProps<T>) {
     </div>
   );
 }
-
-export default MultiSelect;

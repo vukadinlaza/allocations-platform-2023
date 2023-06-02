@@ -11,7 +11,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
         icon={null}
       >
         <h2 className="mt-0">
-          New platform migration update — last update: 06/01 at 14:50 EST
+          New platform migration update — last update: 06/02 at 06:50 EST
         </h2>
         <span>
           Welcome to the new platform! We are in the process of migrating your

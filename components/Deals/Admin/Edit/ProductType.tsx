@@ -13,7 +13,9 @@ export default function DealProductType({
   onChange: (v: any) => any;
   selected?: string;
 }) {
-  const [productType, setProductType] = useState<string | undefined>(undefined);
+  const [productType, setProductType] = useState<string | undefined>(
+    deal_product_types[0]
+  );
 
   useEffect(() => {
     onChange(productType);
@@ -31,7 +33,7 @@ export default function DealProductType({
         <h2 className="text-xl">Product type</h2>
       </header>
       <RadioGroup
-        selected={productType}
+        selected={productType ? productType : null}
         options={deal_product_types.map((x) => ({ value: x, label: x }))}
         onChange={(v: string) => setProductType(v)}
       ></RadioGroup>
