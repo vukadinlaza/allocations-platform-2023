@@ -108,9 +108,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           >
             {betaAlert && (
               <div>
-                <AlertsMigration
-                  showBetaAlert={showBetaAlert}
-                ></AlertsMigration>
+                <AlertsMigration />
               </div>
             )}
             {children}

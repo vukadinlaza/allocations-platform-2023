@@ -1,8 +1,7 @@
 import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
 import { openURL } from '../Table';
 
-export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
+export default function Migration() {
   return (
     <>
       <Alert
@@ -11,7 +10,7 @@ export default function Migration({ showBetaAlert }: { showBetaAlert: any }) {
         icon={null}
       >
         <h2 className="mt-0">
-          New platform migration update — last update: 06/02 at 06:50 EST
+          New platform migration update — last update: 06/02 at 09:50 EST
         </h2>
         <span>
           Welcome to the new platform! We are in the process of migrating your

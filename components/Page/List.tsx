@@ -8,6 +8,7 @@ import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import { orderBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 // components
@@ -17,7 +18,7 @@ import KYC from '@/components/Identity/KYC';
 import NewUserInvestmentEntityIdentity from '@/components/Investments/Module/Entity/New';
 import LoadingPageList from '@/components/Loading/Page';
 import NewOrganization from '@/components/Organizations/New';
-import Table from '@/components/Table';
+import Table, { SortConfig } from '@/components/Table';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,13 +30,16 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function PageList({ data }: { data: any }) {
-  const { header, table } = data;
+  const { header, table, filters } = data;
   const { supabase } = useSupabase();
+
   const [initialData, setInitialData] = useState<Array<any>>([]);
-  const [search, setSearch] = useState<string | null>(null);
-  const [results, setResults] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [sortedBy, setSortedBy] = useState<any>({
+    key: 'created_at',
+    order: 'desc'
+  });
 
   const { user } = useAuthContext();
 
@@ -72,10 +76,6 @@ export default function PageList({ data }: { data: any }) {
         request = request.eq('is_migration', true);
       }
 
-      // if (isMigration) {
-      //   request = request.eq('is_migration', true);
-      // }
-
       let { data: _data }: any = await request;
 
       if (_data && _data.length > 0) {
@@ -100,26 +100,11 @@ export default function PageList({ data }: { data: any }) {
   };
 
   useEffect(() => {
-    if (search && initialData) {
-      const filteredResults = initialData.filter((x) => {
-        const values = Object.values(x);
-        const filteredValues = values.filter((v) => v !== null);
-        if (filteredValues.length > 0) {
-          return filteredValues.some((value: any) => {
-            if (typeof value === 'boolean') {
-              return false;
-            }
-            return value.includes(search ?? '')
-              ? value.includes(search ?? '')
-              : false;
-          });
-        }
-      });
-      setResults(filteredResults);
-      return;
-    }
-    setResults([]);
-  }, [search]);
+    console.log(sortedBy);
+    const sorted = orderBy(initialData, sortedBy.key, [sortedBy.order]);
+    console.log(sorted.map((x: any) => x[sortedBy]));
+    setInitialData(sorted);
+  }, [sortedBy]);
 
   useEffect(() => {
     setInitialData([]);
@@ -263,32 +248,16 @@ export default function PageList({ data }: { data: any }) {
               </header>
             </div>
           )}
-          {/* <Grid container xs={12} className="mb-6">
-            <Grid item xs={8}>
-              <input
-                style={{ maxWidth: '400px' }}
-                type="text"
-                id="outlined-start-adornment"
-                placeholder={'Search...'}
-                onInput={(e: any) => setSearch(e.target.value)}
-              />
-            </Grid>
-          </Grid> */}
           <Grid container>
-            {!search && initialData && (
-              <Table
-                data={initialData}
-                headers={table.headers}
-                table={getTable()}
-              />
-            )}
-            {search && (
-              <Table
-                data={results}
-                headers={table.headers}
-                table={getTable()}
-              />
-            )}
+            <Table
+              handleSort={(obj: SortConfig) => {
+                setSortedBy(obj);
+              }}
+              sortedBy={sortedBy}
+              data={initialData}
+              headers={table.headers}
+              table={getTable()}
+            />
           </Grid>
         </div>
       )}
