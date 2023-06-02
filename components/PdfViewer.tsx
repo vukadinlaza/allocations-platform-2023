@@ -1,9 +1,10 @@
-import { asyncMap } from '@wojtekmaj/async-array-utils';
-import { useEffect, useState, type FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { VariableSizeList as List } from 'react-window';
+import { asyncMap } from '@wojtekmaj/async-array-utils';
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -12,7 +13,7 @@ type PdfViewerProps = { file: File };
 const width = 800;
 const height = width * 1.5;
 
-function Row({ index, style }: { index: number; style: any }) {
+function Row({ index, style }: { index: number, style: any }) {
   function onPageRenderSuccess(page: any) {
     console.log(`Page ${page.pageNumber} rendered`);
   }
@@ -32,8 +33,14 @@ const PdfViewer: FC<PdfViewerProps> = (props) => {
   const { file } = props;
 
   const [pdf, setPdf] = useState<any>(null);
-  const [pageViewports, setPageViewports] = useState<any[] | null>(null);
+  const [pageViewports, setPageViewports] = useState<any[]|null>(null);
 
+
+
+  /**
+   * React-Window cannot get item size using async getter, therefore we need to
+   * calculate them ahead of time.
+   */
   useEffect(() => {
     setPageViewports(null);
 
@@ -46,26 +53,26 @@ const PdfViewer: FC<PdfViewerProps> = (props) => {
         (_, index) => index + 1
       );
 
-      const nextPageViewports: any[] = await asyncMap(
-        pageNumbers,
-        (pageNumber) =>
-          pdf
-            .getPage(pageNumber)
-            .then((page: any) => page.getViewport({ scale: 1 }))
+      const nextPageViewports: any[] = await asyncMap(pageNumbers, (pageNumber) =>
+        pdf.getPage(pageNumber).then((page: any) => page.getViewport({ scale: 1 }))
       );
 
       setPageViewports(nextPageViewports);
+      console.log(nextPageViewports);
     })();
   }, [pdf]);
 
   function onDocumentLoadSuccess(nextPdf: any) {
+    console.log('load success');
     setPdf(nextPdf);
   }
 
   function getPageHeight(pageIndex: number) {
+    console.log('getting page height');
     if (!pageViewports) {
       throw new Error('getPageHeight() called too early');
     }
+    console.log(pageViewports, pageIndex);
 
     const pageViewport = pageViewports[pageIndex];
     const scale = width / pageViewport.width;
@@ -73,22 +80,19 @@ const PdfViewer: FC<PdfViewerProps> = (props) => {
   }
 
   return (
-    <>
-      {pdf && pageViewports && (
-        <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-          <List
-            width={width}
-            height={height}
-            estimatedItemSize={height}
-            itemCount={pdf.numPages}
-            itemSize={getPageHeight}
-          >
-            {Row}
-          </List>
-        </Document>
-      )}
-      {!pdf && <p>No pitch deck available.</p>}
-    </>
+    <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+      {pdf && pageViewports ? (
+        <List
+          width={width}
+          height={height}
+          estimatedItemSize={height}
+          itemCount={pdf.numPages}
+          itemSize={getPageHeight}
+        >
+          {Row}
+        </List>
+      ) : null}
+    </Document>
   );
 };
 
