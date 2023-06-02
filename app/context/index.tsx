@@ -88,6 +88,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     return {
       user,
       notify,
+      setUser,
       setCurrentOrganization: (orgId: string) =>
         setUser((prev: any) => ({ ...prev, currentOrganization: orgId })),
       signOut
@@ -121,10 +122,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 };
 
 export const useAuthContext = () => {
-  const { user, notify, setCurrentOrganization, signOut }: any =
+  const { user, notify, setUser, setCurrentOrganization, signOut }: any =
     useContext(AuthContext);
   return {
     user,
+    setUser,
     notify,
     setCurrentOrganization,
     signOut
