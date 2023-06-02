@@ -1,4 +1,5 @@
 import DealsFunds from '@/components/Deals/Funds';
+import DealsMigrations from '@/components/Deals/Migrations';
 import DealsSPVs from '@/components/Deals/SPVs';
 import { useSupabase } from '@/lib/supabase-provider';
 import Image from 'next/image';
@@ -17,7 +18,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
   const { supabase } = useSupabase();
   const [items, setItems] = useState<any>([]);
   const [active, setActive] = useState('SPVs');
-  const list = [{ key: 'SPVs' }, { key: 'Funds' }];
+  const list = [{ key: 'SPVs' }, { key: 'Funds' }, { key: 'Migrations' }];
 
   const fetchData = async () => {
     try {
@@ -115,6 +116,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
           </div>
           {active === 'SPVs' && <DealsSPVs />}
           {active === 'Funds' && <DealsFunds />}
+          {active === 'Migrations' && <DealsMigrations />}
         </div>
       )}
     </div>

@@ -369,7 +369,7 @@ export const headers_tables = {
     {
       label: 'Postal Code',
       key: 'postal_code'
-    },
+    }
   ],
   migrations: [
     {
@@ -378,9 +378,18 @@ export const headers_tables = {
       type: 'string'
     },
     {
+      label: 'Total raised',
+      key: 'total_raised_amount',
+      type: 'price'
+    },
+    {
       label: 'Status',
       key: 'status',
       type: 'chip'
+    },
+    {
+      label: '',
+      manage: true
     }
   ],
   organizations: [
