@@ -65,41 +65,45 @@ export default function InvestmentsModule({
               selected={identity?.id}
             />
           </div>
-          {identity && (
-            <div>
-              {currentUser.identities.length < 1 && (
-                <div className="p-6 border-t">
-                  <KYC onUpdate={checkPermissions} />
-                </div>
-              )}
-              {currentUser.identities.length > 0 &&
-                (identity.accreditations?.length ?? 0)< 1 && (
+          {identity &&
+            identity.type &&
+            identity.region &&
+            identity.country &&
+            identity.user_email && (
+              <div>
+                {currentUser.identities.length < 1 && (
                   <div className="p-6 border-t">
-                    <InvestmentsAccreditation
-                      identity={identity}
-                      onUpdate={(accreditation: any) => {
-                        setIdentity((prev: any) => ({
-                          ...prev,
-                          accreditations: [accreditation]
-                        }));
-                        checkPermissions();
-                      }}
-                    />
+                    <KYC onUpdate={checkPermissions} />
                   </div>
                 )}
-              {currentUser.identities.length > 0 &&
-                (identity.accreditations?.length ?? 0) > 0 && (
-                  <div className="p-6 border-t">
-                    <InvestmentsSign
-                      currentUser={currentUser}
-                      deal={deal}
-                      identity={identity}
-                      amount={amount}
-                    />
-                  </div>
-                )}
-            </div>
-          )}
+                {currentUser.identities.length > 0 &&
+                  (identity.accreditations?.length ?? 0) < 1 && (
+                    <div className="p-6 border-t">
+                      <InvestmentsAccreditation
+                        identity={identity}
+                        onUpdate={(accreditation: any) => {
+                          setIdentity((prev: any) => ({
+                            ...prev,
+                            accreditations: [accreditation]
+                          }));
+                          checkPermissions();
+                        }}
+                      />
+                    </div>
+                  )}
+                {currentUser.identities.length > 0 &&
+                  (identity.accreditations?.length ?? 0) > 0 && (
+                    <div className="p-6 border-t">
+                      <InvestmentsSign
+                        currentUser={currentUser}
+                        deal={deal}
+                        identity={identity}
+                        amount={amount}
+                      />
+                    </div>
+                  )}
+              </div>
+            )}
         </div>
       )}
     </div>
