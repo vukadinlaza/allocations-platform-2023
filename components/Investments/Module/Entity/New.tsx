@@ -8,15 +8,17 @@ import NewTrust from './Trust';
 
 export default function NewUserInvestmentEntityIdentity({
   onUpdate,
-  hideHeader = false
+  hideHeader = false,
+  identities = []
 }: {
   hideHeader?: boolean;
+  identities?: any[];
   onUpdate: () => any;
 }) {
   const [type, setType] = useState<string>('Myself / Individual');
 
   return (
-    <div className="w-full mb-6">
+    <div className="w-full my-8">
       <div className="grid grid-cols-1 gap-4 pb-4">
         {!hideHeader && (
           <header>
@@ -25,7 +27,9 @@ export default function NewUserInvestmentEntityIdentity({
           </header>
         )}
         <Select
-          items={investment_identity_types}
+          items={investment_identity_types.filter((i) =>
+            identities.length === 0 ? i === 'Myself / Individual' : i
+          )}
           selected={type}
           onChange={(type: string) => setType(type)}
         />

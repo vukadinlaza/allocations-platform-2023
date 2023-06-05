@@ -14,7 +14,7 @@ export default function InvestmentSidebar({
   deal: Deal;
   demo?: boolean;
 }) {
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(deal.minimum_investment || 0);
   const [investing, setInvesting] = useState<boolean>(false);
 
   const dealInformations = [

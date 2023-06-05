@@ -1,10 +1,9 @@
 import Checkbox from '@/components/Checkbox';
 import { getFirstLetter } from '@/lib/utils';
 import { Identity } from '@/types';
-import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewUserInvestmentsEntity from './Entity/New';
 
 export default function InvestmentEntity({
@@ -20,14 +19,20 @@ export default function InvestmentEntity({
 }) {
   const [show, setShow] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (show === true) {
+      onChange(null);
+    }
+  }, [show]);
+
   return (
     <div>
       <header className="mb-6">
-        <Alert severity="info" className="mb-4">
-          We are asking all investors to verify their identity again
-          even if provided on previous investments.
-        </Alert>
         <h2 className="text-lg font-bold">Who is investing?</h2>
+        {/* <Alert severity="info" className="mb-4">
+          We are asking all investors to verify their identity again even if
+          provided on previous investments.
+        </Alert> */}
       </header>
       <main>
         <div>
@@ -51,7 +56,9 @@ export default function InvestmentEntity({
                     {getFirstLetter(identity.legal_name)}
                   </Avatar>
                   <div className="flex flex-col grow">
-                    {identity.legal_name && <span className="mb-0">{identity.legal_name}</span>}
+                    {identity.legal_name && (
+                      <span className="mb-0">{identity.legal_name}</span>
+                    )}
                     {identity.type === 'Individual' && (
                       <span className="text-xs text-gray-600">
                         A {identity.country} {identity.type}
@@ -69,7 +76,12 @@ export default function InvestmentEntity({
             </div>
           )}
         </div>
-        {show && <NewUserInvestmentsEntity onUpdate={onUpdate} />}
+        {show && (
+          <NewUserInvestmentsEntity
+            identities={identities}
+            onUpdate={onUpdate}
+          />
+        )}
         <button className="text info" onClick={() => setShow(true)}>
           <Image
             src={'/plus.svg'}
