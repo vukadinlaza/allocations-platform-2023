@@ -8,12 +8,12 @@ export default function Nav({
   setActive: (v: any) => any;
 }) {
   return (
-    <div className="flex items-center justify-start">
+    <div className="flex items-center justify-start overflow-auto">
       {items &&
         items.map((item: any, index: number) => (
           <div
             key={index}
-            className={`header--menu--item ${
+            className={`header--menu--item whitespace-nowrap ${
               active === item ? 'active' : 'inactive'
             }`}
             onClick={() => setActive(item)}

@@ -100,7 +100,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
                 onClick={() => handleSwitch()}
               />
             </div>
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid gap-1 md:gap-4 md:grid-cols-5">
               {items &&
                 items.map((item: any, index: number) =>
                   item.value > 0 ? <DataCard key={index} item={item} /> : null

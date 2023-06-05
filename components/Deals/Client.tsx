@@ -47,11 +47,11 @@ export default function DealClient({
   }, []);
   return (
     <div className="w-full deal">
-      <div className="container grid grid-cols-6 gap-8 mt-8">
-        <div className="col-span-4">
-          <header className="flex items-start justify-between mb-8">
+      <div className="container grid grid-cols-1 gap-8 mt-8 md:grid-cols-6">
+        <div className="md:col-span-4">
+          <header className="flex items-start justify-between md:mb-8">
             <ItemsHeader data={deal} />
-            <div className="flex items-center gap-4">
+            <div className="items-center hidden gap-4 md:flex">
               {!demo && (
                 <Button
                   loading={false}
@@ -73,7 +73,7 @@ export default function DealClient({
           </header>
           <main className="deal--main">
             <div>
-              <h1 className="mb-8 text-2xl">Pitch deck</h1>
+              <h1 className="mb-4 text-lg md:mb-8 md:text-2xl">Pitch deck</h1>
               {!pitchDeckFileId && 'No pitch deck available.'}
               {pitchDeckFileData && (
                 <div>
@@ -82,7 +82,7 @@ export default function DealClient({
               )}
             </div>
             <div>
-              <h1 className="mb-8 text-2xl">Deal memo</h1>
+              <h1 className="mb-4 text-lg md:mb-8 md:text-2xl">Deal memo</h1>
               {deal.memo && (
                 <div className="deal--description">
                   {ReactHtmlParser(deal.memo)}
@@ -96,7 +96,7 @@ export default function DealClient({
               </div> */}
             </div>
             <div>
-              <h1 className="mb-8 text-2xl">Disclaimer</h1>
+              <h1 className="mb-4 text-lg md:mb-8 md:text-2xl">Disclaimer</h1>
               <p>
                 Allocations, Inc., (Allocations), does not provide investment,
                 tax, or legal advice, and no information provided should be
@@ -122,7 +122,7 @@ export default function DealClient({
             </div>
           </main>
         </div>
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <InvestmentSidebar deal={deal} demo={demo} />
         </div>
       </div>
