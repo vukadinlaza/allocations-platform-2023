@@ -12,7 +12,7 @@ export default function NewUserInvestmentEntityIdentity({
   identities = []
 }: {
   hideHeader?: boolean;
-  identities?: string[];
+  identities?: any[];
   onUpdate: () => any;
 }) {
   const [type, setType] = useState<string>('Myself / Individual');
