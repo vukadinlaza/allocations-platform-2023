@@ -121,8 +121,8 @@ export default function Login() {
                 <header className="mb-6">
                   <h2 className="mb-2 text-xl">Welcome back.</h2>
                   <p>
-                    Sign in to your account. If you are not yet registered, it
-                    will create an account for you.
+                    Sign in utilizing your Allocations email below. If you are
+                    not yet registered, it will create an account for you.
                   </p>
                 </header>
                 <div>
@@ -160,7 +160,7 @@ export default function Login() {
                       loading={loading}
                       label={'Login'}
                     />
-                    <div className="grid gap-4 mt-4 text-center">
+                    {/* <div className="grid gap-4 mt-4 text-center">
                       <p
                         className="text-base font-medium cursor-pointer text-primary-500"
                         onClick={() =>
@@ -173,21 +173,21 @@ export default function Login() {
                           ? 'Login with magic link'
                           : 'Login with password'}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
             )}
             {signup && <Signup />}
           </>
-          <div className="grid gap-4 mt-4 text-center">
+          {/* <div className="grid gap-4 mt-4 text-center">
             <p
               className="text-base font-medium cursor-pointer text-primary-500"
               onClick={() => setSignup(!signup)}
             >
               {!signup ? 'Signup' : 'Login'}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="p-6 text-white md:col-span-3 bg-primary-500 md:p-8 lg:p-12 bg-1">

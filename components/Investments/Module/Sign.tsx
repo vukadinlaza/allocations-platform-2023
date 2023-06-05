@@ -89,7 +89,7 @@ export default function InvestmentSignature({
       legalName: identity.legal_name,
       investmentAmount: amount.toString(),
       investorIsUsBased: identity.country === 'US',
-      investorState: identity.region,
+      investorState: identity.country === 'US' ? identity.region : identity.country,
       investorCountry: identity.country,
       investorAccreditationStatus: currentAccreditation?.value,
       investorEmail: identity.user_email,
@@ -119,8 +119,8 @@ export default function InvestmentSignature({
           level: 'error',
           data: response
         });
-        // notify('Failed to fetch subscription agreement document', false);
-        // throw new Error('Failed to fetch subscription agreement document');
+        notify('Failed to fetch subscription agreement document', false);
+        throw new Error('Failed to fetch subscription agreement document');
       }
       notify('Investment successful !', true);
       return await response.blob();
@@ -131,8 +131,8 @@ export default function InvestmentSignature({
           identity: identity.id
         }
       });
-      // notify('Failed to fetch subscription agreement document', false);
-      // throw new Error('Failed to fetch subscription agreement document');
+      notify('Failed to fetch subscription agreement document', false);
+      throw new Error('Failed to fetch subscription agreement document');
     } finally {
       setLoading(false);
     }
@@ -161,7 +161,8 @@ export default function InvestmentSignature({
         .single();
 
       if (data) {
-        await getSubscriptionAgreementDocument(data.id);
+       await getSubscriptionAgreementDocument(data.id);
+        // if error, popup here 
         router.push(`/investments/${data.id}`);
       }
     } catch (error) {
