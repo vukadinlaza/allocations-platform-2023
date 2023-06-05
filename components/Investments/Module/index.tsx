@@ -66,6 +66,15 @@ export default function InvestmentsModule({
             />
           </div>
           {identity &&
+            (!identity.type ||
+              !identity.region ||
+              !identity.country ||
+              !identity.user_email) && (
+              <div className="p-6 border-t">
+                <KYC onUpdate={checkPermissions} uncomplete={true} />
+              </div>
+            )}
+          {identity &&
             identity.type &&
             identity.region &&
             identity.country &&

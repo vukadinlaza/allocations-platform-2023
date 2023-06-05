@@ -100,9 +100,7 @@ export default function PageList({ data }: { data: any }) {
   };
 
   useEffect(() => {
-    console.log(sortedBy);
     const sorted = orderBy(initialData, sortedBy.key, [sortedBy.order]);
-    console.log(sorted.map((x: any) => x[sortedBy]));
     setInitialData(sorted);
   }, [sortedBy]);
 
@@ -215,7 +213,6 @@ export default function PageList({ data }: { data: any }) {
                               />
                             );
                           }
-                          return <></>;
                         })}
                     </div>
                   </Card>

@@ -6,7 +6,6 @@ import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Feedback from './Feedback';
 import Logo from './Logo';
 import MenuAvatar from './MenuAvatar';
 import MissingData from './MissingData';
@@ -62,7 +61,7 @@ export default function Header({
           )}
         </div>
       </div>
-      <div className="flex items-center justify-between w-full px-4 py-3">
+      <div className="flex items-center justify-between w-full px-4 py-3 overflow-auto">
         {user && (
           <div className="flex items-center justify-start">
             {navigation.map((item) => (
