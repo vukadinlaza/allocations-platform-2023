@@ -28,10 +28,10 @@ export default function KYC({
     }
   };
   return (
-    <div className="kyc">
-      <div className="flex flex-col mb-8">
+    <div className="p-4 border rounded kyc bg-primary-500/10 border-primary-500">
+      <div className="flex flex-col mb-4">
         <h2 className="text-lg font-bold">Personal information</h2>
-        <p className="mb-4 text-sm">
+        <p className="text-sm">
           Required by United Stated banking laws. This information is{' '}
           <span className="text-primary-500">kept secure</span>.
         </p>

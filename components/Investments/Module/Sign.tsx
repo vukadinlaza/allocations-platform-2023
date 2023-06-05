@@ -56,6 +56,8 @@ export default function InvestmentSignature({
   ) => {
     if (!currentUser && !identity && !investmentId) return;
 
+    // TODO : to remove users_personal_identities
+
     const { users_personal_identities } = currentUser;
     const { accreditations } = identity;
 
@@ -89,7 +91,8 @@ export default function InvestmentSignature({
       legalName: identity.legal_name,
       investmentAmount: amount.toString(),
       investorIsUsBased: identity.country === 'US',
-      investorState: identity.country === 'US' ? identity.region : identity.country,
+      investorState:
+        identity.country === 'US' ? identity.region : identity.country,
       investorCountry: identity.country,
       investorAccreditationStatus: currentAccreditation?.value,
       investorEmail: identity.user_email,
@@ -161,8 +164,8 @@ export default function InvestmentSignature({
         .single();
 
       if (data) {
-       await getSubscriptionAgreementDocument(data.id);
-        // if error, popup here 
+        await getSubscriptionAgreementDocument(data.id);
+        // if error, popup here
         router.push(`/investments/${data.id}`);
       }
     } catch (error) {

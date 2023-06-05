@@ -2,18 +2,16 @@ import { countries } from '@/app/config';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
+import { IdentityList } from '@/components/Identity/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
-import { useEffect, useState } from 'react';
-import { IdentityList } from '@/components/Identity/List';
 import * as Sentry from '@sentry/nextjs';
-import Alert from '@mui/material/Alert';
-import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
 
 export default function NewCompany({
-                                     type,
-                                     onUpdate
-                                   }: {
+  type,
+  onUpdate
+}: {
   type: string;
   onUpdate: () => void;
 }) {
@@ -23,7 +21,9 @@ export default function NewCompany({
   const [agree, setAgree] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<string | undefined>();
+  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<
+    string | undefined
+  >();
 
   const model: Field[] = [
     {
@@ -112,13 +112,17 @@ export default function NewCompany({
           entity_type: type === 'Partnership' ? 'LP' : type,
           user_email: session.user.email
         })
-        .select().single();
+        .select()
+        .single();
       if (!data) {
         throw new Error('Failed to create identity');
       }
-      await supabase.from('identities').update({
-        parent_identity_id: data.id
-      }).eq('id', selectedIndividualIdentity);
+      await supabase
+        .from('identities')
+        .update({
+          parent_identity_id: data.id
+        })
+        .eq('id', selectedIndividualIdentity);
 
       if (data) {
         onUpdate();
@@ -133,7 +137,9 @@ export default function NewCompany({
 
   useEffect(() => {
     if (!newCompany) return;
-    const modelKeys = model.filter(model => !['address_line_2'].includes(model.key as string)).map((model) => model.key);
+    const modelKeys = model
+      .filter((model) => !['address_line_2'].includes(model.key as string))
+      .map((model) => model.key);
     const newCompanyKeys = Object.keys(newCompany);
 
     const isAllKeysPresent = modelKeys.every((key) => {
@@ -144,13 +150,14 @@ export default function NewCompany({
       if (key) return newCompany[key] && newCompany[key].length > 1;
     });
 
-    if (isAllKeysPresent && hasAllValues && agree && selectedIndividualIdentity) return setDisabled(false);
+    if (isAllKeysPresent && hasAllValues && agree && selectedIndividualIdentity)
+      return setDisabled(false);
 
     setDisabled(true);
   }, [agree, newCompany]);
 
   return (
-    <div className='new--company'>
+    <div className="new--company">
       <div>
         <Checkbox
           selected={agree}
@@ -158,40 +165,52 @@ export default function NewCompany({
           label={`I am an authorized signatory for this entity.`}
         />
       </div>
-      <div>
-        <div className={'mb-2'}>
-          <Typography fontWeight={'bold'}>Select your signatory identity from below to use with this
-            entity:</Typography>
-          <Alert severity={'info'}>If the identity is not listed, <i>create your individual identity first</i>.</Alert>
-        </div>
-        <IdentityList type={'Individual'} selectedId={selectedIndividualIdentity}
-                      onSelect={setSelectedIndividualIdentity} />
-      </div>
-      {selectedIndividualIdentity && (<>
-        <FormBuilder
-          emit={true}
-          model={model}
-          onSubmit={(v) => setNewCompany((prev: any) => ({ ...prev, ...v }))}
-        />
-        <ul className='my-6 text-xs text-gray-600 list-disc list-inside'>
-          <li className='mb-2'>
-            The first time you invest with the multiple-owner entity, you will be
-            asked to submit additional verifying documents to comply with the U.S.
-            financial laws.
-          </li>
-          <li className='mb-2'>
-            The minimum investment for entities with multiple owners is $5,000.
-          </li>
-        </ul>
-        <div>
-          <Button
-            disabled={disabled}
-            loading={loading}
-            label='Save investment entity'
-            onClick={saveNewEntity}
-          />
-        </div>
-      </>)}
+      {agree && (
+        <>
+          <div>
+            <div className={'mb-2'}>
+              <h2 className="mb-2">
+                Please choose your designated signatory identity
+              </h2>
+            </div>
+            <IdentityList
+              type={'Individual'}
+              selectedId={selectedIndividualIdentity}
+              onSelect={setSelectedIndividualIdentity}
+            />
+          </div>
+          {selectedIndividualIdentity && (
+            <>
+              <FormBuilder
+                emit={true}
+                model={model}
+                onSubmit={(v) =>
+                  setNewCompany((prev: any) => ({ ...prev, ...v }))
+                }
+              />
+              <ul className="my-6 text-xs text-gray-600 list-disc list-inside">
+                <li className="mb-2">
+                  The first time you invest with the multiple-owner entity, you
+                  will be asked to submit additional verifying documents to
+                  comply with the U.S. financial laws.
+                </li>
+                <li className="mb-2">
+                  The minimum investment for entities with multiple owners is
+                  $5,000.
+                </li>
+              </ul>
+              <div>
+                <Button
+                  disabled={disabled}
+                  loading={loading}
+                  label="Save investment entity"
+                  onClick={saveNewEntity}
+                />
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }

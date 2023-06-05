@@ -194,6 +194,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   };
 
   useEffect(() => {
+    // TODO: remove users_personal_identities
     if (user && user.users_personal_identities) {
       setHasIdentity(user.users_personal_identities.length > 0);
     }

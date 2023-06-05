@@ -38,17 +38,11 @@ export default function SupabaseProvider({
       .from('users')
       .select(
         `*,
-        users_investment_entities (
+        identities (
           *,
           accreditations (
             *
           )
-        ),
-        users_personal_identities (
-          *
-        ),
-        identities (
-          *
         ),
         organizations_roles (
           *
