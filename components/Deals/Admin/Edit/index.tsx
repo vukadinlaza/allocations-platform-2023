@@ -103,7 +103,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     };
   };
 
-  const saveDeal = async () => {
+  const saveDeal = async (submitted = false) => {
     if (!deal) return;
     try {
       setLoading(true);
@@ -120,6 +120,10 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         agree_costs,
         ...dealData
       } = newDeal;
+
+      if (submitted) {
+        dealData.status = 'submitted';
+      }
 
       const { data: _deal, error: _dealError } = await supabase
         .from('deals')
@@ -450,8 +454,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       loading={loading}
                       label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
                       onClick={async () => {
-                        setNewDeal({ ...newDeal, status: 'submitted' });
-                        await saveDeal();
+                        await saveDeal(true);
                         await saveDealDetails();
                       }}
                     />
