@@ -23,8 +23,6 @@ export default function DealID() {
     try {
       setLoading(true);
 
-      // you can't use private_deals view here
-
       const { data: _deal, error } = await supabase
         .from('deals')
         .select('*')

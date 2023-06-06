@@ -55,7 +55,7 @@ export default function InvestmentsModule({
       )}
       {!loading && currentUser && (
         <div>
-          <div className="p-6 border-t">
+          <div className="p-6">
             <InvestmentIdentity
               identities={currentUser.identities}
               onChange={(v) => {
