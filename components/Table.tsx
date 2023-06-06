@@ -72,7 +72,7 @@ export default function TableComponent({
               : 0}
           </>
         )}
-        {column.type === 'count' && <>{column.key.split('.').reduce((o,i)=> o[i], item)}</>}
+        {column.type === 'count' && <>{column.key.split('.').reduce((o: any, i: string)=> o[i], item)}</>}
         {column.type === 'price' && <Price price={item[column.key]} />}
         {(column.type === 'string' || column.type === 'number') && (
           <span>{item[column.key] ? item[column.key] : no_info}</span>
