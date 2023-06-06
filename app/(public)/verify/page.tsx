@@ -11,7 +11,7 @@ export default function Verify({ searchParams }: { searchParams: any }) {
     if (typeof window !== undefined && searchParams.token) {
       setTimeout(() => {
         router.push(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/verify?token=${searchParams.token}&type=magiclink&redirect_to=https://dashboard.allocations.com`
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/verify?token=${searchParams.token}&type=magiclink&redirect_to=${window.location.origin}`
         );
       }, 500);
     }
