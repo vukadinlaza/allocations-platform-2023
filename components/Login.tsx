@@ -1,6 +1,6 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import { useSupabase } from '@/lib/supabase-provider';
 import Alert from '@mui/material/Alert';
 import Image from 'next/image';

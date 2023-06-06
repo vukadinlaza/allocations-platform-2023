@@ -1,5 +1,5 @@
 'use client';
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import DealItem from '@/components/Deals/Item';

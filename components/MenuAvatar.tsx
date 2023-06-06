@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useAuthContext } from '../app/context';
+import { useAuthContext } from '../app/(private)/context';
 import { getFirstLetter } from '@/lib/utils';
 
 interface MenuItem {

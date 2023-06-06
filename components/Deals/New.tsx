@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import Button from '@/components/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Organization } from '@/types';

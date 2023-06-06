@@ -1,5 +1,5 @@
 'use client';
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import Checkbox from '@/components/Checkbox';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';

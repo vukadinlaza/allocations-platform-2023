@@ -1,5 +1,5 @@
 'use client';
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import NewAsset from '@/components/Assets/New';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';

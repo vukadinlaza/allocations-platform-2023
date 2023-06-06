@@ -1,4 +1,4 @@
-import { countries } from '@/app/config';
+import { countries } from '@/app/(private)/config';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';

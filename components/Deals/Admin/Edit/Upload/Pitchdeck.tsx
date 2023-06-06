@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import Upload from '@/components/Upload';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';

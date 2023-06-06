@@ -2,7 +2,7 @@
 import PageList from '@/components/Page/List';
 import { PageListData } from '@/types';
 import Card from '@mui/material/Card';
-import { headers_tables } from '@/app/config';
+import { headers_tables } from '@/app/(private)/config';
 
 export default function Migrations() {
   const data: PageListData = {

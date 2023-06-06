@@ -1,5 +1,5 @@
-import { form_models } from '@/app/config';
-import { useAuthContext } from '@/app/context';
+import { form_models } from '@/app/(private)/config';
+import { useAuthContext } from 'app/(private)/context';
 import FormBuilder from '@/components/FormBuilder';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';

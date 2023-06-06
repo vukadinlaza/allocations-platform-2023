@@ -1,7 +1,7 @@
 'use client';
 
-import { navigation } from '@/app/config';
-import { useAuthContext } from '@/app/context';
+import { navigation } from '@/app/(private)/config';
+import { useAuthContext } from 'app/(private)/context';
 import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import Link from 'next/link';

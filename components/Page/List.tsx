@@ -1,6 +1,6 @@
 'use client';
 // libs
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from 'app/(private)/context';
 import { useSupabase } from '@/lib/supabase-provider';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';

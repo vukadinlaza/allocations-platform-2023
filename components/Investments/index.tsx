@@ -1,5 +1,5 @@
 'use client';
-import { headers_tables } from '@/app/config';
+import { headers_tables } from '@/app/(private)/config';
 import PageList from '@/components/Page/List';
 import { PageListData } from '@/types';
 import Card from '@mui/material/Card';

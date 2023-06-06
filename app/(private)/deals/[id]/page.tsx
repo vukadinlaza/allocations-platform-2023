@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthContext } from '@/app/context';
+import { useAuthContext } from '@/app/(private)/context';
 import AdminDeal from '@/components/Deals/Admin';
 import ClientDeal from '@/components/Deals/Client';
 import LoadingDeal from '@/components/Loading/Deal';
