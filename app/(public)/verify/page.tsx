@@ -6,7 +6,7 @@ export default function Verify({ searchParams }: { searchParams: any }) {
   const router = useRouter();
 
   useEffect(() => {
-    if(searchParams.token) {
+    if(window && searchParams.token) {
       console.log('Got token')
       setTimeout(() => {
         console.log('timeout handled');
@@ -15,7 +15,7 @@ export default function Verify({ searchParams }: { searchParams: any }) {
         );
       }, 1000);
     }
-  }, []);
+  }, [window, searchParams]);
 
   return <>
     Validating Login...
