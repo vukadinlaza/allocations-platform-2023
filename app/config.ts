@@ -405,8 +405,8 @@ export const headers_tables = {
     },
     {
       label: 'Total deals',
-      key: 'total_raised_amount',
-      type: 'price'
+      key: 'deals.0.count',
+      type: 'count'
     }
   ],
   personal_identities: [

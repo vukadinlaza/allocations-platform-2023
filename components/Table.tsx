@@ -44,7 +44,7 @@ export default function TableComponent({
     if (!item || !column || !column.key) {
       return no_info;
     }
-
+    
     return (
       <>
         {column.key === 'address' && (
@@ -72,6 +72,7 @@ export default function TableComponent({
               : 0}
           </>
         )}
+        {column.type === 'count' && <>{column.key.split('.').reduce((o,i)=> o[i], item)}</>}
         {column.type === 'price' && <Price price={item[column.key]} />}
         {(column.type === 'string' || column.type === 'number') && (
           <span>{item[column.key] ? item[column.key] : no_info}</span>
