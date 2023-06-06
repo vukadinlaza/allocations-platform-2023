@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Typography from '@mui/material/Typography';
 
 export default function Verify({ searchParams }: { searchParams: any }) {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function Verify({ searchParams }: { searchParams: any }) {
   }, [searchParams]);
 
   return <>
-    Validating Login... {searchParams.token}
+    Validating Login...
+    <Typography sx={{color: 'white'}}>{searchParams.token}</Typography>
   </>;
 }
