@@ -9,9 +9,7 @@ export default function Verify({ searchParams }: { searchParams: any }) {
 
   useEffect(() => {
     if (typeof window !== undefined && searchParams.token) {
-      console.log('Got token');
       setTimeout(() => {
-        console.log('timeout handled');
         router.push(
           `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/verify?token=${searchParams.token}&type=magiclink&redirect_to=https://dashboard.allocations.com`
         );
