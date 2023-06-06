@@ -28,7 +28,7 @@ export default function InvestmentEntity({
   return (
     <div>
       <header className="mb-6">
-        <h2 className="text-lg font-bold">Who is investing?</h2>
+        <h2 className="text-lg font-bold">Select an identity to invest</h2>
         {/* <Alert severity="info" className="mb-4">
           We are asking all investors to verify their identity again even if
           provided on previous investments.
