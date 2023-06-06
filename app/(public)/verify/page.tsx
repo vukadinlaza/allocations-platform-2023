@@ -18,6 +18,6 @@ export default function Verify({ searchParams }: { searchParams: any }) {
   }, []);
 
   return <>
-    Validating Login... {searchParams.token}
+    Validating Login...
   </>;
 }
