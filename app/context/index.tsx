@@ -13,10 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
-  // data
   const { supabase, fetchUser } = useSupabase();
   const [user, setUser] = useState<any>(null);
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [betaAlert, showBetaAlert] = useState(true);
   const [expand, setExpand] = useState(false);
