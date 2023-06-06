@@ -43,10 +43,7 @@ export default function Login() {
       setLoading(true);
 
       let { data } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: window.location.href
-        }
+        email
       });
 
       if (data) {

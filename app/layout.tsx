@@ -2,6 +2,7 @@
 import Maintenance from '@/components/Maintenance';
 import SupabaseProvider from '@/lib/supabase-provider';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import React from 'react';
 import { AuthContextProvider } from './context';
@@ -14,6 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const maintenance = false;
+  const isVerifyRoute = usePathname() === '/verify';
+
   return (
     <html lang="en">
       <head>
@@ -32,9 +35,14 @@ export default function RootLayout({
         <body className="relative min-h-screen bg-gray-50">
           {maintenance && <Maintenance />}
           {!maintenance && (
-            <SupabaseProvider>
-              <AuthContextProvider>{children}</AuthContextProvider>
-            </SupabaseProvider>
+            <div>
+              {!isVerifyRoute && (
+                <SupabaseProvider>
+                  <AuthContextProvider>{children}</AuthContextProvider>
+                </SupabaseProvider>
+              )}
+              {isVerifyRoute && children}
+            </div>
           )}
         </body>
       </ThemeProvider>
