@@ -17,12 +17,9 @@ export default function Funds() {
       ]
     },
     table: {
-      element: 'organization',
       headers: headers_tables.organizations,
-      origin: 'organizations_roles',
-      query: '*, organizations (*, deals(count))',
-      target: 'organizations',
-      to_display: 'organizations'
+      origin: 'organizations',
+      query: '*, deals(count)'
     }
   };
 
