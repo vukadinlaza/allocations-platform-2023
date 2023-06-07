@@ -176,10 +176,9 @@ export default function InvestmentSignature({
         const response: any = await getSubscriptionAgreementDocument(data.id);
         if (response.type) {
           // TODO: delete the investment (api side)
-          await supabase.from('investments').delete().eq('id', data.id);
-
-          notify(response.message, false);
-          throw new Error(response.message);
+          // await supabase.from('investments').delete().eq('id', data.id);
+          // notify(response.message, false);
+          // throw new Error(response.message);
         }
         router.push(`/investments/${data.id}`);
       }
