@@ -11,10 +11,11 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   let headers = [
-    // {
-    //   label: 'Name',
-    //   key: 'name'
-    // },
+    {
+      label: 'Name',
+      key: 'name',
+      type: 'string'
+    },
     {
       label: 'E-mail',
       key: 'email',
@@ -62,7 +63,7 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
               : null,
             status: invest.status,
             subscription_amount: invest.subscription_amount,
-            documents: 'None'
+            capital_wired_amount: invest.capital_wired_amount
           }))
         );
       }
@@ -72,7 +73,7 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchInvestors();
   }, []);
