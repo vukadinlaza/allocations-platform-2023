@@ -11,10 +11,10 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   let headers = [
-    {
-      label: 'Name',
-      key: 'name'
-    },
+    // {
+    //   label: 'Name',
+    //   key: 'name'
+    // },
     {
       label: 'E-mail',
       key: 'email',
