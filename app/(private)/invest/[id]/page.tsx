@@ -98,7 +98,7 @@ export default function InvestDealID() {
                     <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
                     <input
                       value={amount || 0}
-                      type="number"
+                      type="text"
                       className="w-full bg-transparent outline-0 ring-0"
                       placeholder="0"
                       onChange={(e: any) => setAmount(parseInt(e.target.value))}
@@ -110,14 +110,14 @@ export default function InvestDealID() {
                   </p>
                 </div>
               </div>
-              {amount < deal.minimum_investment && (
-                <div className='p-6'>
+              {amount < 1 && (
+                <div className="p-6">
                   <Alert severity="warning">
                     You cannot invest less than the minimum amount.
                   </Alert>
                 </div>
               )}
-              {amount >= deal.minimum_investment && (
+              {amount >= 1 && (
                 <InvestmentsModule deal={deal} amount={amount} />
               )}
             </Card>
