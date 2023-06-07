@@ -1,5 +1,4 @@
 'use client';
-import { useAuthContext } from 'app/(private)/context';
 import NewAsset from '@/components/Assets/New';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
@@ -28,7 +27,9 @@ import {
 } from '@/types/values';
 import { Alert } from '@mui/material';
 import Card from '@mui/material/Card';
+import { useAuthContext } from 'app/(private)/context';
 import { useEffect, useState } from 'react';
+import DealMemo from './Memo';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
@@ -284,6 +285,17 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                     deal={newDeal}
                     onChange={(_deal: any) => {
                       setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                    }}
+                  />
+                }
+              />
+              <Step
+                selected={newDeal.memo}
+                component={
+                  <DealMemo
+                    deal={newDeal}
+                    onChange={(_memo: any) => {
+                      setNewDeal((prev: any) => ({ ...prev, memo: _memo }));
                     }}
                   />
                 }
