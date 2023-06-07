@@ -45,8 +45,7 @@ export const asset_security_type = [
 ];
 
 export const deal_advisors_type = [
-  'Allocations Advisers LLC',
-  'Sharding Advisers LLC',
+  'Allocations ERA entity',
   'Not applicable',
   'Other'
 ];
@@ -58,7 +57,12 @@ export const deal_banking_providers = [
 
 export const deal_master_series = ['Allocations', 'Custom'];
 
-export const deal_offering_types = ['506b', '506c', '3c1', '3c7'];
+export const deal_offering_types = ['506b', '506c'];
+
+export const deal_investor_types = [
+  'Qualified Purchasers (3c7)',
+  'Accredited Investors (3c1)'
+];
 
 export const deal_legal_documents = [
   'Allocations Templates',

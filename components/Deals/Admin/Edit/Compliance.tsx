@@ -1,7 +1,11 @@
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 
-import { deal_advisors_type, deal_offering_types } from '@/types/values';
+import {
+  deal_advisors_type,
+  deal_investor_types,
+  deal_offering_types
+} from '@/types/values';
 
 export default function DealCompliance({
   deal,
@@ -17,6 +21,13 @@ export default function DealCompliance({
       type: 'select',
       show: true,
       items: deal_offering_types
+    },
+    {
+      label: 'Investor type',
+      key: 'investor_type',
+      type: 'select',
+      show: true,
+      items: deal_investor_types
     },
     {
       label: 'Advisor',
@@ -38,6 +49,7 @@ export default function DealCompliance({
         onSubmit={(v: any) => {
           onChange({
             offering_type: v.offering_type,
+            investor_type: v.investor_type,
             advisor_type: v.advisor_type
           });
         }}

@@ -351,17 +351,34 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               <Step
                 selected={newDeal.offering_type && newDealDetails?.advisor_type}
                 component={
-                  <DealCompliance
-                    deal={{ ...newDeal, ...newDealDetails }}
-                    onChange={(_mergedDeal: any) => {
-                      const { offering_type, advisor_type } = _mergedDeal;
-                      setNewDeal((prev: any) => ({ ...prev, offering_type }));
-                      setNewDealDetails((prev: any) => ({
-                        ...prev,
-                        advisor_type
-                      }));
-                    }}
-                  />
+                  <div className="w-full">
+                    <DealCompliance
+                      deal={{ ...newDeal, ...newDealDetails }}
+                      onChange={(_mergedDeal: any) => {
+                        const { offering_type, advisor_type, investor_type } =
+                          _mergedDeal;
+                        setNewDeal((prev: any) => ({ ...prev, offering_type }));
+                        setNewDealDetails((prev: any) => ({
+                          ...prev,
+                          advisor_type,
+                          investor_type
+                        }));
+                      }}
+                    />
+                    {newDealDetails.advisor_type === 'Other' && (
+                      <input
+                        type="text"
+                        placeholder={'Name of your advisor...'}
+                        value={newDealDetails.advisor_type_note}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setNewDealDetails((prev: any) => ({
+                            ...prev,
+                            advisor_type_note: e.target.value
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
                 }
               />
               <Step
