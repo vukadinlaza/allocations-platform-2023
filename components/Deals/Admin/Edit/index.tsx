@@ -234,13 +234,22 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   <div className="w-full">
                     <div className="w-full mb-4">
                       <SelectOrganization
-                        selected={newDeal.organization_id}
+                        deal={{ ...newDeal, ...newDealDetails }}
                         loading={loading}
-                        onChange={(org: any) => {
-                          setNewDeal((prev: any) => ({
-                            ...prev,
-                            organization_id: org?.id
-                          }));
+                        onChange={(data: any) => {
+                          const { organization_id, fund_manager_email } = data;
+                          if (organization_id) {
+                            setNewDeal((prev: any) => ({
+                              ...prev,
+                              organization_id
+                            }));
+                          }
+                          if (fund_manager_email) {
+                            setNewDealDetails((prev: any) => ({
+                              ...prev,
+                              fund_manager_email
+                            }));
+                          }
                         }}
                       />
                     </div>
@@ -254,10 +263,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       }
                       label={`I agree to the Master Services agreement.`}
                     />
-                    <Button
-                      onClick={downloadMSA}
-                      label={'Download Master Services Agreement'}
-                    />
+                    <p onClick={downloadMSA} className="cta">
+                      Download Master Services Agreement
+                    </p>
                   </div>
                 }
               />
@@ -384,12 +392,30 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               <Step
                 selected={newDealDetails.banking_provider}
                 component={
-                  <DealBanking
-                    deal={newDealDetails}
-                    onChange={(_deal: any) => {
-                      setNewDealDetails((prev: any) => ({ ...prev, ..._deal }));
-                    }}
-                  />
+                  <div className="w-full">
+                    <DealBanking
+                      deal={newDealDetails}
+                      onChange={(_deal: any) => {
+                        setNewDealDetails((prev: any) => ({
+                          ...prev,
+                          ..._deal
+                        }));
+                      }}
+                    />
+                    {newDealDetails.banking_provider === 'Custom' && (
+                      <input
+                        type="text"
+                        placeholder={'Name of your banking provider...'}
+                        value={newDealDetails.banking_provider_note}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setNewDealDetails((prev: any) => ({
+                            ...prev,
+                            banking_provider_note: e.target.value
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
                 }
               />
               <Step

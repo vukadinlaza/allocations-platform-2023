@@ -1,7 +1,7 @@
 type SelectProps<T> = {
   items: T[] | null | undefined;
   onChange: (selected: string) => any;
-  displayLabel?: (item: any) => string;
+  displayLabel?: (item: any) => any;
   selected?: any;
 };
 
@@ -20,7 +20,7 @@ function Select<T>({
     <select
       value={selected}
       onChange={handleSelectChange}
-      className="capitalize bg-white"
+      className={`bg-white ${displayLabel ? 'lowercase' : 'capitalize'}`}
     >
       {!selected && <option value="">Select an option</option>}
       {items &&

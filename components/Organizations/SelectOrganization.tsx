@@ -2,7 +2,6 @@ import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Organization } from '@/types';
-import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewOrganization from './New';
@@ -10,17 +9,17 @@ import NewOrganization from './New';
 export default function SelectOrganization({
   onChange,
   loading,
-  selected
+  deal
 }: {
   loading: boolean;
-  onChange: (o: Organization | undefined) => any;
-  selected?: string;
+  onChange: (v: any) => void;
+  deal?: any;
 }) {
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [selectedOrganization, setSelectedOrganization] = useState<
-    string | null
-  >('');
   const [create, setCreate] = useState<boolean>(false);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [selectedManager, setSelectedManager] = useState<any>(undefined);
+  const [selectedOrganization, setSelectedOrganization] =
+    useState<any>(undefined);
   const [_loading, setLoading] = useState<boolean>(true);
 
   const { fetchOrganizations } = useSupabase();
@@ -40,21 +39,52 @@ export default function SelectOrganization({
     }
   };
 
+  const findManager = (uuid: string) => {
+    if (!uuid && !selectedOrganization) return;
+    const members = selectedOrganization.organizations_roles.map(
+      (o: any) => o.users
+    );
+    return members.find((m: any) => m.id === uuid);
+  };
+
   useEffect(() => {
     getOrganizations();
   }, []);
 
   useEffect(() => {
-    if (selected) {
-      const found = organizations?.find((o) => o.id === selected);
-      setSelectedOrganization(found?.name || '');
+    if (deal) {
+      const organizationFound = organizations?.find(
+        (o) => o.id === deal.organization_id
+      );
+      setSelectedOrganization(organizationFound);
+      if (selectedOrganization) {
+        console.log(selectedOrganization);
+      }
     }
-  }, [selected, organizations]);
+  }, [deal, organizations]);
 
   useEffect(() => {
-    const found = organizations?.find((o) => o.name === selectedOrganization);
-    onChange(found);
+    if (selectedOrganization) {
+      onChange({
+        organization_id: selectedOrganization.id
+      });
+    }
   }, [selectedOrganization]);
+
+  useEffect(() => {
+    // if (selectedOrganization && selectedManager) {
+    //   const members = selectedOrganization.organizations_roles.map(
+    //     (o: any) => o.users
+    //   );
+    //   const found = members?.find((m: any) => {
+    //     return m.email === selectedManager;
+    //   });
+    //   console.log(found.id);
+    //   onChange({
+    //     fund_manager_email: found.id
+    //   });
+    // }
+  }, [selectedManager]);
 
   return (
     <div className="w-full">
@@ -64,41 +94,63 @@ export default function SelectOrganization({
       </header>
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
-        <Select
-          selected={selectedOrganization}
-          items={organizations.map((o) => o.name)}
-          onChange={(str: string) => {
-            setSelectedOrganization(str);
+        <div className="w-full grid-cols-12 gap-4 my-4 md:grid">
+          <div className="col-span-12 mb-4 md:col-span-10 md:mb-0">
+            <Select
+              selected={selectedOrganization?.name}
+              items={organizations.map((o) => o.name)}
+              onChange={(str: string) => {
+                setSelectedOrganization(
+                  organizations.find((o) => o.name === str)
+                );
+              }}
+            />
+          </div>
+          <div className="col-span-12 md:col-span-2">
+            <Button
+              icon={
+                <Image
+                  src={'/plus.svg'}
+                  alt="plus"
+                  className="opacity-50 w-18 h-18"
+                  width={18}
+                  height={18}
+                />
+              }
+              color="info whitespace-nowrap"
+              loading={loading || _loading}
+              label="New organization"
+              onClick={() => setCreate(!create)}
+            />
+          </div>
+        </div>
+      )}
+      {create && (
+        <NewOrganization
+          onClose={() => setCreate(false)}
+          onCreate={() => {
+            getOrganizations();
+            setCreate(false);
           }}
         />
       )}
-      {create && (
-        <Card variant="outlined" className="items-start my-4 card">
-          <NewOrganization
-            onCreate={() => {
-              getOrganizations();
-              setCreate(false);
+      {/* {selectedOrganization && (
+        <div>
+          <p className="mb-4">Select a manager:</p>
+          <Select
+            selected={selectedManager}
+            items={selectedOrganization.organizations_roles?.map((o: any) => ({
+              ...o.users
+            }))}
+            displayLabel={(m: any) => (
+              <span className="lowercase">{m.email}</span>
+            )}
+            onChange={(manager_email: any) => {
+              setSelectedManager(manager_email);
             }}
           />
-        </Card>
-      )}
-      <div className="flex items-center gap-4 mt-4">
-        <Button
-          icon={
-            <Image
-              src={'/plus.svg'}
-              alt="plus"
-              className="opacity-50"
-              width={18}
-              height={18}
-            />
-          }
-          color="info"
-          loading={loading || _loading}
-          label="New organization"
-          onClick={() => setCreate(!create)}
-        />
-      </div>
+        </div>
+      )} */}
     </div>
   );
 }

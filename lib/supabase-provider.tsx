@@ -56,7 +56,7 @@ export default function SupabaseProvider({
   const fetchOrganizations = async () => {
     return supabase
       .from('organizations')
-      .select(`*`)
+      .select(`*, organizations_roles(*, users(*))`)
       .order('name', { ascending: false });
   };
 
