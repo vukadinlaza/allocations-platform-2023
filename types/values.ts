@@ -62,7 +62,8 @@ export const deal_offering_types = ['506b', '506c', '3c1', '3c7'];
 
 export const deal_legal_documents = [
   'Allocations Templates',
-  'Allocation Redlined Template',
+  'Allocation Redlined Docs',
+  'Allocations-approved Custom Docs',
   'New Custom Documents'
 ];
 

@@ -41,12 +41,12 @@ export default function InvestmentSidebar({
       defaultValue: 'No offering type.',
       type: 'string'
     },
-    // {
-    //   label: 'Management fee frequency',
-    //   value: deal.management_fee_frequency,
-    //   defaultValue: 'No fee frequency.',
-    //   type: 'string'
-    // },
+    {
+      label: 'Management fee frequency',
+      value: deal.management_fee_frequency,
+      defaultValue: 'No fee frequency.',
+      type: 'string'
+    },
     {
       label: 'Management fee',
       // @ts-ignore

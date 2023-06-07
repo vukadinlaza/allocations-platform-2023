@@ -1,11 +1,11 @@
 'use client';
-import { useAuthContext } from 'app/(private)/context';
 import Checkbox from '@/components/Checkbox';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Deal, Identity } from '@/types';
 import * as Sentry from '@sentry/nextjs';
+import { useAuthContext } from 'app/(private)/context';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -56,34 +56,41 @@ export default function InvestmentSignature({
   ) => {
     if (!currentUser && !identity && !investmentId) return;
 
-    // TODO : to remove users_personal_identities
-
-    const { users_personal_identities } = currentUser;
+    const { identities } = currentUser;
     const { accreditations } = identity;
 
-    if (!users_personal_identities && !accreditations) return;
+    if (!identities && !accreditations) return;
 
-    const currentIdentity = users_personal_identities[0];
+    const currentIdentity = identities[0];
     const currentAccreditation = accreditations ? accreditations[0] : null;
 
     if (!currentIdentity && !currentAccreditation) return;
 
     let signerName = identity.legal_name;
+
     if (identity.type === 'Entity') {
-      // Find a single signer for now
+      // Prevent missing identity, Find a single signer for now
       const { data: signer } = await supabase
         .from('identities')
         .select('*')
         .eq('parent_identity_id', identity.id)
         .single();
       if (!signer) {
-        notify(
-          `Sorry, could not find a signer for this identity. Please contact support`,
-          false
-        );
-        return;
+        return {
+          type: 'identity-missing',
+          message: `Sorry, could not find a signer for this identity. Please contact support`
+        };
       }
       signerName = signer.legal_name;
+    }
+
+    const { type, legal_name, country, region, user_email } = identity;
+
+    if (!type || !legal_name || !country || !region || !user_email) {
+      return {
+        type: 'identity-incomplete',
+        message: 'Your identity is incomplete. Please contact support.'
+      };
     }
 
     const body = {
@@ -122,8 +129,11 @@ export default function InvestmentSignature({
           level: 'error',
           data: response
         });
-        notify('Failed to fetch subscription agreement document', false);
-        throw new Error('Failed to fetch subscription agreement document');
+
+        return {
+          type: 'failed-fetch-subscription-agreement',
+          message: 'Failed to fetch subscription agreement document'
+        };
       }
       notify('Investment successful !', true);
       return await response.blob();
@@ -134,8 +144,10 @@ export default function InvestmentSignature({
           identity: identity.id
         }
       });
-      notify('Failed to fetch subscription agreement document', false);
-      throw new Error('Failed to fetch subscription agreement document');
+      return {
+        type: 'failed-fetch-subscription-agreement',
+        message: 'Failed to fetch subscription agreement document'
+      };
     } finally {
       setLoading(false);
     }
@@ -145,10 +157,7 @@ export default function InvestmentSignature({
     if (!deal) return;
     if (!signed) return alert('You have to sign to complete your investment.');
     // Removed for now, display only
-    // if (amount < 1)
-    //   return alert(
-    //     `Minimum investment amount is $${1 || deal.minimum_investment}.`
-    //   );
+    if (amount < 1) return alert(`Minimum investment amount is $${1}.`);
     try {
       setLoading(true);
 
@@ -164,8 +173,14 @@ export default function InvestmentSignature({
         .single();
 
       if (data) {
-        await getSubscriptionAgreementDocument(data.id);
-        // if error, popup here
+        const response: any = await getSubscriptionAgreementDocument(data.id);
+        if (response.type) {
+          // TODO: delete the investment (api side)
+          await supabase.from('investments').delete().eq('id', data.id);
+
+          notify(response.message, false);
+          throw new Error(response.message);
+        }
         router.push(`/investments/${data.id}`);
       }
     } catch (error) {

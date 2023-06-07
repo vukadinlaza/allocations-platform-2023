@@ -1,5 +1,6 @@
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
+import { deal_management_frequency_fee } from '@/types/values';
 import UploadPitchdeck from './Upload/Pitchdeck';
 import UploadTermSheets from './Upload/TermSheet';
 import UploadWireInstructions from './Upload/WireInstructions';
@@ -52,13 +53,13 @@ export default function DealInformations({
       type: 'string',
       show: true
     },
-    // {
-    //   label: 'Management fee frequency',
-    //   key: 'management_fee_frequency',
-    //   type: 'select',
-    //   show: true,
-    //   items: deal_management_frequency_fee
-    // },
+    {
+      label: 'Management fee frequency',
+      key: 'management_fee_frequency',
+      type: 'select',
+      show: true,
+      items: deal_management_frequency_fee
+    },
     {
       label: 'Total carry percent',
       key: 'total_carry',
