@@ -9,10 +9,6 @@ body,
   @apply font-sans;
 }
 
-.lowercase {
-  text-transform: lowercase !important;
-}
-
 @layer base {
   body,
   .MuiPaper-root {
@@ -103,11 +99,6 @@ body,
   }
 
   // tw
-
-  .capitalize-first-letter::first-letter {
-    @apply capitalize;
-  }
-
   .card {
     @apply flex flex-col items-center justify-center p-4 md:p-8 mb-6;
 

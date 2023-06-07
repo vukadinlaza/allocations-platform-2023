@@ -57,9 +57,6 @@ export default function SelectOrganization({
         (o) => o.id === deal.organization_id
       );
       setSelectedOrganization(organizationFound);
-      if (selectedOrganization) {
-        console.log(selectedOrganization);
-      }
     }
   }, [deal, organizations]);
 
