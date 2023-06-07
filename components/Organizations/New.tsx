@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 type Props = {
   onCreate: () => void;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 export default function NewOrganization({ onCreate, onClose }: Props) {
@@ -69,7 +69,9 @@ export default function NewOrganization({ onCreate, onClose }: Props) {
           loading={loading}
           disabled={loading}
           label={'Cancel'}
-          onClick={() => onClose()}
+          onClick={() => {
+            if (onClose) onClose();
+          }}
         />
       </div>
     </div>
