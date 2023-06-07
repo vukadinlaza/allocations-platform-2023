@@ -17,6 +17,7 @@ export default function ChipStatus({
     submitted: 'bg-orange-500',
     onboarding: 'bg-amber-400',
     signed: 'bg-amber-400',
+    active: 'bg-green-500',
     complete: 'bg-green-500',
     completed: 'bg-green-500',
     null: 'bg-zinc-400',

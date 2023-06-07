@@ -72,6 +72,7 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       setLoading(false);
     }
   };
+  
   useEffect(() => {
     fetchInvestors();
   }, []);

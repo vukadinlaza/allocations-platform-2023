@@ -40,7 +40,7 @@ export default function TableComponent({
   table
 }: Props) {
   const generateCell = (item: any, column: any) => {
-    const no_info = null;
+    const no_info = 'N/A';
     if (!item || !column || !column.key) {
       return no_info;
     }

@@ -1,3 +1,4 @@
+import BankAccountItem from '@/components/Banking/Item';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import Table from '@/components/Table';
@@ -7,53 +8,49 @@ import { useEffect, useState } from 'react';
 
 export default function DealAdminBanking({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
-  const [transactions, setTransactions] = useState<null[]>([]);
+  const [bankAccount, setBankAccount] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   let headers = [
     {
       label: 'Date',
-      key: 'date'
+      key: 'created_at',
+      type: 'date',
+      show: true
     },
     {
       label: 'Transaction description',
-      key: 'email'
+      key: 'description',
+      type: 'string',
+      show: true
     },
     {
       label: 'Amount',
-      key: 'subscription_amount'
-    },
-    {
-      label: 'Type',
-      key: 'capital_wired_amount'
+      key: 'amount',
+      type: 'price',
+      show: true
     },
     {
       label: 'Status',
-      key: 'status'
+      key: 'status',
+      type: 'chip',
+      show: true
     }
   ];
 
-  const fetchTransactions = async () => {
+  const fetchBanking = async () => {
     if (!deal) return;
     try {
       setLoading(true);
-      // transactions
-      // let { data: investments, error } = await supabase
-      //   .from('investments')
-      //   .select('*, users(*)')
-      //   .eq('deal_id', deal.id);
+      let { data: bank_account, error } = await supabase
+        .from('bank_accounts')
+        .select('*, transactions(*)')
+        .eq('deal_id', deal.id)
+        .single();
 
-      // if (investments) {
-      //   setTransactions(
-      //     investments.map((invest) => ({
-      //       ...invest.users,
-      //       name: `${invest.users.first_name} ${invest.users.last_name}`,
-      //       status: invest.status,
-      //       subscription_amount: invest.subscription_amount,
-      //       documents: 'None'
-      //     }))
-      //   );
-      // }
+      if (bank_account) {
+        setBankAccount(bank_account);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -61,15 +58,27 @@ export default function DealAdminBanking({ deal }: { deal?: Deal }) {
     }
   };
   useEffect(() => {
-    fetchTransactions();
+    fetchBanking();
   }, []);
 
   return (
     <div>
       {loading && <LoadingList />}
-      {!loading && !transactions.length && <None text="No transactions yet." />}
-      {!loading && transactions.length > 0 && (
-        <Table data={transactions} headers={headers} />
+      {!loading && !bankAccount && <None text="No bank account yet." />}
+      {!loading && bankAccount && (
+        <div>
+          <header className="mb-8">
+            <h1>Banking & transactions</h1>
+            <BankAccountItem bank_account={bankAccount} />
+          </header>
+          {!bankAccount.transactions &&
+            bankAccount.transactions.length === 0 && (
+              <None text="No transactions yet." />
+            )}
+          {bankAccount.transactions.length > 0 && (
+            <Table data={bankAccount.transactions} headers={headers} />
+          )}
+        </div>
       )}
     </div>
   );
