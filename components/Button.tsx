@@ -39,7 +39,11 @@ const Button: FunctionComponent<ButtonProps> = ({
             small ? 'text-sm' : 'text-base'
           }`}
         >
-          {icon && <span className="mr-1">{icon}</span>}
+          {icon && (
+            <div className="mr-1" style={{ minWidth: 18 }}>
+              {icon}
+            </div>
+          )}
           {label}
         </div>
       )}

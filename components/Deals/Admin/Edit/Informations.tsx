@@ -81,7 +81,7 @@ export default function DealInformations({
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-6">
-        <h2 className="text-xl">Deal information</h2>
+        <h2 className="text-xl">Information</h2>
       </header>
       <main>
         {deal && (

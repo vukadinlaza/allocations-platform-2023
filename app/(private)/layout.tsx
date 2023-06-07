@@ -5,6 +5,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import React from 'react';
+import 'react-quill/dist/quill.snow.css';
 import { AuthContextProvider } from './context';
 import './globals.scss';
 import { lightTheme } from './theme/theme';

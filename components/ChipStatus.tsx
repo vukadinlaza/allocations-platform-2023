@@ -20,6 +20,7 @@ export default function ChipStatus({
     active: 'bg-green-500',
     complete: 'bg-green-500',
     completed: 'bg-green-500',
+    success: 'bg-green-500',
     null: 'bg-zinc-400',
     wired: 'bg-green-500',
     crypto: 'bg-primary-500'

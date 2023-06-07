@@ -1,5 +1,4 @@
 'use client';
-import { useAuthContext } from 'app/(private)/context';
 import NewAsset from '@/components/Assets/New';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
@@ -28,7 +27,9 @@ import {
 } from '@/types/values';
 import { Alert } from '@mui/material';
 import Card from '@mui/material/Card';
+import { useAuthContext } from 'app/(private)/context';
 import { useEffect, useState } from 'react';
+import DealMemo from './Memo';
 
 export default function DealAdminEdit({ deal }: { deal: Deal }) {
   const { user, supabase } = useSupabase();
@@ -233,13 +234,22 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   <div className="w-full">
                     <div className="w-full mb-4">
                       <SelectOrganization
-                        selected={newDeal.organization_id}
+                        deal={{ ...newDeal, ...newDealDetails }}
                         loading={loading}
-                        onChange={(org: any) => {
-                          setNewDeal((prev: any) => ({
-                            ...prev,
-                            organization_id: org?.id
-                          }));
+                        onChange={(data: any) => {
+                          const { organization_id, fund_manager_email } = data;
+                          if (organization_id) {
+                            setNewDeal((prev: any) => ({
+                              ...prev,
+                              organization_id
+                            }));
+                          }
+                          if (fund_manager_email) {
+                            setNewDealDetails((prev: any) => ({
+                              ...prev,
+                              fund_manager_email
+                            }));
+                          }
                         }}
                       />
                     </div>
@@ -253,10 +263,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       }
                       label={`I agree to the Master Services agreement.`}
                     />
-                    <Button
-                      onClick={downloadMSA}
-                      label={'Download Master Services Agreement'}
-                    />
+                    <p onClick={downloadMSA} className="cta">
+                      Download Master Services Agreement
+                    </p>
                   </div>
                 }
               />
@@ -284,6 +293,17 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                     deal={newDeal}
                     onChange={(_deal: any) => {
                       setNewDeal((prev: any) => ({ ...prev, ..._deal }));
+                    }}
+                  />
+                }
+              />
+              <Step
+                selected={newDeal.memo}
+                component={
+                  <DealMemo
+                    deal={newDeal}
+                    onChange={(_memo: any) => {
+                      setNewDeal((prev: any) => ({ ...prev, memo: _memo }));
                     }}
                   />
                 }
@@ -339,28 +359,63 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               <Step
                 selected={newDeal.offering_type && newDealDetails?.advisor_type}
                 component={
-                  <DealCompliance
-                    deal={{ ...newDeal, ...newDealDetails }}
-                    onChange={(_mergedDeal: any) => {
-                      const { offering_type, advisor_type } = _mergedDeal;
-                      setNewDeal((prev: any) => ({ ...prev, offering_type }));
-                      setNewDealDetails((prev: any) => ({
-                        ...prev,
-                        advisor_type
-                      }));
-                    }}
-                  />
+                  <div className="w-full">
+                    <DealCompliance
+                      deal={{ ...newDeal, ...newDealDetails }}
+                      onChange={(_mergedDeal: any) => {
+                        const { offering_type, advisor_type, investor_type } =
+                          _mergedDeal;
+                        setNewDeal((prev: any) => ({ ...prev, offering_type }));
+                        setNewDealDetails((prev: any) => ({
+                          ...prev,
+                          advisor_type,
+                          investor_type
+                        }));
+                      }}
+                    />
+                    {newDealDetails.advisor_type === 'Other' && (
+                      <input
+                        type="text"
+                        placeholder={'Name of your advisor...'}
+                        value={newDealDetails.advisor_type_note}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setNewDealDetails((prev: any) => ({
+                            ...prev,
+                            advisor_type_note: e.target.value
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
                 }
               />
               <Step
                 selected={newDealDetails.banking_provider}
                 component={
-                  <DealBanking
-                    deal={newDealDetails}
-                    onChange={(_deal: any) => {
-                      setNewDealDetails((prev: any) => ({ ...prev, ..._deal }));
-                    }}
-                  />
+                  <div className="w-full">
+                    <DealBanking
+                      deal={newDealDetails}
+                      onChange={(_deal: any) => {
+                        setNewDealDetails((prev: any) => ({
+                          ...prev,
+                          ..._deal
+                        }));
+                      }}
+                    />
+                    {newDealDetails.banking_provider === 'Custom' && (
+                      <input
+                        type="text"
+                        placeholder={'Name of your banking provider...'}
+                        value={newDealDetails.banking_provider_note}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setNewDealDetails((prev: any) => ({
+                            ...prev,
+                            banking_provider_note: e.target.value
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
                 }
               />
               <Step
