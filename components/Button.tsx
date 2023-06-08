@@ -37,7 +37,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         <div
           className={`flex items-center justify-center w-full text-center ${
             small ? 'text-sm' : 'text-base'
-          }`}
+          } text-sm md:text-base`}
         >
           {icon && (
             <div className="mr-1" style={{ minWidth: 18 }}>
