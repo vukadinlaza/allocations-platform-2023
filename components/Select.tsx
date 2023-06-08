@@ -3,13 +3,15 @@ type SelectProps<T> = {
   onChange: (selected: string) => any;
   displayLabel?: (item: any) => any;
   selected?: any;
+  disabled?: boolean;
 };
 
 function Select<T>({
   items,
   onChange,
   displayLabel,
-  selected
+  selected,
+  disabled = false
 }: SelectProps<T>) {
   const handleSelectChange = (e: any) => {
     if (!items) return;
@@ -21,6 +23,7 @@ function Select<T>({
       value={selected}
       onChange={handleSelectChange}
       className={`bg-white capitalize`}
+      disabled={disabled}
     >
       {!selected && <option value="">Select an option</option>}
       {items &&
