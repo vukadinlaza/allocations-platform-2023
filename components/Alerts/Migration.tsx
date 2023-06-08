@@ -10,7 +10,7 @@ export default function Migration() {
         icon={null}
       >
         <h2 className="mt-0 text-sm md:text-base">
-          New platform migration update — last update: 06/07 at 14:50 EST
+          New platform migration update — last update: 06/08 at 06:50 EST
         </h2>
         <span className="hidden md:block">
           Welcome to the new platform! We are in the process of migrating your

@@ -25,7 +25,7 @@ const Button: FunctionComponent<ButtonProps> = ({
       onClick={onClick}
       className={`btn mr-0 ${color ? color : 'primary'} ${
         loading ? 'loading' : ''
-      } ${disabled ? 'disabled' : ''}`}
+      } ${disabled ? 'disabled' : ''} ${small ? 'small' : ''}`}
       disabled={disabled || loading}
     >
       {loading && (
@@ -40,11 +40,11 @@ const Button: FunctionComponent<ButtonProps> = ({
           } text-sm md:text-base`}
         >
           {icon && (
-            <div className="mr-1" style={{ minWidth: 18 }}>
+            <div className="mr-2" style={{ minWidth: 18 }}>
               {icon}
             </div>
           )}
-          {label}
+          <span className="whitespace-nowrap">{label}</span>
         </div>
       )}
     </button>

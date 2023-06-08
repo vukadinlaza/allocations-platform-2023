@@ -1,7 +1,6 @@
 'use client';
+import Button from '@/components/Button';
 import Chip from '@mui/material/Chip';
-import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -81,10 +80,21 @@ export const generateCell = (item: any, column: any) => {
           clickable
         />
       )}
-      {column.type === 'button' && column.key && (
-        <IconButton onClick={() => column.action(item)}>
-          <Icon>{column.icon}</Icon>
-        </IconButton>
+      {column.type === 'download' && column.key && (
+        <Button
+          onClick={() => column.action(item)}
+          label="Download"
+          small={true}
+          icon={
+            <Image
+              src="/download.svg"
+              alt={'Download'}
+              className="opacity-75 invert"
+              width={24}
+              height={24}
+            />
+          }
+        />
       )}
     </>
   );
