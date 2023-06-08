@@ -32,6 +32,64 @@ type Props = {
   table?: string;
 };
 
+export const generateCell = (item: any, column: any) => {
+  const no_info = 'N/A';
+  if (!item || !column || !column.key) {
+    return no_info;
+  }
+
+  return (
+    <>
+      {column.key === 'address' && (
+        <>
+          {item.address_line_1 ||
+            (item.address_line_2 &&
+              `${item.address_line_1}${
+                item.address_line_2 ? ' ' + item.address_line_2 : ''
+              }`)}
+          {item[column.key]}
+        </>
+      )}
+      {column.type === 'chip' && <ChipStatus status={item[column.key]} />}
+      {column.type === 'chip-static' && (
+        <Chip size={'small'} label={item[column.key]} />
+      )}
+      {column.type === 'date' && <DateComponent date={item[column.key]} />}
+      {column.type === 'entities' && (
+        <>
+          {item[column.key] && column.sub_key && item.entities[column.sub_key]}
+          {item[column.key] && !column.sub_key && item[column.key]
+            ? item[column.key].length
+            : 0}
+        </>
+      )}
+      {column.type === 'count' && (
+        <>{column.key.split('.').reduce((o: any, i: string) => o[i], item)}</>
+      )}
+      {column.type === 'price' && <Price price={item[column.key]} />}
+      {(column.type === 'string' || column.type === 'number') && (
+        <span className={column.key}>
+          {item[column.key] ? item[column.key] : no_info}
+        </span>
+      )}
+      {column.type === 'email' && item[column.key] && (
+        <Chip
+          label={item[column.key] ? item[column.key] : no_info}
+          size="small"
+          component="a"
+          href={'mailto: ' + item[column.key]}
+          clickable
+        />
+      )}
+      {column.type === 'button' && column.key && (
+        <IconButton onClick={() => column.action(item)}>
+          <Icon>{column.icon}</Icon>
+        </IconButton>
+      )}
+    </>
+  );
+};
+
 export default function TableComponent({
   handleSort,
   headers,
@@ -39,62 +97,6 @@ export default function TableComponent({
   sortedBy,
   table
 }: Props) {
-  const generateCell = (item: any, column: any) => {
-    const no_info = 'N/A';
-    if (!item || !column || !column.key) {
-      return no_info;
-    }
-    
-    return (
-      <>
-        {column.key === 'address' && (
-          <>
-            {item.address_line_1 ||
-              (item.address_line_2 &&
-                `${item.address_line_1}${
-                  item.address_line_2 ? ' ' + item.address_line_2 : ''
-                }`)}
-            {item[column.key]}
-          </>
-        )}
-        {column.type === 'chip' && <ChipStatus status={item[column.key]} />}
-        {column.type === 'chip-static' && (
-          <Chip size={'small'} label={item[column.key]} />
-        )}
-        {column.type === 'date' && <DateComponent date={item[column.key]} />}
-        {column.type === 'entities' && (
-          <>
-            {item[column.key] &&
-              column.sub_key &&
-              item.entities[column.sub_key]}
-            {item[column.key] && !column.sub_key && item[column.key]
-              ? item[column.key].length
-              : 0}
-          </>
-        )}
-        {column.type === 'count' && <>{column.key.split('.').reduce((o: any, i: string)=> o[i], item)}</>}
-        {column.type === 'price' && <Price price={item[column.key]} />}
-        {(column.type === 'string' || column.type === 'number') && (
-          <span>{item[column.key] ? item[column.key] : no_info}</span>
-        )}
-        {column.type === 'email' && item[column.key] && (
-          <Chip
-            label={item[column.key] ? item[column.key] : no_info}
-            size="small"
-            component="a"
-            href={'mailto: ' + item[column.key]}
-            clickable
-          />
-        )}
-        {column.type === 'button' && column.key && (
-          <IconButton onClick={() => column.action(item)}>
-            <Icon>{column.icon}</Icon>
-          </IconButton>
-        )}
-      </>
-    );
-  };
-
   return (
     <div className="w-full">
       {!data.length && <None text="There is no data yet." />}
