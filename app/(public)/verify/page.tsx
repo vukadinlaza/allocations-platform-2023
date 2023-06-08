@@ -8,11 +8,9 @@ export default function Verify({ searchParams }: { searchParams: any }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== undefined && searchParams.token) {
+    if (typeof window !== undefined && searchParams.confirmation_url) {
       setTimeout(() => {
-        router.push(
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/verify?token=${searchParams.token}&type=magiclink&redirect_to=${window.location.origin}`
-        );
+        router.push(searchParams.confirmation_url);
       }, 500);
     }
   }, [searchParams]);
