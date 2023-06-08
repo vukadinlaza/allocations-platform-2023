@@ -13,7 +13,7 @@ export default function BankAccountItem({
       </div>
       <div className="flex flex-col grow">
         <span className="text-xs text-gray-500">Bank account name</span>
-        <p>{bank_account.bank_name}</p>
+        <p>{bank_account.account_name}</p>
       </div>
       <div>
         <ChipStatus small={true} status={bank_account.status} />

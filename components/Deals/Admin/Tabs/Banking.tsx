@@ -42,14 +42,13 @@ export default function DealAdminBanking({ deal }: { deal?: Deal }) {
     if (!deal) return;
     try {
       setLoading(true);
-      let { data: bank_account, error } = await supabase
+      let { data: bank_accounts, error } = await supabase
         .from('bank_accounts')
-        .select('*, transactions(*)')
-        .eq('deal_id', deal.id)
-        .single();
+        .select('id, account_name, status, transactions(id, description, amount, status, created_at)')
+        .eq('deal_id', deal.id);
 
-      if (bank_account) {
-        setBankAccount(bank_account);
+      if (bank_accounts && bank_accounts.length > 0) {
+        setBankAccount(bank_accounts[0]);
       }
     } catch (err) {
       console.log(err);
