@@ -11,6 +11,7 @@ import Select from './Select';
 type Props = {
   model: Field[];
   onSubmit: (data: any) => void;
+  onSave?: () => void;
   loading?: boolean;
   emit?: boolean | false;
   data?: any;
@@ -22,6 +23,7 @@ export default function FormBuilder({
   loading,
   data,
   onSubmit,
+  onSave,
   emit = false,
   buttonLabel
 }: Props) {
@@ -49,7 +51,7 @@ export default function FormBuilder({
               return (
                 <Grid item xs={12} key={field.key}>
                   <p className="mb-2">{field.label || 'No label'}</p>
-                  <div className="flex items-end">
+                  <div className="flex items-center gap-2">
                     {field.type === 'string' && (
                       <input
                         type="text"
@@ -204,6 +206,16 @@ export default function FormBuilder({
                           }}
                         />
                       </div>
+                    )}
+                    {field.save && (
+                      <Button
+                        loading={loading}
+                        disabled={loading}
+                        label={'Save'}
+                        onClick={() => {
+                          if (onSave) onSave();
+                        }}
+                      />
                     )}
                   </div>
                 </Grid>

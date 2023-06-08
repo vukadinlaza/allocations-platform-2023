@@ -7,9 +7,13 @@ import UploadWireInstructions from './Upload/WireInstructions';
 
 export default function DealInformations({
   deal,
-  onChange
+  disabled,
+  onChange,
+  onSave
 }: {
   deal: Deal;
+  disabled?: boolean | false;
+  onSave?: () => any;
   onChange: (v: any) => any;
 }) {
   const model: Field[] = [
@@ -17,30 +21,35 @@ export default function DealInformations({
       label: 'Deal name',
       key: 'name',
       type: 'string',
-      show: true
+      show: true,
+      disabled: disabled
     },
     {
       label: 'Estimated closing date',
       key: 'closing_date',
       type: 'date',
-      show: true
+      show: true,
+      save: true
     },
     {
       label: 'Target raise amount',
       key: 'target_raise_goal',
       type: 'money',
+      disabled: disabled,
       show: true
     },
     {
       label: 'Minimum investment',
       key: 'minimum_investment',
       type: 'money',
+      disabled: disabled,
       show: true
     },
     {
       label: 'Management fee percent',
       key: 'management_fee_percent',
       type: 'slider',
+      disabled: disabled,
       unit: '%',
       step: 0.5,
       min: 0,
@@ -51,12 +60,14 @@ export default function DealInformations({
       label: 'Management fee note',
       key: 'management_fee_notes',
       type: 'string',
+      disabled: disabled,
       show: true
     },
     {
       label: 'Management fee frequency',
       key: 'management_fee_frequency',
       type: 'select',
+      disabled: disabled,
       show: true,
       items: deal_management_frequency_fee
     },
@@ -68,12 +79,14 @@ export default function DealInformations({
       step: 0.5,
       min: 0,
       max: 30,
+      disabled: disabled,
       show: true
     },
     {
       label: 'Total carry note',
       key: 'total_carry_notes',
       type: 'string',
+      disabled: disabled,
       show: true
     }
   ];
@@ -90,6 +103,9 @@ export default function DealInformations({
               data={deal}
               emit={true}
               model={model}
+              onSave={() => {
+                if (onSave) onSave();
+              }}
               onSubmit={(v: any) => {
                 onChange(v);
               }}

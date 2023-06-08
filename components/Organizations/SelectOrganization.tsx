@@ -9,9 +9,11 @@ import NewOrganization from './New';
 export default function SelectOrganization({
   onChange,
   loading,
+  disabled,
   deal
 }: {
   loading: boolean;
+  disabled?: boolean;
   onChange: (v: any) => void;
   deal?: any;
 }) {
@@ -94,6 +96,7 @@ export default function SelectOrganization({
         <div className="w-full grid-cols-12 gap-4 my-4 md:grid">
           <div className="col-span-12 mb-4 md:col-span-10 md:mb-0">
             <Select
+              disabled={disabled}
               selected={selectedOrganization?.name}
               items={organizations.map((o) => o.name)}
               onChange={(str: string) => {
@@ -105,6 +108,7 @@ export default function SelectOrganization({
           </div>
           <div className="col-span-12 md:col-span-2">
             <Button
+              disabled={disabled}
               icon={
                 <Image
                   src={'/plus.svg'}
