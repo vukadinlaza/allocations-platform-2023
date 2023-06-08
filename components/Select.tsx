@@ -22,7 +22,7 @@ function Select<T>({
     <select
       value={selected}
       onChange={handleSelectChange}
-      className={`bg-white capitalize`}
+      className={`bg-white capitalize ${disabled ? 'disabled' : ''}`}
       disabled={disabled}
     >
       {!selected && <option value="">Select an option</option>}

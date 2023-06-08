@@ -229,6 +229,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
           {hasIdentity && deal && newDeal && newDealDetails && (
             <div className={`relative flex flex-col w-full`}>
               <Step
+                disabled={isDisabled}
                 selected={newDeal.organization_id && newDealDetails.agree_msa}
                 component={
                   <div className="w-full">
@@ -236,7 +237,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       <SelectOrganization
                         deal={{ ...newDeal, ...newDealDetails }}
                         loading={loading}
-                        disabled={isDisabled}
                         onChange={(data: any) => {
                           const { organization_id, fund_manager_email } = data;
                           if (organization_id) {
@@ -273,6 +273,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
               {newDeal.type === 'spv' && (
                 <Step
+                  disabled={isDisabled}
                   selected={newDealDetails.sub_type}
                   component={
                     <SelectProductType
@@ -316,6 +317,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
               />
               {newDeal && newDeal.assets && (
                 <Step
+                  disabled={isDisabled}
                   selected={newDeal.assets && newDeal.assets.length > 0}
                   component={
                     <div className="w-full">
@@ -334,6 +336,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 />
               )}
               <Step
+                disabled={isDisabled}
                 selected={newDealDetails?.master_series_id}
                 component={
                   <SelectMasterSeries
@@ -349,6 +352,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
               />
               <Step
+                disabled={isDisabled}
                 selected={newDealDetails?.legal_template_option}
                 component={
                   <DealLegalDocuments
@@ -363,6 +367,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
               />
               <Step
+                disabled={isDisabled}
                 selected={newDeal.offering_type && newDealDetails?.advisor_type}
                 component={
                   <div className="w-full">
@@ -425,6 +430,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
               />
               <Step
+                disabled={isDisabled}
                 selected={true}
                 component={
                   <DealEstimatedCosts
@@ -433,15 +439,18 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 }
               />
               <Step
-                selected={newDeal.agree_setup && newDeal.agree_costs}
+                disabled={isDisabled}
+                selected={
+                  newDealDetails.agree_setup && newDealDetails.agree_costs
+                }
                 component={
                   <div>
                     <h1>E-sign & submit</h1>
                     <div>
                       <Checkbox
-                        selected={newDeal.agree_setup}
+                        selected={newDealDetails.agree_setup}
                         onChange={() =>
-                          setNewDeal((prev: any) => ({
+                          setNewDealDetails((prev: any) => ({
                             ...prev,
                             agree_setup: true
                           }))
@@ -451,9 +460,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                     </div>
                     <div>
                       <Checkbox
-                        selected={newDeal.agree_costs}
+                        selected={newDealDetails.agree_costs}
                         onChange={() =>
-                          setNewDeal((prev: any) => ({
+                          setNewDealDetails((prev: any) => ({
                             ...prev,
                             agree_costs: true
                           }))
@@ -502,7 +511,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                     )}
                   </div>
                   {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
-                  <div className={`flex gap-3 ${isDisabled ? 'disabled' : ''}`}>
+                  <div className={`flex gap-3`}>
                     <Button
                       loading={loading}
                       label={'Save'}
@@ -511,15 +520,25 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         await saveDealDetails();
                       }}
                     />
-                    <Button
-                      disabled={!(newDeal.agree_setup && newDeal.agree_costs)}
-                      loading={loading}
-                      label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
-                      onClick={async () => {
-                        await saveDeal(true);
-                        await saveDealDetails();
-                      }}
-                    />
+                    {newDeal.status === 'draft' ||
+                      (newDeal.status === 'submitted' && (
+                        <Button
+                          disabled={
+                            !(
+                              newDealDetails.agree_setup &&
+                              newDealDetails.agree_costs
+                            )
+                          }
+                          loading={loading}
+                          label={
+                            newDeal.status === 'draft' ? 'Submit' : 'Update'
+                          }
+                          onClick={async () => {
+                            await saveDeal(true);
+                            await saveDealDetails();
+                          }}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
