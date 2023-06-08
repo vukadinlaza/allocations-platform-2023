@@ -74,6 +74,7 @@ export default function FormBuilder({
                     )}
                     {field.type === 'select' && field.items && field.key && (
                       <Select
+                        disabled={field.disabled}
                         selected={_data && [field.key] ? _data[field.key] : ''}
                         displayLabel={(v) => v}
                         items={field.items}
@@ -177,14 +178,13 @@ export default function FormBuilder({
                     )}
                     {field.type === 'money' && field.key && (
                       <div className="flex items-center w-full p-0 mr-2 input">
-                        <div className="px-3 py-2 mr-2 font-medium bg-gray-100">
+                        <div className="px-3 py-2 font-medium bg-gray-100">
                           $
                         </div>
                         <input
-                          type="number"
                           placeholder={field.placeholder || undefined}
                           disabled={loading || field.disabled}
-                          className={`${
+                          className={`px-3 py-2 ${
                             loading ? 'disabled' : ''
                           } border-0 w-full outline-none focus:outline-none ring-0`}
                           value={

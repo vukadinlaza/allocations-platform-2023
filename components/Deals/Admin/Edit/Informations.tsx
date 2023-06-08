@@ -21,15 +21,13 @@ export default function DealInformations({
       label: 'Deal name',
       key: 'name',
       type: 'string',
-      show: true,
-      disabled: disabled
+      show: true
     },
     {
       label: 'Estimated closing date',
       key: 'closing_date',
       type: 'date',
-      show: true,
-      save: true
+      show: true
     },
     {
       label: 'Target raise amount',
