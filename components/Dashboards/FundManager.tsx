@@ -81,8 +81,8 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
       {!loading && (
         <div className="w-full">
           <header className="mb-8">
-            <div className="flex items-start justify-between mb-8">
-              <h1 className="mb-2 text-3xl font-bold">
+            <div className="items-start justify-between mb-8 md:flex">
+              <h1 className="mb-2 text-xl font-bold md:text-3xl">
                 Fund Manager Dashboard
               </h1>
               <Button
@@ -92,7 +92,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
                   <Image
                     src="/switch.svg"
                     alt={'switch'}
-                    className="opacity-50"
+                    className="text-xs opacity-50 md:text-base"
                     width={20}
                     height={20}
                   />
@@ -100,7 +100,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
                 onClick={() => handleSwitch()}
               />
             </div>
-            <div className="grid gap-1 md:gap-4 md:grid-cols-5">
+            <div className="grid gap-2 sm:grid-cols-2 md:gap-4 md:grid-cols-5">
               {items &&
                 items.map((item: any, index: number) =>
                   item.value > 0 ? <DataCard key={index} item={item} /> : null

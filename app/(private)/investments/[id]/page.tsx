@@ -9,11 +9,11 @@ import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Investment } from '@/types';
+import { File } from '@/types/files';
 import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { File, InvestmentFileMeta } from '@/types/files';
 
 export default function InvestmentId() {
   const { supabase } = useSupabase();
@@ -36,12 +36,10 @@ export default function InvestmentId() {
     {
       label: 'Download',
       key: 'download',
-      type: 'button',
+      type: 'download',
       icon: 'download',
-      action: async (item: File)=>{
-        const response = await AllocationsAPI.downloadPDFFile(
-          item.id
-        );
+      action: async (item: File) => {
+        const response = await AllocationsAPI.downloadPDFFile(item.id);
         if (response.ok) {
           await downloadFile(await response.blob(), `${item.file_name}.pdf`);
         } else {
@@ -183,49 +181,57 @@ export default function InvestmentId() {
                 </div>
               </div>
               {investment &&
-                String(investment.status).toLowerCase() === 'signed' && (<>
-                  <div className="flex items-center justify-center gap-4 my-8">
-                    <Button
-                      small={true}
-                      disabled={
-                        !investment.investments_files?.length || buttonLoading
-                      }
-                      label="Download SPV Agreement"
-                      icon={
-                        <Image
-                          src="/download.svg"
-                          alt={'Download'}
-                          className="opacity-75 invert"
-                          width={24}
-                          height={24}
-                        />
-                      }
-                      onClick={() => downloadAgreement()}
-                    />
-                    <Button
-                      small={true}
-                      disabled={buttonLoading}
-                      label="Download Wire Instructions"
-                      icon={
-                        <Image
-                          src="/download.svg"
-                          alt={'Download'}
-                          className="opacity-75 invert"
-                          width={24}
-                          height={24}
-                        />
-                      }
-                      onClick={() => downloadAgreement('wire-instructions')}
-                    />
-                  </div>
-                  <div>
-                    {investment.investments_files && investment.investments_files.length > 0 && (
-                      <Table data={investment.investments_files.map((f: any)=>({
-                        ...f.files
-                      }))} headers={documentsHeaders} />
-                    )}
-                  </div>
-                </>)}
+                String(investment.status).toLowerCase() === 'signed' && (
+                  <>
+                    <div className="flex items-center justify-center gap-4 my-8">
+                      <Button
+                        small={true}
+                        disabled={
+                          !investment.investments_files?.length || buttonLoading
+                        }
+                        label="Download SPV Agreement"
+                        icon={
+                          <Image
+                            src="/download.svg"
+                            alt={'Download'}
+                            className="opacity-75 invert"
+                            width={24}
+                            height={24}
+                          />
+                        }
+                        onClick={() => downloadAgreement()}
+                      />
+                      <Button
+                        small={true}
+                        disabled={buttonLoading}
+                        label="Download Wire Instructions"
+                        icon={
+                          <Image
+                            src="/download.svg"
+                            alt={'Download'}
+                            className="opacity-75 invert"
+                            width={24}
+                            height={24}
+                          />
+                        }
+                        onClick={() => downloadAgreement('wire-instructions')}
+                      />
+                    </div>
+                    <div>
+                      {investment.investments_files &&
+                        investment.investments_files.length > 0 && (
+                          <Table
+                            data={investment.investments_files.map(
+                              (f: any) => ({
+                                ...f.files
+                              })
+                            )}
+                            headers={documentsHeaders}
+                          />
+                        )}
+                    </div>
+                  </>
+                )}
             </Card>
           )}
         </div>

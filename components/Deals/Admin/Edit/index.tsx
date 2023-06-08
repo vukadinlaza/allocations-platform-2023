@@ -464,11 +464,11 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                   </div>
                 }
               />
-              <div className="container fixed bottom-0 bg-white">
+              <div className="container bottom-0 bg-white md:mt-0 md:fixed">
                 <div
-                  className={` flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
+                  className={`md:flex items-center justify-end w-full gap-4 p-4 bg-white border shadow-lg`}
                 >
-                  <p className="text-sm">
+                  <div className="mb-3 overflow-hidden text-xs md:text-sm md:mb-0">
                     {newDeal.status === deals_status[0] && (
                       <span>
                         To submit your deal for review, please fill in all the
@@ -500,7 +500,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                     {newDeal.status === deals_status[8] && (
                       <div className="py-4">Your deal has been archived.</div>
                     )}
-                  </p>
+                  </div>
                   {/* <Button loading={loading} labùel="Save my deal" onClick={saveDeal} /> */}
                   <div className={`flex gap-3 ${isDisabled ? 'disabled' : ''}`}>
                     <Button

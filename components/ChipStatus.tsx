@@ -28,8 +28,8 @@ export default function ChipStatus({
   return (
     <div
       className={`inline text-white capitalize rounded-full ${
-        small ? 'px-2 py-1 text-sm' : 'px-4 py-2'
-      } items-center ${
+        small ? 'px-2 py-1 text-sm' : 'px-2 py-1 md:px-3 md:py-1'
+      } text-sm md:text-sm items-center ${
         status && colors[status.toLowerCase()]
           ? colors[status.toLowerCase()]
           : null

@@ -69,6 +69,10 @@ body,
         @apply px-4 py-3 text-lg;
       }
 
+      &.small {
+        @apply px-3 py-1 text-xs;
+      }
+
       &.info {
         @apply bg-gray-100 hover:bg-gray-50;
       }
@@ -198,7 +202,7 @@ body,
 
   header {
     h1 {
-      @apply text-2xl flex items-center mb-4;
+      @apply text-lg md:text-2xl flex items-center mb-4;
     }
 
     .chip {
@@ -259,6 +263,18 @@ body,
 
     img {
       @apply opacity-50;
+    }
+  }
+
+  .table {
+    &--responsive {
+      &--card {
+        @apply flex items-start justify-between border rounded-lg mb-4 px-4 py-3 hover:bg-gray-50;
+
+        .name {
+          @apply text-base font-bold mb-0;
+        }
+      }
     }
   }
 

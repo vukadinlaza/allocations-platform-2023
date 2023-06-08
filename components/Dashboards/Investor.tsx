@@ -70,8 +70,10 @@ export default function InvestorDashboard({ handleSwitch }: Props) {
       {!loading && (
         <div className="w-full">
           <header className="mb-8">
-            <div className="flex items-start justify-between mb-8">
-              <h1 className="text-3xl font-bold">Investor Dashboard</h1>
+            <div className="items-start justify-between mb-8 md:flex">
+              <h1 className="mb-2 text-xl font-bold md:text-3xl">
+                Investor Dashboard
+              </h1>
               <Button
                 color={'info'}
                 label={'Switch to Fund Manager'}
@@ -87,7 +89,7 @@ export default function InvestorDashboard({ handleSwitch }: Props) {
                 onClick={() => handleSwitch()}
               />
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid gap-2 sm:grid-cols-2 md:gap-4 md:grid-cols-5">
               {items &&
                 items.map((item: any, index: number) =>
                   item.value > 0 ? <DataCard key={index} item={item} /> : null

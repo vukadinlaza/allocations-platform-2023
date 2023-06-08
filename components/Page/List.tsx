@@ -1,13 +1,12 @@
 'use client';
 // libs
-import { useAuthContext } from 'app/(private)/context';
 import { useSupabase } from '@/lib/supabase-provider';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Dialog from '@mui/material/Dialog';
-import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import { useAuthContext } from 'app/(private)/context';
 import { orderBy } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
@@ -19,6 +18,7 @@ import NewUserInvestmentEntityIdentity from '@/components/Investments/Module/Ent
 import LoadingPageList from '@/components/Loading/Page';
 import NewOrganization from '@/components/Organizations/New';
 import Table, { SortConfig } from '@/components/Table';
+import TableResponsive from '@/components/Table/Responsive';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -47,12 +47,6 @@ export default function PageList({ data }: { data: any }) {
     const { original, target } = table;
     if (target) return target;
     if (!original) return;
-    if (original.includes('hydrated_')) {
-      return original.replace('hydrated_', '').trim();
-    }
-    if (original.includes('limited_')) {
-      return original.replace('limited_', '').trim();
-    }
     return original;
   };
 
@@ -218,9 +212,9 @@ export default function PageList({ data }: { data: any }) {
                   </Card>
                 </Dialog>
               )}
-              <header className="pb-8">
+              <header className="pb-4 md:pb-8">
                 <div>
-                  <h1 className="mb-2">
+                  <h1 className="mb-2 md:text-lg">
                     <span className="mr-2">{header.name || 'No title'}</span>
                     <div className="chip chip--small chip--info">
                       {initialData && initialData.length
@@ -228,7 +222,9 @@ export default function PageList({ data }: { data: any }) {
                         : 0}
                     </div>
                   </h1>
-                  <p>{header.description || 'No description'}</p>
+                  <p className="text-sm md:text-base">
+                    {header.description || 'No description'}
+                  </p>
                 </div>
                 <div className="flex items-center">
                   {header.buttons &&
@@ -245,7 +241,7 @@ export default function PageList({ data }: { data: any }) {
               </header>
             </div>
           )}
-          <Grid container>
+          <div className="hidden md:flex">
             <Table
               handleSort={(obj: SortConfig) => {
                 setSortedBy(obj);
@@ -255,7 +251,14 @@ export default function PageList({ data }: { data: any }) {
               headers={table.headers}
               table={getTable()}
             />
-          </Grid>
+          </div>
+          <div className="flex md:hidden">
+            <TableResponsive
+              data={initialData}
+              headers={table.headers}
+              table={getTable()}
+            />
+          </div>
         </div>
       )}
     </div>
