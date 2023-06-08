@@ -236,6 +236,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       <SelectOrganization
                         deal={{ ...newDeal, ...newDealDetails }}
                         loading={loading}
+                        disabled={isDisabled}
                         onChange={(data: any) => {
                           const { organization_id, fund_manager_email } = data;
                           if (organization_id) {
@@ -254,6 +255,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                       />
                     </div>
                     <Checkbox
+                      disabled={isDisabled}
                       selected={newDealDetails.agree_msa}
                       onChange={() =>
                         setNewDealDetails((prev: any) => ({
@@ -290,7 +292,11 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 selected={newDeal.name}
                 component={
                   <DealInformations
+                    disabled={isDisabled}
                     deal={newDeal}
+                    onSave={async () => {
+                      await saveDeal();
+                    }}
                     onChange={(_deal: any) => {
                       setNewDeal((prev: any) => ({ ...prev, ..._deal }));
                     }}

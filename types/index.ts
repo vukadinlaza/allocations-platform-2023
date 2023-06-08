@@ -26,6 +26,7 @@ export type Field = {
   min?: number;
   max?: number;
   step?: number;
+  save?: boolean | false;
   show?: boolean | true;
   limit?: number;
   type: FieldType; // add more types as needed
