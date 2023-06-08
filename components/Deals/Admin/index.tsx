@@ -88,7 +88,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
           </div>
           <div>
             {active === 'Edit page' && <DealAdminEdit deal={deal} />}
-            {active === 'View page' && <Client deal={deal} demo />}
+            {active === 'View page' && <Client deal={deal} />}
             {active === 'Investors' && <DealAdminInvestors deal={deal} />}
             {active === 'Banking' && <DealAdminBanking deal={deal} />}
             {active === 'Documents' && <DealAdminDocuments deal={deal} />}

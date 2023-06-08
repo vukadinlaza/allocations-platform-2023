@@ -2,20 +2,12 @@ import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
-import Alert from '@mui/material/Alert';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function InvestmentSidebar({
-  deal,
-  demo = false
-}: {
-  deal: Deal;
-  demo?: boolean;
-}) {
+export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(deal.minimum_investment || 0);
-  const [investing, setInvesting] = useState<boolean>(false);
   const router = useRouter();
 
   const dealInformations = [
@@ -91,29 +83,19 @@ export default function InvestmentSidebar({
         </div>
       </div>
       <div>
-        {demo && (
-          <div className="px-6 py-3 mb-4">
-            <Alert severity="success">
-              You are in demo mode. Investing module is displayed here for
-              client.
-            </Alert>
-          </div>
-        )}
         <div>
-          {!demo && (
-            <div className="grid w-full px-6 py-3">
-              {deal.closing_date && (
-                <Button
-                  loading={false}
-                  disabled={!canInvest()}
-                  label={'Invest'}
-                  onClick={() => {
-                    router.push(`/invest/${deal.id}?amount=${amount}`);
-                  }}
-                />
-              )}
-            </div>
-          )}
+          <div className="grid w-full px-6 py-3">
+            {deal.closing_date && (
+              <Button
+                loading={false}
+                disabled={!canInvest()}
+                label={'Invest'}
+                onClick={() => {
+                  router.push(`/invest/${deal.id}?amount=${amount}`);
+                }}
+              />
+            )}
+          </div>
           <ul className="divide-y divide-gray-200">
             {dealInformations.map((item) => (
               <li

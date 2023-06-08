@@ -19,13 +19,7 @@ const copyCurrentUrl = async () => {
   toast.success('Link copied to clipboard');
 };
 
-export default function DealClient({
-  deal,
-  demo = false
-}: {
-  deal: Deal;
-  demo?: boolean;
-}) {
+export default function DealClient({ deal }: { deal: Deal }) {
   const { supabase } = useSupabase();
   const [pitchDeckFileId, setPitchDeckFileId] = useState(null);
   const [pitchDeckFileData, setPitchDeckFileData] = useState<Blob | null>(null);
@@ -52,23 +46,21 @@ export default function DealClient({
           <header className="flex items-start justify-between md:mb-8">
             <ItemsHeader data={deal} />
             <div className="items-center hidden gap-4 md:flex">
-              {!demo && (
-                <Button
-                  loading={false}
-                  disabled={false}
-                  label={'Copy link'}
-                  onClick={copyCurrentUrl}
-                  icon={
-                    <Image
-                      src={'/copy.svg'}
-                      alt="copy"
-                      className="opacity-50 invert"
-                      width={20}
-                      height={20}
-                    />
-                  }
-                />
-              )}
+              <Button
+                loading={false}
+                disabled={false}
+                label={'Copy link'}
+                onClick={copyCurrentUrl}
+                icon={
+                  <Image
+                    src={'/copy.svg'}
+                    alt="copy"
+                    className="opacity-50 invert"
+                    width={20}
+                    height={20}
+                  />
+                }
+              />
             </div>
           </header>
           <main className="deal--main">
@@ -123,7 +115,7 @@ export default function DealClient({
           </main>
         </div>
         <div className="md:col-span-2">
-          <InvestmentSidebar deal={deal} demo={demo} />
+          <InvestmentSidebar deal={deal} />
         </div>
       </div>
     </div>
