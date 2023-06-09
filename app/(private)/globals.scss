@@ -105,6 +105,10 @@ body,
   input[type="date"],
   select {
     @apply input;
+
+    &.money {
+      @apply p-0 border-0 ring-0 outline-none;
+    }
   }
 
   // tw

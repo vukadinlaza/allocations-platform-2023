@@ -78,7 +78,7 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
             type="text"
             className="w-full outline-0 ring-0"
             placeholder="0"
-            onChange={(e: any) => setAmount(parseInt(e.target.value))}
+            onChange={(e: any) => setAmount(parseFloat(e.target.value))}
           />
         </div>
       </div>
