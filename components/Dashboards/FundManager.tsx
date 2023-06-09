@@ -76,7 +76,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
   }, []);
 
   return (
-    <div className="w-full my-8">
+    <div className="w-full">
       {loading && <LoadingDashboard />}
       {!loading && (
         <div className="w-full">
