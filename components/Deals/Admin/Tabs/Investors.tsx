@@ -53,13 +53,19 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
       setLoading(true);
       let { data: invitations, error } = await supabase
         .from('invitations')
-        .select('*, users(*)')
+        .select('*')
         .eq('deal_id', deal.id);
 
       if (invitations) {
         setKanban((prev: any) => ({
           ...prev,
-          invited: uniqBy(invitations, 'recipient_email')
+          invited: uniqBy(
+            invitations?.map((invitation) => ({
+              ...invitation,
+              users: { email: invitation.recipient_email }
+            })),
+            'recipient_email'
+          )
         }));
       }
     } catch (err) {
