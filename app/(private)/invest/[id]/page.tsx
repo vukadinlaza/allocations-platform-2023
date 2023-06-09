@@ -66,10 +66,6 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
     }
   }, []);
 
-  // deal.status !== 'draft' &&
-  // deal.status !== 'submitted' &&
-  // deal.status !== 'pending' &&
-
   return (
     <div className="mx-auto" style={{ maxWidth: 800 }}>
       {loading && <LoadingPage />}
