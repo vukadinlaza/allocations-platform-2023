@@ -42,21 +42,23 @@ import { usePlaidLink } from 'react-plaid-link';
 // @ts-nocheck
 export default function PlaidIdentityLink({
   linkToken,
-  onSuccess
+  onSuccess,
+  existingIdentityId
 }: {
   linkToken: string;
   onSuccess: () => any;
+  existingIdentityId?: string;
 }) {
   const config = {
     onSuccess: async (public_token: string, metadata: any) => {
       console.log(public_token, metadata);
-      await axios.post('/api/identity/PLAID/store_identity', {
+      await axios.post(`/api/identity/PLAID/store_identity${existingIdentityId ? '?identity_id=' + existingIdentityId : ''}`, {
         link_session_id: metadata.link_session_id
       });
       onSuccess();
     },
     onExit: async (err: any, metadata: any) => {
-      await axios.post('/api/identity/PLAID/store_identity', {
+      await axios.post(`/api/identity/PLAID/store_identity${existingIdentityId ? '?identity_id=' + existingIdentityId : ''}`, {
         link_session_id: metadata.link_session_id
       });
     },

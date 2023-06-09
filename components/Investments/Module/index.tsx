@@ -63,6 +63,7 @@ export default function InvestmentsModule({
               }}
               onUpdate={checkPermissions}
               selected={identity?.id}
+              validate={true}
             />
           </div>
           {/* {identity &&

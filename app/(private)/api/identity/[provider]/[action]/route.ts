@@ -8,6 +8,7 @@ import {
   PlaidEnvironments,
   Products
 } from 'plaid';
+import {LinkTokenCreateRequest} from "plaid/dist/api";
 
 export const revalidate = 0;
 
@@ -47,7 +48,10 @@ export async function GET(
       const clientUser = (await supabase.auth.getSession()).data.session?.user;
       const clientUserId = clientUser?.id;
       const clientUserEmail = clientUser?.email;
-      const request = {
+      const request: LinkTokenCreateRequest = {
+        update: {
+          account_selection_enabled: true
+        },
         user: {
           // This should correspond to a unique id for the current user.
           client_user_id: (clientUserId as string) ?? 'test',
@@ -102,45 +106,44 @@ export async function POST(
       const clientUser = (await supabase.auth.getSession()).data.session?.user;
       console.dir(IDVData, { colors: true, depth: null });
       console.dir(await supabase.auth.getUser(), { colors: true, depth: null });
-      if (IDVData.status == 'success') {
-        console.log('Verified');
+      console.log('Verified');
+      //ts-ignore
+      let existingRecordId = request.nextUrl.searchParams.get('identity_id');
+      if(!existingRecordId) {
+        // Perform a lookup by Plaid ID
         const existingIdentity = await supabase
           .from('identities')
           .select('*')
           .eq('provider_id', IDVData.id)
           .select();
-        let existingRecordId = undefined;
-
         if (existingIdentity.data?.length && existingIdentity.data.length > 0) {
           existingRecordId = existingIdentity.data[0].id;
         }
-        console.log(existingRecordId);
-        const data = await supabase
-          .from('identities')
-          .upsert({
-            id: existingRecordId,
-            user_email: clientUser?.email,
-            provider: 'PLAID',
-            provider_id: IDVData.id,
-            kyc_status: IDVData?.kyc_check?.status,
-            legal_name: `${IDVData?.user?.name?.given_name} ${IDVData?.user?.name?.family_name}`,
-            address_line_1: IDVData?.user?.address?.street,
-            address_line_2: IDVData?.user?.address?.street2,
-            city: IDVData?.user?.address?.city,
-            region: IDVData?.user?.address?.region,
-            postal_code: IDVData?.user?.address?.postal_code,
-            country: IDVData?.user.address?.country,
-            phone_number: IDVData?.user?.phone_number,
-            type: 'Individual',
-            tax_id: IDVData?.user?.id_number?.value,
-            tax_id_type:
-              IDVData?.user?.id_number?.type === 'us_ssn' ? 'SSN' : 'TIN'
-          })
-          .select();
-        console.log(data);
-      } else {
-        console.log('Not Verified');
       }
+      console.log(existingRecordId);
+      const data = await supabase
+        .from('identities')
+        .upsert({
+          id: existingRecordId,
+          user_email: clientUser?.email,
+          provider: 'PLAID',
+          provider_id: IDVData.id,
+          kyc_status: IDVData?.kyc_check?.status,
+          legal_name: `${IDVData?.user?.name?.given_name} ${IDVData?.user?.name?.family_name}`,
+          address_line_1: IDVData?.user?.address?.street,
+          address_line_2: IDVData?.user?.address?.street2,
+          city: IDVData?.user?.address?.city,
+          region: IDVData?.user?.address?.region,
+          postal_code: IDVData?.user?.address?.postal_code,
+          country: IDVData?.user.address?.country,
+          phone_number: IDVData?.user?.phone_number,
+          type: 'Individual',
+          tax_id: IDVData?.user?.id_number?.value,
+          tax_id_type:
+            IDVData?.user?.id_number?.type === 'us_ssn' ? 'SSN' : 'TIN'
+        })
+        .select();
+        console.log(data);
       return NextResponse.json({ provider, action });
     }
   }

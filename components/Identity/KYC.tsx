@@ -6,10 +6,12 @@ import { useState } from 'react';
 
 export default function KYC({
   onUpdate,
-  uncomplete = false
+  uncomplete = false,
+  existingIdentityId
 }: {
   onUpdate: () => void;
   uncomplete?: boolean;
+  existingIdentityId?: string;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);

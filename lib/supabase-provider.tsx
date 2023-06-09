@@ -41,6 +41,9 @@ export default function SupabaseProvider({
           *,
           accreditations (
             *
+          ),
+          identities (
+            *
           )
         ),
         organizations_roles (
