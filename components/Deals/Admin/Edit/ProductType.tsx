@@ -14,7 +14,7 @@ export default function DealProductType({
   selected?: string;
 }) {
   const [productType, setProductType] = useState<string | undefined>(
-    deal_product_types[0]
+    selected ?? deal_product_types[0]
   );
 
   useEffect(() => {

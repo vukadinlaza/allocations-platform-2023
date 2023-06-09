@@ -83,6 +83,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         .single();
 
       if (dealDetails) {
+        console.log(dealDetails);
         setNewDealDetails(dealDetails);
       }
     } catch (err) {
@@ -119,6 +120,19 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         agree_msa,
         agree_setup,
         agree_costs,
+        accept_crypto,
+        advisor_type,
+        asset_id,
+        bank_account_id,
+        banking_provider,
+        deal_term,
+        entity_name,
+        estimated_multiple,
+        international_investors,
+        legal_company_name,
+        legacy_company_name,
+        onboarding_link,
+        sub_type,
         ...dealData
       } = newDeal;
 
