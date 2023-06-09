@@ -107,7 +107,7 @@ export async function POST(
       console.dir(IDVData, { colors: true, depth: null });
       console.dir(await supabase.auth.getUser(), { colors: true, depth: null });
       console.log('Verified');
-      //ts-ignore
+      // @ts-ignore
       let existingRecordId = request.nextUrl.searchParams.get('identity_id');
       if(!existingRecordId) {
         // Perform a lookup by Plaid ID
