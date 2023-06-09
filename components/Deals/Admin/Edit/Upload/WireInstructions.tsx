@@ -1,6 +1,6 @@
-import { useAuthContext } from 'app/(private)/context';
 import Upload from '@/components/Upload';
 import { useSupabase } from '@/lib/supabase-provider';
+import { useAuthContext } from 'app/(private)/context';
 import { useEffect, useState } from 'react';
 
 export default function UploadWireInstructions({
@@ -49,7 +49,7 @@ export default function UploadWireInstructions({
           return notify('Wire instructions successfully removed.', true);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoading(false);
       }

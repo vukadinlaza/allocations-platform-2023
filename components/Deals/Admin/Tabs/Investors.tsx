@@ -1,46 +1,20 @@
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import Table from '@/components/Table';
+import Price from '@/components/Price';
+import UserItem from '@/components/UserItem';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
+import { uniqBy } from 'lodash';
 import { useEffect, useState } from 'react';
 
 export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
-  const [investors, setInvestors] = useState<null[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  let headers = [
-    {
-      label: 'Name',
-      key: 'name',
-      type: 'string'
-    },
-    {
-      label: 'E-mail',
-      key: 'email',
-      type: 'email'
-    },
-    {
-      label: 'Subscription amount',
-      key: 'subscription_amount',
-      type: 'price'
-    },
-    {
-      label: 'Capital wired',
-      key: 'capital_wired_amount',
-      type: 'price'
-    },
-    {
-      label: 'Status',
-      key: 'status',
-      type: 'chip'
-    }
-    // {
-    //   label: 'Documents',
-    //   key: 'documents'
-    // }
-  ];
+  const [kanban, setKanban] = useState<any>({
+    invited: [],
+    signed: [],
+    completed: []
+  });
 
   const fetchInvestors = async () => {
     if (!deal) return;
@@ -53,19 +27,18 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
         .neq('status', 'archived');
 
       if (investments) {
-        setInvestors(
-          investments.map((invest) => ({
-            ...invest.users,
-            name: invest.users
-              ? `${invest.users.first_name ?? ''} ${
-                  invest.users.last_name ?? ''
-                }`.trim()
-              : null,
-            status: invest.status,
-            subscription_amount: invest.subscription_amount,
-            capital_wired_amount: invest.capital_wired_amount
-          }))
-        );
+        const data: any = {
+          signed: [],
+          completed: []
+        };
+        investments.forEach((investment) => {
+          const { status } = investment;
+          data[status.toLowerCase()].push(investment);
+          setKanban((prev: any) => ({
+            ...prev,
+            ...data
+          }));
+        });
       }
     } catch (err) {
       console.log(err);
@@ -74,16 +47,92 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
     }
   };
 
+  const fetchInvitations = async () => {
+    if (!deal) return;
+    try {
+      setLoading(true);
+      let { data: invitations, error } = await supabase
+        .from('invitations')
+        .select('*, users(*)')
+        .eq('deal_id', deal.id);
+
+      if (invitations) {
+        setKanban((prev: any) => ({
+          ...prev,
+          invited: uniqBy(invitations, 'recipient_email')
+        }));
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchKanban = async () => {
+    const promises = [fetchInvitations(), fetchInvestors()];
+    await Promise.all(promises);
+  };
+
   useEffect(() => {
-    fetchInvestors();
+    fetchKanban();
   }, []);
 
   return (
     <div>
       {loading && <LoadingList />}
-      {!loading && !investors.length && <None text="No investors yet." />}
-      {!loading && investors.length > 0 && (
-        <Table data={investors} headers={headers} />
+      {!loading && (
+        <div className="grid gap-4 md:grid-cols-3">
+          {Object.entries(kanban).map(([category, items]: any) => (
+            <div className="bg-white border rounded card--popup" key={category}>
+              <header className="flex justify-between">
+                <h2 className="mb-0 capitalize">
+                  <span className="mr-2">{category}</span>
+                  <span className="chip chip--small chip--info">
+                    {items.length}
+                  </span>
+                </h2>
+                <div>
+                  {category === 'completed' && (
+                    <label>
+                      <Price
+                        price={
+                          items?.reduce(
+                            (sum: number, item: any) =>
+                              sum + item.subscription_amount,
+                            0
+                          ) || 0
+                        }
+                      />
+                    </label>
+                  )}
+                </div>
+              </header>
+              <div className="w-full px-4 py-6">
+                {items.length === 0 && <None text={`No ${category} yet.`} />}
+                {items.length > 0 && (
+                  <div className="grid gap-2">
+                    {items.map((item: any, index: number) => (
+                      <div key={index}>
+                        <UserItem
+                          user={item.users}
+                          content={
+                            category === 'signed' ||
+                            category === 'completed' ? (
+                              <label>
+                                {<Price price={item.subscription_amount} />}
+                              </label>
+                            ) : null
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
