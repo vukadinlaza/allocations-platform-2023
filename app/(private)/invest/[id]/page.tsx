@@ -45,6 +45,20 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
     }
   }
 
+  const canInvest = () => {
+    if (!deal) return;
+    const list = [
+      'draft',
+      'submitted',
+      'pending',
+      'closed',
+      'archived',
+      'rejected',
+      'cancelled'
+    ];
+    return !list.includes(deal.status);
+  };
+
   useEffect(() => {
     fetchDeal();
     if (searchParams.amount) {
@@ -58,77 +72,89 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
       {!loading && !deal && <None text="No deal found." />}
       {!loading && deal && (
         <div>
-          <header className="w-full px-4 mb-8">
-            <div className="flex items-center justify-between pb-4">
-              {deal.name && (
-                <h1 className="mb-4">New investment in {deal.name}</h1>
-              )}
-              <Button
-                label={'Back to deal'}
-                small={true}
-                onClick={async () => router.push(`/deals/${deal.id}`)}
-                icon={
-                  <Image
-                    src={'/open.svg'}
-                    alt="copy"
-                    className="opacity-50 invert"
-                    width={20}
-                    height={20}
-                  />
-                }
-              />
-            </div>
-            <div className="flex items-center gap-4">
-              <UserItem user={user} />
-              <Image
-                src="/arrow.svg"
-                className="rotate-90"
-                alt={'sort'}
-                width={28}
-                height={28}
-              />
-              <DealItem deal={deal} />
-            </div>
-          </header>
-          {deal && (
-            <Card className="w-full bg-white">
-              <div className="p-6">
-                <h2 className="text-lg font-bold">Select an amount</h2>
-                <div className="relative grid py-1">
-                  <div className="flex items-center mb-4 input">
-                    <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
-                    <input
-                      value={amount || 0}
-                      type="text"
-                      className="w-full bg-transparent outline-0 ring-0"
-                      placeholder="0"
-                      onChange={(e: any) => {
-                        const inputValue = parseFloat(e.target.value);
-                        if (!isNaN(inputValue)) {
-                          setAmount(inputValue);
-                        } else {
-                          setAmount(0);
-                        }
-                      }}
-                    />
-                  </div>
-                  <p className="flex items-center gap-1 text-sm">
-                    Minimum is <Price price={deal.minimum_investment ?? '1'} />{' '}
-                    - invest by <DateComponent date={deal.closing_date} />
-                  </p>
-                </div>
-              </div>
-              {amount < 1 && (
-                <div className="p-6">
-                  <Alert severity="warning">
-                    You cannot invest less than the minimum amount.
-                  </Alert>
-                </div>
-              )}
-              {amount >= 1 && <InvestmentsModule deal={deal} amount={amount} />}
-            </Card>
+          {!canInvest() && (
+            <None text="Sorry, you can't invest in this deal." />
           )}
-          {!deal && <None text="No deal found." />}
+          {canInvest() && (
+            <div>
+              <header className="w-full px-4 mb-8">
+                <div className="flex items-center justify-between pb-4">
+                  {deal.name && (
+                    <h1 className="mb-4">New investment in {deal.name}</h1>
+                  )}
+                  <Button
+                    label={'Back to deal'}
+                    small={true}
+                    onClick={async () => router.push(`/deals/${deal.id}`)}
+                    icon={
+                      <Image
+                        src={'/open.svg'}
+                        alt="copy"
+                        className="opacity-50 invert"
+                        width={20}
+                        height={20}
+                      />
+                    }
+                  />
+                </div>
+                <div className="flex items-center gap-4">
+                  <UserItem user={user} />
+                  <Image
+                    src="/arrow.svg"
+                    className="rotate-90"
+                    alt={'sort'}
+                    width={28}
+                    height={28}
+                  />
+                  <DealItem deal={deal} />
+                </div>
+              </header>
+              {deal && (
+                <Card className="w-full bg-white">
+                  <div className="p-6">
+                    <h2 className="text-lg font-bold">Select an amount</h2>
+                    <div className="relative grid py-1">
+                      <div className="flex items-center mb-4 input">
+                        <div className="px-2 py-1 mr-2 bg-gray-100 rounded">
+                          $
+                        </div>
+                        <input
+                          value={amount || 0}
+                          type="text"
+                          className="w-full bg-transparent outline-0 ring-0"
+                          placeholder="0"
+                          onChange={(e: any) => {
+                            const inputValue = parseFloat(e.target.value);
+                            if (!isNaN(inputValue)) {
+                              setAmount(inputValue);
+                            } else {
+                              setAmount(0);
+                            }
+                          }}
+                        />
+                      </div>
+                      <p className="flex items-center gap-1 text-sm">
+                        Minimum is{' '}
+                        <Price price={deal.minimum_investment ?? '1'} /> -
+                        invest by <DateComponent date={deal.closing_date} />
+                      </p>
+                    </div>
+                  </div>
+                  {amount < 1 && (
+                    <div className="p-6">
+                      <Alert severity="warning">
+                        You cannot invest less than the minimum amount.
+                      </Alert>
+                    </div>
+                  )}
+                  {amount >= 1 && (
+                    <InvestmentsModule deal={deal} amount={amount} />
+                  )}
+                </Card>
+              )}
+              {!deal && <None text="No deal found." />}
+            </div>
+          )}
         </div>
       )}
     </div>
