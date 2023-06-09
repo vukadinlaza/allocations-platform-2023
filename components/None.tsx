@@ -13,7 +13,7 @@ export default function None({ text }: { text: string }) {
         width={75}
         height={75}
       />
-      <p>{text || ''}</p>
+      <label>{text || ''}</label>
     </Card>
   );
 }

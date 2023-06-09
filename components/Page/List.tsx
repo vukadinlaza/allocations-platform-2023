@@ -212,9 +212,9 @@ export default function PageList({ data }: { data: any }) {
                   </Card>
                 </Dialog>
               )}
-              <header className="pb-4 md:pb-8">
+              <header className="pb-4 md:pb-6">
                 <div>
-                  <h1 className="mb-2 md:text-lg">
+                  <h1 className="mb-2 md:text-xl">
                     <span className="mr-2">{header.name || 'No title'}</span>
                     <div className="chip chip--small chip--info">
                       {initialData && initialData.length

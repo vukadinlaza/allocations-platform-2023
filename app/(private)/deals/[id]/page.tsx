@@ -42,6 +42,21 @@ export default function DealID() {
         setHasRole(isOwner);
         setDeal(_deal);
       }
+
+      if (isOwner) {
+        const { data: private_deal } = await supabase
+          .from('private_deals')
+          .select('*')
+          .eq('id', params.id)
+          .single();
+
+        if (private_deal) {
+          setDeal((prev: any) => ({
+            ...prev,
+            ...private_deal
+          }));
+        }
+      }
     } catch (error) {
       // console.error(error);
     } finally {

@@ -47,8 +47,10 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
     }
     return 0;
   };
+
+  console.log(deal);
   return (
-    <div className="container mt-6 mb-24 deal-admin">
+    <div className="container mb-24 deal-admin">
       {!deal && <None text="No deal found." />}
       {deal && (
         <div>
@@ -63,7 +65,9 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
               <ModalBox
                 title={'Invite by email'}
                 onClose={() => setOpenModal(false)}
-                content={<DealInvite deal={deal} onClose={() => setOpenModal(false)} />}
+                content={
+                  <DealInvite deal={deal} onClose={() => setOpenModal(false)} />
+                }
               />
             </Dialog>
             <Button

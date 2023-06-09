@@ -25,7 +25,6 @@ body,
 
   label {
     @apply text-sm text-gray-500;
-    line-height: 28px;
   }
 
   p {
@@ -221,10 +220,6 @@ body,
 
   .header {
     @apply bg-white shadow-sm flex flex-col w-full;
-
-    &--main {
-      @apply px-5 py-2 flex items-center justify-center w-full border-b;
-    }
 
     &--menu {
       @apply flex items-center;

@@ -194,11 +194,20 @@ export default function FormBuilder({
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                           ) => {
-                            setData((prevData: any) => ({
-                              ...prevData,
-                              // @ts-ignore
-                              [field.key]: parseFloat(e.target.value)
-                            }));
+                            const inputValue = parseFloat(e.target.value);
+                            if (!isNaN(inputValue)) {
+                              setData((prevData: any) => ({
+                                ...prevData,
+                                // @ts-ignore
+                                [field.key]: parseFloat(e.target.value)
+                              }));
+                            } else {
+                              setData((prevData: any) => ({
+                                ...prevData,
+                                // @ts-ignore
+                                [field.key]: 0
+                              }));
+                            }
                           }}
                         />
                       </div>

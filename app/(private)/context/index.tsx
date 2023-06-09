@@ -1,5 +1,4 @@
 'use client';
-import AlertsMigration from '@/components/Alerts/Migration';
 import Header from '@/components/Header';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
@@ -16,7 +15,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const { supabase, fetchUser } = useSupabase();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [betaAlert, showBetaAlert] = useState(true);
   const [expand, setExpand] = useState(false);
 
   const signOut = async () => {
@@ -101,15 +99,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         <main className="relative">
           <Header setExpand={setExpand} expand={expand} />
           <div
-            className={`p-4 ${
+            className={`p-4 my-6 ${
               expand ? 'container transition-all duration-500 ease-out' : ''
             }`}
           >
-            {betaAlert && (
-              <div>
-                <AlertsMigration />
-              </div>
-            )}
             {children}
           </div>
           <ToastContainer />

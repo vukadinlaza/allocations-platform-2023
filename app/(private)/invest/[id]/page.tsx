@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function InvestDealID({ searchParams }: { searchParams: any }) {
+export default function InvestDealID() {
   const params = useParams();
   const router = useRouter();
   const { supabase } = useSupabase();
@@ -39,6 +39,7 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
 
       if (_deal) setDeal(_deal);
 
+      setAmount(_deal.minimum_investment);
     } catch (error) {
       console.error(error);
     } finally {
@@ -48,9 +49,6 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
 
   useEffect(() => {
     fetchDeal();
-    if (searchParams.amount) {
-      setAmount(parseFloat(searchParams.amount));
-    }
   }, []);
 
   return (
@@ -60,10 +58,13 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
       {!loading && deal && (
         <div>
           <header className="w-full px-4 mb-8">
-            <div className="flex items-center justify-between mb-6">
-              {deal.name && <h1 className="mb-0">New investment</h1>}
+            <div className="flex items-center justify-between pb-4">
+              {deal.name && (
+                <h1 className="mb-4">New investment in {deal.name}</h1>
+              )}
               <Button
                 label={'Back to deal'}
+                small={true}
                 onClick={async () => router.push(`/deals/${deal.id}`)}
                 icon={
                   <Image
@@ -96,13 +97,18 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
                   <div className="flex items-center mb-4 input">
                     <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
                     <input
-                      value={amount}
+                      value={amount || 0}
                       type="text"
-                      className="w-full bg-transparent money outline-0 ring-0"
+                      className="w-full bg-transparent outline-0 ring-0"
                       placeholder="0"
-                      onChange={(e: any) =>
-                        setAmount(parseFloat(e.target.value))
-                      }
+                      onChange={(e: any) => {
+                        const inputValue = parseFloat(e.target.value);
+                        if (!isNaN(inputValue)) {
+                          setAmount(inputValue);
+                        } else {
+                          setAmount(0);
+                        }
+                      }}
                     />
                   </div>
                   <p className="flex items-center gap-1 text-sm">

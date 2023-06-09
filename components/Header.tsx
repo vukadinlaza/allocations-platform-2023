@@ -1,8 +1,8 @@
 'use client';
 
 import { navigation } from '@/app/(private)/config';
+import AlertsMigration from '@/components/Alerts/Migration';
 import { useAuthContext } from 'app/(private)/context';
-import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -22,43 +22,24 @@ export default function Header({
 
   return (
     <div className="header">
-      <div className="header--main">
-        <div>
-          <Logo />
-        </div>
-        <div className="flex items-center justify-end w-full grow">
-          {user && (
-            <div className="flex items-center justify-end ml-4 grow">
-              {user && (
-                <div className="flex items-center justify-between">
-                  {user.is_super_admin && (
-                    <div className="mx-2">
-                      {user.is_super_admin && (
-                        <Chip
-                          size="small"
-                          color="info"
-                          className="font-bold text-white"
-                          label="Admin"
-                        ></Chip>
-                      )}
-                    </div>
-                  )}
-                  {/*<Feedback />*/}
-                  <MissingData />
-                  {/* <div className="w-48 mr-2 text-xs font-medium shadow-sm cursor-pointer">
-                    <Select
-                      items={organizations}
-                      onChange={(e: any) => {
-                        // setCurrentOrganization(e.target.value)
-                      }}
-                      displayLabel={(o: any) => o.name}
-                    />
-                  </div> */}
-                  <MenuAvatar />
-                </div>
-              )}
-            </div>
-          )}
+      <div className="flex items-center justify-center w-full border-b rounded">
+        <div className="flex w-full px-5 py-2">
+          <div className="flex items-center gap-4 grow">
+            <Logo />
+            <AlertsMigration />
+          </div>
+          <div className="flex items-center justify-end">
+            {user && (
+              <div className="flex items-center justify-end ml-4">
+                {user && (
+                  <div className="flex items-center justify-between">
+                    <MissingData />
+                    <MenuAvatar />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="flex items-center justify-between w-full px-4 py-3 overflow-auto">
