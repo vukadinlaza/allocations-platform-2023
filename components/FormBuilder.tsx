@@ -50,7 +50,7 @@ export default function FormBuilder({
             if (field.show) {
               return (
                 <Grid item xs={12} key={field.key}>
-                  <p className="mb-2">{field.label || 'No label'}</p>
+                  <label>{field.label || 'No label'}</label>
                   <div className="flex items-center gap-2">
                     {field.type === 'string' && (
                       <input
@@ -182,6 +182,7 @@ export default function FormBuilder({
                           $
                         </div>
                         <input
+                          type="number"
                           placeholder={field.placeholder || undefined}
                           disabled={loading || field.disabled}
                           className={`px-3 py-2 ${

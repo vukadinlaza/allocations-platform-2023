@@ -7,16 +7,32 @@ import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
 import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
 import ItemsHeader from '@/components/Items/Header';
 import Progress from '@/components/Items/Progress';
+import ModalBox from '@/components/Modal';
 import Nav from '@/components/Nav';
 import None from '@/components/None';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
+import Dialog from '@mui/material/Dialog';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 import Image from 'next/image';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Client from '../Client';
+import DealInvite from '../Invite';
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function DealAdmin({ deal }: { deal?: Deal }) {
   const [active, setActive] = useState('Edit page');
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   const items = [
     { key: 'Edit page' },
     { key: 'View page' },
@@ -38,11 +54,22 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
         <div>
           <div className="flex items-start justify-between">
             <ItemsHeader data={deal} />
+            <Dialog
+              open={openModal}
+              TransitionComponent={Transition}
+              keepMounted
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <ModalBox
+                title={'Invite by email'}
+                onClose={() => setOpenModal(false)}
+                content={<DealInvite deal={deal} onClose={() => setOpenModal(false)} />}
+              />
+            </Dialog>
             <Button
               loading={false}
-              disabled={true}
-              label={'Invite'}
-              onClick={() => {}}
+              label={'Invite to invest'}
+              onClick={() => setOpenModal(true)}
               icon={
                 <Image
                   src={'/invite.svg'}

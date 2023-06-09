@@ -23,6 +23,11 @@ body,
     @apply text-base font-medium mb-1;
   }
 
+  label {
+    @apply text-sm text-gray-500;
+    line-height: 28px;
+  }
+
   p {
     @apply text-gray-600 m-0;
   }
