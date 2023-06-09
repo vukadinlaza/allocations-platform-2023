@@ -19,3 +19,19 @@ export const downloadFile = async (fileData: Blob, fileName: string) => {
   URL.revokeObjectURL(url);
   link.remove();
 };
+
+export const getDeviceType = () => {
+  const userAgent = navigator.userAgent;
+  
+  // Regular expressions to match device types
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  const tabletRegex = /Tablet|iPad/i;
+  
+  if (mobileRegex.test(userAgent)) {
+    return 'Mobile';
+  } else if (tabletRegex.test(userAgent)) {
+    return 'Tablet';
+  } else {
+    return 'Desktop';
+  }
+}
