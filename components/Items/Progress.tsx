@@ -12,7 +12,7 @@ export default function Progress({
       <LinearProgress
         sx={{ height: 24, borderRadius: 4 }}
         variant="determinate"
-        value={value || 0}
+        value={value > 100 ? 100 : value}
       />
       {footer}
     </div>
