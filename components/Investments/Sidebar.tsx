@@ -1,14 +1,16 @@
+'use client';
 import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
 import { Deal } from '@/types';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(deal.minimum_investment || 0);
   const router = useRouter();
+  const params = useSearchParams();
 
   const dealInformations = [
     {
@@ -60,6 +62,13 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
     ];
     return conditions.every((condition) => condition());
   };
+
+  useEffect(() => {
+    const am = params?.get('amount');
+    if (am) {
+      setAmount(parseFloat(am));
+    }
+  }, []);
 
   return (
     <div className="sticky self-start w-full bg-white rounded-md shadow top-8">

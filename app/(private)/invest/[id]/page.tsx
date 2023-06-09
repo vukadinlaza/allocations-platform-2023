@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function InvestDealID() {
+export default function InvestDealID({ searchParams }: { searchParams: any }) {
   const params = useParams();
   const router = useRouter();
   const { supabase } = useSupabase();
@@ -38,8 +38,6 @@ export default function InvestDealID() {
       if (error) throw error;
 
       if (_deal) setDeal(_deal);
-
-      setAmount(_deal.minimum_investment);
     } catch (error) {
       console.error(error);
     } finally {
@@ -49,6 +47,9 @@ export default function InvestDealID() {
 
   useEffect(() => {
     fetchDeal();
+    if (searchParams.amount) {
+      setAmount(parseFloat(searchParams.amount));
+    }
   }, []);
 
   return (
