@@ -94,7 +94,7 @@ export default function InvestmentEntity(
       <main>
         <div>
           {identities && (
-            <Box sx={{maxHeight: '80vh', overflowY:'scroll'}}>
+            <Box sx={{maxHeight: '80vh', overflowY:'auto'}}>
               {identities.map((identity: Identity, index: number) => (
                 <div
                   key={'identity-' + identity.id}

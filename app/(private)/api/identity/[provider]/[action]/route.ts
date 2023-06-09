@@ -124,7 +124,7 @@ export async function POST(
       const data = await supabase
         .from('identities')
         .upsert({
-          id: existingRecordId,
+          id: existingRecordId ? existingRecordId : undefined,
           user_email: clientUser?.email,
           provider: 'PLAID',
           provider_id: IDVData.id,
