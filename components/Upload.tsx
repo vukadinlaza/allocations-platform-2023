@@ -110,7 +110,7 @@ export default function Upload({
         } flex flex-col items-center upload--zone`}
         onClick={handleUploadClick}
       >
-        <label className="text-primary">
+        <div className="text-primary">
           <Image
             alt="upload"
             src="/upload.svg"
@@ -118,7 +118,7 @@ export default function Upload({
             width={48}
             height={48}
           />
-        </label>
+        </div>
       </div>
     </div>
   );

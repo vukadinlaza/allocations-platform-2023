@@ -50,7 +50,7 @@ export default function FormBuilder({
             if (field.show) {
               return (
                 <Grid item xs={12} key={field.key}>
-                  <p className="mb-2">{field.label || 'No label'}</p>
+                  <label>{field.label || 'No label'}</label>
                   <div className="flex items-center gap-2">
                     {field.type === 'string' && (
                       <input
@@ -177,14 +177,15 @@ export default function FormBuilder({
                       />
                     )}
                     {field.type === 'money' && field.key && (
-                      <div className="flex items-center w-full p-0 mr-2 input">
-                        <div className="px-3 py-2 font-medium bg-gray-100">
+                      <div className="flex items-center w-full mr-2 overflow-hidden border rounded">
+                        <div className="px-3 py-2 mr-2 font-medium bg-gray-100">
                           $
                         </div>
                         <input
+                          type="text"
                           placeholder={field.placeholder || undefined}
                           disabled={loading || field.disabled}
-                          className={`px-3 py-2 ${
+                          className={`money ${
                             loading ? 'disabled' : ''
                           } border-0 w-full outline-none focus:outline-none ring-0`}
                           value={
@@ -193,16 +194,11 @@ export default function FormBuilder({
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                           ) => {
-                            const inputValue = e.target.value;
-                            const numericValue = parseFloat(inputValue);
-
-                            if (!isNaN(numericValue)) {
-                              setData((prevData: any) => ({
-                                ...prevData,
-                                // @ts-ignore
-                                [field.key]: numericValue
-                              }));
-                            }
+                            setData((prevData: any) => ({
+                              ...prevData,
+                              // @ts-ignore
+                              [field.key]: parseFloat(e.target.value)
+                            }));
                           }}
                         />
                       </div>

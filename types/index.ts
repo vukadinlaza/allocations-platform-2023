@@ -14,7 +14,8 @@ type FieldType =
   | 'date'
   | 'slider'
   | 'multiselect'
-  | 'money';
+  | 'money'
+  | undefined;
 
 export type Field = {
   disabled?: boolean | false;
@@ -29,7 +30,7 @@ export type Field = {
   save?: boolean | false;
   show?: boolean | true;
   limit?: number;
-  type: FieldType; // add more types as needed
+  type?: FieldType; // add more types as needed
   value?: any;
   copy?: boolean | false;
 };
