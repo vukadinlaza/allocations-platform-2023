@@ -19,11 +19,13 @@ export default function UserItem({
           textTransform: 'capitalize'
         }}
       >
-        {getFirstLetter(user.email)}
+        {user?.email && getFirstLetter(user.email)}
       </Avatar>
-      <div className="flex flex-col grow">
-        <span className="text-sm font-medium">{getFullName(user)}</span>
-        <label>{user.email}</label>
+      <div className="grid items-start pr-2 grow">
+        <span className="text-sm font-medium truncate">
+          {user && getFullName(user)}
+        </span>
+        {user?.email && <label className="truncate">{user.email}</label>}
       </div>
       {content && (
         <div className="flex flex-col items-end justify-end">{content}</div>
