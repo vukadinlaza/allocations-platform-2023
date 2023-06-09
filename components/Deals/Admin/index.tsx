@@ -70,6 +70,11 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
               />
             </Dialog>
             <Button
+              disabled={
+                deal.status === 'draft' ||
+                deal.status === 'submitted' ||
+                deal.status === 'pending'
+              }
               loading={false}
               label={'Invite to invest'}
               onClick={() => setOpenModal(true)}
