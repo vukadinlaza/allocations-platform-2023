@@ -1,6 +1,6 @@
 export const getFullName = (user: any) => {
   if (!user) return '';
-  if (user && user.first_name) return `${user.first_name} ${user.last_name}`;
+  if (user && user.first_name) return `${user.first_name} ${user.last_name ?? ''}`.trim();
   return user.email;
 };
 
