@@ -39,7 +39,6 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
 
       if (_deal) setDeal(_deal);
 
-      // setAmount(_deal.minimum_investment);
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,7 +50,6 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
     fetchDeal();
     if (searchParams.amount) {
       setAmount(parseFloat(searchParams.amount));
-      console.log(parseFloat(searchParams.amount));
     }
   }, []);
 
