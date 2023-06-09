@@ -48,7 +48,6 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
     return 0;
   };
 
-  console.log(deal);
   return (
     <div className="container mb-24 deal-admin">
       {!deal && <None text="No deal found." />}
