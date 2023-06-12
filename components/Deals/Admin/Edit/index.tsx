@@ -83,7 +83,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         .single();
 
       if (dealDetails) {
-        console.log(dealDetails);
         setNewDealDetails(dealDetails);
       }
     } catch (err) {

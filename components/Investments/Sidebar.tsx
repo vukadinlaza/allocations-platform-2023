@@ -68,7 +68,6 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
 
   const hasInvested = () => {
     if (!deal || !user) return false;
-    console.log('hasInvested');
     const { investments } = user;
     if (investments) {
       const currentDealInvestments = investments.filter(
