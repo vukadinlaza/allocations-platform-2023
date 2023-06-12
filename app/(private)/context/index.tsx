@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const { supabase, fetchUser } = useSupabase();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
 
   const signOut = async () => {
     try {
@@ -99,7 +99,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         <main className="relative">
           <Header setExpand={setExpand} expand={expand} />
           <div
-            className={`p-4 my-6 ${
+            className={`p-4 ${
               expand ? 'container transition-all duration-500 ease-out' : ''
             }`}
           >

@@ -37,6 +37,9 @@ export default function SupabaseProvider({
       .from('users')
       .select(
         `*,
+        investments (
+          *
+        ),
         identities (
           *,
           accreditations (

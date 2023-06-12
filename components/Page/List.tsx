@@ -214,7 +214,7 @@ export default function PageList({ data }: { data: any }) {
               )}
               <header className="pb-4 md:pb-6">
                 <div>
-                  <h1 className="mb-2 md:text-xl">
+                  <h1 className="mb-2 md:text-2xl">
                     <span className="mr-2">{header.name || 'No title'}</span>
                     <div className="chip chip--small chip--info">
                       {initialData && initialData.length

@@ -403,11 +403,6 @@ export const headers_tables = {
       type: 'string'
     },
     {
-      label: 'Status',
-      key: 'status',
-      type: 'chip'
-    },
-    {
       label: 'Total deals',
       key: 'deals.0.count',
       type: 'count'
