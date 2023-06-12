@@ -301,7 +301,7 @@ export const headers_tables = {
       type: 'string'
     },
     {
-      label: 'Total raised',
+      label: 'Total subscribed',
       key: 'total_raised_amount',
       type: 'price'
     },
@@ -382,7 +382,7 @@ export const headers_tables = {
       type: 'string'
     },
     {
-      label: 'Total raised',
+      label: 'Total subscribed',
       key: 'total_raised_amount',
       type: 'price'
     },
@@ -445,7 +445,7 @@ export const headers_tables = {
       type: 'string'
     },
     {
-      label: 'Total raised',
+      label: 'Total subscribed',
       key: 'total_raised_amount',
       type: 'price'
     },
