@@ -112,7 +112,7 @@ body,
 
   // tw
   .card {
-    @apply flex flex-col items-center justify-center p-4 md:p-8 mb-6;
+    @apply flex flex-col items-center justify-center px-4 py-3 md:px-8 md:py-6 mb-6;
 
     &--popup {
       header,
