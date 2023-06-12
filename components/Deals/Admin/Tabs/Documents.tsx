@@ -55,7 +55,8 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
       let { data: investments, error: investmentsError } = await supabase
         .from('investments')
         .select('*, investments_files(*, files(*)), identities(legal_name)')
-        .eq('deal_id', deal.id);
+        .eq('deal_id', deal.id)
+        .neq('status', 'archived');
       if (investments) {
         for (const investment of investments) {
           for (const investmentFile of investment.investments_files) {
