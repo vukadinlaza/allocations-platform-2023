@@ -1,4 +1,5 @@
 'use client';
+import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import Price from '@/components/Price';
@@ -6,11 +7,13 @@ import { Deal } from '@/types';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Money from '../Money';
 
 export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(deal.minimum_investment || 0);
   const router = useRouter();
   const params = useSearchParams();
+  const { user } = useAuthContext();
 
   const dealInformations = [
     {
@@ -63,6 +66,25 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
     return conditions.every((condition) => condition());
   };
 
+  const hasInvested = () => {
+    if (!deal || !user) return false;
+    console.log('hasInvested');
+    const { investments } = user;
+    if (investments) {
+      const currentDealInvestments = investments.filter(
+        (investment: any) => investment.deal_id === deal.id
+      );
+      if (currentDealInvestments.length === 0) return false;
+      return (
+        currentDealInvestments.reduce(
+          (sum: number, item: any) => sum + item.subscription_amount,
+          0
+        ) || 0
+      );
+    }
+    return false;
+  };
+
   useEffect(() => {
     const am = params?.get('amount');
     if (am) {
@@ -80,16 +102,7 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
         </p>
       </header>
       <div className="relative grid px-6 py-1">
-        <div className="flex items-center input">
-          <div className="px-2 py-1 mr-2 bg-gray-100 rounded">$</div>
-          <input
-            value={amount || 0}
-            type="text"
-            className="w-full outline-0 ring-0"
-            placeholder="0"
-            onChange={(e: any) => setAmount(parseFloat(e.target.value))}
-          />
-        </div>
+        <Money onChange={setAmount} amount={amount} />
       </div>
       <div>
         <div>
@@ -105,6 +118,23 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
               />
             )}
           </div>
+          {hasInvested() && (
+            <div className="mx-6 mb-4">
+              <div className="flex flex-col gap-1 px-3 py-2 text-xs text-gray-500 border rounded shadow-sm kyc bg-primary-500/10 border-primary-500/20">
+                <span>
+                  You have already invested <Price price={hasInvested()} />.
+                </span>
+                <span
+                  className="text-xs cta"
+                  onClick={() => {
+                    router.push(`/investments?deal_id=${deal.id}`);
+                  }}
+                >
+                  View your investments.
+                </span>
+              </div>
+            </div>
+          )}
           <ul className="divide-y divide-gray-200">
             {dealInformations.map((item) => (
               <li
