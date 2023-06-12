@@ -79,7 +79,6 @@ export default function InvestmentEntity(
   ]);
   const validateIdentity = (identity: Identity, returnErrors: boolean = false) => {
     const result = identityValidation.safeParse(identity);
-    console.log(result, identity);
     if (!returnErrors)
       return result.success;
     if (!result.success)
