@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const { supabase, fetchUser } = useSupabase();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
 
   const signOut = async () => {
     try {

@@ -458,7 +458,8 @@ export const headers_tables = {
       label: '',
       manage: true
     }
-  ]
+  ],
+  taxes: []
 };
 
 export const navigation = [
@@ -467,5 +468,6 @@ export const navigation = [
   { name: 'SPVs', href: '/spvs' },
   { name: 'Funds', href: '/funds' },
   { name: 'Organizations', href: '/organizations' },
-  { name: 'Migrations', href: '/migrations' }
+  { name: 'Migrations', href: '/migrations' },
+  { name: 'Taxes', href: '/taxes' }
 ];

@@ -76,7 +76,7 @@ export default function InvestorDashboard({ handleSwitch }: Props) {
               </h1>
               <Button
                 color={'info'}
-                label={'Switch to Fund Manager'}
+                label={'Switch to fund manager'}
                 icon={
                   <Image
                     src="/switch.svg"

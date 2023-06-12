@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/Button';
+import { IconButton, Tooltip } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -49,6 +50,19 @@ export const generateCell = (item: any, column: any) => {
           {item[column.key]}
         </>
       )}
+      {column.type === 'checkbox' && (
+        <Image
+          src={
+            item[column.key]
+              ? '/checked_rounded.svg'
+              : '/checked_rounded_empty.svg'
+          }
+          className={`${item[column.key] ? '' : 'opacity-25'} `}
+          alt="checked"
+          width={24}
+          height={24}
+        />
+      )}
       {column.type === 'chip' && <ChipStatus status={item[column.key]} />}
       {column.type === 'chip-static' && (
         <Chip size={'small'} label={item[column.key]} />
@@ -63,7 +77,11 @@ export const generateCell = (item: any, column: any) => {
         </>
       )}
       {column.type === 'count' && (
-        <>{column.key.split('.').reduce((o: any, i: string) => o[i], item)}</>
+        <>
+          {/* {column.key
+            ? column.key.split('.').reduce((o: any, i: string) => o[i], item)
+            : 0} */}
+        </>
       )}
       {column.type === 'price' && <Price price={item[column.key]} />}
       {(column.type === 'string' || column.type === 'number') && (
@@ -80,10 +98,19 @@ export const generateCell = (item: any, column: any) => {
           clickable
         />
       )}
+      {column.type === 'button' && column.key && (
+        <Button
+          onClick={() => column.action(item)}
+          label={column.button_label}
+          disabled={column.disabled}
+          small={true}
+        />
+      )}
       {column.type === 'download' && column.key && (
         <Button
           onClick={() => column.action(item)}
           label="Download"
+          disabled={column.disabled}
           small={true}
           icon={
             <Image
@@ -129,8 +156,22 @@ export default function TableComponent({
                         }
                       }}
                     >
-                      <div className="flex cursor-pointer">
-                        <span className="text-base text-bold">{x.label}</span>
+                      <div className="flex items-center cursor-pointer">
+                        <span className="text-xs truncate text-bold whitespace-nowrap">
+                          {x.label}
+                        </span>
+                        {x.tooltip && (
+                          <Tooltip title={x.tooltip}>
+                            <IconButton className="p-0 px-2">
+                              <Image
+                                width={18}
+                                height={18}
+                                src="/question.svg"
+                                alt="question"
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                         {x && x.label.length > 0 && sortedBy && (
                           <Image
                             src="/arrow.svg"
