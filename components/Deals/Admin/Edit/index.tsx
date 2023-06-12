@@ -25,7 +25,7 @@ import {
   deal_product_types,
   deals_status
 } from '@/types/values';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import { useAuthContext } from 'app/(private)/context';
 import { useEffect, useState } from 'react';

@@ -5,11 +5,13 @@ import DateComponent from '@/components/DateComponent';
 import DealItem from '@/components/Deals/Item';
 import InvestmentsModule from '@/components/Investments/Module';
 import LoadingPage from '@/components/Loading/Page';
+import Money from '@/components/Money';
 import None from '@/components/None';
 import Price from '@/components/Price';
 import UserItem from '@/components/UserItem';
 import { useSupabase } from '@/lib/supabase-provider';
-import { Alert, Card } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -113,26 +115,8 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
                 <Card className="w-full bg-white">
                   <div className="p-6">
                     <h2 className="text-lg font-bold">Select an amount</h2>
-                    <div className="relative grid py-1">
-                      <div className="flex items-center mb-4 input">
-                        <div className="px-2 py-1 mr-2 bg-gray-100 rounded">
-                          $
-                        </div>
-                        <input
-                          value={amount || 0}
-                          type="text"
-                          className="w-full bg-transparent outline-0 ring-0"
-                          placeholder="0"
-                          onChange={(e: any) => {
-                            const inputValue = parseFloat(e.target.value);
-                            if (!isNaN(inputValue)) {
-                              setAmount(inputValue);
-                            } else {
-                              setAmount(0);
-                            }
-                          }}
-                        />
-                      </div>
+                    <div className="relative grid gap-2 py-1">
+                      <Money amount={amount} onChange={setAmount} />
                       <p className="flex items-center gap-1 text-sm">
                         Minimum is{' '}
                         <Price price={deal.minimum_investment ?? '1'} /> -

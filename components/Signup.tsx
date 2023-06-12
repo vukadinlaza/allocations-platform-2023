@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
 import { useSupabase } from '@/lib/supabase-provider';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 import Button from './Button';
 

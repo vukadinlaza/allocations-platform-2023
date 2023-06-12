@@ -2,7 +2,7 @@ import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useEffect, useState } from 'react';
 import FormBuilder from '../FormBuilder';
 import { isValidEmail } from '../Login';
@@ -46,8 +46,13 @@ export default function DealInvite({
         notify(`Sorry, could not send invitation.`, false);
         return;
       }
+<<<<<<< HEAD
       notify('Invitation sent!', true);
     onClose();
+=======
+      notify('Successfully send !', true);
+      onClose();
+>>>>>>> db04eb3 (commit)
     } catch (error) {
       console.log(error);
       notify(`Sorry, could not send invitation.`, false);

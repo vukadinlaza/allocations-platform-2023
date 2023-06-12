@@ -1,5 +1,7 @@
 import { useAuthContext } from '@/app/(private)/context';
-import { Alert, IconButton, Tooltip } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '../Button';
