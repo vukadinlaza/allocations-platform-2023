@@ -8,8 +8,8 @@ export default function ChipStatus({
   const colors: any = {
     archived: 'bg-gray-600',
     draft: 'bg-gray-300',
-    closing: 'bg-green-500',
-    closed: 'bg-green-500',
+    closing: 'bg-primary-500',
+    closed: 'bg-primary-500',
     invited: 'bg-blue-400',
     pending: 'bg-blue-400',
     processing: 'bg-amber-400',
@@ -17,12 +17,12 @@ export default function ChipStatus({
     submitted: 'bg-orange-500',
     onboarding: 'bg-amber-400',
     signed: 'bg-amber-400',
-    active: 'bg-green-500',
-    complete: 'bg-green-500',
-    completed: 'bg-green-500',
-    success: 'bg-green-500',
+    active: 'bg-primary-500',
+    complete: 'bg-primary-500',
+    completed: 'bg-primary-500',
+    success: 'bg-primary-500',
     null: 'bg-zinc-400',
-    wired: 'bg-green-500',
+    wired: 'bg-primary-500',
     crypto: 'bg-primary-500'
   };
   return (

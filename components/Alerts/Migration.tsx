@@ -7,7 +7,7 @@ export default function Migration() {
   return (
     <>
       {open && (
-        <div className="flex items-center gap-2 px-3 py-2 overflow-hidden text-xs border rounded-lg text-sky-800 border-sky-400 bg-sky-100">
+        <div className="flex items-center gap-2 px-3 py-1 overflow-hidden text-xs rounded-lg text-sky-800 bg-sky-100">
           <span className="mb-0 font-bold whitespace-nowrap">
             New platform migration update —
           </span>

@@ -36,7 +36,7 @@ export type Field = {
 };
 
 export interface PageListData {
-  header: {
+  header?: {
     name: string;
     description: string;
     buttons: any;
