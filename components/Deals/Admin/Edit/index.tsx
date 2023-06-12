@@ -136,7 +136,7 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
         ...dealData
       } = newDeal;
 
-      if (submitted) {
+      if ((dealData.status = 'draft' && submitted)) {
         dealData.status = 'submitted';
       }
 
