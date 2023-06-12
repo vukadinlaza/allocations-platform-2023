@@ -27,18 +27,22 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
         .neq('status', 'archived');
 
       if (investments) {
-        const data: any = {
+        let data: any = {
           signed: [],
           completed: []
         };
         investments.forEach((investment) => {
           const { status } = investment;
-          data[status.toLowerCase()].push(investment);
-          setKanban((prev: any) => ({
-            ...prev,
-            ...data
-          }));
+          console.log(status);
+          if (data[status]) data[status].push(investment);
+          //   console.log(status);
+          //   data[status.toLowerCase()].push(investment);
+          // });
         });
+        setKanban((prev: any) => ({
+          ...prev,
+          ...data
+        }));
       }
     } catch (err) {
       console.log(err);
@@ -93,7 +97,9 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
             <div className="bg-white border rounded card--popup" key={category}>
               <header className="flex justify-between">
                 <h2 className="mb-0 capitalize">
-                  <span className="mr-2">{category}</span>
+                  <span className="mr-2">
+                    {category === 'completed' ? 'Completed / Wired' : category}
+                  </span>
                   <span className="chip chip--small chip--info">
                     {items.length}
                   </span>

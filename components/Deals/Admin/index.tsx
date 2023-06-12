@@ -94,7 +94,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
             footer={
               <div className="flex items-start justify-between w-full mt-4">
                 <div>
-                  <p>Funds raised</p>
+                  <p>Total subscribed</p>
                   <div className="text-xl font-bold">
                     {(deal.total_raised_amount && (
                       <Price price={deal.total_raised_amount} />

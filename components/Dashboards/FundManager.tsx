@@ -31,7 +31,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
           type: 'price'
         },
         {
-          title: 'Total raised',
+          title: 'Total subscribed',
           key: 'deals_total_raised',
           value: 0,
           type: 'price'
