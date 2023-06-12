@@ -33,11 +33,7 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
         };
         investments.forEach((investment) => {
           const { status } = investment;
-          console.log(status);
           if (data[status]) data[status].push(investment);
-          //   console.log(status);
-          //   data[status.toLowerCase()].push(investment);
-          // });
         });
         setKanban((prev: any) => ({
           ...prev,

@@ -58,7 +58,6 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   ];
 
   const canInvest = () => {
-    console.log(deal?.documents_template_id);
     const conditions = [
       () => deal?.documents_template_id,
       () =>
