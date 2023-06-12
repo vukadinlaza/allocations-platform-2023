@@ -60,7 +60,7 @@ export default function Features() {
       name: 'Investments',
       value: 50,
       soon: true,
-      text: 'Manage all your investiments.'
+      text: 'Manage all your investments.'
     },
     {
       name: 'Migrations',

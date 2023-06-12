@@ -46,7 +46,7 @@ export default function DealInvite({
         notify(`Sorry, could not send invitation.`, false);
         return;
       }
-      notify('Successfully send !', true);
+      notify('Invitation sent!', true);
     onClose();
     } catch (error) {
       console.log(error);
