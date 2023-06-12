@@ -158,7 +158,13 @@ export default function NewCompany({
 
   return (
     <div className="new--company">
-      <div>
+      <div
+        className={`mb-4 px-4 rounded-lg cursor-pointer ${
+          agree
+            ? 'bg-primary-50 text-primary-500 border border-primary-300'
+            : 'bg-amber-50 text-amber-500 border border-amber-300'
+        }`}
+      >
         <Checkbox
           selected={agree}
           onChange={() => setAgree(!agree)}
@@ -168,7 +174,7 @@ export default function NewCompany({
       {agree && (
         <>
           <div>
-            <div className={'mb-2'}>
+            <div>
               <h2 className="mb-2">
                 Please choose your designated signatory identity
               </h2>

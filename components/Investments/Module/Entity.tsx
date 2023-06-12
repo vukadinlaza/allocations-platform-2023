@@ -61,6 +61,7 @@ export default function InvestmentEntity({
         </div>
         {show && (
           <NewUserInvestmentsEntity
+            onClose={() => setShow(false)}
             identities={identities}
             onUpdate={onUpdate}
           />
