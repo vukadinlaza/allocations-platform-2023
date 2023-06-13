@@ -173,7 +173,7 @@ export default function NewCompany({
           entity_type: type,
           us_domestic: newCompany.us_domestic === 'Yes',
           type: type === individual ? entity_type[0] : entity_type[1],
-          provider: 'NAMESCAN'
+          provider: type !== individual ? undefined : 'NAMESCAN'
         })
         .select()
         .single();
@@ -187,10 +187,10 @@ export default function NewCompany({
       // 2. set parent_entity_id
       const { data: _data } = await supabase
         .from('identities')
-        .upsert({
-          id: parentEntityId,
+        .update({
           parent_identity_id: data.id
         })
+        .eq('id', parentEntityId)
         .select();
 
       onUpdate();
@@ -212,7 +212,7 @@ export default function NewCompany({
       {newCompany.country_of_citizenship === 'Russian Federation' && (
         <Alert severity="error">
           Sorry, your country is not allowed to invest through Allocations.com.
-          Please email support@allocations.com for more informations.
+          Please email support@allocations.com for more information.
         </Alert>
       )}
       {newCompany.country_of_citizenship !== 'Russian Federation' && (
