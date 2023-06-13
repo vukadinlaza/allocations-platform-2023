@@ -25,12 +25,14 @@ export default function InvestmentEntity({
   const [selectedId, setSelectedId] = useState<any>(undefined);
 
   useEffect(() => {
+    console.log(selectedId);
     if (show === true) {
       onChange(null);
     }
   }, [show]);
 
   useEffect(() => {
+    console.log(selectedId);
     onChange(selectedId);
   }, [selectedId]);
 
@@ -47,7 +49,7 @@ export default function InvestmentEntity({
                 <IdentityItem
                   selectedId={selectedId}
                   setToken={setToken}
-                  key={index}
+                  key={'identity-'+identity.id}
                   identity={identity}
                   onChange={(id: string) => {
                     setSelectedId(id);
@@ -65,13 +67,6 @@ export default function InvestmentEntity({
               onUpdate={onUpdate}
             />
           </div>
-        )}
-        {token && (
-          <PlaidIdentityLink
-            existingIdentityId={selectedId}
-            linkToken={token}
-            onSuccess={() => onUpdate()}
-          />
         )}
         {!show && (
           <Button

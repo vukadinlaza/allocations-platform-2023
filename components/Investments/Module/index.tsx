@@ -59,7 +59,7 @@ export default function InvestmentsModule({
             <InvestmentIdentity
               identities={currentUser.identities}
               onChange={(v) => {
-                setIdentity(v);
+                setIdentity(currentUser.identities.find(i=>i.id === v));
               }}
               onUpdate={checkPermissions}
               selected={identity?.id}
