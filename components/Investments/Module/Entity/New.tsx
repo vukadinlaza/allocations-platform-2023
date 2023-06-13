@@ -23,11 +23,11 @@ export default function NewUserInvestmentEntityIdentity({
         {!hideHeader && (
           <header>
             <h2 className="text-lg font-bold">
-              Create a new investment entity
+              Create a new investment identity
             </h2>
           </header>
         )}
-        <label>Type of identity:</label>
+        <label>Type of identity</label>
         <Select
           items={investment_identity_types.filter((i) =>
             identities.length === 0 ? i === 'Myself / Individual' : i

@@ -62,7 +62,7 @@ export default function NewCompany({
       label: 'Tax ID type',
       key: 'tax_id_type',
       type: 'select',
-      placeholder: 'Enter your tax ID',
+      placeholder: 'SSN / EIN / ITIN / FTIN',
       show: true,
       items: entity_tax_id_type.filter((x) => {
         if (type === individual) {
@@ -75,7 +75,7 @@ export default function NewCompany({
       label: type === individual ? 'Your full name' : 'Your entity name',
       key: 'legal_name',
       type: 'string',
-      placeholder: 'Your new entity name',
+      placeholder: type === individual ? 'John Smith' : 'Example, LLC',
       show: true
     },
     {
@@ -85,7 +85,7 @@ export default function NewCompany({
       show: true
     },
     {
-      label: 'Principal place of business (Address)',
+      label: type === individual ? 'Address Line 1' : 'Principal place of business (Address)',
       key: 'address_line_1',
       type: 'string',
       placeholder: '500 Madison Ave',
@@ -106,14 +106,14 @@ export default function NewCompany({
       show: true
     },
     {
-      label: 'State of formation',
+      label: type === individual ? 'State / Region' : 'State of formation',
       key: 'region',
       type: 'string',
       placeholder: 'Florida',
       show: true
     },
     {
-      label: 'Zip / Postal Code',
+      label: 'ZIP / Postal Code',
       key: 'postal_code',
       type: 'string',
       placeholder: '888888',
@@ -202,7 +202,7 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (type === individual) return !agree;
+    if (type === individual) return false;
     if (!parentEntityId) return true;
     return !agree;
   };
@@ -239,19 +239,22 @@ export default function NewCompany({
               />
             </div>
           )}
+
           <div className="my-8">
-            <div className="mb-4">
-              <Checkbox
-                selected={agree}
-                onChange={() => setAgree(!agree)}
-                label={`I am an authorized signatory for this entity.`}
-              />
-            </div>
+            { type !== individual &&
+              <div className="mb-4">
+                <Checkbox
+                  selected={agree}
+                  onChange={() => setAgree(!agree)}
+                  label={`I am an authorized signatory for this entity.`}
+                />
+              </div>
+            }
             <div className="flex items-center">
               <Button
                 disabled={disableSave()}
                 loading={loading}
-                label={'Save new entity'}
+                label={'Save new identity'}
                 onClick={() => saveNewCompany()}
               />
             </div>
