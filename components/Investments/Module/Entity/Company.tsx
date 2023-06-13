@@ -26,7 +26,7 @@ export default function NewCompany({
   const [loading, setLoading] = useState<boolean>(false);
 
   const { user, notify } = useAuthContext();
-  const { updateUser } = useSupabase();
+  const { supabase, updateUser } = useSupabase();
 
   const model: Field[] = [
     {
@@ -93,10 +93,11 @@ export default function NewCompany({
     }
   ];
 
-  const saveNewEntity = async () => {
+  const saveNewCompany = async () => {
     try {
       setLoading(true);
 
+      // 1. Update user
       const response = await updateUser({
         email: user.email,
         ...newUser
@@ -106,30 +107,24 @@ export default function NewCompany({
         notify('Personal informations saved!', true);
       }
 
-      // if (response) {
-      //   onUpdate();
-      // }
+      // 2. Create new entity
+
+      const { data, error } = await supabase
+        .from('new_identities')
+        .insert({ ...newCompany, user_email: user.email });
+
+      if (error) {
+        return notify('Sorry, something went wrong. Please try again');
+      }
+
+      notify('Successfully created!', true);
+      onUpdate();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      if (user.first_name)
-        setNewCompany((prev: any) => ({
-          ...prev,
-          first_name: user.first_name
-        }));
-      if (user.last_name)
-        setNewCompany((prev: any) => ({
-          ...prev,
-          last_name: user.last_name
-        }));
-    }
-  }, [user]);
 
   useEffect(() => {
     console.log(newCompany);
@@ -165,7 +160,7 @@ export default function NewCompany({
             <Button
               loading={loading}
               label={'Save new entity'}
-              onClick={() => saveNewEntity()}
+              onClick={() => saveNewCompany()}
             />
           </div>
         </div>
