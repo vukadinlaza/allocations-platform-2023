@@ -13,7 +13,8 @@ export const AllocationsAPI = {
       headers: {
         'Content-Type': contentType,
         Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
-      }
+      },
+      body: body
     });
   },
   getSPVAgreementPreview: async (dealId: string) => {
@@ -34,6 +35,14 @@ export const AllocationsAPI = {
       'GET',
       undefined,
       'application/pdf'
+    );
+  },
+  downloadZipFile: async (fileIds: string[]) => {
+    return AllocationsAPI.makeCall(
+      `files/download-bulk`,
+      'POST',
+      JSON.stringify(fileIds),
+      'application/json'
     );
   }
 };

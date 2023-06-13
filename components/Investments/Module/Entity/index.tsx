@@ -1,6 +1,5 @@
 import Button from '@/components/Button';
 import IdentityItem from '@/components/Identity/Item';
-import PlaidIdentityLink from '@/components/Plaid/IdentityLink';
 import { Identity } from '@/types';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
@@ -21,7 +20,6 @@ export default function InvestmentEntity({
   validate?: boolean;
 }) {
   const [show, setShow] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<any>(undefined);
 
   useEffect(() => {
@@ -48,7 +46,6 @@ export default function InvestmentEntity({
               {identities.map((identity: Identity, index: number) => (
                 <IdentityItem
                   selectedId={selectedId}
-                  setToken={setToken}
                   key={'identity-'+identity.id}
                   identity={identity}
                   onChange={(id: string) => {

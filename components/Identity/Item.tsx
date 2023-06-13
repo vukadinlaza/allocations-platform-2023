@@ -1,9 +1,7 @@
 import Checkbox from '@/components/Checkbox';
-import { getIdentityLinkToken } from '@/lib/plaid';
 import { getFirstLetter } from '@/lib/utils';
 import { Identity } from '@/types';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
@@ -13,12 +11,10 @@ import { z } from 'zod';
 export default function IdentityItem({
   identity,
   onChange,
-  setToken,
   selectedId
 }: {
   identity: any;
   onChange: (identity: any) => void;
-  setToken?: (token: any) => void;
   selectedId?: string;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,21 +56,21 @@ export default function IdentityItem({
     })
   ]);
 
-  const openPlaidIdentity = async (identityId: string) => {
-    try {
-      setLoading(true);
-      onChange(identity.id);
-      const response = await getIdentityLinkToken();
-
-      if (response && response.link_token && setToken) {
-        setToken(response.link_token);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const openPlaidIdentity = async (identityId: string) => {
+  //   try {
+  //     setLoading(true);
+  //     onChange(identity.id);
+  //     const response = await getIdentityLinkToken();
+  //
+  //     if (response && response.link_token && setToken) {
+  //       setToken(response.link_token);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -118,14 +114,14 @@ export default function IdentityItem({
           <Box className={'flex flex-col'}>
             {!validateIdentity(identity) && (
               <Box className={'flex flex-row justify-center items-center mr-2'}>
-                {identity.type === 'Individual' && (
-                  <LoadingButton
-                    loading={loading}
-                    onClick={() => openPlaidIdentity(identity.id)}
-                  >
-                    Fix Now
-                  </LoadingButton>
-                )}
+                {/*{identity.type === 'Individual' && (*/}
+                {/*  <LoadingButton*/}
+                {/*    loading={loading}*/}
+                {/*    onClick={() => openPlaidIdentity(identity.id)}*/}
+                {/*  >*/}
+                {/*    Fix Now*/}
+                {/*  </LoadingButton>*/}
+                {/*)}*/}
                 <Tooltip title="Missing required information" arrow>
                   <ReportProblemIcon
                     sx={{

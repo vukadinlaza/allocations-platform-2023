@@ -1,15 +1,20 @@
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import Table from '@/components/Table';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
+import { downloadFile } from '@/lib/utils';
 import { Deal } from '@/types';
 import { DealFileMeta, File, InvestmentFileMeta } from '@/types/files';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
+  const [bulkDownloading, setBulkDownloading] = useState<boolean>(false);
   const [dealDocuments, setDealDocuments] = useState<Array<
     File & DealFileMeta
   > | null>(null);
@@ -28,21 +33,22 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
       label: 'Type',
       key: 'type',
       type: 'chip-static'
+    },
+    {
+      button_label: 'Download',
+      label: 'Download',
+      key: 'download',
+      type: 'button',
+      icon: 'download',
+      action: async (item: File) => {
+        const response = await AllocationsAPI.downloadPDFFile(item.id);
+        if (response.ok) {
+          await downloadFile(await response.blob(), `${item.file_name}.pdf`);
+        } else {
+          console.error('Failed to download the document');
+        }
+      }
     }
-    // {
-    //   label: 'Download',
-    //   key: 'download',
-    //   type: 'button',
-    //   icon: 'download',
-    //   action: async (item: File) => {
-    //     const response = await AllocationsAPI.downloadPDFFile(item.id);
-    //     if (response.ok) {
-    //       await downloadFile(await response.blob(), `${item.file_name}.pdf`);
-    //     } else {
-    //       console.error('Failed to download the document');
-    //     }
-    //   }
-    // }
   ];
 
   const fetchDocuments = async () => {
@@ -114,6 +120,18 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
       <Typography variant="h6" sx={{ mb: 2 }}>
         Investor Documents
       </Typography>
+      <LoadingButton loading={bulkDownloading} onClick={async ()=>{
+        setBulkDownloading(true);
+        if(investmentDocuments) {
+          const response = await AllocationsAPI.downloadZipFile(investmentDocuments.map(d => d.id));
+          if (response.ok) {
+            await downloadFile(await response.blob(), `download.zip`);
+          } else {
+            console.error('Failed to download the document');
+          }
+          setBulkDownloading(false);
+        }
+      }}>Download All</LoadingButton>
       {!loading && !investmentDocuments && (
         <None text="No investor documents yet." />
       )}
@@ -121,12 +139,12 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
         <Table
           data={investmentDocuments}
           headers={[
-            ...headers,
             {
               label: 'Email',
               key: 'investmentEmail',
               type: 'email'
-            }
+            },
+            ...headers,
           ]}
         />
       )}
@@ -134,6 +152,18 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
       <Typography variant="h6" sx={{ mb: 2 }}>
         Deal Documents
       </Typography>
+      <LoadingButton loading={bulkDownloading} onClick={async ()=>{
+        setBulkDownloading(true);
+        if(dealDocuments) {
+          const response = await AllocationsAPI.downloadZipFile(dealDocuments.map(d => d.id));
+          if (response.ok) {
+            await downloadFile(await response.blob(), `download.zip`);
+          } else {
+            console.error('Failed to download the document');
+          }
+          setBulkDownloading(false);
+        }
+      }}>Download All</LoadingButton>
       {!loading && !dealDocuments && <None text="No deal documents yet." />}
       {!loading && dealDocuments && dealDocuments.length > 0 && (
         <Table data={dealDocuments} headers={headers} />
