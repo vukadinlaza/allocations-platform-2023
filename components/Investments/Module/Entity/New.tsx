@@ -3,6 +3,8 @@ import Select from '@/components/Select';
 import { investment_identity_types } from '@/types/values';
 import { useState } from 'react';
 import NewCompany from './Company';
+import NewIRA from './IRA';
+import NewTrust from './Trust';
 
 export default function NewUserInvestmentEntityIdentity({
   onUpdate,
@@ -44,6 +46,8 @@ export default function NewUserInvestmentEntityIdentity({
         {type === 'Corporation' && (
           <NewCompany type={type} onUpdate={onUpdate} />
         )}
+        {type === 'Trust' && <NewTrust onUpdate={onUpdate} />}
+        {type === 'Self-directed IRA' && <NewIRA onUpdate={onUpdate} />}
       </div>
       {/* {type === 'Myself / Individual' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}

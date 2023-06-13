@@ -46,13 +46,8 @@ export default function DealInvite({
         notify(`Sorry, could not send invitation.`, false);
         return;
       }
-<<<<<<< HEAD
       notify('Invitation sent!', true);
     onClose();
-=======
-      notify('Successfully send !', true);
-      onClose();
->>>>>>> db04eb3 (commit)
     } catch (error) {
       console.log(error);
       notify(`Sorry, could not send invitation.`, false);
