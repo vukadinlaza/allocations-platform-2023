@@ -52,8 +52,8 @@ export default function DealID() {
 
         if (private_deal) {
           setDeal((prev: any) => ({
-            ...prev,
-            ...private_deal
+            ...private_deal,
+            ...prev
           }));
         }
       }
