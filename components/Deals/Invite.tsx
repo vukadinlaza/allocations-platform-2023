@@ -2,7 +2,7 @@ import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal, Field } from '@/types';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useEffect, useState } from 'react';
 import FormBuilder from '../FormBuilder';
 import { isValidEmail } from '../Login';

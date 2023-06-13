@@ -1,5 +1,5 @@
-import { Close } from '@mui/icons-material';
-import { Card } from '@mui/material';
+import Close from '@mui/icons-material/Close';
+import Card from '@mui/material/Card';
 
 export default function ModalBox({
   title,

@@ -1,20 +1,19 @@
 import Button from '@/components/Button';
 import PlaidIdentityLink from '@/components/Plaid/IdentityLink';
 import { getIdentityLinkToken } from '@/lib/plaid';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 
 export default function KYC({
   onUpdate,
-  uncomplete = false,
-  existingIdentityId
+  uncomplete = false
 }: {
   onUpdate: () => void;
   uncomplete?: boolean;
-  existingIdentityId?: string;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
+  
   const openIdentity = async () => {
     try {
       setLoading(true);
@@ -29,6 +28,7 @@ export default function KYC({
       setLoading(false);
     }
   };
+  
   return (
     <div className="p-4 border rounded kyc bg-primary-500/10 border-primary-500">
       <div className="flex flex-col mb-4">
@@ -44,11 +44,18 @@ export default function KYC({
           </Alert>
         )}
       </div>
-      <Button
-        label={uncomplete ? 'Update my identity' : 'Verify my identity'}
-        loading={loading}
-        onClick={openIdentity}
-      />
+      <div className="flex gap-3">
+        <Button
+          label={uncomplete ? 'Update my identity with Plaid' : 'Verify my identity with Plaid'}
+          loading={loading}
+          onClick={openIdentity}
+        />
+        <Button
+          label={'Add manually'}
+          loading={loading}
+          onClick={() => console.log('Add manually')}
+        />
+      </div>
       {token && (
         <PlaidIdentityLink linkToken={token} onSuccess={() => onUpdate()} />
       )}

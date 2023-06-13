@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 

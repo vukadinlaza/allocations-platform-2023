@@ -88,12 +88,12 @@ export default function SupabaseProvider({
     return supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
-  const updateUser = async (email: string | undefined, newUser: any) => {
-    if (!email && !newUser) return;
+  const updateUser = async (newUser: any) => {
+    if (!newUser) return;
 
     const { data } = await supabase
       .from('users')
-      .upsert(newUser, { onConflict: 'id' })
+      .upsert(newUser, { onConflict: 'email' })
       .select();
 
     return data || null;

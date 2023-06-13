@@ -48,7 +48,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         Sentry.setUser({
           email: session.user.email,
           id: session.user.id,
-          name: `${users_infos.first_name} ${users_infos.last_name}`
+          name: `${users_infos.first_name || ''} ${users_infos.last_name || ''}`
         });
       }
     } catch (error) {
