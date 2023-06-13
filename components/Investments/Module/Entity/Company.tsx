@@ -2,6 +2,7 @@
 import { countries } from '@/app/(private)/config';
 import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
+import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
 import OnboardingUser from '@/components/Onboarding/User';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -208,7 +209,15 @@ export default function NewCompany({
             }}
           />
           <div className="mt-8">
+            <div className="mb-4">
+              <Checkbox
+                selected={agree}
+                onChange={() => setAgree(!agree)}
+                label={`I am an authorized signatory for this entity.`}
+              />
+            </div>
             <Button
+              disabled={!agree}
               loading={loading}
               label={'Save new entity'}
               onClick={() => saveNewCompany()}
