@@ -22,7 +22,9 @@ export default function NewUserInvestmentEntityIdentity({
       <div className="grid grid-cols-1 gap-4 pb-4">
         {!hideHeader && (
           <header>
-            <h2 className="text-xl">Create a new investment identity</h2>
+            <h2 className="text-lg font-bold">
+              Create a new investment entity
+            </h2>
           </header>
         )}
         <label>Type of identity:</label>
@@ -35,7 +37,13 @@ export default function NewUserInvestmentEntityIdentity({
         />
       </div>
       <div className="py-3 rounded-lg">
-        <NewCompany type={type} onUpdate={onUpdate} />
+        {type === 'Myself / Individual' && (
+          <NewCompany type={type} onUpdate={onUpdate} />
+        )}
+        {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
+        {type === 'Corporation' && (
+          <NewCompany type={type} onUpdate={onUpdate} />
+        )}
       </div>
       {/* {type === 'Myself / Individual' && <NewCompany type={type} onUpdate={onUpdate} />}
       {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}

@@ -20,7 +20,7 @@ export default function InvestmentEntity({
   selected: any;
   validate?: boolean;
 }) {
-  const [show, setShow] = useState<boolean>(true); // TODO: false
+  const [show, setShow] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<any>(undefined);
 

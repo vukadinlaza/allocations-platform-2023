@@ -1,5 +1,5 @@
 'use client';
-import { Close } from '@mui/icons-material';
+import Close from '@mui/icons-material/Close';
 import { useState } from 'react';
 
 export default function Migration() {

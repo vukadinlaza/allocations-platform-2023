@@ -6,7 +6,8 @@ import FormBuilder from '@/components/FormBuilder';
 import OnboardingUser from '@/components/Onboarding/User';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function NewCompany({
@@ -94,6 +95,35 @@ export default function NewCompany({
   ];
 
   const saveNewCompany = async () => {
+    const userMapped = [
+      'first_name',
+      'last_name',
+      'citizenship_country',
+      'birthdate'
+    ];
+
+    const allUserKeysExist = userMapped.every((key: any) =>
+      Object.keys(newCompany).includes(key)
+    );
+
+    if (!allUserKeysExist) {
+      alert('Please fill in all fields about your personal information.');
+      return;
+    }
+
+    const companyMapped = model
+      .map(({ key }) => key)
+      .filter((key) => key !== 'region');
+
+    const allCompanyKeysExist = companyMapped.every((key: any) =>
+      Object.keys(newCompany).includes(key)
+    );
+
+    if (!allCompanyKeysExist) {
+      alert('Please fill in all fields (state is mandatory only for USA).');
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -111,7 +141,7 @@ export default function NewCompany({
 
       const { data, error } = await supabase
         .from('new_identities')
-        .insert({ ...newCompany, user_email: user.email });
+        .insert({ ...newCompany, user_email: user.email, type });
 
       if (error) {
         return notify('Sorry, something went wrong. Please try again');
@@ -132,8 +162,19 @@ export default function NewCompany({
 
   return (
     <div>
-      <div className="mb-4">
-        <h2>Your personal informations</h2>
+      <div className="mb-8">
+        <header className="flex items-center gap-2 px-4 py-2 mb-4 rounded-lg bg-gray-500/5">
+          <div className="flex items-center justify-center p-1 rounded-full bg-primary-500/10 text-primary-500">
+            <Image src="/user.svg" alt={'confirm'} width={24} height={24} />
+          </div>
+          <div>
+            <h2>Your personal information</h2>
+            <p className="text-xs">
+              Please fill in your personal information to create your new
+              entity.
+            </p>
+          </div>
+        </header>
         <OnboardingUser onChange={(newUser: any) => setNewUser(newUser)} />
       </div>
       {newCompany.country === 'Russian Federation' && (
@@ -144,7 +185,17 @@ export default function NewCompany({
       )}
       {newCompany.country !== 'Russian Federation' && (
         <div>
-          <h2>Your new entity informations</h2>
+          <header className="flex items-center gap-2 px-4 py-2 mb-4 rounded-lg bg-gray-500/5">
+            <div className="flex items-center justify-center p-1 rounded-full bg-primary-500/10 text-primary-500">
+              <Image src="/entity.svg" alt={'confirm'} width={24} height={24} />
+            </div>
+            <div>
+              <h2>Your new entity</h2>
+              <p className="text-xs">
+                Please complete each field to create your new entity.
+              </p>
+            </div>
+          </header>
           <FormBuilder
             data={newCompany}
             model={model}
@@ -156,7 +207,7 @@ export default function NewCompany({
               }));
             }}
           />
-          <div className="my-4">
+          <div className="mt-8">
             <Button
               loading={loading}
               label={'Save new entity'}
