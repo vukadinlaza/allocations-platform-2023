@@ -37,7 +37,7 @@ export default function InvestmentEntity({
   return (
     <div>
       <header className="mb-6">
-        <h2 className="text-lg font-bold">Select an identity to invest as</h2>
+        <h2 className="text-lg font-bold">Select an identity</h2>
       </header>
       <main>
         <div>
