@@ -48,6 +48,22 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
           console.error('Failed to download the document');
         }
       }
+    },
+    {
+      button_label: 'View',
+      label: 'View',
+      key: 'view',
+      type: 'button',
+      icon: 'download',
+      action: async (item: File) => {
+        const response = await AllocationsAPI.downloadPDFFile(item.id);
+        if (response.ok) {
+          const fileURL = window.URL.createObjectURL(await response.blob());
+          window.open(fileURL);
+        } else {
+          console.error('Failed to download the document');
+        }
+      }
     }
   ];
 
