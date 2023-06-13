@@ -7,26 +7,6 @@ import { useState } from 'react';
 export default function NewIRA({ onUpdate }: { onUpdate: () => void }) {
   const [newCompany, setNewCompany] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const { supabase } = useSupabase();
-
-  const saveNewEntity = async () => {
-    if (!newCompany.name) return alert('Please enter a name');
-    try {
-      setLoading(true);
-      const { data } = await supabase
-        .from('identities')
-        .insert({ ...newCompany, type: 'Entity', entity_type: 'IRA' })
-        .select();
-
-      if (data) {
-        onUpdate();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const model: Field[] = [
     {
@@ -51,6 +31,26 @@ export default function NewIRA({ onUpdate }: { onUpdate: () => void }) {
       show: true
     }
   ];
+  const { supabase } = useSupabase();
+
+  const saveNewEntity = async () => {
+    if (!newCompany.name) return alert('Please enter a name');
+    try {
+      setLoading(true);
+      const { data } = await supabase
+        .from('identities')
+        .insert({ ...newCompany, type: 'Entity', entity_type: 'IRA' })
+        .select();
+
+      if (data) {
+        onUpdate();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="new--ira">
@@ -67,7 +67,7 @@ export default function NewIRA({ onUpdate }: { onUpdate: () => void }) {
       <div className="mt-4">
         <Button
           loading={loading}
-          label="Save investment entity"
+          label="Save new entity"
           onClick={() => saveNewEntity()}
         />
       </div>

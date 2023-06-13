@@ -4,11 +4,15 @@ import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
-import OnboardingUser from '@/components/Onboarding/User';
+import { IdentityList } from '@/components/Identity/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
+import {
+  entity_tax_id_type,
+  entity_type,
+  investment_identity_types
+} from '@/types/values';
 import Alert from '@mui/material/Alert';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function NewCompany({
@@ -18,45 +22,62 @@ export default function NewCompany({
   type: string;
   onUpdate: () => void;
 }) {
-  const [newUser, setNewUser] = useState<any>({
-    citizenship_country: undefined
-  });
   const [newCompany, setNewCompany] = useState<any>({
     country: undefined
   });
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-
   const { user, notify } = useAuthContext();
-  const { supabase, updateUser } = useSupabase();
+  const { supabase } = useSupabase();
+  const individual = investment_identity_types[0];
 
   const model: Field[] = [
     {
-      label: 'Select a country',
-      key: 'country',
+      label: 'Select a country of citizenship',
+      key: 'country_of_citizenship',
       type: 'select',
       placeholder: 'United States',
-      show: true,
+      show: type === individual,
       items: countries
     },
     {
-      label: 'Your entity name',
+      label: 'Is this a US Domestic entity?',
+      key: 'us_domestic',
+      type: 'select',
+      show: type !== individual,
+      items: ['Yes', 'No']
+    },
+    {
+      label: 'Tax ID',
+      key: 'tax_id',
+      type: 'string',
+      placeholder: 'Enter your tax ID',
+      show: true
+    },
+    {
+      label: 'Tax ID type',
+      key: 'tax_id_type',
+      type: 'select',
+      placeholder: 'Enter your tax ID',
+      show: true,
+      items: entity_tax_id_type.filter((x) => {
+        if (type === individual) {
+          return x !== 'EIN';
+        }
+        return x;
+      })
+    },
+    {
+      label: type === individual ? 'Your full name' : 'Your entity name',
       key: 'legal_name',
       type: 'string',
       placeholder: 'Your new entity name',
       show: true
     },
     {
-      label: 'Date of formation',
+      label: type === individual ? 'Date of birth' : 'Date of formation',
       key: 'date_of_entity_formation',
       type: 'date',
-      show: true
-    },
-    {
-      label: 'State of formation',
-      key: 'region',
-      type: 'string',
-      placeholder: 'Enter a state',
       show: true
     },
     {
@@ -74,6 +95,20 @@ export default function NewCompany({
       show: true
     },
     {
+      label: 'City',
+      key: 'city',
+      type: 'string',
+      placeholder: 'Miami',
+      show: true
+    },
+    {
+      label: 'State of formation',
+      key: 'region',
+      type: 'string',
+      placeholder: 'Florida',
+      show: true
+    },
+    {
       label: 'Zip / Postal Code',
       key: 'postal_code',
       type: 'string',
@@ -81,68 +116,58 @@ export default function NewCompany({
       show: true
     },
     {
+      label: 'Select a country',
+      key: 'country',
+      type: 'select',
+      placeholder: 'United States',
+      show: true,
+      items: countries
+    },
+    {
       label: 'Phone number',
       key: 'phone_number',
       type: 'string',
-      show: true
-    },
-    {
-      label: 'Tax ID',
-      key: 'tax_id',
-      type: 'string',
-      placeholder: 'Enter your tax ID',
       show: true
     }
   ];
 
   const saveNewCompany = async () => {
-    const userMapped = [
-      'first_name',
-      'last_name',
-      'citizenship_country',
-      'birthdate'
-    ];
+    // TODO: come back
+    // const keys = model
+    //   .filter((x) => x.show && x.key !== 'region' && x.key !== 'address_line_2')
+    //   .map(({ key }) => key);
 
-    const allUserKeysExist = userMapped.every((key: any) =>
-      Object.keys(newCompany).includes(key)
-    );
+    // console.log(keys);
 
-    if (!allUserKeysExist) {
-      alert('Please fill in all fields about your personal information.');
-      return;
-    }
+    // console.log({
+    //   ...newCompany,
+    //   user_email: user.email,
+    //   entity_type: type,
+    //   us_domestic: newCompany.us_domestic === 'Yes',
+    //   type: type === individual ? entity_type[0] : entity_type[1],
+    //   provider: 'NAMESCAN'
+    // });
 
-    const companyMapped = model
-      .map(({ key }) => key)
-      .filter((key) => key !== 'region');
+    // const allCompanyKeysExist = keys.every((key: any) => {
+    //   Object.keys(newCompany).includes(key);
+    // });
 
-    const allCompanyKeysExist = companyMapped.every((key: any) =>
-      Object.keys(newCompany).includes(key)
-    );
-
-    if (!allCompanyKeysExist) {
-      alert('Please fill in all fields (state is mandatory only for USA).');
-      return;
-    }
+    // if (!allCompanyKeysExist) {
+    //   alert('Please fill in all fields.');
+    //   return;
+    // }
 
     try {
       setLoading(true);
 
-      // 1. Update user
-      const response = await updateUser({
-        email: user.email,
-        ...newUser
+      const { data, error } = await supabase.from('identities').insert({
+        ...newCompany,
+        user_email: user.email,
+        entity_type: type,
+        us_domestic: newCompany.us_domestic === 'Yes',
+        type: type === individual ? entity_type[0] : entity_type[1],
+        provider: 'NAMESCAN'
       });
-
-      if (response) {
-        notify('Personal informations saved!', true);
-      }
-
-      // 2. Create new entity
-
-      const { data, error } = await supabase
-        .from('new_identities')
-        .insert({ ...newCompany, user_email: user.email, type });
 
       if (error) {
         return notify('Sorry, something went wrong. Please try again');
@@ -157,46 +182,26 @@ export default function NewCompany({
     }
   };
 
+  const disableSave = () => {
+    if (type === individual) return !agree;
+    if (!newCompany.parent_identity_id) return true;
+    return !agree;
+  };
+
   useEffect(() => {
     console.log(newCompany);
   }, [newCompany]);
 
   return (
     <div>
-      <div className="mb-8">
-        <header className="flex items-center gap-2 px-4 py-2 mb-4 rounded-lg bg-gray-500/5">
-          <div className="flex items-center justify-center p-1 rounded-full bg-primary-500/10 text-primary-500">
-            <Image src="/user.svg" alt={'confirm'} width={24} height={24} />
-          </div>
-          <div>
-            <h2>Your personal information</h2>
-            <p className="text-xs">
-              Please fill in your personal information to create your new
-              entity.
-            </p>
-          </div>
-        </header>
-        <OnboardingUser onChange={(newUser: any) => setNewUser(newUser)} />
-      </div>
-      {newCompany.country === 'Russian Federation' && (
+      {newCompany.country_of_citizenship === 'Russian Federation' && (
         <Alert severity="error">
           Sorry, your country is not allowed to invest through Allocations.com.
           Please email support@allocations.com for more informations.
         </Alert>
       )}
-      {newCompany.country !== 'Russian Federation' && (
+      {newCompany.country_of_citizenship !== 'Russian Federation' && (
         <div>
-          <header className="flex items-center gap-2 px-4 py-2 mb-4 rounded-lg bg-gray-500/5">
-            <div className="flex items-center justify-center p-1 rounded-full bg-primary-500/10 text-primary-500">
-              <Image src="/entity.svg" alt={'confirm'} width={24} height={24} />
-            </div>
-            <div>
-              <h2>Your new entity</h2>
-              <p className="text-xs">
-                Please complete each field to create your new entity.
-              </p>
-            </div>
-          </header>
           <FormBuilder
             data={newCompany}
             model={model}
@@ -208,6 +213,20 @@ export default function NewCompany({
               }));
             }}
           />
+          {type !== individual && (
+            <div className="my-4">
+              <IdentityList
+                type={'Individual'}
+                selectedId={newCompany.parent_identity_id || null}
+                onSelect={(id: string) => {
+                  setNewCompany((prev: any) => ({
+                    ...prev,
+                    parent_identity_id: id
+                  }));
+                }}
+              />
+            </div>
+          )}
           <div className="mt-8">
             <div className="mb-4">
               <Checkbox
@@ -216,12 +235,14 @@ export default function NewCompany({
                 label={`I am an authorized signatory for this entity.`}
               />
             </div>
-            <Button
-              disabled={!agree}
-              loading={loading}
-              label={'Save new entity'}
-              onClick={() => saveNewCompany()}
-            />
+            <div className="flex items-center">
+              <Button
+                disabled={disableSave()}
+                loading={loading}
+                label={'Save new entity'}
+                onClick={() => saveNewCompany()}
+              />
+            </div>
           </div>
         </div>
       )}

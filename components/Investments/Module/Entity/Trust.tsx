@@ -68,7 +68,7 @@ export default function NewTrust({ onUpdate }: { onUpdate: () => void }) {
       <div className="mt-4">
         <Button
           loading={loading}
-          label="Save investment entity"
+          label="Save new entity"
           onClick={() => saveNewEntity()}
         />
       </div>

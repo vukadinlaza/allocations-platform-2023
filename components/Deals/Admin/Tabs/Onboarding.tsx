@@ -7,7 +7,7 @@ import { Deal } from '@/types';
 import { investments_status } from '@/types/values';
 import { useEffect, useState } from 'react';
 
-export default function DealAdminProgress({ deal }: { deal?: Deal }) {
+export default function DealAdminOnboarding({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
   const [investors, setInvestors] = useState<null[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

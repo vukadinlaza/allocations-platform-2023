@@ -18,8 +18,8 @@ export default function IdentityItem({
 }: {
   identity: any;
   onChange: (identity: any) => void;
-  setToken: (token: any) => void;
-  selectedId: string;
+  setToken?: (token: any) => void;
+  selectedId?: string;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -29,7 +29,9 @@ export default function IdentityItem({
   ) => {
     const result = identityValidation.safeParse(identity);
     if (!returnErrors) return result.success;
-    if (!result.success) return result.error.format();
+    if (!result.success) {
+      return result.error.format();
+    }
   };
 
   const identityValidation = z.discriminatedUnion('type', [
@@ -38,7 +40,7 @@ export default function IdentityItem({
       legal_name: z.string().min(1),
       address_line_1: z.string().min(1),
       country: z.string().min(1),
-      region: z.string().min(1),
+      region: z.string().min(1).nullable(),
       user_email: z.string().email(),
       title: z.string().optional().nullable()
     }),
@@ -46,7 +48,7 @@ export default function IdentityItem({
       type: z.literal('Entity'),
       legal_name: z.string().min(1),
       country: z.string().min(1),
-      region: z.string().min(1),
+      region: z.string().min(1).nullable(),
       user_email: z.string().email(),
       identities: z
         .array(
@@ -64,7 +66,7 @@ export default function IdentityItem({
       onChange(identity.id);
       const response = await getIdentityLinkToken();
 
-      if (response && response.link_token) {
+      if (response && response.link_token && setToken) {
         setToken(response.link_token);
       }
     } catch (error) {
@@ -78,7 +80,7 @@ export default function IdentityItem({
     <>
       {identity && (
         <div
-          className="flex items-center justify-between p-2 mb-4 border rounded cursor-pointer hover:bg-gray-50"
+          className="flex items-center justify-between px-3 py-1 mb-4 border rounded-lg cursor-pointer hover:bg-gray-50"
           onClick={() => {
             if (validateIdentity(identity)) {
               onChange(selectedId === identity.id ? null : identity.id);
@@ -98,15 +100,15 @@ export default function IdentityItem({
           </Avatar>
           <div className="flex flex-col grow">
             {identity.legal_name && (
-              <span className="mb-0">{identity.legal_name}</span>
+              <span className="mb-0 text-sm">{identity.legal_name}</span>
             )}
             {identity.type === 'Individual' && (
               <span className="text-xs text-gray-600">
                 A {identity.country} {identity.type}
               </span>
             )}
-            {identity.entity_type && (
-              <span className="text-xs text-gray-600">
+            {identity.type !== 'Individual' && (
+              <span className="ml-2 text-xs text-gray-600">
                 A {identity.country} {identity.entity_type} Entity
               </span>
             )}

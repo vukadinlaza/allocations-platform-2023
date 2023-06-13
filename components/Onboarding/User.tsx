@@ -42,7 +42,14 @@ export default function OnboardingUser({
       key: 'birthdate',
       type: 'date',
       show: true
-    }
+    },
+    {
+      label: 'Tax ID',
+      key: 'tax_id',
+      type: 'string',
+      placeholder: 'Enter your tax ID',
+      show: true
+    },
   ];
 
   useEffect(() => {
