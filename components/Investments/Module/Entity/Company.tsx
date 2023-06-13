@@ -13,7 +13,7 @@ import {
   investment_identity_types
 } from '@/types/values';
 import Alert from '@mui/material/Alert';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function NewCompany({
   type,
@@ -184,8 +184,6 @@ export default function NewCompany({
 
       notify('Successfully created!', true);
 
-      console.log(data);
-
       // 2. set parent_entity_id
       const { data: _data } = await supabase
         .from('identities')
@@ -194,10 +192,6 @@ export default function NewCompany({
           parent_identity_id: data.id
         })
         .select();
-
-      if (_data) {
-        console.log(_data);
-      }
 
       onUpdate();
     } catch (error) {
@@ -212,10 +206,6 @@ export default function NewCompany({
     if (!parentEntityId) return true;
     return !agree;
   };
-
-  useEffect(() => {
-    console.log(newCompany);
-  }, [newCompany]);
 
   return (
     <div>
@@ -244,7 +234,6 @@ export default function NewCompany({
                 type={'Individual'}
                 selectedId={parentEntityId}
                 onSelect={(id: string) => {
-                  console.log(id);
                   setParentEntityId(id);
                 }}
               />

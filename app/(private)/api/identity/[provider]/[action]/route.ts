@@ -8,7 +8,7 @@ import {
   PlaidEnvironments,
   Products
 } from 'plaid';
-import {LinkTokenCreateRequest} from "plaid/dist/api";
+import { LinkTokenCreateRequest } from 'plaid/dist/api';
 
 export const revalidate = 0;
 
@@ -109,7 +109,7 @@ export async function POST(
       console.log('Verified');
       // @ts-ignore
       let existingRecordId = request.nextUrl.searchParams.get('identity_id');
-      if(!existingRecordId) {
+      if (!existingRecordId) {
         // Perform a lookup by Plaid ID
         const existingIdentity = await supabase
           .from('identities')
@@ -143,7 +143,6 @@ export async function POST(
             IDVData?.user?.id_number?.type === 'us_ssn' ? 'SSN' : 'TIN'
         })
         .select();
-        console.log(data);
       return NextResponse.json({ provider, action });
     }
   }
