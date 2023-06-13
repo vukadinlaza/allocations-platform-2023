@@ -208,9 +208,9 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   };
 
   useEffect(() => {
-    // TODO: remove users_personal_identities
-    if (user && user.users_personal_identities) {
-      setHasIdentity(user.users_personal_identities.length > 0);
+    // TODO: from user_personal_identities to identities
+    if (user && user.identities) {
+      setHasIdentity(user.identities.length > 0);
     }
   }, [user]);
 

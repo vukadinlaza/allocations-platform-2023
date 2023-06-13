@@ -1,11 +1,12 @@
+'useClient';
 import { countries } from '@/app/(private)/config';
+import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
-import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
-import { IdentityList } from '@/components/Identity/List';
+import OnboardingUser from '@/components/Onboarding/User';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Field } from '@/types';
-import * as Sentry from '@sentry/nextjs';
+import { Alert } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function NewCompany({
@@ -15,22 +16,32 @@ export default function NewCompany({
   type: string;
   onUpdate: () => void;
 }) {
+  const [newUser, setNewUser] = useState<any>({
+    citizenship_country: undefined
+  });
   const [newCompany, setNewCompany] = useState<any>({
-    type
+    country: undefined
   });
   const [agree, setAgree] = useState<boolean>(false);
-  const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedIndividualIdentity, setSelectedIndividualIdentity] = useState<
-    string | undefined
-  >();
+
+  const { user, notify } = useAuthContext();
+  const { updateUser } = useSupabase();
 
   const model: Field[] = [
     {
-      label: 'Entity name',
+      label: 'Select a country',
+      key: 'country',
+      type: 'select',
+      placeholder: 'United States',
+      show: true,
+      items: countries
+    },
+    {
+      label: 'Your entity name',
       key: 'legal_name',
       type: 'string',
-      placeholder: 'Your entity name',
+      placeholder: 'Your new entity name',
       show: true
     },
     {
@@ -38,14 +49,6 @@ export default function NewCompany({
       key: 'date_of_entity_formation',
       type: 'date',
       show: true
-    },
-    {
-      label: 'Country of formation',
-      key: 'country',
-      type: 'select',
-      placeholder: 'United States',
-      show: true,
-      items: countries
     },
     {
       label: 'State of formation',
@@ -90,45 +93,23 @@ export default function NewCompany({
     }
   ];
 
-  const { supabase } = useSupabase();
-
   const saveNewEntity = async () => {
-    const {
-      data: { session }
-    } = await supabase.auth.getSession();
-    if (!session) {
-      throw new Error('Not Logged in');
-    }
-    if (!newCompany.legal_name) return alert('Please enter a name');
-    if (!newCompany.country)
-      setNewCompany((prev: any) => ({ ...prev, country: 'United States' }));
     try {
       setLoading(true);
-      const { data } = await supabase
-        .from('identities')
-        .insert({
-          ...newCompany,
-          type: 'Entity',
-          entity_type: type === 'Partnership' ? 'LP' : type,
-          user_email: session.user.email
-        })
-        .select()
-        .single();
-      if (!data) {
-        throw new Error('Failed to create identity');
-      }
-      await supabase
-        .from('identities')
-        .update({
-          parent_identity_id: data.id
-        })
-        .eq('id', selectedIndividualIdentity);
 
-      if (data) {
-        onUpdate();
+      const response = await updateUser({
+        email: user.email,
+        ...newUser
+      });
+
+      if (response) {
+        notify('Personal informations saved!', true);
       }
+
+      // if (response) {
+      //   onUpdate();
+      // }
     } catch (error) {
-      Sentry.captureException(error);
       console.log(error);
     } finally {
       setLoading(false);
@@ -136,86 +117,58 @@ export default function NewCompany({
   };
 
   useEffect(() => {
-    if (!newCompany) return;
-    const modelKeys = model
-      .filter((model) => !['address_line_2'].includes(model.key as string))
-      .map((model) => model.key);
-    const newCompanyKeys = Object.keys(newCompany);
+    if (user) {
+      if (user.first_name)
+        setNewCompany((prev: any) => ({
+          ...prev,
+          first_name: user.first_name
+        }));
+      if (user.last_name)
+        setNewCompany((prev: any) => ({
+          ...prev,
+          last_name: user.last_name
+        }));
+    }
+  }, [user]);
 
-    const isAllKeysPresent = modelKeys.every((key) => {
-      if (key) return newCompanyKeys.includes(key);
-    });
-
-    const hasAllValues = modelKeys.every((key) => {
-      if (key) return newCompany[key] && newCompany[key].length > 1;
-    });
-
-    if (isAllKeysPresent && hasAllValues && agree && selectedIndividualIdentity)
-      return setDisabled(false);
-
-    setDisabled(true);
-  }, [agree, newCompany]);
+  useEffect(() => {
+    console.log(newCompany);
+  }, [newCompany]);
 
   return (
-    <div className="new--company">
-      <div
-        className={`mb-4 px-4 rounded-lg cursor-pointer ${
-          agree
-            ? 'bg-primary-50 text-primary-500 border border-primary-300'
-            : 'bg-amber-50 text-amber-500 border border-amber-300'
-        }`}
-      >
-        <Checkbox
-          selected={agree}
-          onChange={() => setAgree(!agree)}
-          label={`I am an authorized signatory for this entity.`}
-        />
+    <div>
+      <div className="mb-4">
+        <h2>Your personal informations</h2>
+        <OnboardingUser onChange={(newUser: any) => setNewUser(newUser)} />
       </div>
-      {agree && (
-        <>
-          <div>
-            <div>
-              <h2 className="mb-2">
-                Please choose your designated signatory identity
-              </h2>
-            </div>
-            <IdentityList
-              type={'Individual'}
-              selectedId={selectedIndividualIdentity}
-              onSelect={setSelectedIndividualIdentity}
+      {newCompany.country === 'Russian Federation' && (
+        <Alert severity="error">
+          Sorry, your country is not allowed to invest through Allocations.com.
+          Please email support@allocations.com for more informations.
+        </Alert>
+      )}
+      {newCompany.country !== 'Russian Federation' && (
+        <div>
+          <h2>Your new entity informations</h2>
+          <FormBuilder
+            data={newCompany}
+            model={model}
+            emit={true}
+            onSubmit={(v: any) => {
+              setNewCompany((prev: any) => ({
+                ...prev,
+                ...v
+              }));
+            }}
+          />
+          <div className="my-4">
+            <Button
+              loading={loading}
+              label={'Save new entity'}
+              onClick={() => saveNewEntity()}
             />
           </div>
-          {selectedIndividualIdentity && (
-            <>
-              <FormBuilder
-                emit={true}
-                model={model}
-                onSubmit={(v) =>
-                  setNewCompany((prev: any) => ({ ...prev, ...v }))
-                }
-              />
-              <ul className="my-6 text-xs text-gray-600 list-disc list-inside">
-                <li className="mb-2">
-                  The first time you invest with the multiple-owner entity, you
-                  will be asked to submit additional verifying documents to
-                  comply with the U.S. financial laws.
-                </li>
-                <li className="mb-2">
-                  The minimum investment for entities with multiple owners is
-                  $5,000.
-                </li>
-              </ul>
-              <div>
-                <Button
-                  disabled={disabled}
-                  loading={loading}
-                  label="Save investment entity"
-                  onClick={saveNewEntity}
-                />
-              </div>
-            </>
-          )}
-        </>
+        </div>
       )}
     </div>
   );

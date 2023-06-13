@@ -60,8 +60,6 @@ export default function InvestmentsModule({
               identities={currentUser.identities}
               onChange={(v) => {
                 setIdentity(v);
-                console.log('ici');
-                console.log(v);
               }}
               onUpdate={checkPermissions}
               selected={identity?.id}

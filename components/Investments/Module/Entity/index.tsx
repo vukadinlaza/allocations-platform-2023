@@ -5,7 +5,7 @@ import { Identity } from '@/types';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import NewUserInvestmentsEntity from './Entity/New';
+import NewUserInvestmentsEntity from './New';
 
 export default function InvestmentEntity({
   identities = [],
@@ -20,7 +20,7 @@ export default function InvestmentEntity({
   selected: any;
   validate?: boolean;
 }) {
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true); // TODO: false
   const [token, setToken] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<any>(undefined);
 
@@ -31,8 +31,6 @@ export default function InvestmentEntity({
   }, [show]);
 
   useEffect(() => {
-    console.log('ici aussi');
-    console.log(selectedId);
     onChange(selectedId);
   }, [selectedId]);
 
@@ -60,11 +58,13 @@ export default function InvestmentEntity({
           )}
         </div>
         {show && (
-          <NewUserInvestmentsEntity
-            onClose={() => setShow(false)}
-            identities={identities}
-            onUpdate={onUpdate}
-          />
+          <div className="pt-6 mt-6 border-t">
+            <NewUserInvestmentsEntity
+              onClose={() => setShow(false)}
+              identities={identities}
+              onUpdate={onUpdate}
+            />
+          </div>
         )}
         {token && (
           <PlaidIdentityLink
@@ -73,20 +73,22 @@ export default function InvestmentEntity({
             onSuccess={() => onUpdate()}
           />
         )}
-        <Button
-          color="info"
-          icon={
-            <Image
-              src={'/plus.svg'}
-              alt="plus"
-              className="opacity-50 "
-              width={18}
-              height={18}
-            />
-          }
-          label={'New investment entity'}
-          onClick={() => setShow(true)}
-        />
+        {!show && (
+          <Button
+            color="info"
+            icon={
+              <Image
+                src={'/plus.svg'}
+                alt="plus"
+                className="opacity-50 "
+                width={18}
+                height={18}
+              />
+            }
+            label={'New investment entity'}
+            onClick={() => setShow(true)}
+          />
+        )}
       </main>
     </div>
   );
