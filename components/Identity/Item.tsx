@@ -100,7 +100,9 @@ export default function IdentityItem({
           </Avatar>
           <div className="flex flex-col grow">
             {identity.legal_name && (
-              <span className="mb-0 text-sm">{identity.legal_name}</span>
+              <span className="mb-0 text-sm">
+                {identity.legal_name || 'No name provided'}
+              </span>
             )}
             {identity.type === 'Individual' && (
               <span className="text-xs text-gray-600">
@@ -108,7 +110,7 @@ export default function IdentityItem({
               </span>
             )}
             {identity.type !== 'Individual' && (
-              <span className="ml-2 text-xs text-gray-600">
+              <span className="text-xs text-gray-600">
                 A {identity.country} {identity.entity_type} Entity
               </span>
             )}

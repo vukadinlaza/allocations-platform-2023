@@ -29,6 +29,10 @@ export default function NewCompany({
   const [loading, setLoading] = useState<boolean>(false);
   const { user, notify } = useAuthContext();
   const { supabase } = useSupabase();
+
+  // set parent here
+  const [parentEntityId, setParentEntityId] = useState<any>(null);
+
   const individual = investment_identity_types[0];
 
   const model: Field[] = [
@@ -160,20 +164,41 @@ export default function NewCompany({
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.from('identities').insert({
-        ...newCompany,
-        user_email: user.email,
-        entity_type: type,
-        us_domestic: newCompany.us_domestic === 'Yes',
-        type: type === individual ? entity_type[0] : entity_type[1],
-        provider: 'NAMESCAN'
-      });
+      // 1. create entity
+      const { data, error } = await supabase
+        .from('identities')
+        .insert({
+          ...newCompany,
+          user_email: user.email,
+          entity_type: type,
+          us_domestic: newCompany.us_domestic === 'Yes',
+          type: type === individual ? entity_type[0] : entity_type[1],
+          provider: 'NAMESCAN'
+        })
+        .select()
+        .single();
 
       if (error) {
         return notify('Sorry, something went wrong. Please try again');
       }
 
       notify('Successfully created!', true);
+
+      console.log(data);
+
+      // 2. set parent_entity_id
+      const { data: _data } = await supabase
+        .from('identities')
+        .upsert({
+          id: parentEntityId,
+          parent_identity_id: data.id
+        })
+        .select();
+
+      if (_data) {
+        console.log(_data);
+      }
+
       onUpdate();
     } catch (error) {
       console.log(error);
@@ -184,7 +209,7 @@ export default function NewCompany({
 
   const disableSave = () => {
     if (type === individual) return !agree;
-    if (!newCompany.parent_identity_id) return true;
+    if (!parentEntityId) return true;
     return !agree;
   };
 
@@ -217,17 +242,15 @@ export default function NewCompany({
             <div className="my-4">
               <IdentityList
                 type={'Individual'}
-                selectedId={newCompany.parent_identity_id || null}
+                selectedId={parentEntityId}
                 onSelect={(id: string) => {
-                  setNewCompany((prev: any) => ({
-                    ...prev,
-                    parent_identity_id: id
-                  }));
+                  console.log(id);
+                  setParentEntityId(id);
                 }}
               />
             </div>
           )}
-          <div className="mt-8">
+          <div className="my-8">
             <div className="mb-4">
               <Checkbox
                 selected={agree}

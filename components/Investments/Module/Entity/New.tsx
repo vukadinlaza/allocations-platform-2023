@@ -3,8 +3,6 @@ import Select from '@/components/Select';
 import { investment_identity_types } from '@/types/values';
 import { useState } from 'react';
 import NewCompany from './Company';
-import NewIRA from './IRA';
-import NewTrust from './Trust';
 
 export default function NewUserInvestmentEntityIdentity({
   onUpdate,
@@ -38,23 +36,7 @@ export default function NewUserInvestmentEntityIdentity({
           onChange={(type: string) => setType(type)}
         />
       </div>
-      <div className="py-3 rounded-lg">
-        {type === 'Myself / Individual' && (
-          <NewCompany type={type} onUpdate={onUpdate} />
-        )}
-        {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
-        {type === 'Corporation' && (
-          <NewCompany type={type} onUpdate={onUpdate} />
-        )}
-        {type === 'Trust' && <NewTrust onUpdate={onUpdate} />}
-        {type === 'Self-directed IRA' && <NewIRA onUpdate={onUpdate} />}
-      </div>
-      {/* {type === 'Myself / Individual' && <NewCompany type={type} onUpdate={onUpdate} />}
-      {type === 'LLC' && <NewCompany type={type} onUpdate={onUpdate} />}
-      {type === 'Corporation' && <NewCompany type={type} onUpdate={onUpdate} />}
-      {type === 'Partnership' && <NewCompany type={type} onUpdate={onUpdate} />}
-      {type === 'Trust' && <NewTrust onUpdate={onUpdate} />}
-      {type === 'Self-directed IRA' && <NewIRA onUpdate={onUpdate} />} */}
+      <NewCompany type={type} onUpdate={onUpdate} />
       <div>
         {onClose && (
           <Button color="info" label={'Cancel'} onClick={() => onClose()} />
