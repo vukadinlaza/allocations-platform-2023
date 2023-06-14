@@ -68,6 +68,38 @@ export default function DealID() {
     fetchDeal();
   }, []);
 
+  useEffect(() => {
+    if (deal) {
+      const watchForDeal = supabase
+        .channel('deals_subscribers')
+        .on(
+          // @ts-ignore
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'deals',
+            filter: `id=eq.${deal.id}`
+          },
+          (payload: any) => {
+            console.log(payload);
+            const { eventType } = payload;
+            const newElement: any = payload.new;
+            if (eventType === 'UPDATE') {
+              const { status } = newElement;
+              if (status !== deal.status) {
+                setDeal((prev: any) => ({
+                  ...prev,
+                  status
+                }));
+              }
+            }
+          }
+        )
+        .subscribe();
+    }
+  }, [deal]);
+
   return (
     <div className="w-full deal">
       {loading && <LoadingDeal />}
