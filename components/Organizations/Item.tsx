@@ -19,11 +19,20 @@ export default function OrganizationItem({
           textTransform: 'capitalize'
         }}
       >
-        {organization?.name && getFirstLetter(organization.name)}
+        {organization.name && getFirstLetter(organization.name)}
       </Avatar>
       <div className="grid items-start pr-2 grow">
-        {organization?.name && (
-          <label className="truncate">{organization.name}</label>
+        {organization.name && (
+          <p className="text-sm font-medium truncate">
+            {organization.name && organization.name.length > 1
+              ? organization.name
+              : 'No name'}
+          </p>
+        )}
+        {organization.organizations_roles && (
+          <label className="text-xs">
+            {organization.organizations_roles.length || 1} members
+          </label>
         )}
       </div>
       {content && (

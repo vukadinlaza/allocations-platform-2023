@@ -32,7 +32,7 @@ export default function Organizations() {
   }, []);
 
   return (
-    <Card className="card" variant="outlined">
+    <Card className="container card" variant="outlined">
       {loading && <LoadingApp />}
       {!loading && (
         <div className="w-full">
@@ -49,11 +49,8 @@ export default function Organizations() {
             }}
           />
           <div className="grid gap-2">
-            {organizations.map((organization: any) => (
-              <OrganizationItem
-                key={organization.name}
-                organization={organization}
-              />
+            {organizations.map((organization: any, index: number) => (
+              <OrganizationItem key={index} organization={organization} />
             ))}
           </div>
         </div>
