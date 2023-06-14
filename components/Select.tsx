@@ -4,6 +4,7 @@ type SelectProps<T> = {
   displayLabel?: (item: any) => any;
   selected?: any;
   disabled?: boolean;
+  placeholder?: string;
 };
 
 function Select<T>({
@@ -11,7 +12,8 @@ function Select<T>({
   onChange,
   displayLabel,
   selected,
-  disabled = false
+  disabled = false,
+  placeholder = 'Select an option'
 }: SelectProps<T>) {
   const handleSelectChange = (e: any) => {
     if (!items) return;
@@ -25,7 +27,7 @@ function Select<T>({
       className={`bg-white capitalize ${disabled ? 'disabled' : ''}`}
       disabled={disabled}
     >
-      {!selected && <option value="">Select an option</option>}
+      {!selected && <option value="">{placeholder}</option>}
       {items &&
         items.map((item: any, index: number) => (
           <option key={index}>

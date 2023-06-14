@@ -10,16 +10,17 @@ export default function SelectOrganization({
   onChange,
   loading,
   disabled,
+  header = true,
   deal
 }: {
   loading: boolean;
   disabled?: boolean;
+  header?: boolean;
   onChange: (v: any) => void;
   deal?: any;
 }) {
   const [create, setCreate] = useState<boolean>(false);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [selectedManager, setSelectedManager] = useState<any>(undefined);
   const [selectedOrganization, setSelectedOrganization] =
     useState<any>(undefined);
   const [_loading, setLoading] = useState<boolean>(true);
@@ -70,32 +71,20 @@ export default function SelectOrganization({
     }
   }, [selectedOrganization]);
 
-  useEffect(() => {
-    // if (selectedOrganization && selectedManager) {
-    //   const members = selectedOrganization.organizations_roles.map(
-    //     (o: any) => o.users
-    //   );
-    //   const found = members?.find((m: any) => {
-    //     return m.email === selectedManager;
-    //   });
-    //   console.log(found.id);
-    //   onChange({
-    //     fund_manager_email: found.id
-    //   });
-    // }
-  }, [selectedManager]);
-
   return (
-    <div className="w-full">
-      <header className="flex flex-col items-start mb-4">
-        <h2 className="text-xl">Select an organization</h2>
-        <p>List of your current organizations</p>
-      </header>
+    <div className="w-full SelectOrganization">
+      {header && (
+        <header className="flex flex-col mb-4 items-left">
+          <h2 className="text-xl">Select an organization</h2>
+          <label>List of your current organizations</label>
+        </header>
+      )}
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
-        <div className="w-full grid-cols-12 gap-4 my-4 md:grid">
-          <div className="col-span-12 mb-4 md:col-span-10 md:mb-0">
+        <div className="flex w-full gap-4 my-4 md:grid">
+          <div className="w-full mb-4 md:mb-0">
             <Select
+              placeholder="Select an organization"
               disabled={disabled}
               selected={selectedOrganization?.name}
               items={organizations.map((o) => o.name)}
@@ -106,7 +95,7 @@ export default function SelectOrganization({
               }}
             />
           </div>
-          <div className="col-span-12 md:col-span-2">
+          <div>
             <Button
               disabled={disabled}
               icon={
@@ -135,23 +124,6 @@ export default function SelectOrganization({
           }}
         />
       )}
-      {/* {selectedOrganization && (
-        <div>
-          <p className="mb-4">Select a manager:</p>
-          <Select
-            selected={selectedManager}
-            items={selectedOrganization.organizations_roles?.map((o: any) => ({
-              ...o.users
-            }))}
-            displayLabel={(m: any) => (
-              <span className="lowercase">{m.email}</span>
-            )}
-            onChange={(manager_email: any) => {
-              setSelectedManager(manager_email);
-            }}
-          />
-        </div>
-      )} */}
     </div>
   );
 }
