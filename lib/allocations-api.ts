@@ -1,19 +1,25 @@
 const baseURL =
   process.env.NEXT_PUBLIC_ALLOCATIONS_API_BASE_URL ??
   `https://api.allocations.com`;
-  
+
 export const AllocationsAPI = {
   makeCall: async (
     path: string,
     method: 'GET' | 'POST' = 'GET',
     body: any = undefined,
-    contentType: string = 'application/json'
+    contentType: string = 'application/json',
+    authorization: 'basic' | 'bearer' = 'basic',
+    headers: { [key: string]: string } = {},
   ) => {
     return fetch(`${baseURL}/${path}`, {
       method: method,
       headers: {
         'Content-Type': contentType,
-        Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
+        ...(
+          authorization === "basic" ? {
+            Authorization: `Basic ${process.env.NEXT_PUBLIC_API_ALLOCATIONS_KEY}`
+          } : {}),
+        ...headers
       },
       body: body
     });
@@ -44,6 +50,18 @@ export const AllocationsAPI = {
       'POST',
       JSON.stringify(fileIds),
       'application/json'
+    );
+  },
+  impersonate: async (email: string, token: string) => {
+    return AllocationsAPI.makeCall(
+      `supabase/impersonate/${email}`,
+      'GET',
+      undefined,
+      'application/json',
+      'bearer',
+      {
+        Authorization: `Bearer ${token}`
+      }
     );
   }
 };

@@ -6,6 +6,7 @@ import UserItem from '@/components/UserItem';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../context';
+import {AllocationsAPI} from "@/lib/allocations-api";
 
 export default function Admin() {
   const { user } = useAuthContext();
@@ -22,7 +23,7 @@ export default function Admin() {
       let { data: users, error } = await supabase
         .from('users')
         .select('*')
-        .eq('email', email);
+        .ilike('email', email+'%');
 
       if (error) return console.log(error);
 
@@ -50,7 +51,7 @@ export default function Admin() {
       {user && !user.is_super_admin && <None text="You don't have access." />}
       {user && user.is_super_admin && (
         <div className="flex flex-col items-start px-5 py-4 bg-white border rounded-lg">
-          <h2>Connect as</h2>
+          <h2>Impersonate as</h2>
           <input
             type="text"
             placeholder={'Type an email address...'}
@@ -66,7 +67,14 @@ export default function Admin() {
                 <UserItem
                   key={user.id}
                   user={user}
-                  content={<Button label="Impersonation" onClick={() => {}} />}
+                  content={<Button label="Impersonate" onClick={async () => {
+                    console.log(supabase);
+                    const {data:sessionData} = await supabase.auth.getSession();
+                    const access_token = sessionData.session?.access_token as string;
+                    const response = await AllocationsAPI.impersonate(user.email, access_token);
+                    const {data: impersonationPayload} = await response.json();
+                    window.open(impersonationPayload.properties.action_link);
+                  }} />}
                 />
               ))}
           </div>
