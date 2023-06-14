@@ -19,6 +19,7 @@ import LoadingPageList from '@/components/Loading/Page';
 import NewOrganization from '@/components/Organizations/New';
 import Table, { SortConfig } from '@/components/Table';
 import TableResponsive from '@/components/Table/Responsive';
+import PageHeader from './Header';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -151,94 +152,86 @@ export default function PageList({ data }: { data: any }) {
         <div className="w-full">
           {header && table && (
             <div>
-              {header.buttons && (
-                <Dialog
-                  open={openModal}
-                  TransitionComponent={Transition}
-                  keepMounted
-                  aria-describedby="alert-dialog-slide-description"
-                >
-                  <Card
-                    className="mb-0 overflow-auto card--popup"
-                    variant="outlined"
-                  >
-                    <header className="sticky">
-                      {table && <h2>Create a new {table.element}</h2>}
-                      <CloseIcon
-                        fontSize="inherit"
-                        className="text-2xl cursor-pointer text-gray"
-                        onClick={() => setOpenModal(false)}
-                      />
-                    </header>
-                    <div className="p-6">
-                      {header.buttons &&
-                        header.buttons.map((button: any, index: any) => {
-                          if (button.type === 'deal') {
-                            return (
-                              <NewDeal
-                                key={index}
-                                type={table.type}
-                                onCreate={() => setOpenModal(false)}
-                              />
-                            );
-                          }
-                          if (button.type === 'organization') {
-                            return (
-                              <NewOrganization
-                                key={index}
-                                onCreate={() => setOpenModal(false)}
-                              />
-                            );
-                          }
-                          if (button.type === 'users_entity') {
-                            return (
-                              <NewUserInvestmentEntityIdentity
-                                hideHeader={true}
-                                key={index}
-                                onUpdate={() => setOpenModal(false)}
-                              />
-                            );
-                          }
-                          if (button.type === 'verify') {
-                            return (
-                              <KYC
-                                key={index}
-                                onUpdate={() => setOpenModal(false)}
-                              />
-                            );
-                          }
-                        })}
-                    </div>
-                  </Card>
-                </Dialog>
-              )}
-              <header className="pb-4 md:pb-6">
-                <div>
-                  <h1 className="mb-2 md:text-2xl">
-                    <span className="mr-2">{header.name || 'No title'}</span>
-                    <div className="chip chip--small chip--info">
-                      {initialData && initialData.length
-                        ? initialData.length
-                        : 0}
-                    </div>
-                  </h1>
-                  <p className="text-sm md:text-base">
-                    {header.description || 'No description'}
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  {header.buttons &&
-                    Object.values(header.buttons).map((button: any) => (
-                      <Button
-                        label={button.label || 'Create new'}
-                        onClick={() => {
-                          setOpenModal(true);
-                        }}
-                        key={button.label}
-                      />
-                    ))}
-                </div>
-              </header>
+              <PageHeader
+                header={{ ...header, length: initialData.length || 0 }}
+                buttons={
+                  <div className="flex items-center">
+                    {header.buttons &&
+                      Object.values(header.buttons).map((button: any) => (
+                        <div>
+                          <Dialog
+                            open={openModal}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            aria-describedby="alert-dialog-slide-description"
+                          >
+                            <Card
+                              className="mb-0 overflow-auto card--popup"
+                              variant="outlined"
+                            >
+                              <header className="sticky">
+                                {table && <h2>Create a new {table.element}</h2>}
+                                <CloseIcon
+                                  fontSize="inherit"
+                                  className="text-4xl cursor-pointer text-gray"
+                                  onClick={() => setOpenModal(false)}
+                                />
+                              </header>
+                              <div className="p-6">
+                                {header.buttons &&
+                                  header.buttons.map(
+                                    (button: any, index: any) => {
+                                      if (button.type === 'deal') {
+                                        return (
+                                          <NewDeal
+                                            key={index}
+                                            type={table.type}
+                                            onCreate={() => setOpenModal(false)}
+                                          />
+                                        );
+                                      }
+                                      if (button.type === 'organization') {
+                                        return (
+                                          <NewOrganization
+                                            key={index}
+                                            onCreate={() => setOpenModal(false)}
+                                          />
+                                        );
+                                      }
+                                      if (button.type === 'users_entity') {
+                                        return (
+                                          <NewUserInvestmentEntityIdentity
+                                            hideHeader={true}
+                                            key={index}
+                                            onUpdate={() => setOpenModal(false)}
+                                          />
+                                        );
+                                      }
+                                      if (button.type === 'verify') {
+                                        return (
+                                          <KYC
+                                            key={index}
+                                            onUpdate={() => setOpenModal(false)}
+                                          />
+                                        );
+                                      }
+                                    }
+                                  )}
+                              </div>
+                            </Card>
+                          </Dialog>
+                          <Button
+                            label={button.label || 'Create new'}
+                            onClick={() => {
+                              setOpenModal(true);
+                            }}
+                            key={button.label}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                }
+              />
             </div>
           )}
           <div className="hidden md:flex">
