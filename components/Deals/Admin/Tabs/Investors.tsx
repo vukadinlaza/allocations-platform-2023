@@ -1,15 +1,33 @@
+import Button from '@/components/Button';
+import DocumentsList from '@/components/Documents/List';
 import LoadingList from '@/components/Loading/List';
+import ModalBox from '@/components/Modal';
 import None from '@/components/None';
 import Price from '@/components/Price';
 import UserItem from '@/components/UserItem';
 import { useSupabase } from '@/lib/supabase-provider';
+import { getFullName } from '@/lib/utils';
 import { Deal } from '@/types';
+import Dialog from '@mui/material/Dialog';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 import { uniqBy } from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
   const [loading, setLoading] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<any>(undefined);
+  const [modalData, setModalData] = useState<any>(undefined);
   const [kanban, setKanban] = useState<any>({
     invited: [],
     signed: [],
@@ -84,6 +102,10 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
     fetchKanban();
   }, []);
 
+  useEffect(() => {
+    console.log(modalData);
+  }, [modalData]);
+
   return (
     <div>
       {loading && <LoadingList />}
@@ -121,7 +143,14 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
                 {items.length > 0 && (
                   <div className="grid gap-2">
                     {items.map((item: any, index: number) => (
-                      <div key={index}>
+                      <div
+                        key={index}
+                        className="transition cursor-pointer hover:bg-gray-50"
+                        onClick={() => {
+                          setModalData(item);
+                          setOpenModal(!openModal);
+                        }}
+                      >
                         <UserItem
                           user={item.users}
                           content={
@@ -135,6 +164,27 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
                         />
                       </div>
                     ))}
+                    <Dialog
+                      open={openModal}
+                      TransitionComponent={Transition}
+                      keepMounted
+                      aria-describedby="alert-dialog-slide-description"
+                    >
+                      <ModalBox
+                        title={`${getFullName(modalData?.users) || ''}`}
+                        onClose={() => setOpenModal(false)}
+                        content={
+                          <div>
+                            <DocumentsList investmentId={modalData?.id} />
+                            <Button
+                              color="info"
+                              label={'Cancel'}
+                              onClick={() => setOpenModal(false)}
+                            />
+                          </div>
+                        }
+                      />
+                    </Dialog>
                   </div>
                 )}
               </div>

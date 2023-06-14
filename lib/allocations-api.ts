@@ -1,6 +1,7 @@
 const baseURL =
   process.env.NEXT_PUBLIC_ALLOCATIONS_API_BASE_URL ??
   `https://api.allocations.com`;
+  
 export const AllocationsAPI = {
   makeCall: async (
     path: string,

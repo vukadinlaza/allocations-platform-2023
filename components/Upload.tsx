@@ -45,7 +45,7 @@ export default function Upload({
     }
   };
 
-  const renderFiles = () => {
+  const renderFiles = (files: any) => {
     return files.map((file, index) => (
       <div
         key={index}
