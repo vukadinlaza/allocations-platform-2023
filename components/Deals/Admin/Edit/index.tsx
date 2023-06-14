@@ -15,7 +15,7 @@ import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
-import { downloadFile } from '@/lib/utils';
+import { downloadFile, formatDeal } from '@/lib/utils';
 import { Asset, Deal } from '@/types';
 import {
   deal_advisors_type,
@@ -92,18 +92,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     }
   };
 
-  const formatDeal = (deal: Deal, divide = true) => {
-    return {
-      ...deal,
-      total_carry: divide
-        ? parseFloat(String(deal.total_carry)) / 100
-        : parseFloat(String(deal.total_carry)) * 100,
-      management_fee_percent: divide
-        ? parseFloat(String(deal.management_fee_percent)) / 100
-        : parseFloat(String(deal.management_fee_percent)) * 100
-    };
-  };
-
   const saveDeal = async (submitted = false) => {
     if (!deal) return;
     try {
@@ -111,37 +99,38 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
 
       // TODO: to clean, deal_details are up here
       const {
-        assets,
-        total_raised_amount,
-        series_name,
-        master_series,
-        legal_template_option,
-        agree_msa,
-        agree_setup,
-        agree_costs,
         accept_crypto,
         advisor_type,
+        agree_costs,
+        agree_msa,
+        agree_setup,
         asset_id,
-        bank_account_id,
+        assets,
         banking_provider,
+        bank_account_id,
         deal_term,
         entity_name,
         estimated_multiple,
         international_investors,
         legal_company_name,
+        legal_template_option,
         legacy_company_name,
+        master_series,
         onboarding_link,
+        series_name,
         sub_type,
+        total_raised_amount,
         ...dealData
       } = newDeal;
 
-      if ((dealData.status = 'draft' && submitted)) {
-        dealData.status = 'submitted';
-      }
-
       const { data: _deal, error: _dealError } = await supabase
         .from('deals')
-        .upsert({ id: deal.id, ...formatDeal(dealData) });
+        .upsert({
+          id: deal.id,
+          ...formatDeal(dealData),
+          status: submitted && 'draft' ? 'submitted' : dealData.status
+        })
+        .select();
 
       if (_dealError) {
         notify(`Sorry, could not save deal.`, false);
@@ -224,10 +213,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
     }
     init();
   }, [deal]);
-
-  // useEffect(() => {
-  //   console.log(newDeal);
-  // }, [newDeal]);
 
   return (
     <>
@@ -322,8 +307,8 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                 component={
                   <DealMemo
                     deal={newDeal}
-                    onChange={(_memo: any) => {
-                      setNewDeal((prev: any) => ({ ...prev, memo: _memo }));
+                    onChange={(memo: any) => {
+                      setNewDeal((prev: any) => ({ ...prev, memo }));
                     }}
                   />
                 }
@@ -533,25 +518,23 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
                         await saveDealDetails();
                       }}
                     />
-                    {newDeal.status === 'draft' ||
-                      (newDeal.status === 'submitted' && (
-                        <Button
-                          disabled={
-                            !(
-                              newDealDetails.agree_setup &&
-                              newDealDetails.agree_costs
-                            )
-                          }
-                          loading={loading}
-                          label={
-                            newDeal.status === 'draft' ? 'Submit' : 'Update'
-                          }
-                          onClick={async () => {
-                            await saveDeal(true);
-                            await saveDealDetails();
-                          }}
-                        />
-                      ))}
+                    {(newDeal.status === 'draft' ||
+                      newDeal.status === 'submitted') && (
+                      <Button
+                        disabled={
+                          !(
+                            newDealDetails.agree_setup &&
+                            newDealDetails.agree_costs
+                          )
+                        }
+                        loading={loading}
+                        label={newDeal.status === 'draft' ? 'Submit' : 'Update'}
+                        onClick={async () => {
+                          await saveDeal(true);
+                          await saveDealDetails();
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

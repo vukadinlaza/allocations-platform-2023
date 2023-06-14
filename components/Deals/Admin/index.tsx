@@ -5,7 +5,7 @@ import DealAdminEdit from '@/components/Deals/Admin/Edit';
 import DealAdminBanking from '@/components/Deals/Admin/Tabs/Banking';
 import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
 import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
-import ItemsHeader from '@/components/Items/Header';
+import ItemsHeader from '@/components/Deals/Header';
 import Progress from '@/components/Items/Progress';
 import ModalBox from '@/components/Modal';
 import Nav from '@/components/Nav';
@@ -54,7 +54,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
       {deal && (
         <div>
           <div className="flex items-start justify-between">
-            <ItemsHeader data={deal} />
+            <ItemsHeader deal={deal} />
             <Dialog
               open={openModal}
               TransitionComponent={Transition}

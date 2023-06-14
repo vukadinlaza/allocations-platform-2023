@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/components/Button';
 import InvestmentSidebar from '@/components/Investments/Sidebar';
-import ItemsHeader from '@/components/Items/Header';
+import ItemsHeader from '@/components/Deals/Header';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
@@ -44,7 +44,7 @@ export default function DealClient({ deal }: { deal: Deal }) {
       <div className="container grid grid-cols-1 gap-8 mt-8 md:grid-cols-6">
         <div className="md:col-span-4">
           <header className="flex items-start justify-between md:mb-8">
-            <ItemsHeader data={deal} />
+            <ItemsHeader deal={deal} />
             <div className="items-center hidden gap-4 md:flex">
               <Button
                 loading={false}
