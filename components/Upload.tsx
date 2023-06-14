@@ -45,8 +45,8 @@ export default function Upload({
     }
   };
 
-  const renderFiles = (files: any) => {
-    return files.map((file, index) => (
+  const renderFiles = () => {
+    return files.map((file: any, index: number) => (
       <div
         key={index}
         className="flex items-center justify-between px-3 py-3 border-b file"

@@ -54,3 +54,8 @@ export const getDeviceType = () => {
     return 'Desktop';
   }
 };
+
+export const limitString = (str: string, limit = 22) => {
+  if (str.length <= limit) return str;
+  return str.slice(0, limit) + '...';
+};

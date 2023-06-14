@@ -1,5 +1,5 @@
 import Button from '@/components/Button';
-import DocumentsList from '@/components/Documents/List';
+import InvestmentsDocumentsList from '@/components/Investments/Documents/List';
 import LoadingList from '@/components/Loading/List';
 import ModalBox from '@/components/Modal';
 import None from '@/components/None';
@@ -175,7 +175,10 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
                         onClose={() => setOpenModal(false)}
                         content={
                           <div>
-                            <DocumentsList investmentId={modalData?.id} />
+                            <InvestmentsDocumentsList
+                              deal={deal}
+                              investment={modalData}
+                            />
                             <Button
                               color="info"
                               label={'Cancel'}
