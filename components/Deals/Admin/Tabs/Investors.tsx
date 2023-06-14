@@ -102,10 +102,6 @@ export default function DealAdminInvestors({ deal }: { deal?: Deal }) {
     fetchKanban();
   }, []);
 
-  useEffect(() => {
-    console.log(modalData);
-  }, [modalData]);
-
   return (
     <div>
       {loading && <LoadingList />}
