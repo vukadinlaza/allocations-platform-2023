@@ -6,9 +6,49 @@ import Card from '@mui/material/Card';
 import { useState } from 'react';
 import { headers_tables } from '../config';
 import { useAuthContext } from '../context';
+import Button from "@/components/Button";
+import Divider from "@mui/material/Divider";
+import {useSupabase} from "@/lib/supabase-provider";
+
+const PasswordChange = ()=>{
+  const { notify} = useAuthContext();
+  const {supabase} = useSupabase();
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>('');
+
+  return (
+    <Card sx={{
+      p:2,
+      mb:2
+    }}>
+      <div className="flex flex-col items-center justify-center w-full gap-4">
+        <div className="w-full text-center">
+          <h2 id={'password-reset'} className="mb-1 text-2xl">
+            Password Change
+          </h2>
+          <div className="flex flex-col items-center justify-center w-full gap-4 mt-2">
+            <div className={"max-w-md"}>
+              <input value={newPassword} className="w-full" type="password" placeholder="New Password" onChange={(e) => setNewPassword(e.target.value)} />
+              <input value={newPasswordConfirm} className="w-full" type="password" placeholder="Confirm New Password" onChange={(e) => setNewPasswordConfirm(e.target.value)} />
+              <div className={"my-2"}/>
+              <Button onClick={async ()=>{
+                if(newPassword && newPasswordConfirm && newPasswordConfirm != '' && (newPassword == newPasswordConfirm)) {
+                  await supabase.auth.updateUser({ password: newPassword });
+                  notify('Your password has been changed successfully', true);
+                  setNewPassword('');
+                  setNewPasswordConfirm('');
+                }
+              }} disabled={!(newPassword && newPasswordConfirm && newPasswordConfirm != '' && (newPassword == newPasswordConfirm))} label={"Reset Password"}/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
 
 export default function Profile() {
-  const { user } = useAuthContext();
+  const { user, notify} = useAuthContext();
   const [loading, setLoading] = useState<boolean>(true);
   const [edit, setEdit] = useState<boolean>(false);
 
@@ -73,11 +113,13 @@ export default function Profile() {
           </header>
         )}
       </Card>
+      <PasswordChange/>
       {cards.map((data, index) => (
         <Card key={index} className="card" variant="outlined">
           <PageList data={data} />
         </Card>
       ))}
+
     </div>
   );
 }
