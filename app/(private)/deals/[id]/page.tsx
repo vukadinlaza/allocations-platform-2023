@@ -82,7 +82,6 @@ export default function DealID() {
             filter: `id=eq.${deal.id}`
           },
           (payload: any) => {
-            console.log(payload);
             const { eventType } = payload;
             const newElement: any = payload.new;
             if (eventType === 'UPDATE') {
