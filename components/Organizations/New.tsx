@@ -41,8 +41,8 @@ export default function NewOrganization({ onCreate, onClose }: Props) {
   };
 
   return (
-    <div className="w-full grid-cols-12 gap-4 my-4 md:grid">
-      <div className="col-span-12 mb-4 md:col-span-10 md:mb-0">
+    <div className="w-full mb-4">
+      <div className="mb-4">
         <input
           type="text"
           value={newOrganization?.name || ''}
@@ -64,15 +64,17 @@ export default function NewOrganization({ onCreate, onClose }: Props) {
           label={'Create'}
           onClick={createNew}
         />
-        <Button
-          color="info"
-          loading={loading}
-          disabled={loading}
-          label={'Cancel'}
-          onClick={() => {
-            if (onClose) onClose();
-          }}
-        />
+        {onClose && (
+          <Button
+            color="info"
+            loading={loading}
+            disabled={loading}
+            label={'Cancel'}
+            onClick={() => {
+              if (onClose) onClose();
+            }}
+          />
+        )}
       </div>
     </div>
   );
