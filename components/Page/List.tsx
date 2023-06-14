@@ -154,81 +154,93 @@ export default function PageList({ data }: { data: any }) {
             <div>
               <PageHeader
                 header={{ ...header, length: initialData.length || 0 }}
-                buttons={
+                content={
                   <div className="flex items-center">
                     {header.buttons &&
-                      Object.values(header.buttons).map((button: any) => (
-                        <div>
-                          <Dialog
-                            open={openModal}
-                            TransitionComponent={Transition}
-                            keepMounted
-                            aria-describedby="alert-dialog-slide-description"
-                          >
-                            <Card
-                              className="mb-0 overflow-auto card--popup"
-                              variant="outlined"
+                      Object.values(header.buttons).map(
+                        (button: any, index: number) => (
+                          <div key={index}>
+                            <Dialog
+                              open={openModal}
+                              TransitionComponent={Transition}
+                              keepMounted
+                              aria-describedby="alert-dialog-slide-description"
                             >
-                              <header className="sticky">
-                                {table && <h2>Create a new {table.element}</h2>}
-                                <CloseIcon
-                                  fontSize="inherit"
-                                  className="text-4xl cursor-pointer text-gray"
-                                  onClick={() => setOpenModal(false)}
-                                />
-                              </header>
-                              <div className="p-6">
-                                {header.buttons &&
-                                  header.buttons.map(
-                                    (button: any, index: any) => {
-                                      if (button.type === 'deal') {
-                                        return (
-                                          <NewDeal
-                                            key={index}
-                                            type={table.type}
-                                            onCreate={() => setOpenModal(false)}
-                                          />
-                                        );
-                                      }
-                                      if (button.type === 'organization') {
-                                        return (
-                                          <NewOrganization
-                                            key={index}
-                                            onCreate={() => setOpenModal(false)}
-                                          />
-                                        );
-                                      }
-                                      if (button.type === 'users_entity') {
-                                        return (
-                                          <NewUserInvestmentEntityIdentity
-                                            hideHeader={true}
-                                            key={index}
-                                            onUpdate={() => setOpenModal(false)}
-                                          />
-                                        );
-                                      }
-                                      if (button.type === 'verify') {
-                                        return (
-                                          <KYC
-                                            key={index}
-                                            onUpdate={() => setOpenModal(false)}
-                                          />
-                                        );
-                                      }
-                                    }
+                              <Card
+                                className="mb-0 overflow-auto card--popup"
+                                variant="outlined"
+                              >
+                                <header className="sticky">
+                                  {table && (
+                                    <h2>Create a new {table.element}</h2>
                                   )}
-                              </div>
-                            </Card>
-                          </Dialog>
-                          <Button
-                            label={button.label || 'Create new'}
-                            onClick={() => {
-                              setOpenModal(true);
-                            }}
-                            key={button.label}
-                          />
-                        </div>
-                      ))}
+                                  <CloseIcon
+                                    fontSize="inherit"
+                                    className="text-4xl cursor-pointer text-gray"
+                                    onClick={() => setOpenModal(false)}
+                                  />
+                                </header>
+                                <div className="p-6">
+                                  {header.buttons &&
+                                    header.buttons.map(
+                                      (button: any, index: any) => {
+                                        if (button.type === 'deal') {
+                                          return (
+                                            <NewDeal
+                                              key={index}
+                                              type={table.type}
+                                              onCreate={() =>
+                                                setOpenModal(false)
+                                              }
+                                            />
+                                          );
+                                        }
+                                        if (button.type === 'organization') {
+                                          return (
+                                            <NewOrganization
+                                              key={index}
+                                              onCreate={() =>
+                                                setOpenModal(false)
+                                              }
+                                            />
+                                          );
+                                        }
+                                        if (button.type === 'users_entity') {
+                                          return (
+                                            <NewUserInvestmentEntityIdentity
+                                              hideHeader={true}
+                                              key={index}
+                                              onUpdate={() =>
+                                                setOpenModal(false)
+                                              }
+                                            />
+                                          );
+                                        }
+                                        if (button.type === 'verify') {
+                                          return (
+                                            <KYC
+                                              key={index}
+                                              onUpdate={() =>
+                                                setOpenModal(false)
+                                              }
+                                            />
+                                          );
+                                        }
+                                      }
+                                    )}
+                                </div>
+                              </Card>
+                            </Dialog>
+                            <Button
+                              label={button.label || 'Create new'}
+                              onClick={() => {
+                                setOpenModal(true);
+                              }}
+                              key={button.label}
+                            />
+                          </div>
+                        )
+                      )}
                   </div>
                 }
               />

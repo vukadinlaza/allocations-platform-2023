@@ -2,10 +2,10 @@
 
 export default function PageHeader({
   header,
-  buttons
+  content
 }: {
   header: any;
-  buttons?: any;
+  content?: any;
 }) {
   return (
     <header className="pb-4 md:pb-6">
@@ -20,7 +20,7 @@ export default function PageHeader({
           {header.description || 'No description'}
         </p>
       </div>
-      <div className="flex items-center">{buttons}</div>
+      <div className="flex items-center">{content}</div>
     </header>
   );
 }
