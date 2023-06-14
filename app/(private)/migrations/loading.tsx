@@ -1,10 +1,9 @@
-import Line from '@/components/Loading/Line';
 import List from '@/components/Loading/List';
 
 export default function Loading() {
   return (
     <div>
-      <Line />
+      <div className="w-full h-full rounded-xl loading"></div>
       <List />
     </div>
   );
