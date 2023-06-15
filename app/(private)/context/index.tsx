@@ -99,7 +99,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         <main className="relative">
           <Header setExpand={setExpand} expand={expand} />
           <div
-            className={`p-4 ${
+            className={`px-4 py-6 ${
               expand ? 'container transition-all duration-500 ease-out' : ''
             }`}
           >

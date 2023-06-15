@@ -1,12 +1,13 @@
 'use client';
-import Card from '@mui/material/Card';
-
 import LoadingApp from '@/components/Loading/App';
 import ModalButton from '@/components/Modal/Button';
 import OrganizationItem from '@/components/Organizations/Item';
 import NewOrganization from '@/components/Organizations/New';
 import PageHeader from '@/components/Page/Header';
+import { openURL } from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
+import Card from '@mui/material/Card';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function Organizations() {
@@ -69,8 +70,22 @@ export default function Organizations() {
           />
           <div className="grid gap-2">
             {organizations.map((organization: any, index: number) => (
-              <div key={index}>
-                <OrganizationItem organization={organization} />
+              <div
+                key={index}
+                onClick={() => openURL(`organizations/${organization.id}`)}
+              >
+                <OrganizationItem
+                  organization={organization}
+                  icon={
+                    <Image
+                      src="/settings.svg"
+                      alt={'settings'}
+                      className="opacity-50"
+                      width={18}
+                      height={18}
+                    />
+                  }
+                />
               </div>
             ))}
           </div>

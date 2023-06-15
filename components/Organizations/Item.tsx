@@ -3,9 +3,11 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function OrganizationItem({
-  organization
+  organization,
+  icon
 }: {
   organization: any;
+  icon?: any;
 }) {
   return (
     <div className="flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-50">
@@ -50,12 +52,15 @@ export default function OrganizationItem({
               </div>
             ))}
         </div>
-        {organization.organizations_roles &&
-          organization.organizations_roles.length > 3 && (
-            <span className="text-xs chip chip--small chip--info">
-              + {organization.organizations_roles.length - 3}
-            </span>
-          )}
+        <div>
+          {organization.organizations_roles &&
+            organization.organizations_roles.length > 3 && (
+              <span className="text-xs chip chip--small chip--info">
+                + {organization.organizations_roles.length - 3}
+              </span>
+            )}
+        </div>
+        <div>{icon}</div>
       </div>
     </div>
   );

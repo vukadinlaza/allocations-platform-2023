@@ -6,6 +6,7 @@ export default function ChipStatus({
   small?: boolean;
 }) {
   const colors: any = {
+    admin: 'bg-amber-400',
     archived: 'bg-gray-600',
     draft: 'bg-gray-300',
     closing: 'bg-primary-500',
@@ -20,6 +21,7 @@ export default function ChipStatus({
     active: 'bg-primary-500',
     complete: 'bg-primary-500',
     completed: 'bg-primary-500',
+    fund_manager: 'bg-primary-500',
     success: 'bg-primary-500',
     null: 'bg-zinc-400',
     wired: 'bg-primary-500',
@@ -35,7 +37,7 @@ export default function ChipStatus({
           : null
       }`}
     >
-      {status}
+      {status?.replace('_', ' ')}
     </div>
   );
 }

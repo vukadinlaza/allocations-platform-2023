@@ -40,6 +40,7 @@ export default function DealAdmin({ deal }: { deal?: Deal }) {
     { key: 'Banking' },
     { key: 'Documents' }
   ];
+  
   const getProgress = () => {
     if (!deal) return;
     if (deal.target_raise_goal && deal.total_raised_amount) {
