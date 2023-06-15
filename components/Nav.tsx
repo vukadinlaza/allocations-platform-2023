@@ -1,3 +1,5 @@
+'use client';
+
 export default function Nav({
   items,
   active,
@@ -15,7 +17,7 @@ export default function Nav({
             key={index}
             className={`header--menu--item whitespace-nowrap ${
               active === item ? 'active' : 'inactive'
-            }`}
+            } ${item.disabled ? 'disabled' : ''}`}
             onClick={() => setActive(item)}
           >
             <span>{item}</span>

@@ -19,9 +19,10 @@ export default function OrganizationID() {
   const [active, setActive] = useState<string>('Members');
   const [loading, setLoading] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const params = useParams();
 
-  const items = [{ key: 'Members' }, { key: 'Entities' }, { key: 'Deals' }];
+  const items = [{ key: 'Members' }];
 
   const fetchOrganization = async () => {
     if (!params || !params.id) return;
@@ -71,10 +72,14 @@ export default function OrganizationID() {
         <div>
           <OrganizationHeader
             organization={organization}
+            isAdmin={isAdmin}
             button={
               <>
                 {isAdmin && (
                   <ModalButton
+                    onClose={() => {
+                      setShowModal(false);
+                    }}
                     icon={
                       <Image
                         src={'/plus.svg'}
@@ -91,7 +96,10 @@ export default function OrganizationID() {
                     content={
                       <NewOrganizationMember
                         organizationId={organization.id}
-                        onCreate={() => {}}
+                        onCreate={() => {
+                          setShowModal(!showModal);
+                          fetchOrganization();
+                        }}
                       />
                     }
                   />
