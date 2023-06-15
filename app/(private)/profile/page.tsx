@@ -47,7 +47,7 @@ const PasswordChange = () => {
                      onChange={(e) => setNewPasswordConfirm(e.target.value)}/>
               <div className={"my-2"}/>
               {newPassword.length > 0 && passwordErrors.length > 0 && <ul>
-                {passwordErrors.map(e => (<li>{e}</li>))}
+                {passwordErrors.map((e,i) => (<li key={'error-'+i}>{e}</li>))}
               </ul>}
               <Button onClick={async () => {
                 if (newPassword && newPasswordConfirm && newPasswordConfirm != '' && (newPassword == newPasswordConfirm)) {
