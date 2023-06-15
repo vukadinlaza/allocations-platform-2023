@@ -8,6 +8,8 @@ import * as Sentry from '@sentry/nextjs';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useLDClient} from 'launchdarkly-react-client-sdk';
+
 
 const AuthContext = createContext({});
 
@@ -16,6 +18,8 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [expand, setExpand] = useState(false);
+  const ldClient = useLDClient();
+
 
   const signOut = async () => {
     try {
@@ -50,6 +54,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           id: session.user.id,
           name: `${users_infos.first_name || ''} ${users_infos.last_name || ''}`
         });
+        ldClient?.identify({
+          kind: 'user',
+          email: session.user.email,
+          key: session.user.email,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +85,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       Hotjar.init(siteId, hotjarVersion);
       Hotjar.identify(user.id, {
         email: user.email
+      });
+      ldClient?.identify({
+        kind: 'user',
+        email: user.email,
+        key: user.email,
       });
     }
   }, [user]);

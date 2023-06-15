@@ -9,8 +9,9 @@ import 'react-quill/dist/quill.snow.css';
 import { AuthContextProvider } from './context';
 import './globals.scss';
 import { lightTheme } from './theme/theme';
+import { withLDProvider } from "launchdarkly-react-client-sdk";
 
-export default function RootLayout({
+function RootLayout({
   children
 }: {
   children: React.ReactNode;
@@ -51,3 +52,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default withLDProvider({
+ clientSideID: process.env.NEXT_PUBLIC_LAUNCHDARKLY_SDK_CLIENT_SIDE_ID as string,
+})(RootLayout as any);

@@ -8,17 +8,21 @@ import Button from '../Button';
 import None from '../None';
 import TaxesFundManager from './FundManager';
 import TaxesInvestor from './Investor';
+import { useFlags } from "launchdarkly-react-client-sdk";
+
 
 export default function Taxes() {
   const [investorView, setInvestorView] = useState<boolean>(false);
   const [showTips, setShowTips] = useState<boolean>(true);
 
   const { user } = useAuthContext();
+  let { taxDashboard } = useFlags();
+
 
   return (
     <>
-      {user && !user.is_super_admin && <None text="Taxes are coming soon." />}
-      {user && user.is_super_admin && (
+      {user && (!user.is_super_admin && !taxDashboard) && <None text="Taxes are coming soon." />}
+      {user && (user.is_super_admin || taxDashboard) && (
         <div className="bg-white border rounded card">
           <header className="pb-2">
             <div>
