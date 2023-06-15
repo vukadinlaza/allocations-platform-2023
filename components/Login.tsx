@@ -1,13 +1,17 @@
 'use client';
 /* eslint-disable react/no-unescaped-entities */
-import { useAuthContext } from 'app/(private)/context';
-import { useSupabase } from '@/lib/supabase-provider';
+import {useAuthContext} from 'app/(private)/context';
+import {useSupabase} from '@/lib/supabase-provider';
 import Alert from '@mui/material/Alert';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 import Button from './Button';
 import Signup from './Signup';
+import Divider from "@mui/material/Divider";
+import MuiButton from "@mui/material/Button";
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 
 interface EmailStatus {
   type: 'success' | 'error';
@@ -19,14 +23,54 @@ export const isValidEmail = (email: string | null): boolean => {
   return email ? regex.test(email) : false;
 };
 
+const ForgotPassword = () => {
+  const {notify} = useAuthContext();
+  const {supabase} = useSupabase();
+  const [email, setEmail] = useState<string>('');
+  return (
+    <div className={"flex flex-col items-center justify-center"}>
+      <div className="w-full max-w-md">
+        <header className="mb-6">
+          <h2 className="mb-2 text-xl">Welcome</h2>
+          <p>
+           Enter your email address below to reset your password.
+          </p>
+        </header>
+        <div>
+          <div>
+            <input
+              value={email}
+              type="text"
+              id="outlined-basic"
+              placeholder="mail@address.com"
+              className="w-full mb-4"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <Button
+            color="primary btn--big"
+            onClick={async () =>{
+              await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin+'/profile#password-reset'
+              })
+              notify('An email with a reset link has been sent to your email address',true);
+            }}
+            label={'RESET MY PASSWORD'}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Login() {
-  const { supabase } = useSupabase();
-  const { setUser } = useAuthContext();
+  const {supabase} = useSupabase();
+  const {setUser} = useAuthContext();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<EmailStatus | null>(null);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
   const [signup, setSignup] = useState<boolean>(false);
   const [option, setOption] = useState<string>('magic');
 
@@ -41,7 +85,7 @@ export default function Login() {
     }
     try {
       setLoading(true);
-      let { data } = await supabase.auth.signInWithOtp({
+      let {data} = await supabase.auth.signInWithOtp({
         email,
         options: {
           emailRedirectTo: window.location.href
@@ -79,7 +123,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      let { data, error } = await supabase.auth.signInWithPassword({
+      let {data, error} = await supabase.auth.signInWithPassword({
         email,
         password
       });
@@ -87,7 +131,7 @@ export default function Login() {
       if (error)
         return setStatus({
           type: 'error',
-          message: 'Email/password invalid..'
+          message: 'Invalid Email or Password'
         });
 
       if (data && data.user) {
@@ -115,69 +159,85 @@ export default function Login() {
                 onClick={() => router.push('/')}
               />
             </div>
-            {!signup && (
-              <div className="w-full">
-                <header className="mb-6">
-                  <h2 className="mb-2 text-xl">Welcome back.</h2>
-                  <p>
-                    Sign in utilizing your Allocations email below. If you are
-                    not yet registered, it will create an account for you.
-                  </p>
-                </header>
-                <div>
+            {!signup && !forgotPassword && (
+              <div className={"flex flex-col items-center justify-center"}>
+                <div className="w-full max-w-md">
+                  <header className="mb-6">
+                    <h2 className="mb-2 text-xl">Welcome</h2>
+                    <p>
+                      Sign in with your Allocations {option === 'magic' ? 'email' : 'credentials'} below.&nbsp;
+                      {option === 'magic' && (<>If you are
+                      not yet registered, it will create an account for you.</>)}
+                    </p>
+                  </header>
                   <div>
-                    <input
-                      value={email}
-                      type="text"
-                      id="outlined-basic"
-                      placeholder="mail@address.com"
-                      className="w-full mb-4"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    {option === 'password' && (
+                    <div>
                       <input
-                        value={password}
+                        value={email}
                         type="text"
                         id="outlined-basic"
-                        placeholder="Your password"
+                        placeholder="mail@address.com"
                         className="w-full mb-4"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
+                      {option === 'password' && (
+                        <input
+                          value={password}
+                          type="password"
+                          id="outlined-basic"
+                          placeholder="Your password"
+                          className="w-full mb-4"
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      )}
+                    </div>
+                    {status && (
+                      <Alert severity={status.type}>{status.message}</Alert>
                     )}
-                  </div>
-                  {status && (
-                    <Alert severity={status.type}>{status.message}</Alert>
-                  )}
-                  <div className="grid gap-2">
-                    <Button
-                      color="primary btn--big"
-                      onClick={() =>
-                        option !== 'password'
-                          ? loginWithMagicLink()
-                          : loginWithPassword()
-                      }
-                      loading={loading}
-                      label={'Login'}
-                    />
-                    {/* <div className="grid gap-4 mt-4 text-center">
-                      <p
-                        className="text-base font-medium cursor-pointer text-primary-500"
+                    <div className="grid gap-2">
+                      <Button
+                        color="primary btn--big"
                         onClick={() =>
-                          setOption(
-                            option === 'password' ? 'magic' : 'password'
-                          )
+                          option !== 'password'
+                            ? loginWithMagicLink()
+                            : loginWithPassword()
                         }
-                      >
-                        {option === 'password'
-                          ? 'Login with magic link'
-                          : 'Login with password'}
-                      </p>
-                    </div> */}
+                        loading={loading}
+                        label={'LOGIN'}
+                      />
+                      {option === 'password' && (
+                        <p className="text-base font-medium cursor-pointer text-primary-500" onClick={()=>{
+                          setForgotPassword(true);
+                        }}>Forgot Password?</p>
+                      )}
+                      <Divider sx={{
+                        marginTop: '1rem'
+                      }} flexItem>
+                        <Typography sx={{
+                          lineHeight: '0rem',
+                        }} variant="body2">OR</Typography>
+                      </Divider>
+                      {<div className="grid gap-4 mt-4 text-center">
+                        <MuiButton
+                          variant="outlined"
+                          onClick={() =>
+                            setOption(
+                              option === 'password' ? 'magic' : 'password'
+                            )
+                          }
+                        >
+                          {option === 'password'
+                            ? 'Login with magic link'
+                            : 'Login with password'}
+                        </MuiButton>
+                      </div>}
+                    </div>
                   </div>
                 </div>
               </div>
             )}
-            {signup && <Signup />}
+            {forgotPassword && <ForgotPassword/>}
+            {signup && <Signup/>}
           </>
           {/* <div className="grid gap-4 mt-4 text-center">
             <p
@@ -190,10 +250,10 @@ export default function Login() {
         </div>
       </div>
       <div className="p-6 text-white md:col-span-3 bg-primary-500 md:p-8 lg:p-12 bg-1">
-        <div style={{ maxWidth: 400 }}>
+        <div style={{maxWidth: 400}}>
           <h2
             className="mb-4 text-xl md:text-2xl lg:text-4xl"
-            style={{ lineHeight: 1.25 }}
+            style={{lineHeight: 1.25}}
           >
             Discover What's New in Allocations 2.0
           </h2>
