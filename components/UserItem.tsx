@@ -9,7 +9,7 @@ export default function UserItem({
   content?: any;
 }) {
   return (
-    <div className="flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-50">
+    <div className="flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-100">
       <Avatar
         className="mr-2 cursor-pointer"
         sx={{
@@ -21,11 +21,13 @@ export default function UserItem({
       >
         {user?.email && getFirstLetter(user.email)}
       </Avatar>
-      <div className="grid items-start pr-2 grow">
+      <div className="grid items-start pr-2 cursor-pointer grow">
         <span className="text-sm font-medium truncate">
           {user && getFullName(user)}
         </span>
-        {user?.email && <label className="truncate">{user.email}</label>}
+        {user?.email && (
+          <label className="truncate cursor-pointer">{user.email}</label>
+        )}
       </div>
       {content && (
         <div className="flex flex-col items-end justify-end">{content}</div>
