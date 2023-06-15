@@ -180,8 +180,8 @@ export default function InvestmentId() {
                   )}
                 </div>
               </div>
-              {investment &&
-                String(investment.status).toLowerCase() === 'signed' && (
+              {String(investment.status).toLowerCase() === 'signed' ||
+                (String(investment.status).toLowerCase() === 'completed' && (
                   <>
                     <div className="flex items-center justify-center gap-4 my-8">
                       <Button
@@ -231,7 +231,7 @@ export default function InvestmentId() {
                         )}
                     </div>
                   </>
-                )}
+                ))}
             </Card>
           )}
         </div>

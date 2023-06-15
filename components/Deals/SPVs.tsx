@@ -20,8 +20,9 @@ export default function SPVS() {
       headers: headers_tables.spvs,
       origin: 'private_deals',
       query: '*',
-      query_type: 'spv',
+      queryType: 'spv',
       target: 'deals',
+      orderBy: 'total_raised_amount',
       type: 'spv'
     }
   };

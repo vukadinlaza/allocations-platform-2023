@@ -38,7 +38,7 @@ export default function PageList({ data }: { data: any }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortedBy, setSortedBy] = useState<any>({
-    key: 'created_at',
+    key: table.orderBy || 'created_at',
     order: 'desc'
   });
 
@@ -53,18 +53,20 @@ export default function PageList({ data }: { data: any }) {
 
   const fetchData = async () => {
     if (!table) return;
-    const { origin, query, query_type, is_migration } = table;
+    const { origin, query, queryType, is_migration, orderBy } = table;
     if (!user || !origin) return;
     try {
       setLoading(true);
 
+      console.log(orderBy);
+
       let request = supabase
         .from(origin)
         .select(query ?? `*`, { count: 'exact' })
-        .order('created_at', { ascending: false });
+        .order(orderBy || 'created_at', { ascending: false });
 
-      if (query_type) {
-        request = request.eq('type', query_type);
+      if (queryType) {
+        request = request.eq('type', queryType);
       }
 
       if (is_migration) {

@@ -20,7 +20,7 @@ export default function Funds() {
       headers: headers_tables.funds,
       origin: 'private_deals',
       query: '*',
-      query_type: 'fund',
+      queryType: 'fund',
       target: 'deals',
       type: 'fund'
     }

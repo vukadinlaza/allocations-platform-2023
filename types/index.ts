@@ -46,11 +46,12 @@ export interface PageListData {
     headers?: any[];
     origin?: string;
     query?: string;
-    query_type?: string;
+    queryType?: string;
     is_migration?: boolean;
     target?: string;
     to_display?: string;
     type?: string;
+    orderBy?: any;
   };
   filters?: string[];
 }
