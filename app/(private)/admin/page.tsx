@@ -68,7 +68,6 @@ export default function Admin() {
                   key={user.id}
                   user={user}
                   content={<Button label="Impersonate" onClick={async () => {
-                    console.log(supabase);
                     const {data:sessionData} = await supabase.auth.getSession();
                     const access_token = sessionData.session?.access_token as string;
                     const response = await AllocationsAPI.impersonate(user.email, access_token);

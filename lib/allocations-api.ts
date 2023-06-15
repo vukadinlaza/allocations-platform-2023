@@ -63,5 +63,13 @@ export const AllocationsAPI = {
         Authorization: `Bearer ${token}`
       }
     );
+  },
+  downloadFullEntityReturn: async (entity_tax_id: string)=> {
+    return AllocationsAPI.makeCall(
+      `/taxes/entities/${entity_tax_id}/print`,
+      'GET',
+      undefined,
+      'application/zip'
+    )
   }
 };

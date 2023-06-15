@@ -31,12 +31,12 @@ type Props = {
   headers?: any;
   sortedBy?: SortConfig;
   table?: string;
+  blank_value?: string;
 };
 
-export const generateCell = (item: any, column: any) => {
-  const no_info = 'N/A';
+export const generateCell = (item: any, column: any, blank_value= 'N/A') => {
   if (!item || !column || !column.key) {
-    return no_info;
+    return blank_value;
   }
 
   return (
@@ -87,31 +87,31 @@ export const generateCell = (item: any, column: any) => {
       {column.type === 'price' && <Price price={item[column.key]} />}
       {(column.type === 'string' || column.type === 'number') && (
         <span className={column.key}>
-          {item[column.key] ? item[column.key] : no_info}
+          {item[column.key] ? item[column.key] : blank_value}
         </span>
       )}
       {column.type === 'email' && item[column.key] && (
         <Chip
-          label={item[column.key] ? item[column.key] : no_info}
+          label={item[column.key] ? item[column.key] : blank_value}
           size="small"
           component="a"
           href={'mailto: ' + item[column.key]}
           clickable
         />
       )}
-      {column.type === 'button' && column.key && (
+      {column.type === 'button' && column.key && (<>
         <Button
           onClick={() => column.action(item)}
           label={column.button_label}
-          disabled={column.disabled}
+          disabled={typeof column.disabled ==='function' ? column.disabled(item) : column.disabled}
           small={true}
         />
-      )}
+      </>)}
       {column.type === 'download' && column.key && (
         <Button
           onClick={() => column.action(item)}
           label="Download"
-          disabled={column.disabled}
+          disabled={typeof column.disabled ==='function' ? column.disabled(item) : column.disabled}
           small={true}
           icon={
             <Image
@@ -133,13 +133,14 @@ export default function TableComponent({
   headers,
   data = [],
   sortedBy,
-  table
+  table,
+  blank_value
 }: Props) {
   return (
     <div className="w-full">
       {!data.length && <None text="There is no data yet." />}
       {data && data.length > 0 && (
-        <TableContainer sx={{ maxHeight: 700 }} component={Paper}>
+        <TableContainer sx={{ maxHeight: 70000 }} component={Paper}>
           <Table style={{ tableLayout: 'fixed' }} stickyHeader>
             <TableHead>
               <TableRow>
@@ -222,7 +223,7 @@ export default function TableComponent({
                           </TableCell>
                         ) : (
                           <TableCell size="medium" key={i}>
-                            {generateCell(item, column)}
+                            {generateCell(item, column, blank_value)}
                           </TableCell>
                         );
                       })}
