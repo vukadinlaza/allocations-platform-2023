@@ -4,6 +4,7 @@ import ModalButton from '@/components/Modal/Button';
 import OrganizationItem from '@/components/Organizations/Item';
 import NewOrganization from '@/components/Organizations/New';
 import PageHeader from '@/components/Page/Header';
+import { openURL } from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
 import Card from '@mui/material/Card';
 import Image from 'next/image';
@@ -69,19 +70,23 @@ export default function Organizations() {
           />
           <div className="grid gap-2">
             {organizations.map((organization: any, index: number) => (
-              <OrganizationItem
+              <div
                 key={index}
-                organization={organization}
-                icon={
-                  <Image
-                    src="/settings.svg"
-                    alt={'settings'}
-                    className="opacity-50"
-                    width={18}
-                    height={18}
-                  />
-                }
-              />
+                onClick={() => openURL(`organizations/${organization.id}`)}
+              >
+                <OrganizationItem
+                  organization={organization}
+                  icon={
+                    <Image
+                      src="/settings.svg"
+                      alt={'settings'}
+                      className="opacity-50"
+                      width={18}
+                      height={18}
+                    />
+                  }
+                />
+              </div>
             ))}
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import ChipStatus from '@/components/ChipStatus';
 
-export default function ItemHeader({
+export default function DealHeader({
   deal,
   button
 }: {

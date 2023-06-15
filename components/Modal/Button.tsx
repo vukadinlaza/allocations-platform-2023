@@ -20,12 +20,14 @@ export default function ModalButton({
   content,
   title,
   button,
-  onClose
+  onClose,
+  icon
 }: {
   content?: any;
   title?: string;
   button?: any;
   onClose?: (boolean: any) => void;
+  icon?: any;
 }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -47,6 +49,7 @@ export default function ModalButton({
         />
       </Dialog>
       <Button
+        icon={icon}
         label={button?.label || 'Create new'}
         onClick={() => {
           setOpenModal(true);
