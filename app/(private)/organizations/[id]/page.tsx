@@ -42,7 +42,6 @@ export default function OrganizationID() {
       }
 
       if (org) {
-        console.log(org);
         setOrganization(org);
       }
     } catch (error) {
