@@ -1,5 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/(private)/context';
+import EntitiesList from '@/components/Entities/List';
 import LoadingDeal from '@/components/Loading/Deal';
 import ModalButton from '@/components/Modal/Button';
 import Nav from '@/components/Nav';
@@ -22,7 +23,7 @@ export default function OrganizationID() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const params = useParams();
 
-  const items = [{ key: 'Members' }];
+  const items = [{ key: 'Members' }, { key: 'Entities' }];
 
   const fetchOrganization = async () => {
     if (!params || !params.id) return;
@@ -32,7 +33,7 @@ export default function OrganizationID() {
 
       const { data: org, error } = await supabase
         .from('organizations')
-        .select('*, organizations_roles(*, users(*))')
+        .select('*, entities(*), organizations_roles(*, users(*))')
         .eq('id', params.id)
         .single();
 
@@ -120,8 +121,10 @@ export default function OrganizationID() {
                 ...r.users,
                 role: r.type
               }))}
-              // content={<>{isAdmin && <p>hello</p>}</>}
             />
+          )}
+          {active === 'Entities' && (
+            <EntitiesList entities={organization.entities} />
           )}
         </div>
       )}
