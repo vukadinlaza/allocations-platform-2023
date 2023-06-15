@@ -63,7 +63,7 @@ export default function SupabaseProvider({
     return supabase
       .from('organizations')
       .select(`*, organizations_roles(*, users(*))`)
-      .order('name', { ascending: false });
+      .order('created_at', { ascending: false });
   };
 
   const fetchEntities = async () => {

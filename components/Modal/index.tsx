@@ -22,7 +22,7 @@ export default function ModalBox({
           }}
         />
       </header>
-      <div className="p-6">{content}</div>
+      <div className="px-6 py-4">{content}</div>
     </Card>
   );
 }

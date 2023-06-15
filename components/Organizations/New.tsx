@@ -41,12 +41,12 @@ export default function NewOrganization({ onCreate, onClose }: Props) {
   };
 
   return (
-    <div className="w-full mb-4">
+    <div className="w-full mb-4" style={{ minWidth: 300 }}>
       <div className="mb-4">
         <input
           type="text"
           value={newOrganization?.name || ''}
-          placeholder={'Enter your new organization name here...'}
+          placeholder={'New organization name...'}
           disabled={loading}
           className={`${loading ? 'disabled' : ''} w-full`}
           onChange={(e: any) =>

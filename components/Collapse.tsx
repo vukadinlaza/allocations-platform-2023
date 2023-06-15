@@ -1,6 +1,6 @@
 import { useState } from 'react';
 export default function Collapse({ header, content }: any) {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <div className="rounded-lg">
       <div
