@@ -1,3 +1,5 @@
+import {z} from 'zod';
+
 export const getFullName = (user: any) => {
   if (!user) return '';
   if (user && user.first_name)
@@ -59,3 +61,23 @@ export const limitString = (str: string, limit = 22) => {
   if (str.length <= limit) return str;
   return str.slice(0, limit) + '...';
 };
+
+export const passwordValidation = (password: string, confirmPassword: string) => {
+  const validator = z.object({
+    password: z.string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(30, "Password must be less than 30 characters long")
+      .regex(
+        /^(?=.*\p{Ll}|\p{Lo})(?=.*\p{Lu}|\p{Lo})(?=.*\p{N})(?=.*[@$!%*?&])[\p{L}\p{N}\p{S}@$!%*?&]+$/u,
+        "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+      ),
+    confirmPassword: z.string(),
+  }).refine((schema) => schema.password === schema.confirmPassword,{
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  })
+  return validator.safeParse({
+    password,
+    confirmPassword
+  });
+}
