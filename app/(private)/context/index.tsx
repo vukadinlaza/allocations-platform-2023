@@ -5,11 +5,10 @@ import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
 import Hotjar from '@hotjar/browser';
 import * as Sentry from '@sentry/nextjs';
+import { useLDClient } from 'launchdarkly-react-client-sdk';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useLDClient} from 'launchdarkly-react-client-sdk';
-
 
 const AuthContext = createContext({});
 
@@ -19,7 +18,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(true);
   const [expand, setExpand] = useState(false);
   const ldClient = useLDClient();
-
 
   const signOut = async () => {
     try {
@@ -57,7 +55,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         ldClient?.identify({
           kind: 'user',
           email: session.user.email,
-          key: session.user.email,
+          key: session.user.email
         });
       }
     } catch (error) {
@@ -79,18 +77,21 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, []);
 
   useEffect(() => {
+    const devEnv = process.env.NODE_ENV == 'development';
     if (user) {
       const siteId = 3502247;
       const hotjarVersion = 6;
-      Hotjar.init(siteId, hotjarVersion);
-      Hotjar.identify(user.id, {
-        email: user.email
-      });
-      ldClient?.identify({
-        kind: 'user',
-        email: user.email,
-        key: user.email,
-      });
+      if (!devEnv) {
+        Hotjar.init(siteId, hotjarVersion);
+        Hotjar.identify(user.id, {
+          email: user.email
+        });
+        ldClient?.identify({
+          kind: 'user',
+          email: user.email,
+          key: user.email
+        });
+      }
     }
   }, [user]);
 
