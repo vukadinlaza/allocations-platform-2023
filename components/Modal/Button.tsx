@@ -22,23 +22,23 @@ export default function ModalButton({
   title,
   button,
   isOpen = false,
-  onClose,
+  onChange,
   icon,
   isIcon = false
 }: {
   content?: any;
   title?: string;
   button?: any;
-  isOpen: boolean;
-  onClose?: (boolean: any) => void;
+  isOpen?: boolean;
+  onChange?: (boolean: any) => void;
   icon?: any;
   isIcon?: boolean;
 }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
-    setOpenModal(false);
-  }, [onClose]);
+    if (onChange) onChange(openModal);
+  }, [openModal]);
 
   useEffect(() => {
     setOpenModal(isOpen);
@@ -47,6 +47,7 @@ export default function ModalButton({
   return (
     <div>
       <Dialog
+        scroll="body"
         open={openModal}
         TransitionComponent={Transition}
         keepMounted

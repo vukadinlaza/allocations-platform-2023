@@ -78,9 +78,7 @@ export default function OrganizationID() {
               <>
                 {isAdmin && (
                   <ModalButton
-                    onClose={() => {
-                      setShowModal(false);
-                    }}
+                    onChange={setShowModal}
                     icon={
                       <Image
                         src={'/plus.svg'}

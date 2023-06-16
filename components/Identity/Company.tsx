@@ -13,14 +13,16 @@ import {
   investment_identity_types
 } from '@/types/values';
 import Alert from '@mui/material/Alert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function NewCompany({
   type,
-  onUpdate
+  onUpdate,
+  identity
 }: {
   type: string;
   onUpdate: () => void;
+  identity?: any;
 }) {
   const [newCompany, setNewCompany] = useState<any>({
     country: undefined
@@ -85,7 +87,10 @@ export default function NewCompany({
       show: true
     },
     {
-      label: type === individual ? 'Address Line 1' : 'Principal place of business (Address)',
+      label:
+        type === individual
+          ? 'Address Line 1'
+          : 'Principal place of business (Address)',
       key: 'address_line_1',
       type: 'string',
       placeholder: '500 Madison Ave',
@@ -207,6 +212,18 @@ export default function NewCompany({
     return !agree;
   };
 
+  useEffect(() => {
+    if (identity) {
+      setNewCompany(identity);
+      setParentEntityId(identity.parent_identity_id);
+    }
+  }, [identity]);
+
+  useEffect(() => {
+    console.log('newCompany');
+    console.log(newCompany);
+  }, [newCompany]);
+
   return (
     <div>
       {newCompany.country_of_citizenship === 'Russian Federation' && (
@@ -241,7 +258,7 @@ export default function NewCompany({
           )}
 
           <div className="my-8">
-            { type !== individual &&
+            {type !== individual && (
               <div className="mb-4">
                 <Checkbox
                   selected={agree}
@@ -249,12 +266,12 @@ export default function NewCompany({
                   label={`I am an authorized signatory for this entity.`}
                 />
               </div>
-            }
+            )}
             <div className="flex items-center">
               <Button
                 disabled={disableSave()}
                 loading={loading}
-                label={'Save new identity'}
+                label={'Save identity'}
                 onClick={() => saveNewCompany()}
               />
             </div>

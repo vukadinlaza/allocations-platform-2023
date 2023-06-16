@@ -1,5 +1,6 @@
 import Checkbox from '@/components/Checkbox';
 import DateComponent from '@/components/DateComponent';
+import EditIdentity from '@/components/Identity/Edit';
 import { getFirstLetter } from '@/lib/utils';
 import { Identity } from '@/types';
 import Avatar from '@mui/material/Avatar';
@@ -7,7 +8,6 @@ import { useState } from 'react';
 import { z } from 'zod';
 import ChipStatus from '../ChipStatus';
 import ModalButton from '../Modal/Button';
-import NewIdentity from './New';
 
 export default function IdentityItem({
   identity,
@@ -23,6 +23,7 @@ export default function IdentityItem({
   editable?: boolean;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
+
   const validateIdentity = (
     identity: Identity,
     returnErrors: boolean = false
@@ -71,7 +72,7 @@ export default function IdentityItem({
         <div
           className="item"
           onClick={() => {
-            if (editable) setModalOpen(!modalOpen);
+            if (editable && !modalOpen) setModalOpen(true);
             if (validateIdentity(identity)) {
               onChange(selectedId === identity.id ? null : identity.id);
             }
@@ -137,9 +138,9 @@ export default function IdentityItem({
                 {editable && (
                   <ModalButton
                     isOpen={modalOpen}
-                    onClose={() => setModalOpen(false)}
+                    onChange={setModalOpen}
                     title="Edit your identity"
-                    content={<NewIdentity onUpdate={() => {}} />}
+                    content={<EditIdentity identity={identity} />}
                     isIcon={true}
                   />
                 )}
