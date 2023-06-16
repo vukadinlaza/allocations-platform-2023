@@ -39,8 +39,6 @@ export default function FormBuilder({
     if (data && Object.keys(_data).length === 0) {
       setData(data);
     }
-    console.log('data');
-    console.log(data);
   }, [data, model]);
 
   return (

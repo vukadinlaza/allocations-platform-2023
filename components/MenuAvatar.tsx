@@ -1,11 +1,11 @@
 'use client';
+import { getFirstLetter } from '@/lib/utils';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuthContext } from '../app/(private)/context';
-import { getFirstLetter } from '@/lib/utils';
 
 interface MenuItem {
   title: string;
@@ -55,6 +55,9 @@ export default function AvatarComponent() {
       </Avatar>
       {open && menu && (
         <div className="absolute right-0 bg-white border top-12 z-[1000]">
+          <header className="px-4 py-3 border-b">
+            <label htmlFor="{user.email}">{user.email}</label>
+          </header>
           <MenuList>
             {menu &&
               menu.map((item, index) => (

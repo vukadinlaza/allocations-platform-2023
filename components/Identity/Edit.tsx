@@ -2,7 +2,13 @@
 import DateComponent from '@/components/DateComponent';
 import Alert from '../Alert';
 import NewCompany from './Company';
-export default function EditIdentity({ identity }: { identity: any }) {
+export default function EditIdentity({
+  identity,
+  onUpdate
+}: {
+  identity: any;
+  onUpdate: () => void;
+}) {
   return (
     <div className="EditCompany">
       {identity.kyc_status !== 'success' && (
@@ -28,7 +34,7 @@ export default function EditIdentity({ identity }: { identity: any }) {
       <NewCompany
         type={identity.type}
         identity={identity}
-        onUpdate={() => {}}
+        onUpdate={() => onUpdate()}
       />
     </div>
   );

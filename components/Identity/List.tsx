@@ -40,7 +40,23 @@ export const IdentityList = ({
   };
 
   useEffect(() => {
-    void getIdentities();
+    getIdentities();
+    const identitiesSubscription = supabase
+      .channel('identities_subscribers')
+      .on(
+        // @ts-ignore
+        'postgres_changes',
+        {
+          event: `*`,
+          schema: 'public',
+          table: 'identities'
+        },
+        (payload: any) => {
+          setIdentities([]);
+          getIdentities();
+        }
+      )
+      .subscribe();
   }, []);
 
   return (

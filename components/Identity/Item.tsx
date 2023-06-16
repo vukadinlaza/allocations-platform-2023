@@ -9,6 +9,47 @@ import { z } from 'zod';
 import ChipStatus from '../ChipStatus';
 import ModalButton from '../Modal/Button';
 
+export const identityValidation = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('Individual'),
+    tax_id: z.string().min(1),
+    tax_id_type: z.string().min(1),
+    address_line_1: z.string().min(1),
+    city: z.string().min(1).nullable(),
+    region: z.string().min(1).nullable(),
+    country: z.string().min(1),
+    postal_code: z.string().min(1),
+    legal_name: z.string().min(1),
+    country_of_citizenship: z.string().optional().nullable(),
+    date_of_entity_formation: z.string().min(1)
+  }),
+  z.object({
+    type: z.literal('Entity'),
+    entity_type: z.string().min(1),
+    date_of_entity_formation: z.string().min(1),
+    tax_id: z.string().min(1),
+    tax_id_type: z.string().min(1),
+    address_line_1: z.string().min(1),
+    city: z.string().min(1).nullable(),
+    region: z.string().min(1).nullable(),
+    country: z.string().min(1),
+    postal_code: z.string().min(1),
+    legal_name: z.string().min(1),
+    country_of_citizenship: z.string().optional().nullable()
+  })
+]);
+
+export const validateIdentity = (
+  identity: Identity,
+  returnErrors: boolean = false
+) => {
+  const result = identityValidation.safeParse(identity);
+  if (!returnErrors) return result.success;
+  if (!result.success) {
+    return result.error.format();
+  }
+};
+
 export default function IdentityItem({
   identity,
   onChange,
@@ -23,48 +64,6 @@ export default function IdentityItem({
   editable?: boolean;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
-
-  const validateIdentity = (
-    identity: Identity,
-    returnErrors: boolean = false
-  ) => {
-    const result = identityValidation.safeParse(identity);
-    if (!returnErrors) return result.success;
-    if (!result.success) {
-      return result.error.format();
-    }
-  };
-
-  const identityValidation = z.discriminatedUnion('type', [
-    z.object({
-      type: z.literal('Individual'),
-      tax_id: z.string().min(1),
-      tax_id_type: z.string().min(1),
-      address_line_1: z.string().min(1),
-      city: z.string().min(1).nullable(),
-      region: z.string().min(1).nullable(),
-      country: z.string().min(1),
-      postal_code: z.string().min(1),
-      us_domestic: z.string().min(1).nullable(), // us domestic nullable
-      legal_name: z.string().min(1),
-      country_of_citizenship: z.string().optional().nullable()
-    }),
-    z.object({
-      type: z.literal('Entity'),
-      entity_type: z.string().min(1),
-      date_of_entity_formation: z.string().min(1),
-      tax_id: z.string().min(1),
-      tax_id_type: z.string().min(1),
-      address_line_1: z.string().min(1),
-      city: z.string().min(1).nullable(),
-      region: z.string().min(1).nullable(),
-      country: z.string().min(1),
-      postal_code: z.string().min(1),
-      us_domestic: z.string().min(1).nullable(), // us domestic nullable
-      legal_name: z.string().min(1),
-      country_of_citizenship: z.string().optional().nullable()
-    })
-  ]);
 
   const checkStatus = (identity: any) => {
     const { kyc_status } = identity;
@@ -105,16 +104,9 @@ export default function IdentityItem({
                     {identity.legal_name || 'No name provided'}
                   </span>
                 )}
-                {identity.type === 'Individual' && (
-                  <span className="text-xs text-gray-600">
-                    A {identity.country} {identity.type}
-                  </span>
-                )}
-                {identity.type !== 'Individual' && (
-                  <span className="text-xs text-gray-600">
-                    A {identity.country} {identity.entity_type} Entity
-                  </span>
-                )}
+                <span className="text-xs text-gray-600">
+                  {identity.country}
+                </span>
               </div>
             </div>
             {details && (
@@ -142,7 +134,14 @@ export default function IdentityItem({
                     isOpen={modalOpen}
                     onChange={setModalOpen}
                     title="Edit your identity"
-                    content={modalOpen && <EditIdentity identity={identity} />}
+                    content={
+                      modalOpen && (
+                        <EditIdentity
+                          identity={identity}
+                          onUpdate={() => setModalOpen(false)}
+                        />
+                      )
+                    }
                     isIcon={true}
                   />
                 )}
