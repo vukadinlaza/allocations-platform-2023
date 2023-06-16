@@ -48,7 +48,7 @@ export default function Taxes() {
                 </Tooltip>
               </p>
             </div>
-            <Button
+            {/* <Button
               color={'info'}
               label={
                 investorView ? 'Switch to fund manager' : 'Switch to investor'
@@ -63,7 +63,7 @@ export default function Taxes() {
                 />
               }
               onClick={() => setInvestorView(!investorView)}
-            />
+            /> */}
           </header>
           {showTips && (
             <div className="grid gap-2 mb-4">
