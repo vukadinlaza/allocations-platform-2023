@@ -33,28 +33,32 @@ export default function IdentityItem({
 
   const identityValidation = z.discriminatedUnion('type', [
     z.object({
-      legal_name: z.string().min(1),
-      address_line_1: z.string().min(1),
-      country: z.string().min(1),
-      region: z.string().min(1).nullable(),
-      city: z.string().min(1).nullable(),
       type: z.literal('Individual'),
-      user_email: z.string().email(),
-      title: z.string().optional().nullable()
+      tax_id: z.string().min(1),
+      tax_id_type: z.string().min(1),
+      address_line_1: z.string().min(1),
+      city: z.string().min(1).nullable(),
+      region: z.string().min(1).nullable(),
+      country: z.string().min(1),
+      postal_code: z.string().min(1),
+      us_domestic: z.string().min(1).nullable(), // us domestic nullable
+      legal_name: z.string().min(1),
+      country_of_citizenship: z.string().optional().nullable()
     }),
     z.object({
       type: z.literal('Entity'),
-      legal_name: z.string().min(1),
-      country: z.string().min(1),
+      entity_type: z.string().min(1),
+      date_of_entity_formation: z.string().min(1),
+      tax_id: z.string().min(1),
+      tax_id_type: z.string().min(1),
+      address_line_1: z.string().min(1),
+      city: z.string().min(1).nullable(),
       region: z.string().min(1).nullable(),
-      user_email: z.string().email(),
-      identities: z
-        .array(
-          z.object({
-            legal_name: z.string().min(1)
-          })
-        )
-        .min(1)
+      country: z.string().min(1),
+      postal_code: z.string().min(1),
+      us_domestic: z.string().min(1).nullable(), // us domestic nullable
+      legal_name: z.string().min(1),
+      country_of_citizenship: z.string().optional().nullable()
     })
   ]);
 
@@ -70,7 +74,7 @@ export default function IdentityItem({
           }}
         >
           <div className="grid items-center w-full grid-cols-12 gap-2">
-            <div className="flex col-span-4 ">
+            <div className="flex items-center col-span-4">
               <Avatar
                 className="mr-2 cursor-pointer"
                 sx={{
@@ -121,9 +125,9 @@ export default function IdentityItem({
               <div className="col-span-2">
                 <ChipStatus
                   status={
-                    identity.kyc_status === 'success'
-                      ? identity.kyc_status
-                      : 'missing_data'
+                    !validateIdentity(identity)
+                      ? 'missing_data'
+                      : identity.kyc_status || 'success'
                   }
                 />
               </div>

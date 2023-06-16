@@ -40,7 +40,7 @@ export default function InvestmentEntity({
         <div>
           {identities && (
             <div className="grid gap-2 mb-8">
-              {identities.map((identity: Identity, index: number) => (
+              {identities.map((identity: Identity) => (
                 <IdentityItem
                   selectedId={selectedId}
                   key={'identity-' + identity.id}
