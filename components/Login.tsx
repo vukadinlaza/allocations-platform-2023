@@ -9,6 +9,7 @@ import { useAuthContext } from 'app/(private)/context';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import Button from './Button';
 import Signup from './Signup';
 
@@ -23,9 +24,9 @@ export const isValidEmail = (email: string | null): boolean => {
 };
 
 const ForgotPassword = () => {
-  const { notify } = useAuthContext();
   const { supabase } = useSupabase();
   const [email, setEmail] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="w-full">
@@ -47,17 +48,18 @@ const ForgotPassword = () => {
           <Button
             color="primary btn--big"
             onClick={async () => {
+              setLoading(true);
               await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: window.location.origin + '/profile#password-reset'
               });
-              notify(
-                'An email with a reset link has been sent to your email address',
-                true
-              );
+              toast.success('An email with a reset link has been sent to your email address');
+              setLoading(false);
             }}
             label={'RESET MY PASSWORD'}
+            loading={loading}
           />
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
