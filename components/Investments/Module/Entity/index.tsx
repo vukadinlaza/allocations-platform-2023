@@ -1,10 +1,9 @@
 import Button from '@/components/Button';
 import IdentityItem from '@/components/Identity/Item';
 import { Identity } from '@/types';
-import Box from '@mui/material/Box';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import NewUserInvestmentsEntity from './New';
+import NewUserInvestmentsEntity from '../../../Identity/New';
 
 export default function InvestmentEntity({
   identities = [],
@@ -40,18 +39,18 @@ export default function InvestmentEntity({
       <main>
         <div>
           {identities && (
-            <Box sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
+            <div className="grid gap-2 mb-8">
               {identities.map((identity: Identity, index: number) => (
                 <IdentityItem
                   selectedId={selectedId}
-                  key={'identity-'+identity.id}
+                  key={'identity-' + identity.id}
                   identity={identity}
                   onChange={(id: string) => {
                     setSelectedId(id);
                   }}
                 />
               ))}
-            </Box>
+            </div>
           )}
         </div>
         {show && (
@@ -75,7 +74,7 @@ export default function InvestmentEntity({
                 height={18}
               />
             }
-            label={'New investment entity'}
+            label={'New investment identity'}
             onClick={() => setShow(true)}
           />
         )}

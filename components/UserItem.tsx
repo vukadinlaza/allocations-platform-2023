@@ -9,7 +9,7 @@ export default function UserItem({
   content?: any;
 }) {
   return (
-    <div className="flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-100">
+    <div className="item">
       <Avatar
         className="mr-2 cursor-pointer"
         sx={{

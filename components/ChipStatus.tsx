@@ -6,27 +6,29 @@ export default function ChipStatus({
   small?: boolean;
 }) {
   const colors: any = {
+    active: 'bg-primary-500',
     admin: 'bg-amber-400',
     archived: 'bg-gray-600',
-    draft: 'bg-gray-300',
     closing: 'bg-primary-500',
     closed: 'bg-primary-500',
-    invited: 'bg-blue-400',
-    pending: 'bg-blue-400',
-    processing: 'bg-amber-400',
-    committed: 'bg-orange-500',
-    submitted: 'bg-orange-500',
-    onboarding: 'bg-amber-400',
-    signed: 'bg-amber-400',
-    active: 'bg-primary-500',
     complete: 'bg-primary-500',
     completed: 'bg-primary-500',
+    committed: 'bg-orange-500',
+    crypto: 'bg-primary-500',
+    draft: 'bg-gray-300',
     fund_manager: 'bg-primary-500',
-    success: 'bg-primary-500',
+    invited: 'bg-blue-400',
+    missing_data: 'bg-amber-500',
     null: 'bg-zinc-400',
-    wired: 'bg-primary-500',
-    crypto: 'bg-primary-500'
+    onboarding: 'bg-amber-400',
+    pending: 'bg-blue-400',
+    processing: 'bg-amber-400',
+    signed: 'bg-amber-400',
+    submitted: 'bg-orange-500',
+    success: 'bg-primary-500',
+    wired: 'bg-primary-500'
   };
+
   return (
     <div
       className={`inline text-white capitalize rounded-full ${

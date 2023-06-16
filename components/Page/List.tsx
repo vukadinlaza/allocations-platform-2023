@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import NewDeal from '@/components/Deals/New';
 import KYC from '@/components/Identity/KYC';
-import NewUserInvestmentEntityIdentity from '@/components/Investments/Module/Entity/New';
+import NewUserInvestmentEntityIdentity from '@/components/Identity/New';
 import LoadingPageList from '@/components/Loading/Page';
 import NewOrganization from '@/components/Organizations/New';
 import Table, { SortConfig } from '@/components/Table';

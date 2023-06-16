@@ -8,7 +8,7 @@ export default function EntitiesItem({
   content?: any;
 }) {
   return (
-    <div className="flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-100">
+    <div className="item">
       <div className="items-center justify-center hidden mr-4 text-lg text-white rounded-lg shadow-sm w-9 h-9 md:flex bg-primary-400">
         {entity?.name && getFirstLetter(entity.name)}
       </div>

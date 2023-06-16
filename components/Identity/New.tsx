@@ -2,9 +2,9 @@ import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { investment_identity_types } from '@/types/values';
 import { useState } from 'react';
-import NewCompany from './Company';
+import NewCompany from '@/components/Identity/Company';
 
-export default function NewUserInvestmentEntityIdentity({
+export default function NewIdentity({
   onUpdate,
   hideHeader = false,
   identities = [],

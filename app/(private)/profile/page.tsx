@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/Button';
+import { IdentityList } from '@/components/Identity/List';
 import AvatarItem from '@/components/Items/Avatar';
 import PageList from '@/components/Page/List';
 import PasswordChange from '@/components/User/PasswordChange';
@@ -84,6 +85,13 @@ export default function Profile() {
             )} */}
           </header>
         )}
+      </div>
+      <div className="px-6 py-5 bg-white border">
+        <header className="mb-6">
+          <h2 className="text-xl">Your identities</h2>
+          <label>List of your identities.</label>
+        </header>
+        <IdentityList details={true} onSelect={() => {}} />
       </div>
       {cards.map((data, index) => (
         <Card key={index} className="card" variant="outlined">

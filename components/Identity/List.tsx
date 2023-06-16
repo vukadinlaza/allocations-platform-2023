@@ -6,23 +6,29 @@ import IdentityItem from './Item';
 export const IdentityList = ({
   type,
   selectedId,
-  onSelect
+  onSelect,
+  details = false
 }: {
   type?: 'Individual' | 'Entity';
   selectedId?: string;
+  details?: boolean;
   onSelect: (identityId: string) => void;
 }) => {
   const [identities, setIdentities] = useState<Identity[]>([]);
   const { supabase } = useSupabase();
 
   const getIdentities = async () => {
-    let query = supabase.from('identities').select('*');
-    if (type) {
-      query.eq('type', type);
-    }
-    const { data } = await query;
-    if (data) {
-      setIdentities(data as Identity[]);
+    try {
+      let query = supabase.from('identities').select('*');
+      if (type) {
+        query.eq('type', type);
+      }
+      const { data } = await query;
+      if (data) {
+        setIdentities(data as Identity[]);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -32,19 +38,24 @@ export const IdentityList = ({
 
   return (
     <div>
-      <div className="mb-2">
-        <label>Please select one signer</label>
+      {!details && (
+        <div className="mb-2">
+          <label>Please select one signer</label>
+        </div>
+      )}
+      <div className="grid gap-2">
+        {identities.map((identity: Identity, index: number) => (
+          <IdentityItem
+            selectedId={selectedId}
+            key={index}
+            details={details}
+            identity={identity}
+            onChange={(id: string) => {
+              onSelect(id);
+            }}
+          />
+        ))}
       </div>
-      {identities.map((identity: Identity, index: number) => (
-        <IdentityItem
-          selectedId={selectedId}
-          key={index}
-          identity={identity}
-          onChange={(id: string) => {
-            onSelect(id);
-          }}
-        />
-      ))}
     </div>
   );
 };

@@ -54,6 +54,10 @@ body,
     }
   }
 
+  .item {
+    @apply flex items-center justify-between w-full px-3 py-2 border rounded-lg cursor-pointer hover:bg-gray-100;
+  }
+
   .btn {
     @apply font-medium cursor-pointer rounded-lg flex items-center;
   }
