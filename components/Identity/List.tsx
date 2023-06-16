@@ -1,6 +1,7 @@
 import LoadingList from '@/components/Loading/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import IdentityItem from './Item';
 
@@ -61,6 +62,7 @@ export const IdentityList = ({
                 onChange={(id: string) => {
                   onSelect(id);
                 }}
+                editable={true}
               />
             ))}
           </div>

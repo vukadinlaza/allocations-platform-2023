@@ -6,20 +6,23 @@ import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
 import { z } from 'zod';
 import ChipStatus from '../ChipStatus';
+import ModalButton from '../Modal/Button';
+import NewIdentity from './New';
 
 export default function IdentityItem({
   identity,
   onChange,
   selectedId,
-  details = false
+  details = false,
+  editable
 }: {
   identity: any;
   onChange: (identity: any) => void;
   selectedId?: string;
   details?: boolean;
+  editable?: boolean;
 }) {
-  const [loading, setLoading] = useState<boolean>(false);
-
+  const [modalOpen, setModalOpen] = useState(false);
   const validateIdentity = (
     identity: Identity,
     returnErrors: boolean = false
@@ -68,6 +71,7 @@ export default function IdentityItem({
         <div
           className="item"
           onClick={() => {
+            if (editable) setModalOpen(!modalOpen);
             if (validateIdentity(identity)) {
               onChange(selectedId === identity.id ? null : identity.id);
             }
@@ -122,7 +126,7 @@ export default function IdentityItem({
               </div>
             )}
             {details && (
-              <div className="col-span-2">
+              <div className="flex items-center justify-between col-span-2">
                 <ChipStatus
                   status={
                     !validateIdentity(identity)
@@ -130,6 +134,15 @@ export default function IdentityItem({
                       : identity.kyc_status || 'success'
                   }
                 />
+                {editable && (
+                  <ModalButton
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title="Edit your identity"
+                    content={<NewIdentity onUpdate={() => {}} />}
+                    isIcon={true}
+                  />
+                )}
               </div>
             )}
             {!details && (
