@@ -25,7 +25,7 @@ export default function NewCompany({
   identity?: any;
 }) {
   const [newCompany, setNewCompany] = useState<any>({
-    country: undefined
+    country_of_citizenship: undefined
   });
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -213,16 +213,11 @@ export default function NewCompany({
   };
 
   useEffect(() => {
-    if (identity) {
+    if (identity && !newCompany.country_of_citizenship) {
       setNewCompany(identity);
       setParentEntityId(identity.parent_identity_id);
     }
   }, [identity]);
-
-  useEffect(() => {
-    console.log('newCompany');
-    console.log(newCompany);
-  }, [newCompany]);
 
   return (
     <div>

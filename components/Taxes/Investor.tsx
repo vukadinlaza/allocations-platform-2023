@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
+import None from '../None';
 export default function TaxesInvestor() {
 const [loading, setLoading] = useState<boolean>(true);
-return <div>TaxesInvestor</div>;
+return <None text={'Available soon.'} />;
 }

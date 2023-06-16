@@ -1,8 +1,8 @@
 import LoadingList from '@/components/Loading/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Button from '../Button';
 import IdentityItem from './Item';
 
 export const IdentityList = ({
@@ -17,6 +17,7 @@ export const IdentityList = ({
   onSelect: (identityId: string) => void;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [limit, setLimit] = useState<number>(5);
   const [identities, setIdentities] = useState<Identity[]>([]);
   const { supabase } = useSupabase();
 
@@ -53,18 +54,30 @@ export const IdentityList = ({
             </div>
           )}
           <div className="grid gap-2">
-            {identities.map((identity: Identity, index: number) => (
-              <IdentityItem
-                selectedId={selectedId}
-                key={index}
-                details={details}
-                identity={identity}
-                onChange={(id: string) => {
-                  onSelect(id);
-                }}
-                editable={true}
-              />
-            ))}
+            {identities
+              .slice(0, limit)
+              .map((identity: Identity, index: number) => (
+                <IdentityItem
+                  selectedId={selectedId}
+                  key={index}
+                  details={details}
+                  identity={identity}
+                  onChange={(id: string) => {
+                    onSelect(id);
+                  }}
+                  editable={true}
+                />
+              ))}
+            {identities.length > 5 && (
+              <div>
+                <Button
+                  color="info"
+                  small={true}
+                  onClick={() => setLimit(limit + 5)}
+                  label={'Load more'}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

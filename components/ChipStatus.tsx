@@ -16,6 +16,7 @@ export default function ChipStatus({
     committed: 'bg-orange-500',
     crypto: 'bg-primary-500',
     draft: 'bg-gray-300',
+    failed: 'bg-red-500',
     fund_manager: 'bg-primary-500',
     invited: 'bg-blue-400',
     missing_data: 'bg-amber-500',

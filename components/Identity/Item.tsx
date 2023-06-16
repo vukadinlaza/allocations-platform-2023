@@ -66,13 +66,21 @@ export default function IdentityItem({
     })
   ]);
 
+  const checkStatus = (identity: any) => {
+    const { kyc_status } = identity;
+    if (kyc_status === 'error') return 'failed';
+    if (!validateIdentity(identity)) return 'missing_data';
+    return kyc_status;
+  };
+
   return (
     <>
       {identity && (
         <div
           className="item"
           onClick={() => {
-            if (editable && !modalOpen) setModalOpen(true);
+            if (editable && !modalOpen && identity.kyc_status !== 'success')
+              setModalOpen(true);
             if (validateIdentity(identity)) {
               onChange(selectedId === identity.id ? null : identity.id);
             }
@@ -128,19 +136,13 @@ export default function IdentityItem({
             )}
             {details && (
               <div className="flex items-center justify-between col-span-2">
-                <ChipStatus
-                  status={
-                    !validateIdentity(identity)
-                      ? 'missing_data'
-                      : identity.kyc_status || 'success'
-                  }
-                />
-                {editable && (
+                <ChipStatus status={checkStatus(identity)} />
+                {editable && identity.kyc_status !== 'success' && (
                   <ModalButton
                     isOpen={modalOpen}
                     onChange={setModalOpen}
                     title="Edit your identity"
-                    content={<EditIdentity identity={identity} />}
+                    content={modalOpen && <EditIdentity identity={identity} />}
                     isIcon={true}
                   />
                 )}
