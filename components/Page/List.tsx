@@ -166,6 +166,7 @@ export default function PageList({ data }: { data: any }) {
                               open={openModal}
                               TransitionComponent={Transition}
                               keepMounted
+                              scroll="body"
                               aria-describedby="alert-dialog-slide-description"
                             >
                               <Card
