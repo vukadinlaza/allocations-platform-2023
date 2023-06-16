@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Money from '../Money';
+import numeral from 'numeral';
 
 export default function InvestmentSidebar({ deal }: { deal: Deal }) {
   const [amount, setAmount] = useState<number>(deal.minimum_investment || 0);
@@ -47,13 +48,14 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
     {
       label: 'Management fee',
       // @ts-ignore
-      value: (deal.management_fee_percent * 100).toFixed(2),
-      type: 'percent'
+      value: numeral(deal.management_fee_percent).format('0.[00]%'),
+      type: 'string'
     },
     {
       label: 'Total carry fee',
-      value: Number(deal.total_carry) * 100 || 0,
-      type: 'percent'
+      // @ts-ignore
+      value: numeral(deal.total_carry).format('0.[00]%'),
+      type: 'string'
     }
   ];
 
