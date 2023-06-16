@@ -70,10 +70,7 @@ export default function TaxesFundManager() {
 
           if (data) {
             console.log(data);
-            await downloadFile(
-              await data,
-              'taxes.zip'
-            );
+            await downloadFile(await data, 'taxes.zip');
             notify('Downloading...', true);
           }
         }
@@ -94,20 +91,20 @@ export default function TaxesFundManager() {
     try {
       setLoading(true);
 
-      // let { data, error } = await supabase
-      //   .from('entities_taxes')
-      //   .select('*, entities (id, name, deals(id, name))')
-      //   .eq('tax_year', '2022')
-      //   .order('filing_status', { ascending: true });
-
       let { data, error } = await supabase
         .from('entities_taxes')
         .select('*, entities (id, name, deals(id, name))')
-        .eq('organization_id', '534da345-b096-4311-a88d-4ebd360506d1')
+        .eq('tax_year', '2022')
         .order('filing_status', { ascending: true });
 
+      // irish angels
+      // let { data, error } = await supabase
+      //   .from('entities_taxes')
+      //   .select('*, entities (id, name, deals(id, name))')
+      //   .eq('organization_id', '534da345-b096-4311-a88d-4ebd360506d1')
+      //   .order('filing_status', { ascending: true });
+
       if (error) return;
-      console.log(data);
       if (data) setTaxes(data);
     } catch (err) {
       console.log(err);
