@@ -39,8 +39,6 @@ export default function InvestmentsDocumentsList({
 
       if (error) return console.error(error);
 
-      console.log(data);
-
       setDocuments([data].map((doc) => ({ ...doc, name: `${name}.pdf` })));
     } catch (error) {
       console.log(error);

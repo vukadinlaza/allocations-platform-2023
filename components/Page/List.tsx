@@ -58,8 +58,6 @@ export default function PageList({ data }: { data: any }) {
     try {
       setLoading(true);
 
-      console.log(orderBy);
-
       let request = supabase
         .from(origin)
         .select(query ?? `*`, { count: 'exact' })

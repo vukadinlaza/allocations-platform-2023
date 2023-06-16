@@ -23,14 +23,12 @@ export default function InvestmentEntity({
   const [selectedId, setSelectedId] = useState<any>(undefined);
 
   useEffect(() => {
-    console.log(selectedId);
     if (show === true) {
       onChange(null);
     }
   }, [show]);
 
   useEffect(() => {
-    console.log(selectedId);
     onChange(selectedId);
   }, [selectedId]);
 
