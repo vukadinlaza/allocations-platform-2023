@@ -16,6 +16,8 @@ export default function ChipStatus({
     committed: 'bg-orange-500',
     crypto: 'bg-primary-500',
     draft: 'bg-gray-300',
+    extension_filed: 'bg-orange-500',
+    filed_extension: 'bg-orange-500',
     failed: 'bg-red-500',
     fund_manager: 'bg-primary-500',
     invited: 'bg-blue-400',
@@ -35,8 +37,8 @@ export default function ChipStatus({
       className={`inline text-white capitalize rounded-full ${
         small ? 'px-2 py-1 text-sm' : 'px-2 py-1 md:px-3 md:py-1'
       } text-sm md:text-sm items-center ${
-        status && colors[status.toLowerCase()]
-          ? colors[status.toLowerCase()]
+        status && colors[status.replace(' ', '_').toLowerCase()]
+          ? colors[status.replace(' ', '_').toLowerCase()]
           : null
       }`}
     >
