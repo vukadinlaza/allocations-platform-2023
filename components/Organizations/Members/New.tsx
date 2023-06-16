@@ -74,6 +74,7 @@ export default function NewOrganizationMember({
         .insert({
           user_email: email,
           organization_id: organizationId,
+          type: role,
           is_invite
         });
 
