@@ -71,7 +71,6 @@ export default function TaxesFundManager() {
           if (data) {
             console.log(data);
             await downloadFile(
-              // I want to download zip here
               await data,
               'taxes.zip'
             );
