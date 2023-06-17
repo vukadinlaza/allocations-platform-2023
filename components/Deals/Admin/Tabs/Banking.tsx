@@ -49,7 +49,6 @@ export default function DealAdminBanking({ deal }: { deal?: Deal }) {
         )
         .eq('deal_id', deal.id);
 
-      console.log(bank_accounts);
       if (bank_accounts && bank_accounts.length > 0) {
         setBankAccount(bank_accounts[0]);
       }

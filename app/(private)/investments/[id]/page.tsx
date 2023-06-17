@@ -105,7 +105,6 @@ export default function InvestmentId() {
       }
 
       if (_investment) {
-        console.log(_investment);
         setInvestment(_investment);
       }
     } catch (error) {

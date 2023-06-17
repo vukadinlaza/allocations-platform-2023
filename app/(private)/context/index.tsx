@@ -22,9 +22,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const hasValidIdentities = (identities: []) => {
     if (!identities) return false;
-    console.log(
-      identities.every((identity: any) => validateIdentity(identity))
-    );
     return identities.every((identity: any) => validateIdentity(identity));
   };
 
