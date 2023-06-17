@@ -2,6 +2,7 @@
 
 import { navigation } from '@/app/(private)/config';
 import AlertsMigration from '@/components/Alerts/Migration';
+import AlertsIdentity from '@/components/Alerts/Identity';
 import { useAuthContext } from 'app/(private)/context';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,7 +27,8 @@ export default function Header({
         <div className="flex w-full px-5 py-2">
           <div className="flex items-center gap-4 grow">
             <Logo />
-            <AlertsMigration />
+            {!user.missing_identities && <AlertsMigration />}
+            {user.missing_identities && <AlertsIdentity />}
           </div>
           <div className="flex items-center justify-end">
             {user && (

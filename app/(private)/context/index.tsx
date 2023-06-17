@@ -1,5 +1,6 @@
 'use client';
 import Header from '@/components/Header';
+import { validateIdentity } from '@/components/Identity/Item';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -19,16 +20,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [expand, setExpand] = useState(false);
   const ldClient = useLDClient();
 
-  const signOut = async () => {
-    try {
-      const response = await supabase.auth.signOut();
-      if (response) {
-        setUser(null);
-        return true;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const hasValidIdentities = (identities: []) => {
+    if (!identities) return false;
+    console.log(
+      identities.every((identity: any) => validateIdentity(identity))
+    );
+    return identities.every((identity: any) => validateIdentity(identity));
   };
 
   const onAuthStateChange = async () => {
@@ -45,7 +42,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           ...session.user,
           ...users_infos,
           is_super_admin: users_infos?.is_super_admin,
-          currentOrganization: null
+          missing_identities: !hasValidIdentities(users_infos.identities)
         });
         Sentry.setUser({
           email: session.user.email,
@@ -70,6 +67,18 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       return toast.success(msg);
     }
     return toast.error(msg);
+  };
+
+  const signOut = async () => {
+    try {
+      const response = await supabase.auth.signOut();
+      if (response) {
+        setUser(null);
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

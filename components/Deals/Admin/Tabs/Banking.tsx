@@ -44,9 +44,12 @@ export default function DealAdminBanking({ deal }: { deal?: Deal }) {
       setLoading(true);
       let { data: bank_accounts, error } = await supabase
         .from('bank_accounts')
-        .select('id, account_name, status, transactions(id, description, amount, status, created_at)')
+        .select(
+          'id, account_name, status, transactions(id, description, amount, status, created_at)'
+        )
         .eq('deal_id', deal.id);
 
+      console.log(bank_accounts);
       if (bank_accounts && bank_accounts.length > 0) {
         setBankAccount(bank_accounts[0]);
       }
