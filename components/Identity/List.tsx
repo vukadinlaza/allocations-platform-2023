@@ -11,7 +11,7 @@ export const IdentityList = ({
   onSelect,
   details = false
 }: {
-  type?: 'Individual' | 'Entity';
+  type?: any;
   selectedId?: string;
   details?: boolean;
   onSelect: (identityId: string) => void;

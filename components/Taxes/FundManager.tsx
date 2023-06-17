@@ -69,7 +69,6 @@ export default function TaxesFundManager() {
             return notify('Sorry, an error occurred downloading your taxes.');
 
           if (data) {
-            console.log(data);
             await downloadFile(await data, 'taxes.zip');
             notify('Downloading...', true);
           }

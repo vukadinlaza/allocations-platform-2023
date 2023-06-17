@@ -32,7 +32,7 @@ export default function EditIdentity({
         </div>
       </div>
       <NewCompany
-        type={identity.type}
+        entityType={identity.type}
         identity={identity}
         onUpdate={() => onUpdate()}
       />

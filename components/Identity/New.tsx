@@ -1,8 +1,8 @@
 import Button from '@/components/Button';
+import NewCompany from '@/components/Identity/Company';
 import Select from '@/components/Select';
 import { investment_identity_types } from '@/types/values';
 import { useState } from 'react';
-import NewCompany from '@/components/Identity/Company';
 
 export default function NewIdentity({
   onUpdate,
@@ -36,7 +36,7 @@ export default function NewIdentity({
           onChange={(type: string) => setType(type)}
         />
       </div>
-      <NewCompany type={type} onUpdate={onUpdate} />
+      <NewCompany entityType={type} onUpdate={onUpdate} />
       <div>
         {onClose && (
           <Button color="info" label={'Cancel'} onClick={() => onClose()} />

@@ -12,16 +12,17 @@ import {
   entity_type,
   investment_identity_types
 } from '@/types/values';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import Alert from '../Alert';
 import { validateIdentity } from './Item';
 
 export default function NewCompany({
-  type,
+  entityType,
   onUpdate,
   identity
 }: {
-  type: string;
+  entityType: string;
   onUpdate: () => void;
   identity?: any;
 }) {
@@ -42,14 +43,14 @@ export default function NewCompany({
       key: 'country_of_citizenship',
       type: 'select',
       placeholder: 'United States',
-      show: type === individual,
+      show: entityType === individual,
       items: countries
     },
     {
       label: 'Is this a US Domestic entity?*',
       key: 'us_domestic',
       type: 'select',
-      show: type !== individual,
+      show: entityType !== individual,
       items: ['Yes', 'No']
     },
     {
@@ -66,28 +67,30 @@ export default function NewCompany({
       placeholder: 'SSN / EIN / ITIN / FTIN',
       show: true,
       items: entity_tax_id_type.filter((x) => {
-        if (type === individual) {
+        if (entityType === individual) {
           return x !== 'EIN';
         }
         return x;
       })
     },
     {
-      label: type === individual ? 'Your full name*' : 'Your entity name*',
+      label:
+        entityType === individual ? 'Your full name*' : 'Your entity name*',
       key: 'legal_name',
       type: 'string',
-      placeholder: type === individual ? 'John Smith' : 'Example, LLC',
+      placeholder: entityType === individual ? 'John Smith' : 'Example, LLC',
       show: true
     },
     {
-      label: type === individual ? 'Date of birth*' : 'Date of formation*',
+      label:
+        entityType === individual ? 'Date of birth*' : 'Date of formation*',
       key: 'date_of_entity_formation',
       type: 'date',
       show: true
     },
     {
       label:
-        type === individual
+        entityType === individual
           ? 'Address Line 1*'
           : 'Principal place of business (Address)',
       key: 'address_line_1',
@@ -110,7 +113,8 @@ export default function NewCompany({
       show: true
     },
     {
-      label: type === individual ? 'State / Region' : 'State of formation',
+      label:
+        entityType === individual ? 'State / Region' : 'State of formation',
       key: 'region',
       type: 'string',
       placeholder: 'Florida',
@@ -140,10 +144,18 @@ export default function NewCompany({
   ];
 
   const checkModel = () => {
-    const notValid: any = validateIdentity(newCompany, true);
+    // pass type here
+    const notValid: any = validateIdentity(
+      {
+        ...newCompany,
+        type: entityType === individual ? entity_type[0] : entity_type[1]
+      },
+      true
+    );
     if (notValid) {
       const { _errors, ...rest } = notValid;
       const types = Object.keys(rest).map((key) => {
+        if (key === 'type') return 'type.';
         const found = model.find((m) => m.key === key);
         return found?.label;
       });
@@ -166,10 +178,10 @@ export default function NewCompany({
             ...newCompany,
             kyc_status: 'pending',
             user_email: user.email,
-            entity_type: type,
+            entity_type: entityType,
             us_domestic: newCompany.us_domestic === 'Yes',
-            type: type === individual ? entity_type[0] : entity_type[1],
-            provider: type !== individual ? undefined : 'NAMESCAN'
+            type: entityType === individual ? entity_type[0] : entity_type[1],
+            provider: entityType !== individual ? undefined : 'NAMESCAN'
           },
           { onConflict: 'id' }
         )
@@ -200,7 +212,7 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (type === individual) return false;
+    if (entityType === individual) return false;
     if (!parentEntityId) return true;
     return !agree;
   };
@@ -220,13 +232,15 @@ export default function NewCompany({
           model={model}
           emit={true}
           onSubmit={(v: any) => {
-            setNewCompany((prev: any) => ({
-              ...prev,
-              ...v
-            }));
+            if (!isEqual(v, newCompany)) {
+              setNewCompany((prev: any) => ({
+                ...prev,
+                ...v
+              }));
+            }
           }}
         />
-        {type !== individual && (
+        {entityType !== individual && (
           <div className="my-4">
             <IdentityList
               type={'Individual'}
@@ -252,7 +266,7 @@ export default function NewCompany({
         )}
         {newCompany.country_of_citizenship !== 'Russian Federation' && (
           <div className="my-8">
-            {type !== individual && (
+            {entityType !== individual && (
               <div className="mb-4">
                 <Checkbox
                   selected={agree}
