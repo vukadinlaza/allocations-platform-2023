@@ -105,13 +105,13 @@ export default function IdentityItem({
                   </span>
                 )}
                 <span className="text-xs text-gray-600">
-                  {identity.country}
+                  {identity.type} — {identity.country}
                 </span>
               </div>
             </div>
             {details && (
               <div className="col-span-2">
-                <label>{identity.type}</label>
+                <label>{identity.entity_type}</label>
               </div>
             )}
             {details && (

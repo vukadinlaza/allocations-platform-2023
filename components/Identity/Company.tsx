@@ -20,11 +20,13 @@ import { validateIdentity } from './Item';
 export default function NewCompany({
   entityType,
   onUpdate,
-  identity
+  identity,
+  editable = false
 }: {
   entityType: string;
   onUpdate: () => void;
   identity?: any;
+  editable?: boolean;
 }) {
   const [newCompany, setNewCompany] = useState<any>({});
   const [agree, setAgree] = useState<boolean>(false);
@@ -38,6 +40,14 @@ export default function NewCompany({
   const individual = investment_identity_types[0];
 
   const model: Field[] = [
+    {
+      label: 'Type of entity *',
+      key: 'type',
+      type: 'select',
+      placeholder: 'United States',
+      show: editable,
+      items: investment_identity_types
+    },
     {
       label: 'Select a country of citizenship*',
       key: 'country_of_citizenship',
@@ -144,7 +154,7 @@ export default function NewCompany({
   ];
 
   const checkModel = () => {
-    // pass type here
+    // mandatory type of entity here
     const notValid: any = validateIdentity(
       {
         ...newCompany,
@@ -178,7 +188,7 @@ export default function NewCompany({
             ...newCompany,
             kyc_status: 'pending',
             user_email: user.email,
-            entity_type: entityType,
+            entity_type: editable ? newCompany.type : entityType,
             us_domestic: newCompany.us_domestic === 'Yes',
             type: entityType === individual ? entity_type[0] : entity_type[1],
             provider: entityType !== individual ? undefined : 'NAMESCAN'
@@ -216,6 +226,8 @@ export default function NewCompany({
     if (!parentEntityId) return true;
     return !agree;
   };
+
+  useEffect(() => {}, [newCompany]);
 
   useEffect(() => {
     if (identity && !newCompany.country_of_citizenship) {
