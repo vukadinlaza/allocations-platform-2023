@@ -148,7 +148,10 @@ export default function IdentityItem({
               </div>
             )}
             {!details && (
-              <div className="flex items-center justify-end col-span-8">
+              <div className="flex items-center justify-end col-span-8 gap-2">
+                {checkStatus(identity) !== 'success' && (
+                  <ChipStatus status={checkStatus(identity)} />
+                )}
                 <Checkbox
                   disabled={!validateIdentity(identity)}
                   selected={selectedId === identity.id}
