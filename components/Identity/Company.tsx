@@ -37,12 +37,12 @@ export default function NewCompany({
   // set parent here
   const [parentEntityId, setParentEntityId] = useState<any>(null);
 
-  const individual = investment_identity_types[0];
+  const individual = 'Myself / Individual';
 
   const model: Field[] = [
     {
       label: 'Type of entity *',
-      key: 'type',
+      key: 'entity_type',
       type: 'select',
       placeholder: 'United States',
       show: editable,
@@ -53,14 +53,14 @@ export default function NewCompany({
       key: 'country_of_citizenship',
       type: 'select',
       placeholder: 'United States',
-      show: entityType === individual,
+      show: newCompany.entity_type === individual,
       items: countries
     },
     {
       label: 'Is this a US Domestic entity?*',
       key: 'us_domestic',
       type: 'select',
-      show: entityType !== individual,
+      show: newCompany.entity_type !== individual,
       items: ['Yes', 'No']
     },
     {
@@ -77,7 +77,7 @@ export default function NewCompany({
       placeholder: 'SSN / EIN / ITIN / FTIN',
       show: true,
       items: entity_tax_id_type.filter((x) => {
-        if (entityType === individual) {
+        if (newCompany.entity_type === individual) {
           return x !== 'EIN';
         }
         return x;
@@ -85,22 +85,27 @@ export default function NewCompany({
     },
     {
       label:
-        entityType === individual ? 'Your full name*' : 'Your entity name*',
+        newCompany.entity_type === individual
+          ? 'Your full name*'
+          : 'Your entity name*',
       key: 'legal_name',
       type: 'string',
-      placeholder: entityType === individual ? 'John Smith' : 'Example, LLC',
+      placeholder:
+        newCompany.entity_type === individual ? 'John Smith' : 'Example, LLC',
       show: true
     },
     {
       label:
-        entityType === individual ? 'Date of birth*' : 'Date of formation*',
+        newCompany.entity_type === individual
+          ? 'Date of birth*'
+          : 'Date of formation*',
       key: 'date_of_entity_formation',
       type: 'date',
       show: true
     },
     {
       label:
-        entityType === individual
+        newCompany.entity_type === individual
           ? 'Address Line 1*'
           : 'Principal place of business (Address)',
       key: 'address_line_1',
@@ -124,7 +129,9 @@ export default function NewCompany({
     },
     {
       label:
-        entityType === individual ? 'State / Region' : 'State of formation',
+        newCompany.entity_type === individual
+          ? 'State / Region'
+          : 'State of formation',
       key: 'region',
       type: 'string',
       placeholder: 'Florida',
@@ -188,9 +195,12 @@ export default function NewCompany({
             ...newCompany,
             kyc_status: 'queued',
             user_email: user.email,
-            entity_type: editable ? newCompany.type : entityType,
+            entity_type: editable ? newCompany.entity_type : entityType,
             us_domestic: newCompany.us_domestic === 'Yes',
-            type: entityType === individual ? entity_type[0] : entity_type[1],
+            type:
+              newCompany.entity_type === individual
+                ? entity_type[0]
+                : entity_type[1],
             provider: entityType !== individual ? undefined : 'NAMESCAN'
           },
           { onConflict: 'id' }
@@ -222,8 +232,7 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (entityType === individual) return false;
-    if (!parentEntityId) return true;
+    if (newCompany.entity_type !== individual) return !parentEntityId;
     return !agree;
   };
 
@@ -252,7 +261,7 @@ export default function NewCompany({
             }
           }}
         />
-        {entityType !== individual && (
+        {newCompany.entity_type !== investment_identity_types[0] && (
           <div className="my-4">
             <IdentityList
               type={'Individual'}

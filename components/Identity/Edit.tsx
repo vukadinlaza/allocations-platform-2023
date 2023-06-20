@@ -64,9 +64,8 @@ export default function EditIdentity({
         <h2 className="text-xl">{identity.legal_name}</h2>
         <div className="flex flex-col">
           <label>
-            Submitted at: <DateComponent date={identity.created_at} />
+            Creation date: <DateComponent date={identity.created_at} />
           </label>
-          <label htmlFor="">Type: {identity.type}</label>
         </div>
       </div>
       <NewCompany
