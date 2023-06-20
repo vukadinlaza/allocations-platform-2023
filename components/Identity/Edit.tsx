@@ -11,13 +11,25 @@ export default function EditIdentity({
 }) {
   return (
     <div className="EditCompany">
-      {identity.kyc_status !== 'success' && (
+      {identity.kyc_status === 'failed' && identity.kyc_status === 'error' && (
         <Alert
           close={false}
           color="bg-red-100 text-red-600 mb-4"
           content={
             <span className="text-sm font-medium">
               Sorry, this identity check has failed. Please try again.
+            </span>
+          }
+        />
+      )}
+      {identity.kyc_status === 'pending' && (
+        <Alert
+          close={false}
+          color="bg-sky-100 text-sky-600 mb-4"
+          content={
+            <span className="text-sm font-medium">
+              This identity is currently being verified. You will be notified of
+              the status change soon. We appreciate your patience.
             </span>
           }
         />

@@ -11,7 +11,7 @@ type Props = {
 
 export default function NewOrganization({ onCreate, onClose }: Props) {
   const { supabase } = useSupabase();
-  const { notify } = useAuthContext();
+  const { notify, user } = useAuthContext();
   const [newOrganization, setNewOrganization] = useState<Organization>({
     name: ''
   });

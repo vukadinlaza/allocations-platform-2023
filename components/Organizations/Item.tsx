@@ -46,7 +46,9 @@ export default function OrganizationItem({
                       textTransform: 'capitalize'
                     }}
                   >
-                    {role.users && getFirstLetter(getFullName(role.users))}
+                    <span className="text-xs">
+                      {role.users && getFirstLetter(getFullName(role.users))}
+                    </span>
                   </Avatar>
                 </Tooltip>
               </div>
