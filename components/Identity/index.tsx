@@ -271,6 +271,7 @@ export default function NewCompany({
               type={'Individual'}
               selectedId={parentEntityId}
               onSelect={(id: string) => {
+                console.log
                 setParentEntityId(id);
               }}
             />

@@ -106,6 +106,7 @@ export default function InvestmentId() {
 
       if (_investment) {
         setInvestment(_investment);
+        console.log(_investment);
       }
     } catch (error) {
       console.error(error);
@@ -180,58 +181,53 @@ export default function InvestmentId() {
                   )}
                 </div>
               </div>
-              {String(investment.status).toLowerCase() === 'signed' ||
-                (String(investment.status).toLowerCase() === 'completed' && (
-                  <>
-                    <div className="flex items-center justify-center gap-4 my-8">
-                      <Button
-                        small={true}
-                        disabled={
-                          !investment.investments_files?.length || buttonLoading
-                        }
-                        label="Download SPV Agreement"
-                        icon={
-                          <Image
-                            src="/download.svg"
-                            alt={'Download'}
-                            className="opacity-75 invert"
-                            width={24}
-                            height={24}
-                          />
-                        }
-                        onClick={() => downloadAgreement()}
+              {investment.status !== 'archived' && (
+                <>
+                  <div className="flex items-center justify-center gap-4 my-8">
+                    <Button
+                      small={true}
+                      disabled={buttonLoading}
+                      label="Download SPV Agreement"
+                      icon={
+                        <Image
+                          src="/download.svg"
+                          alt={'Download'}
+                          className="opacity-75 invert"
+                          width={24}
+                          height={24}
+                        />
+                      }
+                      onClick={() => downloadAgreement()}
+                    />
+                    <Button
+                      small={true}
+                      disabled={buttonLoading}
+                      label="Download Wire Instructions"
+                      icon={
+                        <Image
+                          src="/download.svg"
+                          alt={'Download'}
+                          className="opacity-75 invert"
+                          width={24}
+                          height={24}
+                        />
+                      }
+                      onClick={() => downloadAgreement('wire-instructions')}
+                    />
+                  </div>
+                  <div>
+                    {investment.investments_files.length > 0 && <>hey</>}
+                    {investment.investments_files.length > 0 && (
+                      <Table
+                        data={investment.investments_files.map((f: any) => ({
+                          ...f.files
+                        }))}
+                        headers={documentsHeaders}
                       />
-                      <Button
-                        small={true}
-                        disabled={buttonLoading}
-                        label="Download Wire Instructions"
-                        icon={
-                          <Image
-                            src="/download.svg"
-                            alt={'Download'}
-                            className="opacity-75 invert"
-                            width={24}
-                            height={24}
-                          />
-                        }
-                        onClick={() => downloadAgreement('wire-instructions')}
-                      />
-                    </div>
-                    <div>
-                      {investment.investments_files &&
-                        investment.investments_files.length > 0 && (
-                          <Table
-                            data={investment.investments_files.map(
-                              (f: any) => ({
-                                ...f.files
-                              })
-                            )}
-                            headers={documentsHeaders}
-                          />
-                        )}
-                    </div>
-                  </>
-                ))}
+                    )}
+                  </div>
+                </>
+              )}
             </Card>
           )}
         </div>
