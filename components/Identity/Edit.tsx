@@ -2,6 +2,8 @@
 import DateComponent from '@/components/DateComponent';
 import Alert from '../Alert';
 import NewCompany from './Company';
+import { checkStatus } from './Item';
+
 export default function EditIdentity({
   identity,
   onUpdate
@@ -11,18 +13,42 @@ export default function EditIdentity({
 }) {
   return (
     <div className="EditCompany">
-      {identity.kyc_status === 'failed' && identity.kyc_status === 'error' && (
+      {checkStatus(identity) === 'pending' && (
         <Alert
           close={false}
-          color="bg-red-100 text-red-600 mb-4"
+          color="bg-sky-100 text-sky-600 mb-4"
           content={
             <span className="text-sm font-medium">
-              Sorry, this identity check has failed. Please try again.
+              We are currently verifying your identity. Thank you for your
+              patience.
             </span>
           }
         />
       )}
-      {identity.kyc_status === 'pending' && (
+      {checkStatus(identity) === 'missing_data' && (
+        <Alert
+          close={false}
+          color="bg-amber-100 text-amber-600 mb-4"
+          content={
+            <span className="text-sm font-medium">
+              This identity is missing data. Please fill in the missing fields.
+            </span>
+          }
+        />
+      )}
+      {checkStatus(identity) === 'failed' &&
+        checkStatus(identity) === 'error' && (
+          <Alert
+            close={false}
+            color="bg-red-100 text-red-600 mb-4"
+            content={
+              <span className="text-sm font-medium">
+                Sorry, this identity check has failed. Please try again.
+              </span>
+            }
+          />
+        )}
+      {checkStatus(identity) === 'queued' && (
         <Alert
           close={false}
           color="bg-sky-100 text-sky-600 mb-4"
