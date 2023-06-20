@@ -11,30 +11,30 @@ import ModalButton from '../Modal/Button';
 
 export const identityValidation = z.discriminatedUnion('type', [
   z.object({
-    tax_id: z.string().min(1),
-    tax_id_type: z.string().min(1),
     address_line_1: z.string().min(1),
     city: z.string().min(1),
-    region: z.string().min(1).nullable(),
     country: z.string().min(1),
-    postal_code: z.string().min(1),
-    legal_name: z.string().min(1),
     country_of_citizenship: z.string().optional().nullable(),
     date_of_entity_formation: z.string().min(1),
+    legal_name: z.string().min(1),
+    postal_code: z.string().min(1),
+    region: z.string().min(1).nullable(),
+    tax_id: z.string().min(1),
+    tax_id_type: z.string().min(1),
     type: z.literal('Individual')
   }),
   z.object({
-    entity_type: z.string().min(1),
-    date_of_entity_formation: z.string().min(1),
-    tax_id: z.string().min(1),
-    tax_id_type: z.string().min(1),
     address_line_1: z.string().min(1),
     city: z.string().min(1).nullable(),
-    region: z.string().min(1).nullable(),
     country: z.string().min(1),
-    postal_code: z.string().min(1),
-    legal_name: z.string().min(1),
     country_of_citizenship: z.string().optional().nullable(),
+    date_of_entity_formation: z.string().min(1),
+    entity_type: z.string().min(1),
+    legal_name: z.string().min(1),
+    postal_code: z.string().min(1),
+    region: z.string().min(1).nullable(),
+    tax_id: z.string().min(1),
+    tax_id_type: z.string().min(1),
     type: z.literal('Entity')
   })
 ]);

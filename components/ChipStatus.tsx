@@ -25,6 +25,7 @@ export default function ChipStatus({
     null: 'bg-zinc-400',
     onboarding: 'bg-amber-400',
     pending: 'bg-blue-400',
+    queued: 'bg-blue-400',
     processing: 'bg-amber-400',
     signed: 'bg-amber-400',
     submitted: 'bg-orange-500',
