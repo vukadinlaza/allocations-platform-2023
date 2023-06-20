@@ -19,9 +19,15 @@ const Checkbox = ({
       onClick={onChange}
     >
       <Image
-        src={selected ? '/checkbox_checked.svg' : '/checkbox_empty.svg'}
+        src={
+          !disabled && selected
+            ? '/checkbox_checked.svg'
+            : '/checkbox_empty.svg'
+        }
         alt="checkbox"
-        className={`mr-2 ${selected ? '' : 'opacity-50'}`}
+        className={`mr-2 ${selected ? '' : 'opacity-50'} ${
+          disabled ? 'disabled' : ''
+        }`}
         width={20}
         height={20}
       />
