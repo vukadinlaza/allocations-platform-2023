@@ -22,6 +22,7 @@ export const IdentityList = ({
   const { supabase } = useSupabase();
 
   const getIdentities = async () => {
+    setIdentities([]);
     try {
       setLoading(true);
       let query = supabase.from('identities').select('*');
@@ -51,9 +52,8 @@ export const IdentityList = ({
           schema: 'public',
           table: 'identities'
         },
-        (payload: any) => {
-          setIdentities([]);
-          getIdentities();
+        async (payload: any) => {
+          await getIdentities();
         }
       )
       .subscribe();

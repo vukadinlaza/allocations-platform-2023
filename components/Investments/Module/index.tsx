@@ -57,7 +57,6 @@ export default function InvestmentsModule({
         <div>
           <div className="p-6">
             <InvestmentIdentity
-              identities={currentUser.identities}
               onChange={(v) => {
                 setIdentity(currentUser.identities.find((i:any)=>i.id === v));
               }}

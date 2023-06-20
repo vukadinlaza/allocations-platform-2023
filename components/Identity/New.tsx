@@ -1,22 +1,15 @@
 import Button from '@/components/Button';
-import NewCompany from '@/components/Identity/Company';
-import Select from '@/components/Select';
-import { investment_identity_types } from '@/types/values';
-import { useState } from 'react';
+import NewIdentity from '@/components/Identity';
 
-export default function NewIdentity({
+export default function NewIdentityForm({
   onUpdate,
   hideHeader = false,
-  identities = [],
   onClose
 }: {
   hideHeader?: boolean;
-  identities?: any[];
   onUpdate: () => any;
   onClose?: () => any;
 }) {
-  const [type, setType] = useState<string>('Myself / Individual');
-
   return (
     <div className="w-full mb-4">
       <div className="grid grid-cols-1 gap-4 pb-4">
@@ -27,16 +20,8 @@ export default function NewIdentity({
             </h2>
           </header>
         )}
-        <label>Type of identity</label>
-        <Select
-          items={investment_identity_types.filter((i) =>
-            identities.length === 0 ? i === 'Myself / Individual' : i
-          )}
-          selected={type}
-          onChange={(type: string) => setType(type)}
-        />
       </div>
-      <NewCompany entityType={type} onUpdate={onUpdate} />
+      <NewIdentity onUpdate={onUpdate} />
       <div>
         {onClose && (
           <Button color="info" label={'Cancel'} onClick={() => onClose()} />

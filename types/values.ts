@@ -104,7 +104,7 @@ export const entity_returns_status = ['complete', 'new'];
 
 export const entity_type = ['Individual', 'Entity'];
 
-export const entity_tax_id_type = ['FTIN', 'ITIN', 'EIN', 'SSN'];
+export const entity_tax_id_type = ['FTIN', 'ITIN', 'EIN', 'SSN', 'None'];
 
 export const investments_status = [
   'invited',

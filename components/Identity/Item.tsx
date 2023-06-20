@@ -46,6 +46,7 @@ export const validateIdentity = (
   const result = identityValidation.safeParse(identity);
   if (!returnErrors) return result.success;
   if (!result.success) {
+    console.log(result.error.format());
     return result.error.format();
   }
 };
@@ -153,7 +154,7 @@ export default function IdentityItem({
                   <ChipStatus status={checkStatus(identity)} />
                 )}
                 <Checkbox
-                  disabled={!validateIdentity(identity)}
+                  disabled={identity.kyc_status !== 'success'}
                   selected={selectedId === identity.id}
                 />
               </div>

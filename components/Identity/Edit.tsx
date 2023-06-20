@@ -1,7 +1,7 @@
 'use client';
 import DateComponent from '@/components/DateComponent';
+import NewIdentity from '.';
 import Alert from '../Alert';
-import NewCompany from './Company';
 import { checkStatus } from './Item';
 
 export default function EditIdentity({
@@ -68,9 +68,7 @@ export default function EditIdentity({
           </label>
         </div>
       </div>
-      <NewCompany
-        editable={true}
-        entityType={identity.type}
+      <NewIdentity
         identity={identity}
         onUpdate={() => onUpdate()}
       />

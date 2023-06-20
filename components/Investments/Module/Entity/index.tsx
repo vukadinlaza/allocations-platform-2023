@@ -1,25 +1,25 @@
 import Button from '@/components/Button';
-import IdentityItem from '@/components/Identity/Item';
-import { Identity } from '@/types';
+import { IdentityList } from '@/components/Identity/List';
+import { useSupabase } from '@/lib/supabase-provider';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewUserInvestmentsEntity from '../../../Identity/New';
 
 export default function InvestmentEntity({
-  identities = [],
   onChange,
   selected,
   onUpdate,
   validate = true
 }: {
-  identities: Identity[];
   onChange: (v: any) => any;
   onUpdate: () => any;
   selected: any;
   validate?: boolean;
 }) {
+  const [identities, setIdentities] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<any>(undefined);
+  const { supabase } = useSupabase();
 
   useEffect(() => {
     if (show === true) {
@@ -37,27 +37,19 @@ export default function InvestmentEntity({
         <h2 className="text-lg font-bold">Select an identity</h2>
       </header>
       <main>
-        <div>
-          {identities && (
-            <div className="grid gap-2 mb-8">
-              {identities.map((identity: Identity) => (
-                <IdentityItem
-                  selectedId={selectedId}
-                  key={'identity-' + identity.id}
-                  identity={identity}
-                  onChange={(id: string) => {
-                    setSelectedId(id);
-                  }}
-                />
-              ))}
-            </div>
-          )}
+        <div className="mb-4">
+          <IdentityList
+            details={false}
+            selectedId={selectedId}
+            onSelect={(id: string) => {
+              setSelectedId(id);
+            }}
+          />
         </div>
         {show && (
           <div className="pt-6 mt-6 border-t">
             <NewUserInvestmentsEntity
               onClose={() => setShow(false)}
-              identities={identities}
               onUpdate={onUpdate}
             />
           </div>
