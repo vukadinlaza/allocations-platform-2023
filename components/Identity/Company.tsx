@@ -186,7 +186,7 @@ export default function NewCompany({
         .upsert(
           {
             ...newCompany,
-            kyc_status: 'pending',
+            kyc_status: 'queued',
             user_email: user.email,
             entity_type: editable ? newCompany.type : entityType,
             us_domestic: newCompany.us_domestic === 'Yes',
