@@ -57,13 +57,17 @@ export default function SelectMasterSeries({
     const found = masterSeriesList?.find(
       (ms) => ms.name === selectedMasterSeries
     );
-    onChange(found);
+    if (found) {
+      const { id } = found;
+      console.log(id);
+      onChange(id);
+    }
   }, [selectedMasterSeries]);
 
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-4">
-        <h2 className="text-xl">Select an Entity</h2>
+        <h2 className="text-xl">Select an entity</h2>
         <p>List of available master series</p>
       </header>
       {loadingMasterSeries && <div className="w-full h-12 loading" />}

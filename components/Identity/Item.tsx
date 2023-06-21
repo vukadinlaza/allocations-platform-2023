@@ -46,7 +46,6 @@ export const validateIdentity = (
   const result = identityValidation.safeParse(identity);
   if (!returnErrors) return result.success;
   if (!result.success) {
-    console.log(result.error.format());
     return result.error.format();
   }
 };

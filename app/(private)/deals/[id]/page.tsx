@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuthContext } from '@/app/(private)/context';
-import AdminDeal from '@/components/Deals/Admin';
-import ClientDeal from '@/components/Deals/Client';
+import Admin from '@/components/Deals/Admin';
+import Client from '@/components/Deals/Client';
 import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -40,23 +40,39 @@ export default function DealID() {
 
       if (_deal) {
         setHasRole(isOwner);
-        setDeal(_deal);
       }
+
+      let finalDeal = _deal;
 
       if (isOwner) {
-        const { data: private_deal } = await supabase
-          .from('private_deals')
-          .select('*')
-          .eq('id', params.id)
-          .single();
+        const [privateDeal, dealDetails] = await Promise.all([
+          supabase
+            .from('private_deals')
+            .select('*')
+            .eq('id', params.id)
+            .single(),
+          supabase
+            .from('deal_details')
+            .select('*')
+            .eq('deal_id', finalDeal.id)
+            .single()
+        ]);
 
-        if (private_deal) {
-          setDeal((prev: any) => ({
-            ...private_deal,
-            ...prev
-          }));
+        const dealData = privateDeal.data;
+        const dealDetailsData = dealDetails.data;
+
+        if (dealData && dealDetailsData) {
+          const { id, ...rest } = dealDetailsData;
+          finalDeal = {
+            ...finalDeal,
+            ...dealData,
+            ...rest,
+            deal_details_id: id
+          };
         }
       }
+
+      setDeal(finalDeal);
     } catch (error) {
       // console.error(error);
     } finally {
@@ -105,8 +121,8 @@ export default function DealID() {
       {!loading && !deal && <None text="No deal found." />}
       {!loading && deal && (
         <div>
-          {hasRole && <AdminDeal deal={deal} />}
-          {!hasRole && <ClientDeal deal={deal} />}
+          {hasRole && <Admin deal={deal} />}
+          {!hasRole && <Client deal={deal} />}
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 'use client';
 import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
+// @ts-ignore
 import ReactQuill from 'react-quill';
 
 const modules = {
@@ -33,10 +34,10 @@ export default function DealMemo({
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    if (deal.memo && content.length < 1) {
+    if (deal.memo) {
       setContent(deal.memo);
     }
-  }, []);
+  }, [deal]);
 
   useEffect(() => {
     onChange(content);

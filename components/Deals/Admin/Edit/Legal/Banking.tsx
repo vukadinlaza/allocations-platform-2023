@@ -1,8 +1,9 @@
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
-import { deal_master_series } from '@/types/values';
 
-export default function DealEntity({
+import { deal_banking_providers } from '@/types/values';
+
+export default function DealBanking({
   deal,
   onChange
 }: {
@@ -11,33 +12,24 @@ export default function DealEntity({
 }) {
   const model: Field[] = [
     {
-      label: 'Master series',
-      key: 'master_series',
+      label: 'Banking provider',
+      key: 'banking_provider',
       type: 'select',
       show: true,
-      items: deal_master_series
-    },
-    {
-      label: 'Series name',
-      key: 'series_name',
-      type: 'string',
-      show: true
+      items: deal_banking_providers
     }
   ];
   return (
     <div className="w-full">
       <header className="flex flex-col items-start mb-4">
-        <h2 className="text-xl">Select an entity deal</h2>
+        <h2 className="text-xl">Chose a banking provider</h2>
       </header>
       <FormBuilder
         data={deal}
         model={model}
         emit={true}
         onSubmit={(v: any) => {
-          onChange({
-            master_series: v.master_series,
-            series_name: v.series_name
-          });
+          onChange(v.banking_provider);
         }}
       />
     </div>

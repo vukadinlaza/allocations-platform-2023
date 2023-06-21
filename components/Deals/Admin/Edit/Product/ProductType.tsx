@@ -1,15 +1,12 @@
 import RadioGroup from '@/components/RadioGroup';
 import { openURL } from '@/components/Table';
-import { Deal } from '@/types';
 import { deal_product_types } from '@/types/values';
 import { useEffect, useState } from 'react';
 
 export default function DealProductType({
-  deal,
   onChange,
   selected
 }: {
-  deal: Deal;
   onChange: (v: any) => any;
   selected?: string;
 }) {

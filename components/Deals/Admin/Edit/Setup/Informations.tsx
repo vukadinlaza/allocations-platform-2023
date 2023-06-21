@@ -1,9 +1,18 @@
 import FormBuilder from '@/components/FormBuilder';
 import { Deal, Field } from '@/types';
 import { deal_management_frequency_fee } from '@/types/values';
-import UploadPitchdeck from './Upload/Pitchdeck';
-import UploadTermSheets from './Upload/TermSheet';
-import UploadWireInstructions from './Upload/WireInstructions';
+
+export const keys = [
+  'name',
+  'closing_date',
+  'target_raise_goal',
+  'minimum_investment',
+  'management_fee_percent',
+  'management_fee_notes',
+  'management_fee_frequency',
+  'total_carry',
+  'total_carry_notes'
+];
 
 export default function DealInformations({
   deal,
@@ -91,7 +100,7 @@ export default function DealInformations({
 
   return (
     <div className="w-full">
-      <header className="flex flex-col items-start mb-6">
+      <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Information</h2>
       </header>
       <main>
@@ -110,9 +119,6 @@ export default function DealInformations({
             />
           </div>
         )}
-        <UploadPitchdeck dealId={deal.id} />
-        <UploadTermSheets dealId={deal.id} />
-        <UploadWireInstructions dealId={deal.id} />
       </main>
     </div>
   );

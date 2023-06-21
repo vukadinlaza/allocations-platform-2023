@@ -24,7 +24,7 @@ function Select<T>({
     <select
       value={selected}
       onChange={handleSelectChange}
-      className={`bg-white capitalize ${disabled ? 'disabled' : ''}`}
+      className={`bg-white ${disabled ? 'disabled' : ''}`}
       disabled={disabled}
     >
       {!selected && <option value="">{placeholder}</option>}
