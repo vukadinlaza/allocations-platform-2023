@@ -1,36 +1,37 @@
-"use client";
-import { useRouter } from 'next/navigation';
+'use client';
 import { useSupabase } from '@/lib/supabase-provider';
-import { useCallback, useEffect, useState } from 'react';
 import { Deal } from '@/types';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
-export default function Page({ params }: { params: { id: string, path: string[] } }) {
+export default function Page({
+  params
+}: {
+  params: { id: string; path: string[] };
+}) {
   const router = useRouter();
-  const {id: orgSlugOrId, path} = params;
+  const { id: orgSlugOrId, path } = params;
   const [dealSlugOrId] = path;
-  const {supabase} = useSupabase();
-  const [deal, setDeal] = useState<null|Deal>(null);
+  const { supabase } = useSupabase();
+  const [deal, setDeal] = useState<null | Deal>(null);
 
-  const getDeal = useCallback(async()=>{
+  const getDeal = useCallback(async () => {
     // attempt to find Deal by OrgId and DealId / Slug
-    const {data: deal} = await supabase.from('deals')
+    const { data: deal } = await supabase
+      .from('deals')
       .select('*')
-      .eq('slug',decodeURIComponent(dealSlugOrId))
+      .eq('slug', decodeURIComponent(dealSlugOrId))
       .single();
-    if(deal){
+    if (deal) {
       router.push(`/deals/${deal.id}`);
-    }
-    else{
+    } else {
       router.push('/404');
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     void getDeal();
-  }, [])
+  }, []);
 
-
-  return (<p>
-    Resolving your deal link...
-  </p>);
+  return <p>Resolving your deal link...</p>;
 }

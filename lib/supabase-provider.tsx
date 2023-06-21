@@ -1,4 +1,5 @@
 'use client';
+import { Deal } from '@/types';
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
@@ -88,6 +89,14 @@ export default function SupabaseProvider({
     return supabase.from('investments').select(`*`, { count: 'exact' });
   };
 
+  const saveDeal = async (deal: Deal) => {
+    return await supabase.from('deals').upsert(deal).select();
+  };
+
+  const saveDealDetails = async (deal: Deal) => {
+    return await supabase.from('deal_details').upsert(deal).select();
+  };
+
   const updateUser = async (newUser: any) => {
     if (!newUser) return;
 
@@ -107,6 +116,8 @@ export default function SupabaseProvider({
       fetchDeals,
       fetchMasterSeries,
       fetchInvestments,
+      saveDeal,
+      saveDealDetails,
       updateUser
     }),
     [supabase]

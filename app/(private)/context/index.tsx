@@ -41,16 +41,22 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           is_super_admin: users_infos?.is_super_admin,
           missing_identities: !hasValidIdentities(users_infos.identities)
         });
-        Sentry.setUser({
-          email: session.user.email,
-          id: session.user.id,
-          name: `${users_infos.first_name || ''} ${users_infos.last_name || ''}`
-        });
-        ldClient?.identify({
-          kind: 'user',
-          email: session.user.email,
-          key: session.user.email
-        });
+        const devEnv = process.env.NODE_ENV == 'development';
+
+        if (!devEnv) {
+          Sentry.setUser({
+            email: session.user.email,
+            id: session.user.id,
+            name: `${users_infos.first_name || ''} ${
+              users_infos.last_name || ''
+            }`
+          });
+          ldClient?.identify({
+            kind: 'user',
+            email: session.user.email,
+            key: session.user.email
+          });
+        }
       }
     } catch (error) {
       console.log(error);

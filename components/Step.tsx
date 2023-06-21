@@ -11,7 +11,7 @@ export default function Step({
 }) {
   return (
     <div
-      className={`md:flex items-start w-full p-5 md:px-5 md:py-6 border-b border-l-4 ${
+      className={`md:flex items-start w-full p-5 md:px-5 md:py-6 border-b border-l-8 ${
         selected ? ' border-l-primary-400' : ''
       } ${disabled ? 'disabled' : ''}`}
     >

@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuthContext } from '@/app/(private)/context';
-import AdminDeal from '@/components/Deals/Admin';
-import ClientDeal from '@/components/Deals/Client';
+import Admin from '@/components/Deals/Admin';
+import Client from '@/components/Deals/Client';
 import LoadingDeal from '@/components/Loading/Deal';
 import None from '@/components/None';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -41,6 +41,7 @@ export default function DealID() {
       if (_deal) {
         setHasRole(isOwner);
         setDeal(_deal);
+        console.log(_deal);
       }
 
       if (isOwner) {
@@ -105,8 +106,8 @@ export default function DealID() {
       {!loading && !deal && <None text="No deal found." />}
       {!loading && deal && (
         <div>
-          {hasRole && <AdminDeal deal={deal} />}
-          {!hasRole && <ClientDeal deal={deal} />}
+          {hasRole && <Admin deal={deal} />}
+          {!hasRole && <Client deal={deal} />}
         </div>
       )}
     </div>
