@@ -215,7 +215,7 @@ export default function InvestmentId() {
                     />
                   </div>
                   <div>
-                    {investment.investments_files.length > 0 && <>hey</>}
+                    {investment.investments_files.length > 0 && <></>}
                     {investment.investments_files.length > 0 && (
                       <Table
                         data={investment.investments_files.map((f: any) => ({
