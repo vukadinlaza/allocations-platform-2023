@@ -26,9 +26,11 @@ export default function DealProductSetup({ deal }: { deal: Deal }) {
         newDeal;
       const promises = [
         saveDeal({
+          id: deal.id,
           organization_id
         }),
         saveDealDetails({
+          id: deal.deal_details_id,
           agree_msa,
           fund_manager_email,
           sub_type

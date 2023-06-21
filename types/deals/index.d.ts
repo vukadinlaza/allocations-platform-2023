@@ -40,6 +40,7 @@ export interface Deal {
   closed?: boolean;
   company_name?: string;
   deal_term?: string;
+  deal_details_id?: string;
   description?: string;
   documents?: string;
   documents_template_id?: string;

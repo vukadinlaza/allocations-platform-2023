@@ -40,24 +40,39 @@ export default function DealID() {
 
       if (_deal) {
         setHasRole(isOwner);
-        setDeal(_deal);
-        console.log(_deal);
       }
+
+      let finalDeal = _deal;
 
       if (isOwner) {
-        const { data: private_deal } = await supabase
-          .from('private_deals')
-          .select('*')
-          .eq('id', params.id)
-          .single();
+        const [privateDeal, dealDetails] = await Promise.all([
+          supabase
+            .from('private_deals')
+            .select('*')
+            .eq('id', params.id)
+            .single(),
+          supabase
+            .from('deal_details')
+            .select('*')
+            .eq('deal_id', finalDeal.id)
+            .single()
+        ]);
 
-        if (private_deal) {
-          setDeal((prev: any) => ({
-            ...private_deal,
-            ...prev
-          }));
+        const dealData = privateDeal.data;
+        const dealDetailsData = dealDetails.data;
+
+        if (dealData && dealDetailsData) {
+          const { id, ...rest } = dealDetailsData;
+          finalDeal = {
+            ...finalDeal,
+            ...dealData,
+            ...rest,
+            deal_details_id: id
+          };
         }
       }
+
+      setDeal(finalDeal);
     } catch (error) {
       // console.error(error);
     } finally {
@@ -70,6 +85,7 @@ export default function DealID() {
   }, []);
 
   useEffect(() => {
+    console.log(deal);
     if (deal) {
       const watchForDeal = supabase
         .channel('deals_subscribers')

@@ -2,10 +2,12 @@
 import { Deal } from '@/types';
 import Image from 'next/image';
 import { useState } from 'react';
-import DealProductSetup from './ProductSetup';
+import DealProductSetup from './Product';
+import DealSetup from './Setup';
+import DealUpload from './Upload';
 
 export default function DealEdit({ deal }: { deal: Deal }) {
-  const [active, setActive] = useState<string>('Product Setup');
+  const [active, setActive] = useState<string>('Deal Setup');
 
   const steps = [
     {
@@ -44,6 +46,7 @@ export default function DealEdit({ deal }: { deal: Deal }) {
                 ? 'bg-primary-500 text-white'
                 : ' hover:bg-gray-50'
             }`}
+            onClick={() => setActive(step.name)}
           >
             <span>{step.name}</span>
             <Image
@@ -62,6 +65,8 @@ export default function DealEdit({ deal }: { deal: Deal }) {
       </div>
       <div className="w-full">
         {active === 'Product Setup' && <DealProductSetup deal={deal} />}
+        {active === 'Deal Setup' && <DealSetup deal={deal} />}
+        {active === 'Upload Documents' && <DealUpload deal={deal} />}
       </div>
     </div>
   );
