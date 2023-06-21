@@ -39,7 +39,7 @@ export default function DealEdit({ deal }: { deal: Deal }) {
   ]);
 
   return (
-    <div className="flex items-start gap-4">
+    <div className="grid items-start gap-4 md:flex">
       <div
         className="grid gap-2 p-1 bg-white border rounded-lg"
         style={{ minWidth: 250 }}

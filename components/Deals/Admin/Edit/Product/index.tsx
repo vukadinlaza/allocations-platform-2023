@@ -116,6 +116,7 @@ export default function DealProductSetup({ deal }: { deal: Deal }) {
           selected={newDeal.fund_manager_email}
           component={
             <SelectManager
+              selected={deal.fund_manager_email}
               organizationId={newDeal.organization_id}
               onChange={(fund_manager_email: string) => {
                 setNewDeal((prev: any) => ({

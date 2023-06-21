@@ -69,7 +69,7 @@ export default function DealSetup({ deal }: { deal: Deal }) {
       setLoading(true);
       const { agree_setup, agree_costs } = newDeal;
       const promises = [
-        saveDealDetails({ id: deal.deal_details_id, agree_setup, agree_costs })
+        saveDealDetails({ agree_setup, agree_costs, id: deal.deal_details_id })
       ];
       const [dealResponse] = await Promise.all(promises);
       const { error } = dealResponse;
@@ -109,8 +109,8 @@ export default function DealSetup({ deal }: { deal: Deal }) {
   };
 
   useEffect(() => {
-    const { agree_setup, agree_costs } = deal;
-    setNewDeal({ agree_setup, agree_costs });
+    setNewDeal(deal);
+    console.log(deal);
   }, [deal]);
 
   return (

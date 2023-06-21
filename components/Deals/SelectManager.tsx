@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import Select from '../Select';
 
 export default function SelectManager({
+  selected,
   onChange,
   organizationId
 }: {
+  selected?: string;
   onChange: any;
   organizationId: string;
 }) {
@@ -35,6 +37,10 @@ export default function SelectManager({
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (selected) setSelectedEmail(selected);
+  }, []);
 
   useEffect(() => {
     if (selectedEmail) {
