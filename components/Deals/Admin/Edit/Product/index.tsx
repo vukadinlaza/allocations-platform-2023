@@ -2,7 +2,7 @@
 import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
-import SelectProductType from '@/components/Deals/Admin/_Edit/ProductType';
+import SelectProductType from '@/components/Deals/Admin/Edit/Product/ProductType';
 import SelectManager from '@/components/Deals/SelectManager';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';
@@ -131,7 +131,6 @@ export default function DealProductSetup({ deal }: { deal: Deal }) {
             selected={newDeal.sub_type}
             component={
               <SelectProductType
-                deal={newDeal}
                 selected={newDeal.sub_type}
                 onChange={(sub_type: string) => {
                   setNewDeal((prev: any) => ({

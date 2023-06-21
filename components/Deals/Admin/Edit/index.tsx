@@ -10,29 +10,33 @@ import DealUpload from './Upload';
 
 export default function DealEdit({ deal }: { deal: Deal }) {
   const [active, setActive] = useState<string>('Product Setup');
-
-  const steps = [
+  const [steps, setSteps] = useState([
     {
       name: 'Product Setup',
-      is_valid: false
+      is_valid:
+        deal.organization_id &&
+        deal.fund_manager_email &&
+        deal.sub_type &&
+        deal.agree_msa
     },
     {
       name: 'Deal Setup',
-      is_valid: false
+      is_valid: deal.name && deal.minimum_investment && deal.memo
     },
     {
       name: 'Upload Documents',
-      is_valid: false
+      is_valid: true
     },
     {
       name: 'Legal Formations',
-      is_valid: false
+      is_valid:
+        deal.legal_template_option && deal.offering_type && deal.investor_type
     },
     {
       name: 'Review & Submit',
-      is_valid: false
+      is_valid: deal.agree_costs && deal.agree_costs
     }
-  ];
+  ]);
 
   return (
     <div className="flex items-start gap-4">
@@ -45,7 +49,7 @@ export default function DealEdit({ deal }: { deal: Deal }) {
             key={index}
             className={`flex items-center justify-between gap-8 px-4 py-2 text-sm font-medium rounded-lg cursor-pointer  ${
               active === step.name
-                ? 'bg-primary-500 text-white'
+                ? 'bg-gray-200 text-black'
                 : ' hover:bg-gray-50'
             }`}
             onClick={() => setActive(step.name)}
@@ -58,7 +62,7 @@ export default function DealEdit({ deal }: { deal: Deal }) {
                   : '/checked_rounded_empty.svg'
               }
               alt="checked"
-              className={`${step.is_valid ? '' : 'opacity-25'} `}
+              className={`${step.is_valid ? 'opacity-100' : 'opacity-25'} `}
               width={16}
               height={16}
             />
