@@ -85,7 +85,6 @@ export default function DealID() {
   }, []);
 
   useEffect(() => {
-    console.log(deal);
     if (deal) {
       const watchForDeal = supabase
         .channel('deals_subscribers')

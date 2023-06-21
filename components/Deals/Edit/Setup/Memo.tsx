@@ -33,14 +33,12 @@ export default function DealMemo({
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    console.log(deal);
     if (deal.memo) {
       setContent(deal.memo);
     }
   }, [deal]);
 
   useEffect(() => {
-    console.log(content);
     onChange(content);
   }, [content]);
 
