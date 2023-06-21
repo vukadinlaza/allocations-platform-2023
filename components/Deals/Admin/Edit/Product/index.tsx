@@ -2,7 +2,7 @@
 import { useAuthContext } from '@/app/(private)/context';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
-import SelectProductType from '@/components/Deals/Admin/Edit/ProductType';
+import SelectProductType from '@/components/Deals/Admin/_Edit/ProductType';
 import SelectManager from '@/components/Deals/SelectManager';
 import SelectOrganization from '@/components/Organizations/SelectOrganization';
 import Step from '@/components/Step';

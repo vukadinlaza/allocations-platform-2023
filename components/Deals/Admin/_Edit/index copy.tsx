@@ -2,12 +2,12 @@
 import NewAsset from '@/components/Assets/New';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
-import DealEstimatedCosts from '@/components/Deals/Admin/Edit/EstimatedCost';
-import DealInformations from '@/components/Deals/Admin/Edit/Informations';
-import DealLegalDocuments from '@/components/Deals/Admin/Edit/LegalDocuments';
-import SelectProductType from '@/components/Deals/Admin/Edit/ProductType';
-import DealBanking from '@/components/Deals/Edit/Legal/Banking';
-import DealCompliance from '@/components/Deals/Edit/Legal/Compliance';
+import DealBanking from '@/components/Deals/Admin/Edit/Legal/Banking';
+import DealCompliance from '@/components/Deals/Admin/Edit/Legal/Compliance';
+import DealEstimatedCosts from '@/components/Deals/Admin/Edit/Submit/EstimatedCost';
+import DealInformations from '@/components/Deals/Admin/_Edit/Informations';
+import DealLegalDocuments from '@/components/Deals/Admin/_Edit/LegalDocuments';
+import SelectProductType from '@/components/Deals/Admin/_Edit/ProductType';
 import KYC from '@/components/Identity/KYC';
 import LoadingForm from '@/components/Loading/Form';
 import SelectMasterSeries from '@/components/MasterSeries/SelectMasterSeries';
@@ -197,7 +197,6 @@ export default function DealAdminEdit({ deal }: { deal: Deal }) {
   };
 
   useEffect(() => {
-    // TODO: from user_personal_identities to identities
     if (user && user.identities) {
       setHasIdentity(user.identities.length > 0);
     }

@@ -1,11 +1,11 @@
 'use client';
 
+import DealEdit from '@/components/Deals/Admin/Edit';
 import DealHeader from '@/components/Deals/Admin/Header';
 import DealAdminBanking from '@/components/Deals/Admin/Tabs/Banking';
 import DealAdminDocuments from '@/components/Deals/Admin/Tabs/Documents';
 import DealAdminInvestors from '@/components/Deals/Admin/Tabs/Investors';
 import Client from '@/components/Deals/Client';
-import DealEdit from '@/components/Deals/Edit';
 import Nav from '@/components/Nav';
 import None from '@/components/None';
 import { Deal } from '@/types';

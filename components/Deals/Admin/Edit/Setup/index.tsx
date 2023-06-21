@@ -2,8 +2,8 @@
 import Button from '@/components/Button';
 import DealInformations, {
   keys
-} from '@/components/Deals/Edit/Setup/Informations';
-import DealMemo from '@/components/Deals/Edit/Setup/Memo';
+} from '@/components/Deals/Admin/Edit/Setup/Informations';
+import DealMemo from '@/components/Deals/Admin/Edit/Setup/Memo';
 import Step from '@/components/Step';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';

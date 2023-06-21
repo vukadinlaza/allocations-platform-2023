@@ -5,9 +5,11 @@ import { useState } from 'react';
 import DealLegal from './Legal';
 import DealProductSetup from './Product';
 import DealSetup from './Setup';
+import DealSubmit from './Submit';
+import DealUpload from './Upload';
 
 export default function DealEdit({ deal }: { deal: Deal }) {
-  const [active, setActive] = useState<string>('Legal Formations');
+  const [active, setActive] = useState<string>('Product Setup');
 
   const steps = [
     {
@@ -66,8 +68,9 @@ export default function DealEdit({ deal }: { deal: Deal }) {
       <div className="w-full">
         {active === 'Product Setup' && <DealProductSetup deal={deal} />}
         {active === 'Deal Setup' && <DealSetup deal={deal} />}
-        {active === 'Deal Setup' && <DealSetup deal={deal} />}
+        {active === 'Upload Documents' && <DealUpload deal={deal} />}
         {active === 'Legal Formations' && <DealLegal deal={deal} />}
+        {active === 'Review & Submit' && <DealSubmit deal={deal} />}
       </div>
     </div>
   );
