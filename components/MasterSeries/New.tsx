@@ -6,7 +6,7 @@ import {
   deal_master_series_structures
 } from '@/types/values';
 import { useAuthContext } from 'app/(private)/context';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Checkbox from '../Checkbox';
 import { getPricing } from '../Deals/Admin/Edit/Submit/EstimatedCost';
 import FormBuilder from '../FormBuilder';
@@ -108,10 +108,6 @@ export default function NewMasterSeries({ onCreate, organizationId }: Props) {
     }
     return total;
   };
-
-  useEffect(() => {
-    console.log(newMasterSeries);
-  }, [newMasterSeries]);
 
   return (
     <div className="w-full mb-2">
