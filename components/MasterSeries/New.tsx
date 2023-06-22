@@ -28,7 +28,8 @@ export default function NewMasterSeries({ onCreate, organizationId }: Props) {
     is_upkeep: false,
     is_standalone: false,
     master_entity_legal_structure: 'LLC',
-    priority: 'Standard'
+    priority: 'Standard',
+    organization_id: organizationId
   });
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -49,6 +50,10 @@ export default function NewMasterSeries({ onCreate, organizationId }: Props) {
   ];
 
   const createNew = async () => {
+    if (!newMasterSeries.organization_id)
+      return alert(
+        'Sorry, you should first add an organization to create a new entity'
+      );
     if (!user && !organizationId) return;
     try {
       setLoading(true);
@@ -57,8 +62,7 @@ export default function NewMasterSeries({ onCreate, organizationId }: Props) {
         .from('master_series')
         .insert({
           ...newMasterSeries,
-          user_email: user.email,
-          organization_id: organizationId
+          user_email: user.email
         })
         .select()
         .single();
@@ -75,7 +79,8 @@ export default function NewMasterSeries({ onCreate, organizationId }: Props) {
         type: 'master_series',
         user_email: user.email,
         item_id: data.id,
-        amount: calculateTotal()
+        amount: calculateTotal(),
+        organization_id: organizationId
       });
 
       console.log(invoice);
