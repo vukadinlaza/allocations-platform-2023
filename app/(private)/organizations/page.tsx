@@ -6,7 +6,6 @@ import NewOrganization from '@/components/Organizations/New';
 import PageHeader from '@/components/Page/Header';
 import { openURL } from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
-import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -33,6 +32,7 @@ export default function Organizations() {
 
   useEffect(() => {
     getOrganizations();
+    
     const organizationsRoles = supabase
       .channel('organizations_subscribers')
       .on(
@@ -51,7 +51,7 @@ export default function Organizations() {
   }, []);
 
   return (
-    <Card className="container card" variant="outlined">
+    <div className="container container--card">
       {loading && <LoadingApp />}
       {!loading && (
         <div className="w-full">
@@ -91,6 +91,6 @@ export default function Organizations() {
           </div>
         </div>
       )}
-    </Card>
+    </div>
   );
 }

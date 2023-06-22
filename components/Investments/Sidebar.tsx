@@ -63,7 +63,7 @@ export default function InvestmentSidebar({ deal }: { deal: Deal }) {
     const conditions = [
       () => deal?.documents_template_id,
       () =>
-        ['onboarding', 'closing'].includes(String(deal.status).toLowerCase())
+        ['onboarding', 'closed'].includes(String(deal.status).toLowerCase())
     ];
     return conditions.every((condition) => condition());
   };
