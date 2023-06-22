@@ -87,7 +87,7 @@ export default function SelectOrganization({
               placeholder="Select an organization"
               disabled={disabled}
               selected={selectedOrganization?.name}
-              items={organizations.map((o) => o.name)}
+              items={organizations.map((o) => o.name).sort()}
               onChange={(str: string) => {
                 setSelectedOrganization(
                   organizations.find((o) => o.name === str)

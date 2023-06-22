@@ -4,7 +4,7 @@ export default function ChipStatus({
   toSelect = false,
   small = false
 }: {
-  status: string | null | undefined;
+  status: string;
   selected?: boolean;
   toSelect?: boolean;
   small?: boolean;
@@ -40,6 +40,13 @@ export default function ChipStatus({
     wired: 'bg-primary-500'
   };
 
+  const replaceStatus = (status: string) => {
+    if (!status) return;
+    if (status === 'created_at') return 'By date';
+    if (status === 'total_raised_amount') return 'By total raised amount';
+    return status;
+  };
+
   return (
     <div
       className={`inline text-white rounded-full ${
@@ -47,10 +54,12 @@ export default function ChipStatus({
       } text-sm md:text-sm items-center ${
         status && !toSelect && colors[status.replace(' ', '_').toLowerCase()]
           ? colors[status.replace(' ', '_').toLowerCase()]
-          : selected ? 'bg-primary-500' : colors.no_color
+          : selected
+          ? 'bg-primary-500'
+          : colors.no_color
       } capitalize`}
     >
-      {status?.replace('_', ' ')}
+      {status && <>{replaceStatus(status).replace('_', ' ')}</>}
     </div>
   );
 }
