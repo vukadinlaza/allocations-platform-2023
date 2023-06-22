@@ -41,10 +41,9 @@ export default function ChipStatus({
   };
 
   const replaceStatus = (status: string) => {
-    if (!status) return;
     if (status === 'created_at') return 'By date';
     if (status === 'total_raised_amount') return 'By total raised amount';
-    return status;
+    return status || '';
   };
 
   return (
