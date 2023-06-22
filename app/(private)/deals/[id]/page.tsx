@@ -62,6 +62,7 @@ export default function DealID() {
         const dealDetailsData = dealDetails.data;
 
         if (dealData && dealDetailsData) {
+          // no mix between ids, split into deal_details_id here
           const { id, ...rest } = dealDetailsData;
           finalDeal = {
             ...finalDeal,
@@ -100,15 +101,35 @@ export default function DealID() {
           (payload: any) => {
             const { eventType } = payload;
             const newElement: any = payload.new;
-            if (eventType === 'UPDATE') {
-              const { status } = newElement;
-              if (status !== deal.status) {
-                setDeal((prev: any) => ({
-                  ...prev,
-                  status
-                }));
-              }
-            }
+            setDeal((prev: any) => ({
+              ...prev,
+              newElement
+            }));
+          }
+        )
+        .subscribe();
+
+      const watchForDealDetails = supabase
+        .channel('deals_details_subscribers')
+        .on(
+          // @ts-ignore
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'deal_details',
+            filter: `id=eq.${deal.deal_details_id}`
+          },
+          (payload: any) => {
+            const { eventType } = payload;
+            const newElement: any = payload.new;
+            // no mix between ids, split into deal_details_id here
+            const { id, ...rest } = newElement;
+            setDeal((prev: any) => ({
+              ...prev,
+              deal_details_id: id,
+              ...rest,
+            }));
           }
         )
         .subscribe();

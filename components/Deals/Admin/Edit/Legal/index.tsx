@@ -102,7 +102,7 @@ export default function DealLegal({ deal }: { deal: Deal }) {
                 </header>
                 <NewAsset
                   asset={newDeal.assets ? newDeal.assets[0] : null}
-                  dealId={deal.deal_details_id}
+                  dealId={deal.id}
                   onCreate={async (asset: any) => {
                     await fetchDealAssets();
                   }}
