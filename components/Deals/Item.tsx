@@ -1,12 +1,51 @@
-import { getFirstLetter } from '@/lib/utils';
+'use client';
+import { getFirstLetter, limitString } from '@/lib/utils';
+import Image from 'next/image';
+import ChipStatus from '../ChipStatus';
+import { openURL } from '../Table';
 
-export default function DealItem({ deal }: { deal: any }) {
+export default function DealItem({
+  deal,
+  details = false
+}: {
+  deal: any;
+  details?: boolean;
+}) {
   return (
-    <div className="flex items-center justify-between w-full p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-      <div className="items-center justify-center hidden w-8 h-8 mr-4 text-lg text-white rounded md:flex bg-primary-400">
-        {getFirstLetter(deal.name)}
+    <div
+      className="item"
+      onClick={() => {
+        if (details) openURL(`/deals/${deal.id}`);
+      }}
+    >
+      <div className="item--thumbnail">
+        {deal.name && getFirstLetter(deal.name)}
       </div>
-      <div className="flex flex-col grow">{deal.name}</div>
+      <div className="grid items-start pr-2 grow" style={{ maxWidth: 200 }}>
+        {deal.name && (
+          <p className="text-sm font-medium truncate">
+            {deal.name && deal.name.length > 1
+              ? limitString(deal.name, 33)
+              : 'No name'}
+          </p>
+        )}
+      </div>
+      {details && (
+        <div className="flex items-center justify-end gap-2 grow">
+          <div className="flex justify-end grow">
+            <ChipStatus status={deal.status} />
+          </div>
+          <div>
+            <Image
+              src="/settings.svg"
+              alt={'settings'}
+              className="opacity-50"
+              width={18}
+              height={18}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

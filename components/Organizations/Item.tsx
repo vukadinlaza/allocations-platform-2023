@@ -11,7 +11,7 @@ export default function OrganizationItem({
 }) {
   return (
     <div className="item">
-      <div className="items-center justify-center hidden mr-4 text-lg text-white rounded shadow-sm w-9 h-9 md:flex bg-primary-400">
+      <div className="item--thumbnail">
         {organization.name && getFirstLetter(organization.name)}
       </div>
       <div className="grid items-start pr-2 grow">
