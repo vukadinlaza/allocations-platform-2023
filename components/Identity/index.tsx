@@ -24,7 +24,11 @@ export default function NewCompany({
   onUpdate: () => void;
   identity?: any;
 }) {
-  const [newCompany, setNewCompany] = useState<any>({});
+  const [newCompany, setNewCompany] = useState<any>({
+    entity_type: investment_identity_types[0],
+    type: entity_type[0],
+    status: 'queued'
+  });
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { user, notify } = useAuthContext();

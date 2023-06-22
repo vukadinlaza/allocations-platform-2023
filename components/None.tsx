@@ -1,11 +1,10 @@
 'use client';
 
-import Card from '@mui/material/Card';
 import Image from 'next/image';
 
 export default function None({ text }: { text: string }) {
   return (
-    <Card className="card" variant="outlined">
+    <div className="flex flex-col items-center justify-center container--card">
       <Image
         alt="None"
         src="/no_file.svg"
@@ -14,6 +13,6 @@ export default function None({ text }: { text: string }) {
         height={75}
       />
       <label>{text || ''}</label>
-    </Card>
+    </div>
   );
 }
