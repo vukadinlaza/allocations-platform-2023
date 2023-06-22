@@ -55,7 +55,27 @@ export const deal_banking_providers = [
   'Custom'
 ];
 
-export const deal_master_series = ['Allocations', 'Custom'];
+export const deal_master_series = ['Custom'];
+
+export const deal_master_series_priorities = [
+  {
+    value: 'Standard',
+    label: 'Standard: Could take up to 2 weeks — No additional charge'
+  },
+  {
+    value: 'Expedited',
+    label: 'Expedited: 5-6 business days — $450'
+  },
+  {
+    value: 'Super Rush',
+    label: 'Super Rush: Within 2 business days — $600'
+  }
+];
+
+export const deal_master_series_structures = [
+  'LLC',
+  'LP — Limited Partnership'
+];
 
 export const deal_offering_types = ['506b', '506c'];
 
@@ -93,6 +113,26 @@ export const pricing = [
     name: 'Traditional Fund',
     description: 'Our world-class Fund product',
     price: 19500
+  },
+  {
+    name: 'Entity upkeep',
+    description: 'Charged every year',
+    price: 500
+  },
+  {
+    name: 'Entity creation',
+    description: 'Allocations to organize Delaware LLC on your behalf',
+    price: 1000
+  },
+  {
+    name: 'Expedited priority',
+    description: 'Expedited: 5-6 business days',
+    price: 450
+  },
+  {
+    name: 'Super rush priority',
+    description: 'Within 2 business days',
+    price: 600
   }
 ];
 

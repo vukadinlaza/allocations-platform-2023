@@ -3,6 +3,7 @@ import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
 import Card from '@mui/material/Card';
+import { sortBy } from 'lodash';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import NewMasterSeries from './New';
@@ -19,9 +20,8 @@ export default function SelectMasterSeries({
   selected?: string;
 }) {
   const [masterSeriesList, setMasterSeriesList] = useState<any[]>([]);
-  const [selectedMasterSeries, setSelectedMasterSeries] = useState<
-    string | null
-  >('');
+  const [selectedMasterSeries, setSelectedMasterSeries] =
+    useState<string>('Allocations');
   const [create, setCreate] = useState<boolean>(false);
   const [loadingMasterSeries, setLoadingMasterSeries] = useState<boolean>(true);
 
@@ -33,7 +33,7 @@ export default function SelectMasterSeries({
       const { data, error } = await fetchMasterSeries();
 
       if (data) {
-        setMasterSeriesList(data);
+        setMasterSeriesList(sortBy(data, ['name']));
       }
     } catch (error) {
       console.log(error);
@@ -68,7 +68,7 @@ export default function SelectMasterSeries({
     <div className="w-full">
       <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Select an entity</h2>
-        <p>List of available master series</p>
+        <p>List of available entities</p>
       </header>
       {loadingMasterSeries && <div className="w-full h-12 loading" />}
       {!loadingMasterSeries && (
@@ -102,7 +102,7 @@ export default function SelectMasterSeries({
           }
           color="info"
           loading={loading || loadingMasterSeries}
-          label="New master series"
+          label="New master entity"
           onClick={() => setCreate(!create)}
         />
       </div>

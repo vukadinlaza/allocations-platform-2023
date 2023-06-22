@@ -4,25 +4,24 @@ import { Deal } from '@/types';
 import { pricing } from '@/types/values';
 import { useEffect, useState } from 'react';
 
+export const getPricing = (selected: string) => {
+  const item = pricing.find((p) => p.name === selected);
+  if (!item) return;
+  return (
+    <div className="flex items-start justify-between w-full px-4 py-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+      <div>
+        <h2 className="mb-0 text-lg font-medium">{item.name}</h2>
+        <p>{item.description}</p>
+      </div>
+      <div className="text-base font-medium">
+        <Price price={item.price} />
+        <span className="text-primary-500">*</span>
+      </div>
+    </div>
+  );
+};
 export default function EstimatedCosts({ deal }: { deal: Deal }) {
   const [selected, setSelected] = useState<any>(undefined);
-
-  const getPricing = () => {
-    const item = pricing.find((p) => p.name === selected);
-    if (!item) return;
-    return (
-      <div className="flex items-start justify-between w-full px-4 py-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-        <div>
-          <h2 className="mb-0 text-lg font-medium">{item.name}</h2>
-          <p>{item.description}</p>
-        </div>
-        <div className="text-base font-medium">
-          <Price price={item.price} />
-          <span className="text-primary-500">*</span>
-        </div>
-      </div>
-    );
-  };
 
   useEffect(() => {
     if (deal.sub_type) setSelected(deal.sub_type);
@@ -33,7 +32,7 @@ export default function EstimatedCosts({ deal }: { deal: Deal }) {
       <header className="flex flex-col items-start mb-4">
         <h2 className="text-xl">Estimated costs</h2>
       </header>
-      {pricing && <div>{getPricing()}</div>}
+      {pricing && <div>{getPricing(selected)}</div>}
       <div className="mt-4">
         <p className="flex gap-1 text-sm">
           <span className="font-medium text-primary">*</span>
