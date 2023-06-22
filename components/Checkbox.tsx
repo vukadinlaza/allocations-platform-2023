@@ -13,7 +13,7 @@ const Checkbox = ({
 }) => {
   return (
     <div
-      className={`flex items-start my-3 cursor-pointer ${
+      className={`flex items-start my-2 cursor-pointer ${
         disabled ? 'disabled' : ''
       }`}
       onClick={onChange}

@@ -1,5 +1,5 @@
 'use client';
-import LoadingApp from '@/components/Loading/App';
+import LoadingList from '@/components/Loading/List';
 import ModalButton from '@/components/Modal/Button';
 import OrganizationItem from '@/components/Organizations/Item';
 import NewOrganization from '@/components/Organizations/New';
@@ -32,7 +32,7 @@ export default function Organizations() {
 
   useEffect(() => {
     getOrganizations();
-    
+
     const organizationsRoles = supabase
       .channel('organizations_subscribers')
       .on(
@@ -52,7 +52,7 @@ export default function Organizations() {
 
   return (
     <div className="container container--card">
-      {loading && <LoadingApp />}
+      {loading && <LoadingList />}
       {!loading && (
         <div className="w-full">
           <PageHeader

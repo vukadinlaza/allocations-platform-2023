@@ -47,7 +47,7 @@ export default function DealItem({
       </div>
       {details && (
         <div className="flex items-center justify-end gap-4 grow">
-          <div className="flex gap-2 text-sm font-medium text-black-500">
+          <div className="flex gap-2 text-sm text-gray-500">
             <Price price={deal.total_raised_amount} />
           </div>
           <div className="flex justify-end grow">

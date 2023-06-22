@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 interface ButtonProps {
   onClick: () => void;
   loading?: boolean;
-  label: string;
+  label: any;
   disabled?: boolean;
   small?: boolean;
   color?: string;

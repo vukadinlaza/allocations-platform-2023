@@ -97,6 +97,10 @@ export default function SupabaseProvider({
     return await supabase.from('deal_details').upsert(deal).select();
   };
 
+  const saveInvoice = async (invoice: any) => {
+    return await supabase.from('invoices').upsert(invoice).select();
+  };
+
   const updateUser = async (newUser: any) => {
     if (!newUser) return;
 
@@ -118,6 +122,7 @@ export default function SupabaseProvider({
       fetchInvestments,
       saveDeal,
       saveDealDetails,
+      saveInvoice,
       updateUser
     }),
     [supabase]
