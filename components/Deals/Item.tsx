@@ -22,7 +22,10 @@ export default function DealItem({
       <div className="item--thumbnail">
         {deal.name && getFirstLetter(deal.name)}
       </div>
-      <div className="grid items-start pr-2" style={{ minWidth: 250 }}>
+      <div
+        className="grid items-start pr-2"
+        style={{ minWidth: 200, maxWidth: 200 }}
+      >
         {deal.name && (
           <p className="pb-0 text-sm font-medium truncate">
             {deal.name && deal.name.length > 1
