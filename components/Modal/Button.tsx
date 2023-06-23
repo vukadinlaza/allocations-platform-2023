@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
 export default function ModalButton({
   content,
   title,
-  button,
+  label = 'Create new',
   isOpen = false,
   onChange,
   icon,
@@ -28,7 +28,7 @@ export default function ModalButton({
 }: {
   content?: any;
   title?: string;
-  button?: any;
+  label?: string;
   isOpen?: boolean;
   onChange?: (boolean: any) => void;
   icon?: any;
@@ -62,7 +62,7 @@ export default function ModalButton({
       {!isIcon && (
         <Button
           icon={icon}
-          label={button?.label || 'Create new'}
+          label={label}
           onClick={() => {
             setOpenModal(true);
           }}

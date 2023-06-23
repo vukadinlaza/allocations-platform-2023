@@ -1,20 +1,19 @@
-type SelectProps<T> = {
-  items: T[] | null | undefined;
-  onChange: (selected: string) => any;
-  displayLabel?: (item: any) => any;
-  selected?: any;
-  disabled?: boolean;
-  placeholder?: string;
-};
-
-function Select<T>({
+'use client';
+function Select({
   items,
   onChange,
   displayLabel,
   selected,
   disabled = false,
   placeholder = 'Select an option'
-}: SelectProps<T>) {
+}: {
+  items: any[];
+  onChange: (selected: string) => any;
+  displayLabel?: (item: any) => any;
+  selected?: any;
+  disabled?: boolean;
+  placeholder?: string;
+}) {
   const handleSelectChange = (e: any) => {
     if (!items) return;
     onChange(e.target.value);

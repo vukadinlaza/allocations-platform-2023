@@ -88,7 +88,7 @@ export default function OrganizationID() {
                         height={18}
                       />
                     }
-                    button={{ label: `Add a member` }}
+                    label="Add a member"
                     title={`Add a member ${
                       organization.name ? 'to ' + organization.name : ''
                     }`}

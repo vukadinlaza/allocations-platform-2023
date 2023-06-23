@@ -1,15 +1,17 @@
 'use client';
 
 import { navigation } from '@/app/(private)/config';
-import AlertsMigration from '@/components/Alerts/Migration';
 import AlertsIdentity from '@/components/Alerts/Identity';
+import AlertsMigration from '@/components/Alerts/Migration';
 import { useAuthContext } from 'app/(private)/context';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import NewDeal from './Deals/New';
 import Logo from './Logo';
 import MenuAvatar from './MenuAvatar';
 import MissingData from './MissingData';
+import ModalButton from './Modal/Button';
 
 export default function Header({
   expand,
@@ -19,7 +21,8 @@ export default function Header({
   setExpand: any;
 }) {
   const pathname = usePathname();
-  const { user, setCurrentOrganization } = useAuthContext();
+  const [modalOpen, setModalOpen] = useState(false);
+  const { user } = useAuthContext();
 
   return (
     <div className="header">
@@ -62,8 +65,17 @@ export default function Header({
             ))}
           </div>
         )}
-        <div className="mr-2">
-          <div
+        <div className="flex items-center gap-2 mr-2">
+          <ModalButton
+            isOpen={modalOpen}
+            onChange={setModalOpen}
+            title="Create a new deal"
+            label="Create a new deal"
+            content={
+              <NewDeal selectType={true} onCreate={() => setModalOpen(false)} />
+            }
+          />
+          {/* <div
             className="p-1 transition rounded cursor-pointer bg-gray-50 hover:bg-gray-100"
             onClick={() => setExpand(!expand)}
           >
@@ -74,7 +86,7 @@ export default function Header({
               width={24}
               height={24}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

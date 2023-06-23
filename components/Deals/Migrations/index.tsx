@@ -2,11 +2,13 @@
 
 import Button from '@/components/Button';
 import LoadingList from '@/components/Loading/List';
+import ModalButton from '@/components/Modal/Button';
 import PageHeader from '@/components/Page/Header';
 import { useSupabase } from '@/lib/supabase-provider';
 import { orderBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import DealItem from '../Item';
+import NewDeal from '../New';
 
 const limitation = 25;
 
@@ -51,11 +53,16 @@ export default function Migrations() {
               length: deals.length
             }}
             content={
-              <div></div>
-              // <ModalButton
-              //   title="Create a new Migration"
-              //   content={<NewDeal type={'spv'} onCreate={() => {}} />}
-              // />
+              <ModalButton
+                title="Create a new Migration"
+                content={
+                  <NewDeal
+                    selectType={true}
+                    isMigration={true}
+                    onCreate={() => {}}
+                  />
+                }
+              />
             }
           />
           <div className="grid gap-2">
