@@ -21,7 +21,7 @@ export default function TaxesItem({ tax }: { tax: any }) {
         <div className="flex flex-col">
           <span className="mb-0 text-sm font-medium truncate">
             {tax.entity_name && tax.entity_name.length > 1
-              ? limitString(tax.entity_name, 32)
+              ? limitString(tax.entity_name, 28)
               : 'No name'}
           </span>
           <label className="text-xs ">{tax.tax_year}</label>
