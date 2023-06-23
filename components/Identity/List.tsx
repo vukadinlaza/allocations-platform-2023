@@ -10,12 +10,14 @@ export const IdentityList = ({
   type,
   selectedId,
   onSelect,
-  details = false
+  details = false,
+  emitIdentities
 }: {
   type?: any;
   selectedId?: string;
   details?: boolean;
   onSelect: (identityId: string) => void;
+  emitIdentities?: (v: any) => any;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(5);
@@ -33,6 +35,9 @@ export const IdentityList = ({
       const { data } = await query;
       if (data) {
         setIdentities(data as Identity[]);
+      }
+      if (emitIdentities) {
+        emitIdentities(identities);
       }
     } catch (error) {
       console.error(error);

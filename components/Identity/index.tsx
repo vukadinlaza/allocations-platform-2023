@@ -31,8 +31,9 @@ export default function NewCompany({
   });
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasOneIndividual, setHasOneIndividual] = useState<any>(false);
   const { user, notify } = useAuthContext();
-  const { supabase } = useSupabase();
+  const { supabase, fetchIdentities } = useSupabase();
 
   // set parent here
   const [parentEntityId, setParentEntityId] = useState<any>(null);
@@ -46,10 +47,9 @@ export default function NewCompany({
       type: 'select',
       placeholder: 'United States',
       show: true,
-      items:
-        user.identities.length > 0
-          ? investment_identity_types
-          : investment_identity_types.filter((x) => x === individual)
+      items: hasOneIndividual
+        ? investment_identity_types
+        : investment_identity_types.filter((x) => x === individual)
     },
     {
       label: 'Select a country of citizenship*',
@@ -193,6 +193,14 @@ export default function NewCompany({
     return true;
   };
 
+  const getIdentities = async () => {
+    const { data } = await fetchIdentities();
+    if (data && data.length > 0) {
+      const hasOne = data.find((x: any) => x.entity_type === individual);
+      setHasOneIndividual(hasOne);
+    }
+  };
+
   const saveNewCompany = async () => {
     if (!checkModel()) return;
     try {
@@ -247,6 +255,10 @@ export default function NewCompany({
     return !agree;
   };
 
+  useEffect(() => {
+    getIdentities();
+  }, []);
+
   useEffect(() => {}, [newCompany]);
 
   useEffect(() => {
@@ -260,7 +272,7 @@ export default function NewCompany({
     <div>
       <div>
         <div className="mb-4">
-          {user.identities.length === 0 && (
+          {!hasOneIndividual && (
             <Alert
               close={false}
               color="bg-sky-50 text-sky-500"
