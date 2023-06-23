@@ -31,8 +31,9 @@ export default function NewCompany({
   });
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [hasOneIndividual, setHasOneIndividual] = useState<any>(false);
   const { user, notify } = useAuthContext();
-  const { supabase } = useSupabase();
+  const { supabase, fetchIdentities } = useSupabase();
 
   // set parent here
   const [parentEntityId, setParentEntityId] = useState<any>(null);
@@ -46,7 +47,9 @@ export default function NewCompany({
       type: 'select',
       placeholder: 'United States',
       show: true,
-      items: investment_identity_types
+      items: hasOneIndividual
+        ? investment_identity_types
+        : investment_identity_types.filter((x) => x === individual)
     },
     {
       label: 'Select a country of citizenship*',
@@ -190,6 +193,14 @@ export default function NewCompany({
     return true;
   };
 
+  const getIdentities = async () => {
+    const { data } = await fetchIdentities();
+    if (data && data.length > 0) {
+      const hasOne = data.find((x: any) => x.entity_type === individual);
+      setHasOneIndividual(hasOne);
+    }
+  };
+
   const saveNewCompany = async () => {
     if (!checkModel()) return;
     try {
@@ -240,9 +251,13 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (newCompany.entity_type !== individual) return !parentEntityId;
+    if (newCompany.entity_type !== individual) return !parentEntityId || !agree;
     return !agree;
   };
+
+  useEffect(() => {
+    getIdentities();
+  }, []);
 
   useEffect(() => {}, [newCompany]);
 
@@ -256,6 +271,26 @@ export default function NewCompany({
   return (
     <div>
       <div>
+        <div className="mb-4">
+          {!hasOneIndividual && (
+            <Alert
+              close={false}
+              color="bg-sky-50 text-sky-500"
+              content={
+                <div className="flex gap-1 text-base">
+                  <span>Please </span>
+                  <span className="font-bold">
+                    create an individual identity
+                  </span>
+                  <span>
+                    for an authorized signer before creating one for your
+                    entity.
+                  </span>
+                </div>
+              }
+            />
+          )}
+        </div>
         <FormBuilder
           data={newCompany}
           model={model}

@@ -3,18 +3,21 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
+import None from '../None';
 import IdentityItem from './Item';
 
 export const IdentityList = ({
   type,
   selectedId,
   onSelect,
-  details = false
+  details = false,
+  emitIdentities
 }: {
   type?: any;
   selectedId?: string;
   details?: boolean;
   onSelect: (identityId: string) => void;
+  emitIdentities?: (v: any) => any;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(5);
@@ -32,6 +35,9 @@ export const IdentityList = ({
       const { data } = await query;
       if (data) {
         setIdentities(data as Identity[]);
+      }
+      if (emitIdentities) {
+        emitIdentities(identities);
       }
     } catch (error) {
       console.error(error);
@@ -62,7 +68,10 @@ export const IdentityList = ({
   return (
     <>
       {loading && <LoadingList />}
-      {!loading && (
+      {!loading && identities.length === 0 && (
+        <None text="No identities yet." />
+      )}
+      {!loading && identities.length > 0 && (
         <div>
           {!details && (
             <div className="mb-2">

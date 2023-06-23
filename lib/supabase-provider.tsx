@@ -67,6 +67,10 @@ export default function SupabaseProvider({
       .order('created_at', { ascending: false });
   };
 
+  const fetchIdentities = async () => {
+    return await supabase.from('identities').select('*');
+  };
+
   const fetchEntities = async () => {
     return supabase.from('entities').select(`*`, { count: 'exact' });
   };
@@ -115,6 +119,7 @@ export default function SupabaseProvider({
     () => ({
       supabase,
       fetchUser,
+      fetchIdentities,
       fetchOrganizations,
       fetchEntities,
       fetchDeals,
