@@ -1,9 +1,9 @@
 'use client';
 import Header from '@/components/Header';
-import { validateIdentity } from '@/components/Identity/Item';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
+import { isIdentityValid } from '@/lib/utils';
 import Hotjar from '@hotjar/browser';
 import * as Sentry from '@sentry/nextjs';
 import { useLDClient } from 'launchdarkly-react-client-sdk';
@@ -22,7 +22,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const hasValidIdentities = (identities: []) => {
     if (!identities) return false;
-    return identities.every((identity: any) => validateIdentity(identity));
+    let result = true;
+    identities.forEach((identity: any) => {
+      const isValid = isIdentityValid(identity);
+      if (!isValid.success) result = false;
+    });
+    return result;
   };
 
   const onAuthStateChange = async () => {
@@ -33,23 +38,29 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        const users_infos = await fetchUser(session.user.email);
+        const user_infos = await fetchUser(session.user.email);
 
         setUser({
           ...session.user,
-          ...users_infos,
-          is_super_admin: users_infos?.is_super_admin,
-          missing_identities: !hasValidIdentities(users_infos.identities)
+          ...user_infos,
+          is_super_admin: user_infos?.is_super_admin,
+          missing_identities: user_infos.is_super_admin
+            ? false
+            : !hasValidIdentities(user_infos.identities)
         });
+        // console.log(user_infos);
+        // console.log('ARE IDENTITIES VALID?');
+        // console.log(
+        //   user.missing_identities,
+        //   hasValidIdentities(user_infos?.identities)
+        // );
         const devEnv = process.env.NODE_ENV == 'development';
 
         if (!devEnv) {
           Sentry.setUser({
             email: session.user.email,
             id: session.user.id,
-            name: `${users_infos.first_name || ''} ${
-              users_infos.last_name || ''
-            }`
+            name: `${user_infos.first_name || ''} ${user_infos.last_name || ''}`
           });
           ldClient?.identify({
             kind: 'user',

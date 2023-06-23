@@ -82,7 +82,7 @@ export default function FundManagerDashboard({ handleSwitch }: Props) {
         <div className="w-full">
           <header className="mb-8">
             <div className="items-start justify-between mb-8 md:flex">
-              <h1 className="mb-2 text-xl font-bold md:text-3xl">
+              <h1 className="mb-2 text-xl font-medium md:text-xl">
                 Fund Manager Dashboard
               </h1>
               <Button

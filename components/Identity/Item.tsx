@@ -54,7 +54,7 @@ export const checkStatus = (identity: any) => {
   const { kyc_status } = identity;
   if (!validateIdentity(identity)) return 'missing_data';
   if (kyc_status === 'error') return 'failed';
-  return kyc_status;
+  return kyc_status || 'missing_data';
 };
 
 export default function IdentityItem({
