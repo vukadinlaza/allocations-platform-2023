@@ -256,10 +256,6 @@ export default function NewCompany({
     }
   }, [identity]);
 
-  useEffect(() => {
-    console.log(newCompany);
-  }, [newCompany]);
-
   return (
     <div>
       <div>
