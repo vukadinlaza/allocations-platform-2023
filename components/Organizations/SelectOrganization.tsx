@@ -81,7 +81,7 @@ export default function SelectOrganization({
       )}
       {_loading && <div className="w-full h-12 loading" />}
       {!_loading && (
-        <div className="flex w-full gap-4 my-4 md:grid">
+        <div className="flex w-full gap-4 md:grid">
           <div className="w-full mb-4 md:mb-0">
             <Select
               placeholder="Select an organization"
