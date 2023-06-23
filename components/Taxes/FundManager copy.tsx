@@ -3,7 +3,7 @@ import LoadingList from '@/components/Loading/List';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import TaxesItem from './Item';
+import TableComponent from '../Table';
 
 export default function TaxesFundManager() {
   const { supabase } = useSupabase();
@@ -96,18 +96,15 @@ export default function TaxesFundManager() {
         .eq('tax_year', '2022')
         .order('filing_status', { ascending: true });
 
+      // irish angels
+      // let { data, error } = await supabase
+      //   .from('entities_taxes')
+      //   .select('*, entities (id, name, deals(id, name))')
+      //   .eq('organization_id', '534da345-b096-4311-a88d-4ebd360506d1')
+      //   .order('filing_status', { ascending: true });
+
       if (error) return;
-      if (data)
-        setTaxes(
-          data.map((record) => ({
-            ...record,
-            deal_names:
-              record?.entities?.deals.map((d: any) => d.name).join(', ') ?? '',
-            filing_status: record?.filing_status
-              ? record?.filing_status
-              : 'Extension Filed'
-          }))
-        );
+      if (data) setTaxes(data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -119,15 +116,34 @@ export default function TaxesFundManager() {
     fetchData();
   }, []);
 
+  const dataFixup = (records: any[]) => {
+    records = records.map((record) => ({
+      ...record,
+      deal_names:
+        record?.entities?.deals.map((d: any) => d.name).join(', ') ?? '',
+      filing_status: record?.filing_status
+        ? record?.filing_status
+        : 'Extension Filed'
+    }));
+    return records;
+  };
+
   return (
     <div className="w-full mt-6">
       {loading && <LoadingList />}
-      {!loading && (
-        <div className="grid gap-3">
-          {taxes.map((tax: any, index: number) => (
-            <TaxesItem key={index} tax={tax} />
-          ))}
+      {/* {!loading && (
+        <div>
+          {taxes.map((tax: any, index: number) => {
+            <TaxesItem key={index} tax={tax} />;
+          })}
         </div>
+      )} */}
+      {!loading && (
+        <TableComponent
+          blank_value={''}
+          headers={headers}
+          data={dataFixup(taxes)}
+        />
       )}
     </div>
   );

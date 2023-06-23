@@ -31,6 +31,7 @@ export default function ChipStatus({
     no_color: 'bg-gray-300',
     onboarding: 'bg-amber-400',
     pending: 'bg-blue-400',
+    in_review: 'bg-blue-400',
     queued: 'bg-blue-400',
     processing: 'bg-amber-400',
     rejected: 'bg-red-500',

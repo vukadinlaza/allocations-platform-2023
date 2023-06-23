@@ -1,29 +1,24 @@
 import { useAuthContext } from '@/app/(private)/context';
-import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useFlags } from 'launchdarkly-react-client-sdk';
 import Image from 'next/image';
 import { useState } from 'react';
-import Button from '../Button';
-import None from '../None';
+import Alert from '../Alert';
 import TaxesFundManager from './FundManager';
 import TaxesInvestor from './Investor';
 
 export default function Taxes() {
   const [investorView, setInvestorView] = useState<boolean>(false);
-  const [showTips, setShowTips] = useState<boolean>(true);
 
   const { user } = useAuthContext();
   let { taxDashboard } = useFlags();
 
   return (
     <>
-      {user && !user.is_super_admin && !taxDashboard && (
-        <None text="Taxes are coming soon." />
-      )}
+      {/* {user && !taxDashboard && <None text="Taxes are coming soon." />} */}
       {user && (user.is_super_admin || taxDashboard) && (
-        <div className="bg-white border rounded card">
+        <div className="container bg-white border rounded container--card">
           <header className="pb-2">
             <div>
               <h1 className="mb-2 md:text-2xl">
@@ -65,16 +60,13 @@ export default function Taxes() {
               onClick={() => setInvestorView(!investorView)}
             /> */}
           </header>
-          {showTips && (
-            <div className="grid gap-2 mb-4">
-              <Alert
-                severity="success"
-                className="text-xs"
-                onClose={() => setShowTips(false)}
-              >
-                <p className="text-sm">What is a K-1?</p>
+          <div className="grid gap-2">
+            <Alert
+              color="bg-primary-100 text-primary-800"
+              content={
                 <div>
-                  <p>
+                  <h3 className="mb-1 font-bold">What is a K-1?</h3>
+                  <span>
                     Schedule K-1 is an Internal Revenue Service (IRS) tax form
                     issued annually for an investment in partnership interests
                     to report each partner&apos;s share of the
@@ -83,29 +75,28 @@ export default function Taxes() {
                     dashboard after they are filed with the business return. K-1
                     forms are typically not included with personal tax returns,
                     but we encourage you to deliver your K-1 forms to your CPA.
-                  </p>
+                  </span>
                 </div>
-              </Alert>
-              <Alert
-                severity="success"
-                className="text-xs"
-                onClose={() => setShowTips(false)}
-              >
-                <p className="text-sm">
-                  What if my K-1 isn&apos;t ready before the deadline for filing
-                  my taxes?
-                </p>
+              }
+            />
+            <Alert
+              color="bg-primary-100 text-primary-800"
+              content={
                 <div>
-                  <p>
+                  <h3 className="mb-1 font-bold">
+                    What if my K-1 isn&apos;t ready before the deadline for
+                    filing my taxes?
+                  </h3>
+                  <span>
                     While Allocations prioritizes issuing K-1s as soon as
                     possible, the deadline has been extended until 15 September
                     2023, typically due to pending information from a portfolio
                     company or investor.
-                  </p>
+                  </span>
                 </div>
-              </Alert>
-            </div>
-          )}
+              }
+            />
+          </div>
           <div className="w-full">
             {investorView && <TaxesInvestor />}
             {!investorView && <TaxesFundManager />}
