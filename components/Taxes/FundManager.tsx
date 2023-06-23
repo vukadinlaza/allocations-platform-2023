@@ -98,7 +98,7 @@ export default function TaxesFundManager() {
       {loading && <LoadingList />}
       {!loading && (
         <div className="grid gap-3">
-          <div className="grid grid-cols-8 gap-2">
+          <div className="hidden grid-cols-8 gap-2 md:grid">
             {headers.map((header: any) => (
               <div key={header.key} className={`px-2 ${header.col}`}>
                 <label className="text-xs">{header.label}</label>

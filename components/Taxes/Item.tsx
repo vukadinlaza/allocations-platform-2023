@@ -12,36 +12,34 @@ export default function TaxesItem({ tax }: { tax: any }) {
   const [loading, setLoading] = useState(false);
   const { supabase } = useSupabase();
   const { notify } = useAuthContext();
-
-  console.log(tax);
   return (
-    <div className="grid grid-cols-8 gap-2 item">
-      <div className="flex col-span-2">
+    <div className="grid gap-2 md:grid-cols-8 item">
+      <div className="flex md:col-span-2">
         <div className="item--thumbnail" style={{ minWidth: 36, maxWidth: 36 }}>
           {tax.entity_name && getFirstLetter(tax.entity_name)}
         </div>
         <div className="flex flex-col">
           <span className="mb-0 text-sm font-medium truncate">
             {tax.entity_name && tax.entity_name.length > 1
-              ? limitString(tax.entity_name, 22)
+              ? limitString(tax.entity_name, 32)
               : 'No name'}
           </span>
           <label className="text-xs ">{tax.tax_year}</label>
         </div>
       </div>
-      <div className="flex col-span-1 gap-2 truncate">
+      <div className="hidden col-span-1 gap-2 truncate md:flex">
         <label className="text-xs truncate">{tax.deal_names}</label>
       </div>
-      <div className="flex flex-col col-span-1 truncate">
+      <div className="flex-col hidden col-span-1 truncate md:flex">
         <label className="text-xs ">{tax.entity_ein}</label>
       </div>
-      <div className="flex flex-col col-span-1 truncate">
+      <div className="flex-col hidden col-span-1 truncate md:flex">
         <label className="text-xs ">{tax.provider_id}</label>
       </div>
-      <div className="col-span-1 truncate">
+      <div className="truncate md:col-span-1">
         <ChipStatus small={true} status={tax.filing_status} />
       </div>
-      <div className="flex items-end justify-end col-span-1 truncate">
+      <div className="items-end justify-end col-span-1 truncate md:flex">
         <Button
           loading={loading}
           small={true}
@@ -74,7 +72,7 @@ export default function TaxesItem({ tax }: { tax: any }) {
           label="Download"
         />
       </div>
-      <div className="flex items-end justify-end col-span-1 truncate">
+      <div className="items-end justify-end hidden col-span-1 truncate md:flex">
         <Button
           loading={loading}
           small={true}
