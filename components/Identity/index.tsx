@@ -46,7 +46,10 @@ export default function NewCompany({
       type: 'select',
       placeholder: 'United States',
       show: true,
-      items: investment_identity_types
+      items:
+        user.identities.length > 0
+          ? investment_identity_types
+          : investment_identity_types.filter((x) => x === individual)
     },
     {
       label: 'Select a country of citizenship*',
@@ -240,7 +243,7 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (newCompany.entity_type !== individual) return !parentEntityId;
+    if (newCompany.entity_type !== individual) return !parentEntityId || !agree;
     return !agree;
   };
 
@@ -253,9 +256,33 @@ export default function NewCompany({
     }
   }, [identity]);
 
+  useEffect(() => {
+    console.log(newCompany);
+  }, [newCompany]);
+
   return (
     <div>
       <div>
+        <div className="mb-4">
+          {user.identities.length === 0 && (
+            <Alert
+              close={false}
+              color="bg-sky-50 text-sky-500"
+              content={
+                <div className="flex gap-1 text-base">
+                  <span>Please </span>
+                  <span className="font-bold">
+                    create an individual identity
+                  </span>
+                  <span>
+                    for an authorized signer before creating one for your
+                    entity.
+                  </span>
+                </div>
+              }
+            />
+          )}
+        </div>
         <FormBuilder
           data={newCompany}
           model={model}

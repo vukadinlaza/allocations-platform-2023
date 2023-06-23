@@ -3,6 +3,7 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
+import None from '../None';
 import IdentityItem from './Item';
 
 export const IdentityList = ({
@@ -62,7 +63,10 @@ export const IdentityList = ({
   return (
     <>
       {loading && <LoadingList />}
-      {!loading && (
+      {!loading && identities.length === 0 && (
+        <None text="No identities yet." />
+      )}
+      {!loading && identities.length > 0 && (
         <div>
           {!details && (
             <div className="mb-2">
