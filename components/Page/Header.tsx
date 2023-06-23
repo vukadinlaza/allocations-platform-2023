@@ -2,9 +2,11 @@
 
 export default function PageHeader({
   header,
+  subheader,
   content
 }: {
   header: any;
+  subheader?: any;
   content?: any;
 }) {
   return (
@@ -16,7 +18,10 @@ export default function PageHeader({
             <div className="chip chip--small chip--info">{header.length}</div>
           )}
         </h1>
-        <p className="text-sm">{header.description || 'No description'}</p>
+        {header.description && (
+          <p className="text-sm">{header.description || 'No description'}</p>
+        )}
+        {subheader}
       </div>
       <div className="flex items-center">{content}</div>
     </header>
