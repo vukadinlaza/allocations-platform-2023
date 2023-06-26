@@ -7,25 +7,24 @@ import { openURL } from '../Table';
 
 export default function DealItem({
   deal,
-  details = false
+  details = false,
+  open = false
 }: {
   deal: any;
   details?: boolean;
+  open?: boolean;
 }) {
   return (
     <div
-      className="item"
+      className="justify-between item"
       onClick={() => {
-        if (details) openURL(`/deals/${deal.id}`);
+        if (details || open) openURL(`/deals/${deal.id}`, '_blank');
       }}
     >
       <div className="item--thumbnail">
         {deal.name && getFirstLetter(deal.name)}
       </div>
-      <div
-        className="grid items-start pr-2"
-        style={{ minWidth: 200, maxWidth: 200 }}
-      >
+      <div className={`grid items-start pr-2 grow w-full`}>
         {deal.name && (
           <p className="pb-0 text-sm font-medium truncate">
             {deal.name && deal.name.length > 1
@@ -65,6 +64,17 @@ export default function DealItem({
               height={18}
             />
           </div>
+        </div>
+      )}
+      {open && (
+        <div className="flex items-center justify-end">
+          <Image
+            src={'/open.svg'}
+            alt="copy"
+            className="opacity-50"
+            width={20}
+            height={20}
+          />
         </div>
       )}
     </div>

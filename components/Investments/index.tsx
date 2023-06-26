@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/Button';
 import ChipStatus from '@/components/ChipStatus';
 import InvestmentsItem from '@/components/Investments/Item';
 import LoadingList from '@/components/Loading/List';
@@ -30,9 +31,7 @@ export default function Investments() {
       let { data, error } = await fetchInvestments();
       if (data) {
         setInvestments(data);
-        setFilteredInvestments(
-          investments.filter((x: any) => x.status === 'signed')
-        );
+        setFilteredInvestments(data.filter((x: any) => x.status === 'signed'));
       }
     } catch (err) {
       console.log(err);
@@ -84,17 +83,29 @@ export default function Investments() {
             </div>
           </div>
           {filteredInvestments.length > 0 && (
-            <div className="grid gap-2">
-              {orderBy(filteredInvestments, [order], [asc])
-                .slice(0, limit)
-                .map((investment: any, index: number) => (
-                  <div
-                    key={index}
-                    onClick={() => openURL(`investments/${investment.id}`)}
-                  >
-                    <InvestmentsItem investment={investment} />
-                  </div>
-                ))}
+            <div>
+              <div className="grid gap-2">
+                {orderBy(filteredInvestments, [order], [asc])
+                  .slice(0, limit)
+                  .map((investment: any, index: number) => (
+                    <div
+                      key={index}
+                      onClick={() => openURL(`investments/${investment.id}`)}
+                    >
+                      <InvestmentsItem investment={investment} />
+                    </div>
+                  ))}
+              </div>
+              {filteredInvestments.length > limitation && (
+                <div className="mt-6">
+                  <Button
+                    color="info"
+                    small={true}
+                    onClick={() => setLimit(limit + limitation)}
+                    label={'Load more'}
+                  />
+                </div>
+              )}
             </div>
           )}
           {filteredInvestments.length === 0 && (
