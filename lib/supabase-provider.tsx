@@ -90,7 +90,9 @@ export default function SupabaseProvider({
   };
 
   const fetchInvestments = async () => {
-    return supabase.from('investments').select(`*`, { count: 'exact' });
+    return supabase
+      .from('investments')
+      .select(`*, deal_id(*)`, { count: 'exact' });
   };
 
   const saveDeal = async (deal: Deal) => {
