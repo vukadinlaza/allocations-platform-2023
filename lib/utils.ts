@@ -35,6 +35,7 @@ export const identityValidation = z.discriminatedUnion('type', [
 export const isIdentityValid = (identity: Identity) => {
   if (!identity) return;
   const result = identityValidation.safeParse(identity);
+  console.log(result);
   return result;
 };
 

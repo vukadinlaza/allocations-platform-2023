@@ -35,12 +35,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           ...user_infos,
           is_super_admin: user_infos?.is_super_admin
         });
-        // console.log(user_infos);
-        // console.log('ARE IDENTITIES VALID?');
-        // console.log(
-        //   user.missing_identities,
-        //   hasValidIdentities(user_infos?.identities)
-        // );
         const devEnv = process.env.NODE_ENV == 'development';
 
         if (!devEnv) {

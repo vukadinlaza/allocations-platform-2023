@@ -121,7 +121,7 @@ export default function UploadWireInstructions({
   return (
     <div className="mb-6">
       <div className="mb-4">
-        <h2 className="text-xl">Upload portfolio</h2>
+        <h2 className="text-xl">Upload portfolio wire instructions</h2>
         <p>Format allowed is PDF. Max size: 50mb.</p>
       </div>
       <Upload
