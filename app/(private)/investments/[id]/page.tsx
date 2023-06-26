@@ -54,7 +54,6 @@ export default function InvestmentId() {
           ? investment.investments_files
           : investment.deals.deals_files;
 
-      console.log(investment.investments_files);
       const found = target.find((x: any) => x.files.type === type);
       if (found) {
         const response = await AllocationsAPI.downloadPDFFile(
@@ -103,7 +102,6 @@ export default function InvestmentId() {
       }
 
       if (data) {
-        console.log(data);
         setInvestment(data);
       }
     } catch (error) {
