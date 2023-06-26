@@ -59,6 +59,8 @@ body,
 
     &--thumbnail {
       @apply items-center justify-center hidden mr-4 text-lg text-white rounded shadow-sm w-9 h-9 md:flex bg-primary-400;
+      min-width: 36px;
+      min-height: 36px;
     }
   }
 

@@ -1,21 +1,22 @@
 'use client';
-import Button from '@/components/Button';
 import ChipStatus from '@/components/ChipStatus';
 import DateComponent from '@/components/DateComponent';
+import DealItem from '@/components/Deals/Item';
+import InvestmentDocumentBox from '@/components/Investments/Documents/Box';
 import None from '@/components/None';
 import Price from '@/components/Price';
-import Table, { openURL } from '@/components/Table';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Investment } from '@/types';
 import { File } from '@/types/files';
-import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '../../context';
 
 export default function InvestmentId() {
+  const { notify } = useAuthContext();
   const { supabase } = useSupabase();
   const [investment, setInvestment] = useState<Investment>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,11 +29,6 @@ export default function InvestmentId() {
       key: 'type',
       type: 'chip-static'
     },
-    // {
-    //   label: 'Created At',
-    //   key: 'created_at',
-    //   type: 'date'
-    // },
     {
       label: 'Download',
       key: 'download',
@@ -67,6 +63,7 @@ export default function InvestmentId() {
           await downloadFile(await response.blob(), `${type}.pdf`);
         } else {
           console.error('Failed to download the document');
+          notify('Sorry, the PDF file could not be downloaded');
         }
       }
     } catch (error) {
@@ -81,7 +78,7 @@ export default function InvestmentId() {
 
     try {
       setLoading(true);
-      const { data: _investment, error } = await supabase
+      const { data, error } = await supabase
         .from('investments')
         .select(
           `*,
@@ -104,8 +101,8 @@ export default function InvestmentId() {
         throw error;
       }
 
-      if (_investment) {
-        setInvestment(_investment);
+      if (data) {
+        setInvestment(data);
       }
     } catch (error) {
       console.error(error);
@@ -137,97 +134,73 @@ export default function InvestmentId() {
         <div>
           {!investment && <None text="No investment found." />}
           {investment && (
-            <Card className="mx-auto rounded-lg card" sx={{ maxWidth: 575 }}>
-              <div className="flex items-center justify-center p-4 mb-6 rounded-full bg-primary-500/10">
-                <Image
-                  src="/checked_rounded.svg"
-                  alt={'confirm'}
-                  width={48}
-                  height={48}
-                />
-              </div>
-              <h1 className="mb-8">Your investment receipt</h1>
-              <Card
-                className="flex items-center justify-between w-full p-4 mb-8"
-                variant="outlined"
-              >
-                <p>{investment.deals.name}</p>
-                <Button
-                  label="Open Deal"
-                  onClick={() =>
-                    openURL(`/deals/${investment?.deals?.id}`, '_blank')
-                  }
-                />
-              </Card>
-              <div className="w-full">
-                <h1 className="mb-4">Investment details</h1>
-                <div className="flex items-center justify-between py-4 border-b">
-                  <p>Date</p>
-                  {investment.created_at && (
-                    <DateComponent date={investment.created_at} />
-                  )}
+            <div
+              className="flex-col px-8 py-6 mx-auto bg-white border rounded-lg"
+              style={{ maxWidth: 500 }}
+            >
+              <header className="flex flex-col items-center justify-center w-full gap-4 mb-6">
+                <div className="flex items-center justify-center w-12 h-12 p-2 rounded-full bg-primary-500/10">
+                  <Image
+                    src="/checked_rounded.svg"
+                    alt={'confirm'}
+                    width={48}
+                    height={48}
+                  />
                 </div>
-                <div className="flex items-center justify-between py-4 border-b">
-                  <p>Status</p>
-                  {investment.status && (
-                    <ChipStatus small={true} status={investment.status} />
-                  )}
-                </div>
-                <div className="flex items-center justify-between py-4 border-b">
-                  <p>Amount</p>
+                <h2 className="mb-0">Investment success!</h2>
+                <h3 className="text-xl font-bold">
                   {investment.subscription_amount && (
                     <Price price={investment.subscription_amount} />
                   )}
+                </h3>
+                <div>
+                  {investment.status && (
+                    <ChipStatus status={investment.status} />
+                  )}
                 </div>
-              </div>
-              {investment.status !== 'archived' && (
-                <>
-                  <div className="flex items-center justify-center gap-4 my-8">
-                    <Button
-                      small={true}
-                      disabled={buttonLoading}
-                      label="Download SPV Agreement"
-                      icon={
-                        <Image
-                          src="/download.svg"
-                          alt={'Download'}
-                          className="opacity-75 invert"
-                          width={24}
-                          height={24}
-                        />
-                      }
-                      onClick={() => downloadAgreement()}
-                    />
-                    <Button
-                      small={true}
-                      disabled={buttonLoading}
-                      label="Download Wire Instructions"
-                      icon={
-                        <Image
-                          src="/download.svg"
-                          alt={'Download'}
-                          className="opacity-75 invert"
-                          width={24}
-                          height={24}
-                        />
-                      }
-                      onClick={() => downloadAgreement('wire-instructions')}
-                    />
-                  </div>
-                  <div>
-                    {investment.investments_files.length > 0 && <></>}
-                    {investment.investments_files.length > 0 && (
-                      <Table
-                        data={investment.investments_files.map((f: any) => ({
-                          ...f.files
-                        }))}
-                        headers={documentsHeaders}
-                      />
-                    )}
-                  </div>
-                </>
+                <label htmlFor="" className="text-xs">
+                  {investment.created_at && (
+                    <DateComponent date={investment.created_at} />
+                  )}
+                </label>
+              </header>
+              {investment.deals && (
+                <DealItem deal={investment.deals} open={true} />
               )}
-            </Card>
+              {investment.status !== 'archived' && (
+                <div className="my-8 text-center">
+                  <header className="mb-6">
+                    <h2>Documents</h2>
+                    <label className="text-xs">Click to download</label>
+                  </header>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div onClick={() => downloadAgreement()}>
+                      <InvestmentDocumentBox
+                        file={{
+                          name: `${investment.deals.type} Agreement`
+                        }}
+                        loading={buttonLoading}
+                      />
+                    </div>
+                    <div onClick={() => downloadAgreement('wire-instructions')}>
+                      <InvestmentDocumentBox
+                        file={{
+                          name: 'Wire Instructions'
+                        }}
+                        loading={buttonLoading}
+                      />
+                    </div>
+                    {/* {investment.investments_files.map((file: any) => (
+                      <InvestmentDocumentBox
+                        file={file}
+                        loading={buttonLoading}
+                        onClick={() => {}}
+                      />
+                    ))} */}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}

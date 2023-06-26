@@ -1,5 +1,5 @@
-import { CircularProgress } from '@material-ui/core';
 import { FunctionComponent } from 'react';
+import Spinner from './Spinner';
 
 interface ButtonProps {
   onClick: () => void;
@@ -30,7 +30,7 @@ const Button: FunctionComponent<ButtonProps> = ({
     >
       {loading && (
         <div className="p-1">
-          <CircularProgress color="inherit" size={16} />
+          <Spinner />
         </div>
       )}
       {!loading && (
