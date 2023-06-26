@@ -9,7 +9,8 @@ import ModalButton from '../Modal/Button';
 
 export const checkStatus = (identity: any) => {
   const valid: any = isIdentityValid(identity);
-  if (!valid.success) return 'pending';
+  if (!valid.success) return 'missing_data';
+  if (identity.status === 'queued') return 'pending';
   return 'success';
 };
 
