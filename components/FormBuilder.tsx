@@ -39,7 +39,7 @@ export default function FormBuilder({
     if (data && Object.keys(_data).length === 0) {
       setData(data);
     }
-  }, [data, model]);
+  }, [model, data]);
 
   return (
     <>

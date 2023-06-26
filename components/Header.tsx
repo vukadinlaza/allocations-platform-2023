@@ -5,7 +5,6 @@ import Alert from '@/components/Alert';
 import { useAuthContext } from 'app/(private)/context';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import Logo from './Logo';
 import MenuAvatar from './MenuAvatar';
 import MissingData from './MissingData';
@@ -18,7 +17,6 @@ export default function Header({
   setExpand: any;
 }) {
   const pathname = usePathname();
-  const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuthContext();
 
   return (
@@ -96,28 +94,6 @@ export default function Header({
           </div> */}
         </div>
       </div>
-      {user.missing_identities && (
-        <Alert
-          color="text-red-600 bg-red-100 cursor-pointer hover:bg-red-200 transition"
-          close={false}
-          content={
-            <div className="flex items-center justify-center gap-2 py-3 text-sm text-center">
-              <span className="mb-0 font-bold whitespace-nowrap">
-                Identity is missing
-              </span>
-              <span className="hidden gap-2 md:flex whitespace-nowrap">
-                <span>
-                  — Please complete your identity information before proceeding
-                  with any investments.
-                </span>
-                <span className="underline">
-                  Click here to check your identities.
-                </span>
-              </span>
-            </div>
-          }
-        />
-      )}
     </div>
   );
 }

@@ -12,7 +12,7 @@ export default function NewIdentityForm({
 }) {
   return (
     <div className="w-full mb-4">
-      <div className="grid grid-cols-1 gap-4 pb-4">
+      <div className="grid grid-cols-1 gap-4">
         {!hideHeader && (
           <header>
             <h2 className="text-lg font-bold">

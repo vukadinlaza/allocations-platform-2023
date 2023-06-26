@@ -1,60 +1,16 @@
 import Checkbox from '@/components/Checkbox';
 import DateComponent from '@/components/DateComponent';
 import EditIdentity from '@/components/Identity/Edit';
-import { getFirstLetter } from '@/lib/utils';
-import { Identity } from '@/types';
+import { getFirstLetter, isIdentityValid } from '@/lib/utils';
 import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
-import { z } from 'zod';
 import ChipStatus from '../ChipStatus';
 import ModalButton from '../Modal/Button';
 
-export const identityValidation = z.discriminatedUnion('type', [
-  z.object({
-    address_line_1: z.string().min(1),
-    city: z.string().min(1),
-    country: z.string().min(1),
-    country_of_citizenship: z.string().optional().nullable(),
-    date_of_entity_formation: z.string().min(1),
-    legal_name: z.string().min(1),
-    postal_code: z.string().min(1),
-    region: z.string().min(1).nullable(),
-    tax_id: z.string().min(1),
-    tax_id_type: z.string().min(1),
-    type: z.literal('Individual')
-  }),
-  z.object({
-    address_line_1: z.string().min(1),
-    city: z.string().min(1).nullable(),
-    country: z.string().min(1),
-    country_of_citizenship: z.string().optional().nullable(),
-    date_of_entity_formation: z.string().min(1),
-    entity_type: z.string().min(1),
-    legal_name: z.string().min(1),
-    postal_code: z.string().min(1),
-    region: z.string().min(1).nullable(),
-    tax_id: z.string().min(1),
-    tax_id_type: z.string().min(1),
-    type: z.literal('Entity')
-  })
-]);
-
-export const validateIdentity = (
-  identity: Identity,
-  returnErrors: boolean = false
-) => {
-  const result = identityValidation.safeParse(identity);
-  if (!returnErrors) return result.success;
-  if (!result.success) {
-    return result.error.format();
-  }
-};
-
 export const checkStatus = (identity: any) => {
-  const { kyc_status } = identity;
-  if (!validateIdentity(identity)) return 'missing_data';
-  if (kyc_status === 'error') return 'failed';
-  return kyc_status || 'missing_data';
+  const valid: any = isIdentityValid(identity);
+  if (!valid.success) return 'pending';
+  return 'success';
 };
 
 export default function IdentityItem({
@@ -80,7 +36,7 @@ export default function IdentityItem({
           onClick={() => {
             if (editable && !modalOpen && checkStatus(identity) !== 'success')
               setModalOpen(true);
-            if (validateIdentity(identity)) {
+            if (checkStatus(identity) === 'success') {
               onChange(selectedId === identity.id ? null : identity.id);
             }
           }}
@@ -153,7 +109,10 @@ export default function IdentityItem({
                   <ChipStatus status={checkStatus(identity)} />
                 )}
                 <Checkbox
-                  disabled={identity.kyc_status !== 'success'}
+                  disabled={
+                    identity.kyc_status !== 'success' &&
+                    identity.kyc_status !== 'queued'
+                  }
                   selected={selectedId === identity.id}
                 />
               </div>

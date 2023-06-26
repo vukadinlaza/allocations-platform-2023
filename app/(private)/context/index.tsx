@@ -1,9 +1,9 @@
 'use client';
 import Header from '@/components/Header';
+import IdentityCheck from '@/components/Identity/Check';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
-import { isIdentityValid } from '@/lib/utils';
 import Hotjar from '@hotjar/browser';
 import * as Sentry from '@sentry/nextjs';
 import { useLDClient } from 'launchdarkly-react-client-sdk';
@@ -20,16 +20,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [expand, setExpand] = useState(false);
   const ldClient = useLDClient();
 
-  const hasValidIdentities = (identities: []) => {
-    if (!identities) return false;
-    let result = true;
-    identities.forEach((identity: any) => {
-      const isValid = isIdentityValid(identity);
-      if (!isValid.success) result = false;
-    });
-    return result;
-  };
-
   const onAuthStateChange = async () => {
     try {
       setLoading(true);
@@ -43,10 +33,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         setUser({
           ...session.user,
           ...user_infos,
-          is_super_admin: user_infos?.is_super_admin,
-          missing_identities: user_infos.is_super_admin
-            ? false
-            : !hasValidIdentities(user_infos.identities)
+          is_super_admin: user_infos?.is_super_admin
         });
         // console.log(user_infos);
         // console.log('ARE IDENTITIES VALID?');
@@ -135,6 +122,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       {!loading && !user && <Login />}
       {!loading && user && (
         <main className="relative">
+          <IdentityCheck />
           <Header setExpand={setExpand} expand={expand} />
           <div
             className={`px-4 py-6 ${

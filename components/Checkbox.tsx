@@ -31,7 +31,7 @@ const Checkbox = ({
         width={20}
         height={20}
       />
-      {label && <p className="leading-1">{label}</p>}
+      {label && <label className="text-sm">{label}</label>}
     </div>
   );
 };

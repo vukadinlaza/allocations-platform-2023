@@ -6,6 +6,7 @@ import Checkbox from '@/components/Checkbox';
 import FormBuilder from '@/components/FormBuilder';
 import { IdentityList } from '@/components/Identity/List';
 import { useSupabase } from '@/lib/supabase-provider';
+import { isIdentityValid } from '@/lib/utils';
 import { Field } from '@/types';
 import {
   entity_tax_id_type,
@@ -15,20 +16,20 @@ import {
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import Alert from '../Alert';
-import { validateIdentity } from './Item';
 
-export default function NewCompany({
+export default function NewIdentity({
   onUpdate,
   identity
 }: {
   onUpdate: () => void;
   identity?: any;
 }) {
-  const [newCompany, setNewCompany] = useState<any>({
-    entity_type: investment_identity_types[0],
-    type: entity_type[0],
-    kyc_status: 'queued'
-  });
+  // {
+  //   entity_type: investment_identity_types[0],
+  //   type: entity_type[0],
+  //   kyc_status: 'queued'
+  // }
+  const [newCompany, setNewCompany] = useState<any>(null);
   const [agree, setAgree] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasOneIndividual, setHasOneIndividual] = useState<any>(false);
@@ -56,14 +57,14 @@ export default function NewCompany({
       key: 'country_of_citizenship',
       type: 'select',
       placeholder: 'United States',
-      show: newCompany.entity_type === individual,
+      show: newCompany?.entity_type === individual,
       items: countries
     },
     {
       label: 'Is this a US Domestic entity?*',
       key: 'us_domestic',
       type: 'select',
-      show: newCompany.entity_type !== individual,
+      show: newCompany?.entity_type !== individual,
       items: ['Yes', 'No']
     },
     {
@@ -80,7 +81,7 @@ export default function NewCompany({
       placeholder: 'SSN / EIN / ITIN / FTIN',
       show: true,
       items: entity_tax_id_type.filter((x) => {
-        if (newCompany.entity_type === individual) {
+        if (newCompany?.entity_type === individual) {
           return x !== 'EIN';
         }
         return x;
@@ -88,18 +89,18 @@ export default function NewCompany({
     },
     {
       label:
-        newCompany.entity_type === individual
+        newCompany?.entity_type === individual
           ? 'Your full name*'
           : 'Your entity name*',
       key: 'legal_name',
       type: 'string',
       placeholder:
-        newCompany.entity_type === individual ? 'John Smith' : 'Example, LLC',
+        newCompany?.entity_type === individual ? 'John Smith' : 'Example, LLC',
       show: true
     },
     {
       label:
-        newCompany.entity_type === individual
+        newCompany?.entity_type === individual
           ? 'Date of birth*'
           : 'Date of formation*',
       key: 'date_of_entity_formation',
@@ -108,7 +109,7 @@ export default function NewCompany({
     },
     {
       label:
-        newCompany.entity_type === individual
+        newCompany?.entity_type === individual
           ? 'Address Line 1*'
           : 'Principal place of business (Address)',
       key: 'address_line_1',
@@ -132,7 +133,7 @@ export default function NewCompany({
     },
     {
       label:
-        newCompany.entity_type === individual
+        newCompany?.entity_type === individual
           ? 'State / Region*'
           : 'State of formation*',
       key: 'region',
@@ -164,31 +165,13 @@ export default function NewCompany({
   ];
 
   const checkModel = () => {
-    // mandatory type of entity here
-    const notValid: any = validateIdentity(
-      {
-        ...newCompany,
-        type:
-          newCompany.entity_type === individual
-            ? entity_type[0]
-            : entity_type[1]
-      },
-      true
-    );
-    if (notValid) {
-      const { _errors, ...rest } = notValid;
-      const keysToCheck = Object.keys(rest)
-        .filter((x) => x !== 'type')
-        .map((key) => {
-          const found = model.find((m) => m.key === key);
-          return found?.label;
-        });
-      if (keysToCheck.length > 0) {
-        alert(
-          `Please fill all fields required, missing: ${keysToCheck.join(', ')}`
-        );
-        return false;
-      }
+    const { success }: any = isIdentityValid({
+      ...newCompany,
+      type:
+        newCompany.entity_type === individual ? entity_type[0] : entity_type[1]
+    });
+    if (!success) {
+      alert(`Please fill all fields required.`);
     }
     return true;
   };
@@ -206,7 +189,6 @@ export default function NewCompany({
     try {
       setLoading(true);
 
-      // 1. create entity
       const { data, error } = await supabase
         .from('identities')
         .upsert(
@@ -219,8 +201,7 @@ export default function NewCompany({
               newCompany.entity_type === individual
                 ? entity_type[0]
                 : entity_type[1],
-            provider:
-              newCompany.entity_type !== individual ? undefined : 'NAMESCAN'
+            provider: 'NAMESCAN'
           },
           { onConflict: 'id' }
         )
@@ -251,87 +232,88 @@ export default function NewCompany({
   };
 
   const disableSave = () => {
-    if (newCompany.entity_type !== individual) return !parentEntityId || !agree;
-    return !agree;
+    let result = isIdentityValid(newCompany);
+    if (newCompany.entity_type === individual) {
+      if (result) return !result.success;
+    }
+    if (result && agree && parentEntityId) return !result.success;
+    return true;
   };
 
   useEffect(() => {
     getIdentities();
   }, []);
 
-  useEffect(() => {}, [newCompany]);
-
   useEffect(() => {
-    if (identity && !newCompany.country_of_citizenship) {
-      setNewCompany(identity);
+    if (identity) {
+      setNewCompany((prev: any) => ({ ...prev, ...identity }));
       setParentEntityId(identity.parent_identity_id);
     }
   }, [identity]);
 
   return (
     <div>
-      <div>
-        <div className="mb-4">
-          {!hasOneIndividual && (
+      <div className="mb-4">
+        {!hasOneIndividual && (
+          <Alert
+            close={false}
+            color="bg-sky-50 text-sky-500"
+            content={
+              <div className="flex gap-1 text-sm font-medium">
+                Please create an individual identity for an authorized signer
+                before creating one for your entity.
+              </div>
+            }
+          />
+        )}
+      </div>
+      {newCompany && (
+        <>
+          <FormBuilder
+            data={newCompany}
+            model={model}
+            emit={true}
+            onSubmit={(v: any) => {
+              if (!isEqual(v, newCompany)) {
+                setNewCompany((prev: any) => ({
+                  ...prev,
+                  ...v
+                }));
+              }
+            }}
+          />
+          {newCompany.entity_type !== investment_identity_types[0] && (
+            <div className="my-4">
+              <IdentityList
+                type={'Individual'}
+                selectedId={parentEntityId}
+                onSelect={(id: string) => {
+                  console.log(id);
+                  setParentEntityId(id);
+                }}
+              />
+            </div>
+          )}
+        </>
+      )}
+      {newCompany && (
+        <>
+          {newCompany.country_of_citizenship === 'Russian Federation' && (
             <Alert
-              close={false}
-              color="bg-sky-50 text-sky-500"
+              color="text-red-600 bg-red-100"
               content={
-                <div className="flex gap-1 text-base">
-                  <span>Please </span>
-                  <span className="font-bold">
-                    create an individual identity
-                  </span>
-                  <span>
-                    for an authorized signer before creating one for your
-                    entity.
-                  </span>
-                </div>
+                <span>
+                  {' '}
+                  Sorry, your country is not allowed to invest through
+                  Allocations.com. Please email support@allocations.com for more
+                  information.
+                </span>
               }
             />
           )}
-        </div>
-        <FormBuilder
-          data={newCompany}
-          model={model}
-          emit={true}
-          onSubmit={(v: any) => {
-            if (!isEqual(v, newCompany)) {
-              setNewCompany((prev: any) => ({
-                ...prev,
-                ...v
-              }));
-            }
-          }}
-        />
-        {newCompany.entity_type !== investment_identity_types[0] && (
-          <div className="my-4">
-            <IdentityList
-              type={'Individual'}
-              selectedId={parentEntityId}
-              onSelect={(id: string) => {
-                setParentEntityId(id);
-              }}
-            />
-          </div>
-        )}
-        {newCompany && (
-          <>
-            {newCompany.country_of_citizenship === 'Russian Federation' && (
-              <Alert
-                color="text-red-600 bg-red-100"
-                content={
-                  <span>
-                    {' '}
-                    Sorry, your country is not allowed to invest through
-                    Allocations.com. Please email support@allocations.com for
-                    more information.
-                  </span>
-                }
-              />
-            )}
-            {newCompany.country_of_citizenship !== 'Russian Federation' && (
-              <div className="my-8">
+          {newCompany.country_of_citizenship !== 'Russian Federation' && (
+            <div className="my-8">
+              {newCompany.entity_type !== individual && (
                 <div className="mb-4">
                   <Checkbox
                     selected={agree}
@@ -339,19 +321,19 @@ export default function NewCompany({
                     label={`I am an authorized signatory for this entity.`}
                   />
                 </div>
-                <div className="flex items-center">
-                  <Button
-                    disabled={disableSave()}
-                    loading={loading}
-                    label={'Save identity'}
-                    onClick={() => saveNewCompany()}
-                  />
-                </div>
+              )}
+              <div className="flex items-center">
+                <Button
+                  disabled={disableSave()}
+                  loading={loading}
+                  label={'Save identity'}
+                  onClick={() => saveNewCompany()}
+                />
               </div>
-            )}
-          </>
-        )}
-      </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

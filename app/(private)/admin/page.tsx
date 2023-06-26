@@ -3,10 +3,10 @@ import Button from '@/components/Button';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
 import UserItem from '@/components/UserItem';
+import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../context';
-import {AllocationsAPI} from "@/lib/allocations-api";
 
 export default function Admin() {
   const { user } = useAuthContext();
@@ -23,7 +23,7 @@ export default function Admin() {
       let { data: users, error } = await supabase
         .from('users')
         .select('*')
-        .ilike('email', email+'%');
+        .ilike('email', email + '%');
 
       if (error) return console.log(error);
 
@@ -67,13 +67,26 @@ export default function Admin() {
                 <UserItem
                   key={user.id}
                   user={user}
-                  content={<Button label="Impersonate" onClick={async () => {
-                    const {data:sessionData} = await supabase.auth.getSession();
-                    const access_token = sessionData.session?.access_token as string;
-                    const response = await AllocationsAPI.impersonate(user.email, access_token);
-                    const {data: impersonationPayload} = await response.json();
-                    window.open(impersonationPayload.properties.action_link);
-                  }} />}
+                  content={
+                    <Button
+                      label="Impersonate"
+                      onClick={async () => {
+                        const { data: sessionData } =
+                          await supabase.auth.getSession();
+                        const access_token = sessionData.session
+                          ?.access_token as string;
+                        const response = await AllocationsAPI.impersonate(
+                          user.email,
+                          access_token
+                        );
+                        const { data: impersonationPayload } =
+                          await response.json();
+                        window.open(
+                          impersonationPayload.properties.action_link
+                        );
+                      }}
+                    />
+                  }
                 />
               ))}
           </div>

@@ -41,8 +41,8 @@ export default function Profile() {
       </div>
       <div className="px-6 py-5 bg-white border">
         <header className="mb-6">
-          <h2 className="text-xl">Your identities</h2>
-          <label>List of your identities.</label>
+          <h2 className="text-xl">Your investor profiles</h2>
+          <label>List of your investors profiles.</label>
         </header>
         <IdentityList details={true} onSelect={() => {}} />
       </div>
