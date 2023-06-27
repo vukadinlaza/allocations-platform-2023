@@ -41,8 +41,7 @@ export default function NewEntity({
       'postal_code',
       'region',
       'tax_id',
-      'tax_id_type',
-      'us_domestic'
+      'tax_id_type'
     ];
     const isFormValid = keys.every((key) => newEntity[key]);
     return isFormValid;
