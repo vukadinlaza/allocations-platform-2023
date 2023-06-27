@@ -27,7 +27,7 @@ export interface Identity {
   us_domestic?: boolean;
   entity_is_disregarded?: boolean;
   ownership_percent?: number;
-  phone_number?: string;
+  phone?: string;
   parent_profile_id?: string;
   provider?: string;
   provider_id?: string;

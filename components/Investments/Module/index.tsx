@@ -1,12 +1,13 @@
-import KYC from '@/components/Identity/KYC';
 import LoadingModule from '@/components/Loading/Module';
+import ModalButton from '@/components/Modal/Button';
 import None from '@/components/None';
+import ProfilesList from '@/components/Profiles/List';
+import NewProfile from '@/components/Profiles/New';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
-import InvestmentsAccreditation from './Accreditation';
-import InvestmentIdentity from './Entity';
-import InvestmentsSign from './Sign';
+import Accreditation from '../Accreditation';
+import Sign from '../Sign';
 
 export default function InvestmentsModule({
   amount,
@@ -16,8 +17,10 @@ export default function InvestmentsModule({
   deal: Deal;
 }) {
   const { supabase, fetchUser } = useSupabase();
-  const [identity, setIdentity] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [identityId, setIdentityId] = useState<any>(null);
+  const [hasAccreditations, setHasAccreditations] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const checkPermissions = async () => {
@@ -43,6 +46,17 @@ export default function InvestmentsModule({
     checkPermissions();
   }, []);
 
+  useEffect(() => {
+    if (identityId) {
+      const { identities } = currentUser;
+      const found = identities.find((i: any) => i.id === identityId);
+      if (found) {
+        const { accreditations } = found || [];
+        setHasAccreditations(accreditations.length > 0);
+      }
+    }
+  }, [identityId]);
+
   return (
     <div className="investments-module">
       {loading && (
@@ -54,59 +68,57 @@ export default function InvestmentsModule({
         <None text="Sorry no user data found. Please report in Missing Data." />
       )}
       {!loading && currentUser && (
-        <div>
-          <div className="p-6">
-            <InvestmentIdentity
-              onChange={(v) => {
-                setIdentity(currentUser.identities.find((i:any)=>i.id === v));
-              }}
-              onUpdate={checkPermissions}
-              selected={identity?.id}
-              validate={true}
-            />
-          </div>
-          {/* {identity &&
-            (!identity.type ||
-              !identity.region ||
-              !identity.country ||
-              !identity.user_email) && (
-              <div className="p-6 border-t">
-                <KYC onUpdate={checkPermissions} uncomplete={true} />
+        <div className="p-3 md:p-6">
+          <div className="mb-8">
+            <header className="flex items-start justify-between mb-4">
+              <h2 className="text-lg font-medium">Select a profile</h2>
+              <ModalButton
+                isOpen={modalOpen}
+                onChange={(v) => setModalOpen(v)}
+                title="Create a new investor profile"
+                content={
+                  <NewProfile
+                    onCreate={() => {
+                      setModalOpen(false);
+                      checkPermissions();
+                    }}
+                  />
+                }
+              />
+            </header>
+            <main>
+              <div className="mb-4">
+                <ProfilesList
+                  details={false}
+                  selectedId={identityId}
+                  onSelect={(id: string) => {
+                    setIdentityId(id);
+                  }}
+                />
               </div>
-            )} */}
-          {identity && (
-            <div>
-              {currentUser.identities.length < 1 && (
-                <div className="p-6 border-t">
-                  <KYC onUpdate={checkPermissions} />
-                </div>
-              )}
-              {currentUser.identities.length > 0 &&
-                (identity.accreditations?.length ?? 0) < 1 && (
-                  <div className="p-6 border-t">
-                    <InvestmentsAccreditation
-                      identity={identity}
-                      onUpdate={(accreditation: any) => {
-                        setIdentity((prev: any) => ({
-                          ...prev,
-                          accreditations: [accreditation]
-                        }));
-                        checkPermissions();
-                      }}
-                    />
-                  </div>
+            </main>
+          </div>
+          {identityId && !hasAccreditations && (
+            <div className="mb-8">
+              <Accreditation
+                identityId={identityId}
+                onUpdate={(accreditation: any) => {
+                  checkPermissions();
+                  setHasAccreditations(true);
+                }}
+              />
+            </div>
+          )}
+          {identityId && hasAccreditations && (
+            <div className="pt-4 border-t">
+              <Sign
+                currentUser={currentUser}
+                deal={deal}
+                identity={currentUser.identities.find(
+                  (i: any) => i.id === identityId
                 )}
-              {currentUser.identities.length > 0 &&
-                (identity.accreditations?.length ?? 0) > 0 && (
-                  <div className="p-6 border-t">
-                    <InvestmentsSign
-                      currentUser={currentUser}
-                      deal={deal}
-                      identity={identity}
-                      amount={amount}
-                    />
-                  </div>
-                )}
+                amount={amount}
+              />
             </div>
           )}
         </div>

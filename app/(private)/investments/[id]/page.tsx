@@ -185,7 +185,7 @@ export default function InvestmentId() {
                     <div onClick={() => downloadAgreement('wire-instructions')}>
                       <InvestmentDocumentBox
                         file={{
-                          name: 'Wire Instructions'
+                          name: 'Portfolio Wire Instructions'
                         }}
                         loading={buttonLoading}
                       />

@@ -16,7 +16,7 @@ export default function Alert({
         <div
           className={`flex items-center px-3 py-1 overflow-hidden text-xs rounded-lg ${color}`}
         >
-          <span>{content}</span>
+          <div className="w-full">{content}</div>
           {close && (
             <span className="ml-2 text-sm cursor-pointer">
               <Close sx={{ fontSize: 20 }} onClick={() => setOpen(false)} />

@@ -431,7 +431,7 @@ export const headers_tables = {
     },
     {
       label: 'Phone',
-      key: 'phone_number'
+      key: 'phone'
     },
     {
       label: 'Tax ID',

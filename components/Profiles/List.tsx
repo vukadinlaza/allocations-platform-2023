@@ -1,43 +1,42 @@
 import LoadingList from '@/components/Loading/List';
+import ModalButton from '@/components/Modal/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
 import None from '../None';
-import IdentityItem from './Item';
+import ProfileItem, { checkStatus } from './Item';
+import NewProfile from './New';
 
-export const IdentityList = ({
-  type,
+export default function ProfileList({
   selectedId,
   onSelect,
-  details = false,
-  emitIdentities
+  details = false
 }: {
   type?: any;
-  selectedId?: string;
+  selectedId?: string | null;
   details?: boolean;
-  onSelect: (identityId: string) => void;
-  emitIdentities?: (v: any) => any;
-}) => {
+  onSelect?: (identityId: string) => void;
+}) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [limit, setLimit] = useState<number>(5);
-  const [identities, setIdentities] = useState<Identity[]>([]);
+  const [limit, setLimit] = useState<number>(3);
+  const [identities, setIdentities] = useState<any>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { supabase } = useSupabase();
 
   const getIdentities = async () => {
     setIdentities([]);
     try {
       setLoading(true);
-      let query = supabase.from('identities').select('*');
-      if (type) {
-        query.eq('type', type);
-      }
-      const { data } = await query;
+      const { data } = await supabase.from('identities').select('*');
       if (data) {
-        setIdentities(data as Identity[]);
-      }
-      if (emitIdentities) {
-        emitIdentities(identities);
+        if (onSelect) {
+          setIdentities(
+            data.filter((identity) => checkStatus(identity) === 'success')
+          );
+        } else {
+          setIdentities(data);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -69,11 +68,29 @@ export const IdentityList = ({
     <>
       {loading && <LoadingList />}
       {!loading && identities.length === 0 && (
-        <None text="No identities yet." />
+        <None
+          text="No investor profile yet. Create one?"
+          content={
+            <>
+              <ModalButton
+                isOpen={modalOpen}
+                onChange={(v) => setModalOpen(v)}
+                title="Create a new investor profile"
+                content={
+                  <NewProfile
+                    onCreate={() => {
+                      setModalOpen(false);
+                    }}
+                  />
+                }
+              />
+            </>
+          }
+        />
       )}
       {!loading && identities.length > 0 && (
         <div>
-          {!details && (
+          {onSelect && (
             <div className="mb-2">
               <label>Please select one signer</label>
             </div>
@@ -82,23 +99,24 @@ export const IdentityList = ({
             {identities
               .slice(0, limit)
               .map((identity: Identity, index: number) => (
-                <IdentityItem
-                  selectedId={selectedId}
+                <ProfileItem
                   key={index}
+                  select={onSelect}
                   details={details}
+                  selectedId={selectedId}
                   identity={identity}
                   onChange={(id: string) => {
-                    onSelect(id);
+                    if (onSelect) onSelect(id);
                   }}
                   editable={true}
                 />
               ))}
-            {identities.length > 5 && (
+            {identities.length > 3 && (
               <div>
                 <Button
                   color="info"
                   small={true}
-                  onClick={() => setLimit(limit + 5)}
+                  onClick={() => setLimit(limit + 3)}
                   label={'Load more'}
                 />
               </div>
@@ -108,4 +126,4 @@ export const IdentityList = ({
       )}
     </>
   );
-};
+}

@@ -136,7 +136,7 @@ export async function POST(
           region: IDVData?.user?.address?.region,
           postal_code: IDVData?.user?.address?.postal_code,
           country: IDVData?.user.address?.country,
-          phone_number: IDVData?.user?.phone_number,
+          phone: IDVData?.user?.phone,
           type: 'Individual',
           tax_id: IDVData?.user?.id_number?.value,
           tax_id_type:

@@ -2,7 +2,13 @@
 
 import Image from 'next/image';
 
-export default function None({ text }: { text: string }) {
+export default function None({
+  text,
+  content
+}: {
+  text: string;
+  content?: any;
+}) {
   return (
     <div className="flex flex-col items-center justify-center container--card">
       <Image
@@ -12,7 +18,10 @@ export default function None({ text }: { text: string }) {
         width={75}
         height={75}
       />
-      <label>{text || ''}</label>
+      <div className={content ? 'mb-4' : ''}>
+        <label>{text || ''}</label>
+      </div>
+      {content}
     </div>
   );
 }

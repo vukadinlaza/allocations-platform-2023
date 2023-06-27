@@ -1,6 +1,6 @@
 'use client';
 import Header from '@/components/Header';
-import { validateIdentity } from '@/components/Identity/Item';
+import IdentityCheck from '@/components/Profiles/Check';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -20,11 +20,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [expand, setExpand] = useState(false);
   const ldClient = useLDClient();
 
-  const hasValidIdentities = (identities: []) => {
-    if (!identities) return false;
-    return identities.every((identity: any) => validateIdentity(identity));
-  };
-
   const onAuthStateChange = async () => {
     try {
       setLoading(true);
@@ -33,13 +28,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       } = await supabase.auth.getSession();
 
       if (session && session.user) {
-        const users_infos = await fetchUser(session.user.email);
+        const user_infos = await fetchUser(session.user.email);
 
         setUser({
           ...session.user,
-          ...users_infos,
-          is_super_admin: users_infos?.is_super_admin,
-          missing_identities: !hasValidIdentities(users_infos.identities)
+          ...user_infos,
+          is_super_admin: user_infos?.is_super_admin
         });
         const devEnv = process.env.NODE_ENV == 'development';
 
@@ -47,9 +41,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
           Sentry.setUser({
             email: session.user.email,
             id: session.user.id,
-            name: `${users_infos.first_name || ''} ${
-              users_infos.last_name || ''
-            }`
+            name: `${user_infos.first_name || ''} ${user_infos.last_name || ''}`
           });
           ldClient?.identify({
             kind: 'user',
@@ -124,6 +116,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       {!loading && !user && <Login />}
       {!loading && user && (
         <main className="relative">
+          <IdentityCheck />
           <Header setExpand={setExpand} expand={expand} />
           <div
             className={`px-4 py-6 ${
