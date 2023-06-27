@@ -111,7 +111,7 @@ export default function ProfileList({
                   editable={true}
                 />
               ))}
-            {identities.length > 5 && (
+            {identities.length > 3 && (
               <div>
                 <Button
                   color="info"
