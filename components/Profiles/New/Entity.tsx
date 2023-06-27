@@ -11,6 +11,7 @@ import {
   investment_profile_type
 } from '@/types/values';
 import { useEffect, useState } from 'react';
+import ProfileList from '../List';
 
 export default function NewEntity({
   code,
@@ -29,6 +30,7 @@ export default function NewEntity({
     type: investment_profile_type[1],
     provider: 'NAMESCAN'
   });
+  const [parentEntityId, setParentEntityId] = useState<string | null>(null);
 
   const checkForm = () => {
     const keys = [
@@ -50,12 +52,21 @@ export default function NewEntity({
   };
 
   const saveEntity = async () => {
+    if (!parentEntityId)
+      return alert('Please select at least one signer profile.');
     try {
       setLoading(true);
 
       const { data, error } = await supabase
         .from('identities')
-        .upsert({ ...newEntity, user_email: user.email }, { onConflict: 'id' })
+        .upsert(
+          {
+            ...newEntity,
+            user_email: user.email,
+            parent_identity_id: parentEntityId
+          },
+          { onConflict: 'id' }
+        )
         .select()
         .single();
 
@@ -74,7 +85,13 @@ export default function NewEntity({
   };
 
   useEffect(() => {
+    setNewEntity([]);
+  }, []);
+
+  useEffect(() => {
     setNewEntity((prev: any) => ({ ...prev, ...identity }));
+    console.log(identity);
+    setParentEntityId(identity.parent_identity_id);
   }, [identity]);
 
   return (
@@ -278,6 +295,14 @@ export default function NewEntity({
               phone: e.target.value
             }))
           }
+        />
+      </div>
+      <div>
+        <ProfileList
+          selectedId={parentEntityId}
+          onSelect={(parent_entity_id: string) => {
+            setParentEntityId(parent_entity_id);
+          }}
         />
       </div>
       <div>

@@ -4,30 +4,36 @@ import { Identity } from '@/types';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
 import None from '../None';
-import ProfileItem from './Item';
+import ProfileItem, { checkStatus } from './Item';
 
 export default function ProfileList({
   selectedId,
   onSelect,
-  details = false,
+  details = false
 }: {
   type?: any;
-  selectedId?: string;
+  selectedId?: string | null;
   details?: boolean;
   onSelect?: (identityId: string) => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(5);
-  const [identities, setIdentities] = useState<Identity[]>([]);
+  const [identities, setIdentities] = useState<any>([]);
   const { supabase } = useSupabase();
 
   const getIdentities = async () => {
     setIdentities([]);
     try {
       setLoading(true);
-      const { data } = await supabase.from('identities').select('*');;
+      const { data } = await supabase.from('identities').select('*');
       if (data) {
-        setIdentities(data as Identity[]);
+        if (onSelect) {
+          setIdentities(
+            data.filter((identity) => checkStatus(identity) === 'success')
+          );
+        } else {
+          setIdentities(data);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -63,7 +69,7 @@ export default function ProfileList({
       )}
       {!loading && identities.length > 0 && (
         <div>
-          {!details && (
+          {onSelect && (
             <div className="mb-2">
               <label>Please select one signer</label>
             </div>
@@ -73,9 +79,10 @@ export default function ProfileList({
               .slice(0, limit)
               .map((identity: Identity, index: number) => (
                 <ProfileItem
-                  selectedId={selectedId}
                   key={index}
+                  select={onSelect}
                   details={details}
+                  selectedId={selectedId}
                   identity={identity}
                   onChange={(id: string) => {
                     if (onSelect) onSelect(id);

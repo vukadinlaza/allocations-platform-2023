@@ -50,14 +50,14 @@ export default function ChipStatus({
   return (
     <div
       className={`inline text-white rounded-full ${
-        small ? 'px-2 py-1 text-sm' : 'px-2 py-1 md:px-3 md:py-1'
-      } text-sm md:text-sm items-center ${
+        small ? 'px-2 py-1 text-xs' : 'px-2 py-1 md:px-3 md:py-1 text-sm'
+      } items-center ${
         status && !toSelect && colors[status.replace(' ', '_').toLowerCase()]
           ? colors[status.replace(' ', '_').toLowerCase()]
           : selected
           ? 'bg-primary-500'
           : colors.no_color
-      } capitalize`}
+      } capitalize whitespace-nowrap`}
     >
       {status && <>{replaceStatus(status).replace('_', ' ')}</>}
     </div>
