@@ -30,7 +30,7 @@ export default function NewEntity({
     type: investment_profile_type[1],
     provider: 'NAMESCAN'
   });
-  const [parentEntityId, setParentEntityId] = useState<string | null>(null);
+  const [parentEntityId, setParentEntityId] = useState<string | null>('');
 
   const checkForm = () => {
     const keys = [
@@ -89,9 +89,11 @@ export default function NewEntity({
   }, []);
 
   useEffect(() => {
-    setNewEntity((prev: any) => ({ ...prev, ...identity }));
-    console.log(identity);
-    setParentEntityId(identity.parent_identity_id);
+    if (identity) {
+      setNewEntity((prev: any) => ({ ...prev, ...identity }));
+      if (identity.parent_entity_id)
+        setParentEntityId(identity.parent_entity_id);
+    }
   }, [identity]);
 
   return (

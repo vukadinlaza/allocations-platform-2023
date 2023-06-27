@@ -36,10 +36,10 @@ export default function Check() {
     <div onClick={() => router.push('/profile')}>
       {status === 'missing_data' && (
         <Alert
-          color="text-amber-600 bg-amber-100 cursor-pointer hover:bg-amber-100 transition"
+          color="text-yellow-600 bg-yellow-100 cursor-pointer hover:bg-yellow-100 transition"
           close={true}
           content={
-            <div className="flex items-center justify-center gap-2 py-3 text-sm text-center">
+            <div className="flex items-center justify-center gap-2 py-3 text-base text-center">
               <span className="mb-0 font-bold whitespace-nowrap">
                 One or more of your identities are incomplete
               </span>
