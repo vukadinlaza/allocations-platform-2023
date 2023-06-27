@@ -2,6 +2,8 @@
 import Button from '@/components/Button';
 import { IdentityList } from '@/components/Identity/List';
 import AvatarItem from '@/components/Items/Avatar';
+import ModalButton from '@/components/Modal/Button';
+import NewProfile from '@/components/Profiles/New';
 import PasswordChange from '@/components/User/PasswordChange';
 import { getFullName } from '@/lib/utils';
 import { useState } from 'react';
@@ -10,6 +12,7 @@ import { useAuthContext } from '../context';
 export default function Profile() {
   const { user } = useAuthContext();
   const [password, setPassword] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
     <div className="container">
@@ -40,9 +43,23 @@ export default function Profile() {
         )}
       </div>
       <div className="px-6 py-5 bg-white border">
-        <header className="mb-6">
-          <h2 className="text-xl">Your investor profiles</h2>
-          <label>List of your investors profiles.</label>
+        <header className="flex items-start justify-between mb-6">
+          <div>
+            <h2 className="text-xl">Your investor profiles</h2>
+            <label>List of your investors profiles.</label>
+          </div>
+          <ModalButton
+            isOpen={modalOpen}
+            onChange={(v) => setModalOpen(v)}
+            title="Create a new investor profile"
+            content={
+              <NewProfile
+                onCreate={() => {
+                  setModalOpen(false);
+                }}
+              />
+            }
+          />
         </header>
         <IdentityList details={true} onSelect={() => {}} />
       </div>

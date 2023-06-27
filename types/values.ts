@@ -158,6 +158,8 @@ export const organizations_roles = ['Admin', 'Fund Manager'];
 
 export const organizations_status = ['processing', 'complete'];
 
+export const investment_profile_type = ['Individual', 'Entity'];
+
 export const investment_identity_types = [
   'Myself / Individual',
   'LLC',

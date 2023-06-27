@@ -69,7 +69,7 @@ export const IdentityList = ({
     <>
       {loading && <LoadingList />}
       {!loading && identities.length === 0 && (
-        <None text="No identities yet." />
+        <None text="No investor profile yet." />
       )}
       {!loading && identities.length > 0 && (
         <div>

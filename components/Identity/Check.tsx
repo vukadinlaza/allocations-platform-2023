@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Alert from '../Alert';
 
 export const checkIdentities = (identities: []) => {
-  if (!identities) {
+  if (identities.length === 0) {
     return 'create';
   }
   const areIdentitiesValid: any[] = identities.map(
