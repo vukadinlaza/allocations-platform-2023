@@ -5,7 +5,6 @@ import ChipStatus from '@/components/ChipStatus';
 import LoadingList from '@/components/Loading/List';
 import ModalButton from '@/components/Modal/Button';
 import PageHeader from '@/components/Page/Header';
-import { openURL } from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
 import { orderBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -118,7 +117,7 @@ export default function SPVS() {
             {orderBy(filteredDeals, [order], [asc])
               .slice(0, limit)
               .map((deal: any, index: number) => (
-                <div key={index} onClick={() => openURL(`deals/${deal.id}`)}>
+                <div key={index}>
                   <DealItem deal={deal} details={true} />
                 </div>
               ))}
