@@ -37,7 +37,7 @@ export default function ProfileItem({
         <div
           className="item"
           onClick={() => {
-            if (editable && !modalOpen && checkStatus(identity) !== 'success')
+            if (editable && !modalOpen)
               setModalOpen(true);
             if (checkStatus(identity) === 'success') {
               onChange(selectedId === identity.id ? null : identity.id);
@@ -86,45 +86,45 @@ export default function ProfileItem({
               </div>
             )}
             {details && (
-              <div className="flex items-center justify-between col-span-2">
+              <div className="flex items-center justify-end col-span-2">
                 <ChipStatus status={checkStatus(identity)} />
-                {editable && checkStatus(identity) !== 'success' && (
-                  <ModalButton
-                    isOpen={modalOpen}
-                    onChange={setModalOpen}
-                    title="Edit your investor profile"
-                    content={
-                      modalOpen && (
-                        <>
-                          {identity.entity_type ===
-                            investment_identity_types[0] && (
-                            <NewIndividual
-                              code={checkStatus(identity)}
-                              identity={identity}
-                              onCreate={() => setModalOpen(false)}
-                            />
-                          )}
-                          {identity.entity_type !==
-                            investment_identity_types[0] && (
-                            <NewEntity
-                              code={checkStatus(identity)}
-                              identity={identity}
-                              onCreate={() => setModalOpen(false)}
-                            />
-                          )}
-                        </>
-                      )
-                    }
-                    isIcon={true}
-                  />
-                )}
+                <div className="flex justify-end w-6">
+                  {editable && (
+                    <ModalButton
+                      isOpen={modalOpen}
+                      onChange={setModalOpen}
+                      title="Edit your investor profile"
+                      content={
+                        modalOpen && (
+                          <>
+                            {identity.entity_type ===
+                              investment_identity_types[0] && (
+                              <NewIndividual
+                                code={checkStatus(identity)}
+                                identity={identity}
+                                onCreate={() => setModalOpen(false)}
+                              />
+                            )}
+                            {identity.entity_type !==
+                              investment_identity_types[0] && (
+                              <NewEntity
+                                code={checkStatus(identity)}
+                                identity={identity}
+                                onCreate={() => setModalOpen(false)}
+                              />
+                            )}
+                          </>
+                        )
+                      }
+                      isIcon={true}
+                    />
+                  )}
+                </div>
               </div>
             )}
             {!details && (
               <div className="flex items-center justify-end col-span-8 gap-2">
-                {checkStatus(identity) !== 'success' && (
-                  <ChipStatus status={checkStatus(identity)} />
-                )}
+                <ChipStatus small={true} status={checkStatus(identity)} />
                 <Checkbox
                   disabled={
                     identity.kyc_status !== 'success' &&
