@@ -1,6 +1,7 @@
 'use client';
 import { countries } from '@/app/(private)/config';
 import { useAuthContext } from '@/app/(private)/context';
+import Alert from '@/components/Alert';
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
@@ -12,9 +13,11 @@ import {
 import { useEffect, useState } from 'react';
 
 export default function NewIndividual({
+  code,
   identity,
   onCreate
 }: {
+  code?: string;
   identity?: any;
   onCreate?: () => void;
 }) {
@@ -43,50 +46,69 @@ export default function NewIndividual({
       'country'
     ];
     const isFormValid = keys.every((key) => newIndividual[key]);
-    // return isFormValid;
-    return true;
+    return isFormValid;
   };
 
   const saveIndividual = async () => {
-    if (onCreate) {
-      onCreate();
+    try {
+      setLoading(true);
+
+      const { data, error } = await supabase
+        .from('identities')
+        .upsert(
+          { ...newIndividual, user_email: user.email },
+          { onConflict: 'id' }
+        )
+        .select()
+        .single();
+
+      if (error) {
+        return notify('Sorry, something went wrong. Please try again');
+      }
+
+      notify('Successfully created!', true);
+
+      if (onCreate) onCreate();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-    // try {
-    //   setLoading(true);
-
-    //   const { data, error } = await supabase
-    //     .from('identities')
-    //     .upsert(
-    //       { ...newIndividual, user_email: user.email },
-    //       { onConflict: 'id' }
-    //     )
-    //     .select()
-    //     .single();
-
-    //   if (error) {
-    //     return notify('Sorry, something went wrong. Please try again');
-    //   }
-
-    //   notify('Successfully created!', true);
-
-    //   if (onCreate) onCreate();
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   useEffect(() => {
     setNewIndividual((prev: any) => ({ ...prev, ...identity }));
   }, [identity]);
 
-  useEffect(() => {
-    checkForm();
-  }, [newIndividual]);
-
   return (
     <div className="grid gap-2 my-2">
+      {code && (
+        <>
+          {code === 'queued' && (
+            <Alert
+              close={false}
+              color="text-sky-600 bg-sky-100 cursor-pointer hover:bg-sky-100 transition"
+              content={
+                <span className="text-sm font-medium">
+                  This identity is being verified. We appreciate your patience.
+                </span>
+              }
+            />
+          )}
+        </>
+      )}
+      {code === 'missing_data' && (
+        <Alert
+          close={false}
+          color="text-amber-600 bg-amber-100 cursor-pointer hover:bg-amber-100 transition"
+          content={
+            <span className="text-sm font-medium">
+              Please complete your identity information before proceeding with
+              any investments.
+            </span>
+          }
+        />
+      )}
       <div>
         <label htmlFor="">Your full name*</label>
         <input
@@ -247,8 +269,24 @@ export default function NewIndividual({
         />
       </div>
       <div>
+        <label htmlFor="">Phone</label>
+        <input
+          type="text"
+          placeholder={'+123467890'}
+          className={`${loading ? 'disabled' : ''}`}
+          value={newIndividual.phone}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNewIndividual((prevData: any) => ({
+              ...prevData,
+              phone: e.target.value
+            }))
+          }
+        />
+      </div>
+      <div>
         <Button
           label="Save"
+          loading={loading}
           disabled={!checkForm()}
           onClick={() => saveIndividual()}
         />

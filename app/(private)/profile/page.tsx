@@ -1,8 +1,8 @@
 'use client';
 import Button from '@/components/Button';
-import { IdentityList } from '@/components/Identity/List';
 import AvatarItem from '@/components/Items/Avatar';
 import ModalButton from '@/components/Modal/Button';
+import ProfileList from '@/components/Profiles/List';
 import NewProfile from '@/components/Profiles/New';
 import PasswordChange from '@/components/User/PasswordChange';
 import { getFullName } from '@/lib/utils';
@@ -61,7 +61,7 @@ export default function Profile() {
             }
           />
         </header>
-        <IdentityList details={true} onSelect={() => {}} />
+        <ProfileList details={true} />
       </div>
     </div>
   );
