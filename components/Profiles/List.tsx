@@ -1,10 +1,12 @@
 import LoadingList from '@/components/Loading/List';
+import ModalButton from '@/components/Modal/Button';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Identity } from '@/types';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
 import None from '../None';
 import ProfileItem, { checkStatus } from './Item';
+import NewProfile from './New';
 
 export default function ProfileList({
   selectedId,
@@ -19,6 +21,7 @@ export default function ProfileList({
   const [loading, setLoading] = useState<boolean>(false);
   const [limit, setLimit] = useState<number>(5);
   const [identities, setIdentities] = useState<any>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { supabase } = useSupabase();
 
   const getIdentities = async () => {
@@ -65,7 +68,25 @@ export default function ProfileList({
     <>
       {loading && <LoadingList />}
       {!loading && identities.length === 0 && (
-        <None text="No investor profile yet." />
+        <None
+          text="No investor profile yet. Create one?"
+          content={
+            <>
+              <ModalButton
+                isOpen={modalOpen}
+                onChange={(v) => setModalOpen(v)}
+                title="Create a new investor profile"
+                content={
+                  <NewProfile
+                    onCreate={() => {
+                      setModalOpen(false);
+                    }}
+                  />
+                }
+              />
+            </>
+          }
+        />
       )}
       {!loading && identities.length > 0 && (
         <div>

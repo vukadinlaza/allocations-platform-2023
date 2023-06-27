@@ -16,7 +16,7 @@ export default function DealItem({
 }) {
   return (
     <div
-      className="justify-between item"
+      className="justify-between bg-white item"
       onClick={() => {
         if (details || open) openURL(`/deals/${deal.id}`, '_blank');
       }}
@@ -24,9 +24,9 @@ export default function DealItem({
       <div className="item--thumbnail">
         {deal.name && getFirstLetter(deal.name)}
       </div>
-      <div className={`grid items-start pr-2`} style={{ minWidth: 250 }}>
+      <div className={`grid items-start pr-2 w-full`} style={{ minWidth: 250 }}>
         {deal.name && (
-          <p className="pb-0 text-sm font-medium truncate">
+          <p className="w-full pb-0 text-sm font-medium text-left truncate">
             {deal.name && deal.name.length > 1
               ? limitString(deal.name, 33)
               : 'No name'}

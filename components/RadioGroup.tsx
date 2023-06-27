@@ -25,7 +25,7 @@ const RadioGroup = ({
       {options.map((option: any) => (
         <div
           key={option.value}
-          className="flex items-start my-4 cursor-pointer"
+          className="flex items-center my-3 cursor-pointer"
           onClick={() => setSelectedOption(option.value)}
         >
           <Image
@@ -38,8 +38,8 @@ const RadioGroup = ({
             className={`mt-1 mr-2 ${
               selectedOption === option.value ? '' : 'opacity-50'
             }`}
-            width={20}
-            height={20}
+            width={16}
+            height={16}
           />
           <p className="leading-1">{option.label}</p>
         </div>

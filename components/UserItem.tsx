@@ -9,7 +9,7 @@ export default function UserItem({
   content?: any;
 }) {
   return (
-    <div className="item">
+    <div className="bg-white item">
       <Avatar
         className="mr-2 cursor-pointer"
         sx={{

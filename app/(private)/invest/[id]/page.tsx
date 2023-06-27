@@ -1,5 +1,6 @@
 'use client';
 import { useAuthContext } from '@/app/(private)/context';
+import Alert from '@/components/Alert';
 import Button from '@/components/Button';
 import DateComponent from '@/components/DateComponent';
 import DealItem from '@/components/Deals/Item';
@@ -10,8 +11,6 @@ import None from '@/components/None';
 import Price from '@/components/Price';
 import UserItem from '@/components/UserItem';
 import { useSupabase } from '@/lib/supabase-provider';
-import Alert from '@mui/material/Alert';
-import Card from '@mui/material/Card';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -112,29 +111,38 @@ export default function InvestDealID({ searchParams }: { searchParams: any }) {
                 </div>
               </header>
               {deal && (
-                <Card className="w-full bg-white">
+                <div className="w-full bg-white">
                   <div className="p-6">
-                    <h2 className="text-lg font-bold">Select an amount</h2>
+                    <h2 className="text-lg font-medium">
+                      Select an amount to invest
+                    </h2>
                     <div className="relative grid gap-2 py-1">
                       <Money amount={amount} onChange={setAmount} />
                       <p className="flex items-center gap-1 text-sm">
                         Minimum is{' '}
                         <Price price={deal.minimum_investment ?? '1'} /> -
-                        invest by <DateComponent date={deal.closing_date} />
+                        closing date is{' '}
+                        <DateComponent date={deal.closing_date} />
                       </p>
                     </div>
                   </div>
                   {amount < 1 && (
-                    <div className="p-6">
-                      <Alert severity="warning">
-                        You cannot invest less than the minimum amount.
-                      </Alert>
+                    <div className="pb-4 m-4">
+                      <Alert
+                        color="text-amber-600 bg-amber-100 cursor-pointer hover:bg-amber-100 transition"
+                        close={false}
+                        content={
+                          <span className="text-base font-medium">
+                            You cannot invest less than the minimum amount.
+                          </span>
+                        }
+                      />
                     </div>
                   )}
                   {amount >= 1 && (
                     <InvestmentsModule deal={deal} amount={amount} />
                   )}
-                </Card>
+                </div>
               )}
               {!deal && <None text="No deal found." />}
             </div>

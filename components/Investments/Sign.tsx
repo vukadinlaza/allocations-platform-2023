@@ -3,13 +3,13 @@ import Checkbox from '@/components/Checkbox';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
-import { Deal, Identity } from '@/types';
+import { Deal } from '@/types';
 import * as Sentry from '@sentry/nextjs';
 import { useAuthContext } from 'app/(private)/context';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '../../Button';
+import Button from '../Button';
 
 export default function InvestmentSignature({
   currentUser,
@@ -20,7 +20,7 @@ export default function InvestmentSignature({
 }: {
   currentUser: any;
   deal: Deal;
-  identity: Identity;
+  identity: any;
   amount: number;
   onUpdate?: () => any;
 }) {
@@ -155,7 +155,6 @@ export default function InvestmentSignature({
 
   const saveInvestment = async () => {
     if (!deal) return;
-    if (!signed) return alert('You have to sign to complete your investment.');
     // Removed for now, display only
     if (amount < 1) return alert(`Minimum investment amount is $${1}.`);
     try {
@@ -174,12 +173,6 @@ export default function InvestmentSignature({
 
       if (data) {
         const response: any = await getSubscriptionAgreementDocument(data.id);
-        if (response.type) {
-          // TODO: delete the investment (api side)
-          // await supabase.from('investments').delete().eq('id', data.id);
-          // notify(response.message, false);
-          // throw new Error(response.message);
-        }
         router.push(`/investments/${data.id}`);
       }
     } catch (error) {
@@ -193,16 +186,16 @@ export default function InvestmentSignature({
 
   return (
     <div>
-      <header className="mb-6">
-        <h2 className="text-lg font-bold">Review document and terms</h2>
-      </header>
+      <h2 className="mb-6 text-lg font-medium">Review document and terms</h2>
       <main>
         <div className="flex items-center justify-between gap-4 px-4 py-3 mb-8 border rounded-lg">
-          <div>
-            <p className="font-bold">Deal agreement</p>
-            <p className="mb-6 text-sm">
-              Finalized documents will be emailed when the deal has closed
-            </p>
+          <div className="flex items-center justify-between w-full">
+            <div>
+              <p className="font-bold">Deal agreement</p>
+              <label className="text-sm">
+                Finalized documents will be emailed when the deal has closed
+              </label>
+            </div>
             <Button
               label="Download"
               loading={loading}
@@ -210,9 +203,9 @@ export default function InvestmentSignature({
                 <Image
                   src={'/download.svg'}
                   alt="download"
-                  className="mr-2 opacity-50 invert "
-                  width={18}
-                  height={18}
+                  className="opacity-50 invert "
+                  width={24}
+                  height={24}
                 />
               }
               onClick={downloadDocumentPreview}

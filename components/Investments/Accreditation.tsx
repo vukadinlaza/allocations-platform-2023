@@ -4,10 +4,10 @@ import { useSupabase } from '@/lib/supabase-provider';
 import { useState } from 'react';
 
 export default function Accreditation({
-  identity,
+  identityId,
   onUpdate
 }: {
-  identity: any;
+  identityId: any;
   onUpdate: (a: any) => void;
 }) {
   const [accreditationType, setAccreditationType] = useState<any>(null);
@@ -42,14 +42,13 @@ export default function Accreditation({
   ];
 
   const saveAccreditation = async () => {
-    if (!accreditationType && !identity)
-      alert('Please enter an accreditation type.');
+    if (!accreditationType) alert('Please enter an accreditation type.');
     try {
       setLoading(true);
       const { data } = await supabase
         .from('accreditations')
         .insert({
-          identities_id: identity.id,
+          identities_id: identityId,
           value: accreditationType
         })
         .select();
@@ -67,20 +66,23 @@ export default function Accreditation({
   return (
     <div>
       <header className="mb-8">
-        <h2 className="text-lg font-bold">
-          This investment opportunity is only available to accredited investors
-        </h2>
-        <p className="text-sm">
+        <h1 className="mb-2 text-lg font-medium">
+          Select an accreditation for this profile
+        </h1>
+        <label className="text-sm">
+          This investment opportunity is only available to accredited investors.
           You will need to verify your accreditation to participate in the sale.
-        </p>
+        </label>
       </header>
       <main>
         <div className="mb-8">
-          <h2>How are you accredited?</h2>
-          <RadioGroup
-            options={options}
-            onChange={(v: string) => setAccreditationType(v)}
-          ></RadioGroup>
+          <h3 className="text-sm">How are you accredited?</h3>
+          <div className="text-sm">
+            <RadioGroup
+              options={options}
+              onChange={(v: string) => setAccreditationType(v)}
+            ></RadioGroup>
+          </div>
           <p className="text-xs">
             If you believe you are qualified as an accredited investor for a
             reason not listed above, please reach out to{' '}

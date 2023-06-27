@@ -1,6 +1,6 @@
 'use client';
 import Header from '@/components/Header';
-import IdentityCheck from '@/components/Identity/Check';
+import IdentityCheck from '@/components/Profiles/Check';
 import LoadingApp from '@/components/Loading/App';
 import Login from '@/components/Login';
 import { useSupabase } from '@/lib/supabase-provider';
