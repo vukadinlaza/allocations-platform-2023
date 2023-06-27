@@ -73,6 +73,7 @@ export default function NewProfile({ onCreate }: { onCreate?: () => void }) {
           )}
           {type !== investment_identity_types[0] && (
             <NewEntity
+              entity_type={type}
               onCreate={() => {
                 if (onCreate) {
                   onCreate();

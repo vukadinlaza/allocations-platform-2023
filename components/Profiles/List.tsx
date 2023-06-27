@@ -19,7 +19,7 @@ export default function ProfileList({
   onSelect?: (identityId: string) => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [limit, setLimit] = useState<number>(5);
+  const [limit, setLimit] = useState<number>(3);
   const [identities, setIdentities] = useState<any>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { supabase } = useSupabase();
@@ -116,7 +116,7 @@ export default function ProfileList({
                 <Button
                   color="info"
                   small={true}
-                  onClick={() => setLimit(limit + 5)}
+                  onClick={() => setLimit(limit + 3)}
                   label={'Load more'}
                 />
               </div>

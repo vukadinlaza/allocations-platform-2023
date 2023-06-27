@@ -1,6 +1,8 @@
 import LoadingModule from '@/components/Loading/Module';
+import ModalButton from '@/components/Modal/Button';
 import None from '@/components/None';
 import ProfilesList from '@/components/Profiles/List';
+import NewProfile from '@/components/Profiles/New';
 import { useSupabase } from '@/lib/supabase-provider';
 import { Deal } from '@/types';
 import { useEffect, useState } from 'react';
@@ -18,6 +20,7 @@ export default function InvestmentsModule({
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [identityId, setIdentityId] = useState<any>(null);
   const [hasAccreditations, setHasAccreditations] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const checkPermissions = async () => {
@@ -67,7 +70,22 @@ export default function InvestmentsModule({
       {!loading && currentUser && (
         <div className="p-3 md:p-6">
           <div className="mb-8">
-            <h2 className="text-lg font-medium">Select a profile</h2>
+            <header className="flex items-start justify-between mb-4">
+              <h2 className="text-lg font-medium">Select a profile</h2>
+              <ModalButton
+                isOpen={modalOpen}
+                onChange={(v) => setModalOpen(v)}
+                title="Create a new investor profile"
+                content={
+                  <NewProfile
+                    onCreate={() => {
+                      setModalOpen(false);
+                      checkPermissions();
+                    }}
+                  />
+                }
+              />
+            </header>
             <main>
               <div className="mb-4">
                 <ProfilesList

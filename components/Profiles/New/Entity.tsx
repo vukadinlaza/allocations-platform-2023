@@ -5,19 +5,17 @@ import Alert from '@/components/Alert';
 import Button from '@/components/Button';
 import Select from '@/components/Select';
 import { useSupabase } from '@/lib/supabase-provider';
-import {
-  entity_tax_id_type,
-  investment_identity_types,
-  investment_profile_type
-} from '@/types/values';
+import { entity_tax_id_type, investment_profile_type } from '@/types/values';
 import { useEffect, useState } from 'react';
 import ProfileList from '../List';
 
 export default function NewEntity({
+  entity_type,
   code,
   identity,
   onCreate
 }: {
+  entity_type?: string;
   code?: string;
   identity?: any;
   onCreate?: () => void;
@@ -26,26 +24,25 @@ export default function NewEntity({
   const { supabase } = useSupabase();
   const [loading, setLoading] = useState<boolean>(false);
   const [newEntity, setNewEntity] = useState<any>({
-    entity_type: investment_identity_types[1],
     type: investment_profile_type[1],
-    provider: 'NAMESCAN'
+    provider: 'NAMESCAN',
+    us_domestic: false
   });
   const [parentEntityId, setParentEntityId] = useState<string | null>('');
 
   const checkForm = () => {
     const keys = [
-      'entity_type',
-      'type',
-      'legal_name',
-      'us_domestic',
-      'date_of_entity_formation',
-      'tax_id',
-      'tax_id_type',
       'address_line_1',
       'city',
-      'region',
+      'country',
+      'date_of_entity_formation',
+      'entity_type',
+      'legal_name',
       'postal_code',
-      'country'
+      'region',
+      'tax_id',
+      'tax_id_type',
+      'us_domestic'
     ];
     const isFormValid = keys.every((key) => newEntity[key]);
     return isFormValid;
@@ -85,8 +82,10 @@ export default function NewEntity({
   };
 
   useEffect(() => {
-    setNewEntity([]);
-  }, []);
+    if (entity_type) {
+      setNewEntity((prev: any) => ({ ...prev, entity_type }));
+    }
+  }, [entity_type]);
 
   useEffect(() => {
     if (identity) {
