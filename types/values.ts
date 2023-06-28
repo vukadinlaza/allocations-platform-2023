@@ -154,6 +154,8 @@ export const investments_status = [
   'archived'
 ];
 
+export const investor_types = ['investor', 'fund_manager']
+
 export const organizations_roles = ['Admin', 'Fund Manager'];
 
 export const organizations_status = ['processing', 'complete'];
