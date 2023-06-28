@@ -154,11 +154,18 @@ export const investments_status = [
   'archived'
 ];
 
+export const organizations_status = [
+  "lead",
+  "qualified",
+  "contacted",
+  "signed",
+  "completed",
+  "archived"
+]
+
 export const investor_types = ['investor', 'fund_manager']
 
 export const organizations_roles = ['Admin', 'Fund Manager'];
-
-export const organizations_status = ['processing', 'complete'];
 
 export const investment_profile_type = ['Individual', 'Entity'];
 

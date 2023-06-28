@@ -81,9 +81,9 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
           for (const investmentFile of investment.investments_files) {
             investmentFiles.push({
               ...investmentFile.files,
-              investmentId: investment.id,
-              investmentEmail: investment.user_email,
-              investmentName:
+              investment_id: investment.id,
+              investment_email: investment.user_email,
+              investment_name:
                 investment?.identities?.legal_name ?? investment.user_email
             });
           }
@@ -161,7 +161,7 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
               setBulkDownloading(true);
               if (investmentDocuments) {
                 const response = await AllocationsAPI.downloadZipFile(
-                  investmentDocuments.map((d) => d.id)
+                  investmentDocuments.map((d: any) => d.id)
                 );
                 if (response.ok) {
                   await downloadFile(await response.blob(), `download.zip`);
