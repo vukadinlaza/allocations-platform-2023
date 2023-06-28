@@ -4,7 +4,7 @@
 gt:
 	git add .
 	git commit -m "commit"
-	git push origin
+	git push origin -f
 
 gtc:
 	git pull --no-ff
