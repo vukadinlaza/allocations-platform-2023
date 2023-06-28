@@ -6,6 +6,7 @@ import DealInformations, {
 import DealMemo from '@/components/Deals/Admin/Edit/Setup/Memo';
 import Step from '@/components/Step';
 import { useSupabase } from '@/lib/supabase-provider';
+import { formatDeal } from '@/lib/utils';
 import { Deal } from '@/types';
 import { useAuthContext } from 'app/(private)/context';
 import { useEffect, useState } from 'react';
@@ -14,13 +15,14 @@ export default function DealSetup({ deal }: { deal: Deal }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [newDeal, setNewDeal] = useState<any>({});
   const { notify } = useAuthContext();
-
   const { saveDeal } = useSupabase();
 
   const save = async () => {
     try {
       setLoading(true);
-      const promises = [saveDeal({ ...newDeal, id: deal.id })];
+      const promises = [
+        saveDeal(formatDeal({ ...newDeal, id: deal.id }, true))
+      ];
       const [dealResponse] = await Promise.all(promises);
       const { error } = dealResponse;
       if (error) {
