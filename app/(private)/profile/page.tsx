@@ -76,7 +76,7 @@ export default function Profile() {
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col">
             <h2>Type of profile</h2>
-            <label>Select if you are an investor of a fund manager.</label>
+            <label>Select if you are an investor or a fund manager.</label>
           </div>
           <div className="w-48">
             <Select

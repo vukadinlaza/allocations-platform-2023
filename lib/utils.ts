@@ -125,3 +125,7 @@ export const passwordValidation = (
     confirmPassword
   });
 };
+
+export const openURL = (url: string, target = '_self') => {
+  window.open(url, target);
+};

@@ -3,8 +3,8 @@ import { useSupabase } from '@/lib/supabase-provider';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
-import DataCard from '../Data/Card';
 import LoadingDashboard from '../Loading/Dashboard';
+import DataCard from './Analytics/Card';
 
 type Props = {
   handleSwitch: () => any;

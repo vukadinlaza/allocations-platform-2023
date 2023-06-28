@@ -1,6 +1,6 @@
 import ChipStatus from '@/components/ChipStatus';
 import None from '@/components/None';
-import UserItem from '@/components/UserItem';
+import UserItem from '@/components/User/Item';
 export default function OrganizationMembersList({
   members = [],
   content

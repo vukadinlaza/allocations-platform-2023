@@ -4,7 +4,7 @@ import LoadingList from '@/components/Loading/List';
 import ModalBox from '@/components/Modal';
 import None from '@/components/None';
 import Price from '@/components/Price';
-import UserItem from '@/components/UserItem';
+import UserItem from '@/components/User/Item';
 import { useSupabase } from '@/lib/supabase-provider';
 import { getFullName } from '@/lib/utils';
 import { Deal } from '@/types';

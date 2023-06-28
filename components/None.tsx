@@ -6,7 +6,7 @@ export default function None({
   text,
   content
 }: {
-  text: string;
+  text?: string;
   content?: any;
 }) {
   return (
@@ -19,7 +19,7 @@ export default function None({
         height={75}
       />
       <div className={content ? 'mb-4' : ''}>
-        <label>{text || ''}</label>
+        {text && <label>{text || ''}</label>}
       </div>
       {content}
     </div>

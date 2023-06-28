@@ -9,7 +9,7 @@ import LoadingPage from '@/components/Loading/Page';
 import Money from '@/components/Money';
 import None from '@/components/None';
 import Price from '@/components/Price';
-import UserItem from '@/components/UserItem';
+import UserItem from '@/components/User/Item';
 import { useSupabase } from '@/lib/supabase-provider';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';

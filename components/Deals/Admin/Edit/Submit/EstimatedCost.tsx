@@ -1,5 +1,5 @@
 import Price from '@/components/Price';
-import { openURL } from '@/components/Table';
+import { openURL } from '@/lib/utils';
 import { Deal } from '@/types';
 import { pricing } from '@/types/values';
 import { useEffect, useState } from 'react';

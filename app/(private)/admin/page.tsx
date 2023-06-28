@@ -2,7 +2,7 @@
 import Button from '@/components/Button';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import UserItem from '@/components/UserItem';
+import UserItem from '@/components/User/Item';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { useEffect, useState } from 'react';

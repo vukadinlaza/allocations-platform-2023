@@ -1,6 +1,6 @@
 'use client';
 import Button from '@/components/Button';
-import DocumentsItem from '@/components/Investments/Documents/Item';
+import DocumentsItem from '@/components/Documents/Item';
 import LoadingList from '@/components/Loading/List';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
