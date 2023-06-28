@@ -1,27 +1,47 @@
 'use client';
 import Button from '@/components/Button';
-import { getFirstLetter } from '@/lib/utils';
+import DateComponent from '@/components/DateComponent';
+import { AllocationsAPI } from '@/lib/allocations-api';
+import { downloadFile, getFirstLetter } from '@/lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
 
-export default function DocumentsRow({ document }: { document: any }) {
+export default function DocumentsRow({
+  document,
+  dealDocuments
+}: {
+  document: any;
+  dealDocuments?: any;
+}) {
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log(document);
   return (
-    <div className="item">
-      <div className="flex items-center gap">
+    <div className="gap-4 bg-white item">
+      <div className="flex items-center gap" style={{ minWidth: 300 }}>
         <div className="item--thumbnail">
-          {document.investment_email &&
-            getFirstLetter(document.investment_email)}
+          {document.name && getFirstLetter(document.name)}
         </div>
-        {document.investment_email && (
-          <label>{document.investment_email}</label>
+        <div className="flex flex-col">
+          {document.name && (
+            <p className="text-sm font-medium">{document.name}</p>
+          )}
+          {document.created_at && (
+            <label className="text-xs">
+              <DateComponent date={document.created_at} />
+            </label>
+          )}
+        </div>
+      </div>
+      <div className="flex items-start justify-start w-full">
+        {document.type && (
+          <label className="text-sm">
+            {document.type}
+          </label>
         )}
       </div>
       <Button
         label="Download"
         loading={loading}
+        small={true}
         icon={
           <Image
             src={'/download.svg'}
@@ -31,7 +51,43 @@ export default function DocumentsRow({ document }: { document: any }) {
             height={24}
           />
         }
-        onClick={() => {}}
+        onClick={async () => {
+          setLoading(true);
+          const response = await AllocationsAPI.downloadZipFile(
+            dealDocuments.map((d: any) => d.id)
+          );
+          if (response.ok) {
+            await downloadFile(await response.blob(), `download.zip`);
+          } else {
+            console.error('Failed to download the document');
+          }
+          setLoading(false);
+        }}
+      />
+      <Button
+        label="View"
+        loading={loading}
+        small={true}
+        icon={
+          <Image
+            src={'/eye.svg'}
+            alt="download"
+            className="opacity-50 invert"
+            width={24}
+            height={24}
+          />
+        }
+        onClick={async () => {
+          setLoading(true);
+          const response = await AllocationsAPI.downloadPDFFile(document.id);
+          if (response.ok) {
+            const fileURL = window.URL.createObjectURL(await response.blob());
+            window.open(fileURL);
+          } else {
+            console.error('Failed to download the document');
+          }
+          setLoading(false);
+        }}
       />
     </div>
   );

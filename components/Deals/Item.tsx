@@ -1,9 +1,8 @@
 'use client';
-import { getFirstLetter, limitString } from '@/lib/utils';
+import { getFirstLetter, limitString, openURL } from '@/lib/utils';
 import Image from 'next/image';
 import ChipStatus from '../ChipStatus';
 import Price from '../Price';
-import { openURL } from '../Table';
 
 export default function DealItem({
   deal,
