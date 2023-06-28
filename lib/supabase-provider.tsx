@@ -110,12 +110,14 @@ export default function SupabaseProvider({
   const updateUser = async (newUser: any) => {
     if (!newUser) return;
 
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('users')
       .upsert(newUser, { onConflict: 'email' })
       .select();
 
-    return data || null;
+    if (error) console.log(error);
+
+    return data;
   };
   const supabaseContext = useMemo(
     () => ({
