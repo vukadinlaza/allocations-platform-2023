@@ -51,9 +51,6 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
         .select('*, files(*)')
         .eq('deals_id', deal.id);
 
-      console.log('deal_files');
-      console.log(deal_files);
-
       const dealFiles = [];
 
       if (deal_files) {
@@ -65,7 +62,6 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
           });
         }
       }
-      console.log(dealFiles);
       setInvestmentDocuments(investmentFiles);
       setDealDocuments(dealFiles);
 
