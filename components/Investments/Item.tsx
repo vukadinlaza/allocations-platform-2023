@@ -1,10 +1,9 @@
 'use client';
 import DateComponent from '@/components/DateComponent';
-import { getFirstLetter, limitString } from '@/lib/utils';
+import { getFirstLetter, limitString, openURL } from '@/lib/utils';
 import Image from 'next/image';
 import ChipStatus from '../ChipStatus';
 import Price from '../Price';
-import { openURL } from '../Table';
 
 export default function InvestmentItem({ investment }: { investment: any }) {
   return (

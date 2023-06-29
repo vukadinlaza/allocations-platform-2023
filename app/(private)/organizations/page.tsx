@@ -4,8 +4,8 @@ import ModalButton from '@/components/Modal/Button';
 import OrganizationItem from '@/components/Organizations/Item';
 import NewOrganization from '@/components/Organizations/New';
 import PageHeader from '@/components/Page/Header';
-import { openURL } from '@/components/Table';
 import { useSupabase } from '@/lib/supabase-provider';
+import { openURL } from '@/lib/utils';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 

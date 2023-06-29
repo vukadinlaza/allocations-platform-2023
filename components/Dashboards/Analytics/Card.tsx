@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import Price from '../Price';
+import Price from '../../Price';
 
 interface ItemProps {
   title?: string;

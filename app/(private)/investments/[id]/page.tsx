@@ -2,7 +2,7 @@
 import ChipStatus from '@/components/ChipStatus';
 import DateComponent from '@/components/DateComponent';
 import DealItem from '@/components/Deals/Item';
-import InvestmentDocumentBox from '@/components/Investments/Documents/Box';
+import InvestmentDocumentBox from '@/components/Documents/Box';
 import None from '@/components/None';
 import Price from '@/components/Price';
 import { AllocationsAPI } from '@/lib/allocations-api';

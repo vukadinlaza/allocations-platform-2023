@@ -1,5 +1,5 @@
 import RadioGroup from '@/components/RadioGroup';
-import { openURL } from '@/components/Table';
+import { openURL } from '@/lib/utils';
 import { deal_product_types } from '@/types/values';
 import { useEffect, useState } from 'react';
 

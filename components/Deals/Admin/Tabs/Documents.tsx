@@ -1,92 +1,45 @@
+import Button from '@/components/Button';
+import DocumentsRow from '@/components/Documents/Row';
 import LoadingList from '@/components/Loading/List';
 import None from '@/components/None';
-import Table from '@/components/Table';
 import { AllocationsAPI } from '@/lib/allocations-api';
 import { useSupabase } from '@/lib/supabase-provider';
 import { downloadFile } from '@/lib/utils';
 import { Deal } from '@/types';
-import { DealFileMeta, File, InvestmentFileMeta } from '@/types/files';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
-import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
   const { supabase } = useSupabase();
   const [bulkDownloading, setBulkDownloading] = useState<boolean>(false);
-  const [dealDocuments, setDealDocuments] = useState<Array<
-    File & DealFileMeta
-  > | null>(null);
-  const [investmentDocuments, setInvestmentDocuments] = useState<Array<
-    File & InvestmentFileMeta
-  > | null>(null);
+  const [dealDocuments, setDealDocuments] = useState<any>([]);
+  const [limit, setLimit] = useState<any>(5);
+  const [dealLimit, setDealLimit] = useState<any>(5);
+  const [investmentDocuments, setInvestmentDocuments] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  let headers = [
-    {
-      label: 'Created At',
-      key: 'created_at',
-      type: 'date'
-    },
-    {
-      label: 'Type',
-      key: 'type',
-      type: 'chip-static'
-    },
-    {
-      button_label: 'Download',
-      label: 'Download',
-      key: 'download',
-      type: 'button',
-      icon: 'download',
-      action: async (item: File) => {
-        const response = await AllocationsAPI.downloadPDFFile(item.id);
-        if (response.ok) {
-          await downloadFile(await response.blob(), `${item.file_name}.pdf`);
-        } else {
-          console.error('Failed to download the document');
-        }
-      }
-    },
-    {
-      button_label: 'View',
-      label: 'View',
-      key: 'view',
-      type: 'button',
-      icon: 'download',
-      action: async (item: File) => {
-        const response = await AllocationsAPI.downloadPDFFile(item.id);
-        if (response.ok) {
-          const fileURL = window.URL.createObjectURL(await response.blob());
-          window.open(fileURL);
-        } else {
-          console.error('Failed to download the document');
-        }
-      }
-    }
-  ];
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
   const fetchDocuments = async () => {
     if (!deal) return;
     try {
       setLoading(true);
-      const investmentFiles: Array<File & InvestmentFileMeta> = [];
-      const dealFiles: Array<File & DealFileMeta> = [];
-      // documents
+
       let { data: investments, error: investmentsError } = await supabase
         .from('investments')
         .select('*, investments_files(*, files(*)), identities(legal_name)')
         .eq('deal_id', deal.id)
         .neq('status', 'archived');
+
+      const investmentFiles = [];
+
       if (investments) {
         for (const investment of investments) {
           for (const investmentFile of investment.investments_files) {
             investmentFiles.push({
               ...investmentFile.files,
-              investmentId: investment.id,
-              investmentEmail: investment.user_email,
-              investmentName:
+              investment_id: investment.id,
+              investment_email: investment.user_email,
+              name: investment.user_email,
+              investment_name:
                 investment?.identities?.legal_name ?? investment.user_email
             });
           }
@@ -98,10 +51,13 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
         .select('*, files(*)')
         .eq('deals_id', deal.id);
 
+      const dealFiles = [];
+
       if (deal_files) {
         for (const dealFile of deal_files) {
           dealFiles.push({
             ...dealFile.files,
+            name: dealFile.files.file_name,
             dealId: deal.id
           });
         }
@@ -126,6 +82,19 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
       setLoading(false);
     }
   };
+
+  const downloadAll = async () => {
+    setButtonLoading(true);
+    const response = await AllocationsAPI.downloadZipFile(
+      investmentDocuments.map((d: any) => d.id)
+    );
+    if (response.ok) {
+      await downloadFile(await response.blob(), `download.zip`);
+    } else {
+      console.error('Failed to download the document');
+    }
+    setButtonLoading(false);
+  };
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -133,56 +102,79 @@ export default function DealAdminDocuments({ deal }: { deal?: Deal }) {
   return (
     <div>
       {loading && <LoadingList />}
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Investor Documents
-      </Typography>
-      <LoadingButton loading={bulkDownloading} onClick={async ()=>{
-        setBulkDownloading(true);
-        if(investmentDocuments) {
-          const response = await AllocationsAPI.downloadZipFile(investmentDocuments.map(d => d.id));
-          if (response.ok) {
-            await downloadFile(await response.blob(), `download.zip`);
-          } else {
-            console.error('Failed to download the document');
-          }
-          setBulkDownloading(false);
-        }
-      }}>Download All</LoadingButton>
-      {!loading && !investmentDocuments && (
-        <None text="No investor documents yet." />
-      )}
-      {!loading && investmentDocuments && investmentDocuments.length > 0 && (
-        <Table
-          data={investmentDocuments}
-          headers={[
-            {
-              label: 'Email',
-              key: 'investmentEmail',
-              type: 'email'
-            },
-            ...headers,
-          ]}
-        />
-      )}
-      <Divider sx={{ my: 4 }} />
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Deal Documents
-      </Typography>
-      <LoadingButton loading={bulkDownloading} onClick={async ()=>{
-        setBulkDownloading(true);
-        if(dealDocuments) {
-          const response = await AllocationsAPI.downloadZipFile(dealDocuments.map(d => d.id));
-          if (response.ok) {
-            await downloadFile(await response.blob(), `download.zip`);
-          } else {
-            console.error('Failed to download the document');
-          }
-          setBulkDownloading(false);
-        }
-      }}>Download All</LoadingButton>
-      {!loading && !dealDocuments && <None text="No deal documents yet." />}
-      {!loading && dealDocuments && dealDocuments.length > 0 && (
-        <Table data={dealDocuments} headers={headers} />
+      {!loading && (
+        <>
+          <div className="grid gap-4">
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <h2 className="mb-6 text-xl font-medium">Investor documents</h2>
+                <Button
+                  label="Download all"
+                  loading={buttonLoading}
+                  small={true}
+                  onClick={async () => {
+                    await downloadAll();
+                  }}
+                />
+              </div>
+              {investmentDocuments.length === 0 && (
+                <None text="No documents yet." />
+              )}
+              {investmentDocuments.length > 0 && (
+                <div className="grid gap-2">
+                  {investmentDocuments
+                    .slice(0, limit)
+                    .map((document: any, index: number) => (
+                      <DocumentsRow
+                        dealDocuments={dealDocuments}
+                        document={document}
+                        key={index}
+                      />
+                    ))}
+                  <div className="my-4">
+                    <Button
+                      color="info"
+                      small={true}
+                      onClick={() => setLimit(limit + 5)}
+                      label={'Show more'}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <h2 className="mb-6 text-xl font-medium">Deal documents</h2>
+              </div>
+              {dealDocuments.length === 0 && (
+                <None text="No deal documents yet." />
+              )}
+              {dealDocuments.length > 0 && (
+                <div className="grid gap-2">
+                  {dealDocuments
+                    .slice(0, dealLimit)
+                    .map((document: any, index: number) => (
+                      <DocumentsRow
+                        dealDocuments={dealDocuments}
+                        document={document}
+                        key={index}
+                      />
+                    ))}
+                  <div className="my-4">
+                    {dealDocuments.length > limit && (
+                      <Button
+                        color="info"
+                        small={true}
+                        onClick={() => setDealLimit(dealLimit + 5)}
+                        label={'Show more'}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
